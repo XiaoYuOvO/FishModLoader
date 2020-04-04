@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisProjectProfileManager">
+    <option name="PROJECT_PROFILE" />
+    <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
+    <list size="0" />
+  </component>
+  <component name="ArtifactManager">
+    <artifact type="jar" build-on-make="true" name="FishModLoader:jar">
+      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/B0.1.0</output-path>
+      <root id="archive" name="FishModLoader-B0.1.0.jar">
+        <element id="module-output" name="FishModLoader" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
+        <element id="directory" name="org">
+          <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
+        </element>
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
+      <output-path>H:/[1.6.4] MITE_R196_PlusR5_HDS-Server</output-path>
+      <root id="archive" name="FishModLoader-B0.1.0.jar">
+        <element id="module-output" name="FishModLoader" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
+        <element id="directory" name="org">
+          <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
+        </element>
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+      </root>
+    </artifact>
+  </component>
+  <component name="CommitMessageInspectionProfile">
+    <profile version="1.0">
+      <inspection_tool class="GrazieCommit" enabled="true" level="TYPO" enabled_by_default="true" />
+    </profile>
+  </component>
+  <component name="InspectionProjectProfileManager">
+    <profile version="1.0">
+      <option name="myName" value="Project Default" />
+      <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+        <Languages>
+          <language minSize="118" name="Java" />
+        </Languages>
+      </inspection_tool>
+    </profile>
+    <version value="1.0" />
+  </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FishModLoader.iml" filepath="$PROJECT_DIR$/FishModLoader.iml" />
+    </modules>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SuppressionsComponent">
+    <option name="suppComments" value="[]" />
+  </component>
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+  </component>
+  <component name="libraryTable">
+    <library name="classes">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/libs/classes" />
+        <root url="jar://$PROJECT_DIR$/libs/guava-28.0-jre.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/libs/guava-28.0-jre-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/guava-28.0-jre-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="cls">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/../MITEClasses/cls" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../MITEClasses/src" />
+      </SOURCES>
+    </library>
+    <library name="lwjgl-2.9.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/lwjgl-2.9.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+  </component>
+</project>
