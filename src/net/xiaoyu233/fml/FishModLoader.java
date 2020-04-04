@@ -45,9 +45,15 @@ public class FishModLoader {
         return isServer;
     }
 
+    public static void versionCheck(){
+
+    }
+
     private static void saveDefault(Config var0) {
         var0.set("jarPath", "server.jar");
         var0.set("debug", Boolean.FALSE);
+        var0.set("dumpClass", Boolean.FALSE);
+        var0.set("printClassLoadInfo", Boolean.FALSE);
         var0.save();
     }
 
@@ -78,7 +84,7 @@ public class FishModLoader {
             allowsClientMods = true;
         }
         modsMapForLoginCheck = new HashMap<>();
-        addModInfo(new ModInfo("FishModLoader","0.1.0B",1,Dist.SERVER,Dist.CLIENT));
+        addModInfo(new ModInfo("FishModLoader","B0.1.0",1,Dist.SERVER,Dist.CLIENT));
     }
 
 

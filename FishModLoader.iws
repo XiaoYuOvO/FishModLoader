@@ -2,90 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/class.mapping" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/field.mapping" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/CheckForNull.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/CheckForSigned.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/CheckReturnValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Detainted.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/MatchesPattern.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Nonnegative.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Nonnull.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Nullable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/OverridingMethodsMustInvokeSuper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/ParametersAreNonnullByDefault.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/ParametersAreNullableByDefault.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/PropertyKey.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/RegEx.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Signed.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Syntax.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Tainted.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/Untainted.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/WillClose.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/WillCloseWhenClosed.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/WillNotClose.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/concurrent/GuardedBy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/concurrent/Immutable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/concurrent/NotThreadSafe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/concurrent/ThreadSafe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/Exclusive.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/Exhaustive.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/TypeQualifier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/TypeQualifierDefault.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/TypeQualifierNickname.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/TypeQualifierValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/javax/annotation/meta/When.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/method.mapping" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/Translations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/Mapping.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/Transformer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/annotations/Dist.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/annotations/Link.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/annotations/Marker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/annotations/Mod.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/annotations/Transform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModClassLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/StaticClassLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/JsonConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/HandleChatCommandEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/LanguageResourceReloadEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/MITEEvents.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/PlayerLoggedInEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LocaleLanguageTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/bkeTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/AllowedCharFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/ChatFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/EnchantmentPiercingTranslationFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixBoundingBoxCheck.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixServerCrash.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WeaponDamageTranslationFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WorldTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/BicTransform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/Packet2ClientProtocolTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/DebugAttackTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityHumanTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityLivestockTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EnumCommandTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/SkillTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/WorldServerTrans.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/MojangAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/SkinDownloadThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ModInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ReflectHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Utils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VERSION.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,12 +86,32 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1586020596943</updated>
-      <workItem from="1586020599528" duration="2820000" />
+      <workItem from="1586020599528" duration="3061000" />
     </task>
+    <task id="LOCAL-00001" summary="idea">
+      <created>1586023485118</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586023485118</updated>
+    </task>
+    <task id="LOCAL-00002" summary="README.md">
+      <created>1586023574725</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586023574725</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="idea" />
+    <MESSAGE value="README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="README.md" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586023028686">
@@ -183,10 +122,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586021735987" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586023484315">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586023574061">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586023484315" />
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586023574061" />
     <state width="411" height="466" key="DebuggerActiveHint" timestamp="1586022969217">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -239,10 +178,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586021931531" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586023488579">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586023575905">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586023488579" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586023575905" />
     <state x="139" y="130" key="new project wizard" timestamp="1586023325621">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
