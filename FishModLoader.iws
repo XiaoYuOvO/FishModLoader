@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/VersionCheckThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/Translations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/Translations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../FMLInstaller/src" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -97,7 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1586020596943</updated>
       <workItem from="1586020599528" duration="7551000" />
-      <workItem from="1586059737126" duration="1627000" />
+      <workItem from="1586059737126" duration="3046000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -120,17 +116,27 @@
       <option name="project" value="LOCAL" />
       <updated>1586023819752</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="UpdateVersionCheck">
+      <created>1586061895646</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1586061895646</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="idea" />
     <MESSAGE value="README.md" />
     <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
+    <MESSAGE value="UpdateVersionCheck" />
+    <option name="LAST_COMMIT_MESSAGE" value="UpdateVersionCheck" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Inspections" timestamp="1586025592400">
@@ -149,18 +155,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1181" y="250" width="490" height="790" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1586028281604" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586061861658">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586061894407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586061861658" />
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586061894407" />
     <state width="687" height="466" key="DebuggerActiveHint" timestamp="1586060526363">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="687" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1586060526363" />
-    <state x="634" y="260" key="FileChooserDialogImpl" timestamp="1586023332724">
+    <state x="634" y="260" key="FileChooserDialogImpl" timestamp="1586063654313">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="634" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586023332724" />
+    <state x="634" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586063654313" />
     <state x="812" y="410" key="Github.ShareDialog" timestamp="1586023420137">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -201,14 +207,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586061495740" />
-    <state x="355" y="116" key="SettingsEditor" timestamp="1586021931531">
+    <state x="355" y="116" key="SettingsEditor" timestamp="1586063656917">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586021931531" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586023821611">
+    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586063656917" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586063661784">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586023821611" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586063661784" />
     <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1586059985579">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -235,7 +241,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>58</line>
+          <line>51</line>
           <properties class="net.xiaoyu233.fml.FishModLoader" method="getOnlineVersion">
             <option name="EMULATED" value="true" />
           </properties>
@@ -243,12 +249,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>86</line>
+          <line>79</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>35</line>
+          <line>31</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

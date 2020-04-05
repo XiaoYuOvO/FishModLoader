@@ -30,6 +30,18 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
       </root>
     </artifact>
+    <artifact type="jar" build-on-make="true" name="FishModLoaderInstall">
+      <output-path>$PROJECT_DIR$/../FMLInstaller/src</output-path>
+      <root id="archive" name="FishModLoader-B0.1.0.jar">
+        <element id="module-output" name="FishModLoader" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
+        <element id="directory" name="org">
+          <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
+        </element>
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+      </root>
+    </artifact>
   </component>
   <component name="CommitMessageInspectionProfile">
     <profile version="1.0">
