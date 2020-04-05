@@ -1,15 +1,9 @@
 package net.xiaoyu233.fml.classloading;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import net.xiaoyu233.fml.FishModLoader;
 import net.xiaoyu233.fml.asm.Mapping;
 import net.xiaoyu233.fml.asm.ModsWalker;
 import net.xiaoyu233.fml.asm.Transformer;
-import net.xiaoyu233.fml.asm.annotations.Dist;
-import net.xiaoyu233.fml.config.Config;
-import net.xiaoyu233.fml.config.JsonConfig;
-import net.xiaoyu233.fml.util.ModInfo;
 import net.xiaoyu233.fml.util.Utils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -22,7 +16,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ModClassLoader extends URLClassLoader {
@@ -38,12 +34,14 @@ public class ModClassLoader extends URLClassLoader {
     private URL fileUrl;
 
     static {
-        dumpClass = FishModLoader.config.get("dumpClass");
-        if (dumpClass) {
-            dumpPath = FishModLoader.config.get("dumpPath");
-            dumpFilter = FishModLoader.config.get("dumpFilter");
-            printClassLoadInfo = FishModLoader.config.get("printClassLoadInfo");
-            cleanClassImplementation = FishModLoader.config.get("cleanClassImplementation");
+        if (FishModLoader.config != null && FishModLoader.config.has("dumpClass")) {
+            dumpClass = FishModLoader.config.get("dumpClass");
+            if (dumpClass) {
+                dumpPath = FishModLoader.config.get("dumpPath");
+                dumpFilter = FishModLoader.config.get("dumpFilter");
+                printClassLoadInfo = FishModLoader.config.get("printClassLoadInfo");
+                cleanClassImplementation = FishModLoader.config.get("cleanClassImplementation");
+            }
         }
     }
 

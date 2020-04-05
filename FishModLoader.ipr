@@ -31,7 +31,7 @@
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoaderInstall">
-      <output-path>$PROJECT_DIR$/../FMLInstaller/src</output-path>
+      <output-path>$PROJECT_DIR$/../FMLInstaller/src/net/xiaoyu233/fmlinstaller</output-path>
       <root id="archive" name="FishModLoader-B0.1.0.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />

@@ -3,10 +3,15 @@ package net.xiaoyu233.fml.util;
 import net.xiaoyu233.fml.asm.Transformer;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -15,6 +20,8 @@ import java.util.jar.Manifest;
 public class Utils {
     private static final int BUFFER_SIZE = 8192;
     private static final int MAX_BUFFER_SIZE = 2147483639;
+    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
+    private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static byte[] readAllBytes(InputStream stream) throws IOException {
         int capacity = 16;
@@ -64,8 +71,7 @@ public class Utils {
         return Transformer.class.getProtectionDomain().getCodeSource().getLocation().getFile();
     }
 
-
-    public static Map<String,InputStream> getInternalTransformerClasses(String packageName) throws IOException {
+    public static Map<String,InputStream> getInternalClassesFromJar(String packageName) throws IOException {
 
         String libFile = getLibFileLocation();
         Map<String,InputStream> classNames = new HashMap<>();
@@ -83,6 +89,51 @@ public class Utils {
             return classNames;
         }else{
             return getAllFilesBelow(new File(libFile + packageName),".class");
+        }
+    }
+
+    public static String calcMD5(File file) {
+        try (InputStream stream = Files.newInputStream(file.toPath(), StandardOpenOption.READ)) {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = stream.read(buf)) > 0) {
+                digest.update(buf, 0, len);
+            }
+            return toHexString(digest.digest());
+        } catch (IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String toHexString(byte[] data) {
+        StringBuilder r = new StringBuilder(data.length * 2);
+        for (byte b : data) {
+            r.append(hexCode[(b >> 4) & 0xF]);
+            r.append(hexCode[(b & 0xF)]);
+        }
+        return r.toString();
+    }
+
+    public static Map<String,InputStream> getInternalClassesFromJar(Predicate<String> nameChecker) throws IOException {
+
+        String libFile = getLibFileLocation();
+        Map<String,InputStream> classNames = new HashMap<>();
+        if (libFile.endsWith(".jar")) {
+            JarFile jarFile;
+            jarFile = new JarFile(libFile);
+            Enumeration<JarEntry> entries = jarFile.entries();
+            while (entries.hasMoreElements()){
+                JarEntry entry = entries.nextElement();
+                String name = entry.getName();
+                if (nameChecker.test(name)){
+                    classNames.put(name,jarFile.getInputStream(entry));
+                }
+            }
+            return classNames;
+        }else{
+            return new HashMap<>();
         }
     }
 
@@ -124,6 +175,10 @@ public class Utils {
 
             ++startIndex;
         }
+    }
+
+    public static void logInfoConsole(String msg){
+        System.out.println(format.format(new Date()) + " [INFO] " + msg);
     }
 
     public static boolean isJavaType(String name) {

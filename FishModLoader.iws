@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixCrash2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModClassLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/JsonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/JsonConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +44,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../FMLInstaller/src" />
+    <property name="last_opened_file_path" value="F:/1.6.4-MITE-HDS-R196 - 副本.jar" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -56,7 +65,7 @@
       <recent name="H:\IDEAProjects\FishModLoader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="JAR Application.Unnamed">
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
@@ -77,9 +86,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.server.Main" />
+      <module name="FishModLoader" />
+      <option name="PROGRAM_PARAMETERS" value="--nogui" />
+      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;F:\1.6.4-MITE-HDS-R196 - 副本.jar&quot;" />
+      <option name="WORKING_DIRECTORY" value="H:/MITE Plus R5/.minecraft" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="JarApplication" nameIsGenerated="true">
+      <option name="JAR_PATH" value="F:/1.6.4-MITE-HDS-R196 - 副本.jar" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8" />
+      <option name="PROGRAM_PARAMETERS" value="--nogui" />
+      <option name="WORKING_DIRECTORY" value="F:\" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Application.Test" />
       <item itemvalue="Application.Client" />
       <item itemvalue="Application.Server" />
+      <item itemvalue="JAR Application.Unnamed" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -93,7 +122,7 @@
       <option name="presentableId" value="Default" />
       <updated>1586020596943</updated>
       <workItem from="1586020599528" duration="7551000" />
-      <workItem from="1586059737126" duration="3046000" />
+      <workItem from="1586059737126" duration="19741000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -123,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586061895646</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="UpdateVersion">
+      <created>1586065899705</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1586065899705</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,7 +171,8 @@
     <MESSAGE value="README.md" />
     <MESSAGE value="1" />
     <MESSAGE value="UpdateVersionCheck" />
-    <option name="LAST_COMMIT_MESSAGE" value="UpdateVersionCheck" />
+    <MESSAGE value="UpdateVersion" />
+    <option name="LAST_COMMIT_MESSAGE" value="UpdateVersion" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -143,30 +180,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1586025592400" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586023028686">
+    <state x="72" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586109343885">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586023028686" />
-    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586021735987">
+    <state x="72" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586109343885" />
+    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586097229664">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586021735987" />
-    <state x="1181" y="250" width="490" height="790" key="#xdebugger.evaluate" timestamp="1586028281604">
+    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586097229664" />
+    <state x="389" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586070713610">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1181" y="250" width="490" height="790" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1586028281604" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586061894407">
+    <state x="389" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586070713610" />
+    <state x="837" y="250" width="490" height="790" key="#xdebugger.evaluate" timestamp="1586097864523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586061894407" />
-    <state width="687" height="466" key="DebuggerActiveHint" timestamp="1586060526363">
+    <state x="837" y="250" width="490" height="790" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1586097864523" />
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586065898650">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="687" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1586060526363" />
-    <state x="634" y="260" key="FileChooserDialogImpl" timestamp="1586063654313">
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586065898650" />
+    <state width="687" height="466" key="DebuggerActiveHint" timestamp="1586109405257">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="634" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586063654313" />
+    <state width="687" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1586109405257" />
+    <state x="927" y="256" key="FileChooserDialogImpl" timestamp="1586109342405">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="927" y="256" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586109342405" />
     <state x="812" y="410" key="Github.ShareDialog" timestamp="1586023420137">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -175,50 +216,58 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="728" y="223" key="Github.UntrackedFilesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586023447764" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1586061861697">
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586061861697" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1586061861697">
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586061861697" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1586061861697">
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586061861697" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1586061861697">
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586061861697" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586061495740">
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586061495740" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586061495740">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586061495740" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586061495740">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586061495740" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586061495740">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586110500471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586061495740" />
-    <state x="355" y="116" key="SettingsEditor" timestamp="1586063656917">
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state x="355" y="116" key="SettingsEditor" timestamp="1586095743322">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586063656917" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586063661784">
+    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586095743322" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586066044102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586063661784" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586066044102" />
+    <state x="715" y="364" key="cloudConfig.PluginsDialog" timestamp="1586070421396">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="715" y="364" key="cloudConfig.PluginsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586070421396" />
     <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1586059985579">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586059985579" />
+    <state x="450" y="256" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1586109435401">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="450" y="256" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1586109435400" />
     <state x="139" y="130" key="new project wizard" timestamp="1586060131214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -227,35 +276,50 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586024855719" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1586110332349">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586110332349" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java</url>
-          <line>13</line>
-          <properties class="net.xiaoyu233.fml.relaunch.server.Main" method="main">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>51</line>
+          <line>53</line>
           <properties class="net.xiaoyu233.fml.FishModLoader" method="getOnlineVersion">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/Transformer.java</url>
+          <line>27</line>
+          <properties class="net.xiaoyu233.fml.asm.Transformer" method="transform">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://H:/jdk8u192/src.zip!/java/lang/System.java</url>
+          <line>969</line>
+          <properties class="java.lang.System" method="exit">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>79</line>
-          <option name="timeStamp" value="8" />
+          <line>106</line>
+          <properties class="net.xiaoyu233.fml.FishModLoader" method="loadConfig">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="9" />
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

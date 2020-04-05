@@ -9,7 +9,6 @@ import net.xiaoyu233.fml.classloading.ModClassLoader;
 import net.xiaoyu233.fml.classloading.StaticClassLoader;
 import net.xiaoyu233.fml.util.ModInfo;
 import net.xiaoyu233.fml.util.Utils;
-import org.lwjgl.Sys;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -119,11 +118,18 @@ public class ModsWalker {
                         if (jsonObject == null) {
                             continue;
                         }
-                        String modClassLocation = jsonObject.getAsJsonObject().get("mod").getAsString();
+                        String modClassLocation = null;
+                        if (jsonObject.getAsJsonObject().has("mod")) {
+                            modClassLocation = jsonObject.getAsJsonObject().get("mod").getAsString();
+                        }else{
+                            System.err.println("Bad Mod File:" + modFile.getAbsolutePath() + " ,mod.json is incorrect");
+                        }
                         if (modClassLocation == null || modClassLocation.isEmpty()) {
                             continue;
                         }
-                        entryHashMap.entrySet().stream().filter((jarEntries) -> jarEntries.getKey().startsWith(modClassLocation.replace('.', '/'))).forEach((jarEntries) -> {
+                        String finalModClassLocation = modClassLocation;
+                        entryHashMap.entrySet().stream().filter((jarEntries) -> jarEntries.getKey().startsWith(
+                                finalModClassLocation.replace('.', '/'))).forEach((jarEntries) -> {
                             String modInjectPath;
                             try {
                                 InputStream inputStream = jarFile.getInputStream(jarEntries.getValue());
@@ -158,7 +164,7 @@ public class ModsWalker {
                                                 if ((inClient && !inServer) && FishModLoader.isServer()){
                                                     System.err.println("Cannot load mod:" + jarFile.getName() + ", this mod is for the client only,can't use in server");
                                                 }else
-                                                    //For Server only mods*
+                                                    //For Server only mods
                                                 if ((!inClient && inServer) && !FishModLoader.isServer()){
                                                     System.err.println("Cannot load mod:" + jarFile.getName() + ", this mod is for the server only,can't use in client");
                                                 }else {
@@ -199,7 +205,7 @@ public class ModsWalker {
             File file = Utils.createJar("FML_TRANS");
             System.out.println(file.getAbsolutePath());
             JarOutputStream outputStream = new JarOutputStream(new FileOutputStream(file));
-            for (Map.Entry<String,InputStream> internalTransformerClass : Utils.getInternalTransformerClasses("net/xiaoyu233/fml/reload").entrySet()) {
+            for (Map.Entry<String,InputStream> internalTransformerClass : Utils.getInternalClassesFromJar("net/xiaoyu233/fml/reload").entrySet()) {
                 File classFile = new File(file,internalTransformerClass.getKey().replace(".","/") + ".class");
                 classFile.getParentFile().mkdirs();
                 outputStream.putNextEntry(new JarEntry(internalTransformerClass.getKey()));
@@ -208,7 +214,7 @@ public class ModsWalker {
             }
             outputStream.flush();
             outputStream.close();
-            for (InputStream internalTransformerClass : Utils.getInternalTransformerClasses("net/xiaoyu233/fml/reload/transform").values()) {
+            for (InputStream internalTransformerClass : Utils.getInternalClassesFromJar("net/xiaoyu233/fml/reload/transform").values()) {
                 try {
                     ClassReader reader = new ClassReader(internalTransformerClass);
                     ClassNode classNode = new ClassNode();

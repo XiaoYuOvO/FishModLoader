@@ -1,6 +1,7 @@
 package net.xiaoyu233.fml.config;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.util.HashMap;
@@ -26,12 +27,16 @@ public class JsonConfig implements Config {
         return (T) this.configMap.get(string);
     }
 
+    public boolean has(String string){
+        return this.configMap.containsKey(string);
+    }
+
     public void set(String string, Object obj) {
         this.configMap.put(string, obj);
     }
 
     public void save() {
-        String jsonString = new Gson().toJson(this.configMap);
+        String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(this.configMap);
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(this.configFile);

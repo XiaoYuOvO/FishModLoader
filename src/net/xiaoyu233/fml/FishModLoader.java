@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class FishModLoader {
+    public static final Logger logger = Logger.getLogger("FML",null);
     private static final ArrayList<ModInfo> mods = new ArrayList<>();
     private static final Map<String,ModInfo> modsMap = new HashMap<>();
     private static final Map<String,ModInfo> modsMapForLoginCheck;
@@ -102,18 +104,23 @@ public class FishModLoader {
         return new HashMap<>(modsMap);
     }
 
+    public static void loadConfig(){
+        File config = new File(System.getProperty("user.dir"));
+        if (!new File(config, "config.json").exists()) {
+            FishModLoader.config = new JsonConfig(new File(config, "config.json"));
+            saveDefault(FishModLoader.config);
+            FishModLoader.config.load();
+        }else {
+            FishModLoader.config = new JsonConfig(new File(config, "config.json"));
+            FishModLoader.config.load();
+        }
+    }
+
     public static boolean isAllowsClientMods() {
         return allowsClientMods;
     }
+
     static {
-        File config = new File(System.getProperty("user.dir"));
-        FishModLoader.config = new JsonConfig(new File(config, "config.json"));
-        FishModLoader.config.load();
-        String var3 = FishModLoader.config.get("jarPath");
-        if (var3 == null || var3.isEmpty()) {
-            saveDefault(FishModLoader.config);
-            FishModLoader.config.load();
-        }
         if (isServer()) {
             allowsClientMods = FishModLoader.config.get("allowsClientMods");
         }else {
