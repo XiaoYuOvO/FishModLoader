@@ -44,6 +44,7 @@
           <language minSize="118" name="Java" />
         </Languages>
       </inspection_tool>
+      <inspection_tool class="UnstableApiUsage" enabled="false" level="WARNING" enabled_by_default="false" />
     </profile>
     <version value="1.0" />
   </component>
