@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixCrash2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModClassLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/JsonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/JsonConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +58,7 @@
       <recent name="H:\IDEAProjects\FishModLoader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.Unnamed">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
@@ -122,7 +115,8 @@
       <option name="presentableId" value="Default" />
       <updated>1586020596943</updated>
       <workItem from="1586020599528" duration="7551000" />
-      <workItem from="1586059737126" duration="19741000" />
+      <workItem from="1586059737126" duration="19786000" />
+      <workItem from="1586158565714" duration="2136000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -159,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586065899705</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fix Crash">
+      <created>1586111042842</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586111042842</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +173,8 @@
     <MESSAGE value="1" />
     <MESSAGE value="UpdateVersionCheck" />
     <MESSAGE value="UpdateVersion" />
-    <option name="LAST_COMMIT_MESSAGE" value="UpdateVersion" />
+    <MESSAGE value="Fix Crash" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Crash" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -196,10 +198,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="837" y="250" width="490" height="790" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1586097864523" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586065898650">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1586111040384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586065898650" />
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586111040384" />
     <state width="687" height="466" key="DebuggerActiveHint" timestamp="1586109405257">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -216,46 +218,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="728" y="223" key="Github.UntrackedFilesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586023447764" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1586110500471">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1586161413870">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1586110500471">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586161413870" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1586161413870">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1586110500471">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586161413870" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1586161413870">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1586110500471">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586161413870" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1586161413870">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586110500471">
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586161413870" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586111067215">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586110500471">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586111067215" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586111067215">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586110500471">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586111067215" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586111067215">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586110500471">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586111067215" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586111067215">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586110500471" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586111067215" />
     <state x="355" y="116" key="SettingsEditor" timestamp="1586095743322">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586095743322" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586066044102">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1586111045235">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586066044102" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586111045235" />
     <state x="715" y="364" key="cloudConfig.PluginsDialog" timestamp="1586070421396">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -318,7 +320,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
-          <line>24</line>
+          <line>21</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>

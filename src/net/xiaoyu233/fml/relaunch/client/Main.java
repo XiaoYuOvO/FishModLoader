@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] var0) throws IOException {
+        System.setProperty("file.encoding","UTF-8");
         FishModLoader.setIsServer(false);
         Launch.launch("net.minecraft.client.main.Main",var0);
     }
