@@ -30,7 +30,8 @@ public class FishModLoader {
     private static final boolean allowsClientMods;
     private static final boolean sideSett=false;
     private static boolean isServer = false;
-    public static final String VERSION = "B0.1.0";
+    public static final String VERSION = "B0.1.1";
+    public static final int VERSION_NUM = 2;
     private static final String onlineVersion = versionCheck();
     public static JsonConfig config;
     public static void addModInfo(ModInfo modInfo){
@@ -127,7 +128,7 @@ public class FishModLoader {
             allowsClientMods = true;
         }
         modsMapForLoginCheck = new HashMap<>();
-        addModInfo(new ModInfo("FishModLoader",VERSION,1,Dist.SERVER,Dist.CLIENT));
+        addModInfo(new ModInfo("FishModLoader",VERSION,2,Dist.SERVER,Dist.CLIENT));
 
     }
 
