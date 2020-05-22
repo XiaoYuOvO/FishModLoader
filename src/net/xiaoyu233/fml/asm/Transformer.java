@@ -15,6 +15,7 @@ import static org.objectweb.asm.Opcodes.*;
 public class Transformer {
     private boolean mappingOnly;
     private HashMap<String, String> transformMap = new HashMap<>();
+    private HashMap<String, String> superClassMap = new HashMap<> ();
     private HashMap<String, String> fieldOwnerMap = new HashMap<>();
     private HashMap<String, String> methodOwnerMap = new HashMap<>();
     private ArrayListMultimap<String, FieldWrapper> fieldAddMap = ArrayListMultimap.create();
@@ -124,9 +125,14 @@ public class Transformer {
 
     private void interfaced(ClassNode var1) {
         MethodNode var3;
-        for(Iterator<MethodNode> var2 = var1.methods.iterator(); var2.hasNext(); var3.access = 0x401) {
+        Iterator<MethodNode> var2 = var1.methods.iterator();
+        while (var2.hasNext()) {
             var3 = var2.next();
             var3.instructions.clear();
+            var3.access = 0x401;
+            if (var3.name.equals("<init>")){
+                var2.remove();
+            }
         }
 
         var1.fields.clear();
@@ -224,6 +230,10 @@ public class Transformer {
 
     public void addClassTransform(String var1, String var2) {
         this.transformMap.put(var2, var1);
+    }
+
+    public void addExtendsLink(String subClass,String superClass){
+        this.superClassMap.put(subClass,superClass);
     }
 
     public void addMethodTransform(String var1, String var2, String var3, String var4, MethodNode var5) {
@@ -397,12 +407,19 @@ public class Transformer {
             this.desc = var4;
         }
 
+
+
         public void visitFieldInsn(int var1, String var2, String var3, String var4) {
             if (Transformer.this.transformMap.containsKey(var2)) {
                 if (Transformer.this.transformMap.get(var2).equals(this.className)) {
-                    super.visitFieldInsn(var1, Transformer.this.transformMap.get(var2),
-                            Transformer.this.linkFieldMap.get(
-                                    Transformer.this.transformMap.get(var2) + "/" + var3), var4);
+                    String fieldName = Transformer.this.linkFieldMap.get(
+                            Transformer.this.transformMap.get(var2) + "/" + var3);
+                    if (fieldName != null) {
+                        super.visitFieldInsn(var1, Transformer.this.transformMap.get(var2), fieldName, var4);
+                    }else{
+                        String clName = Transformer.this.superClassMap.get(var2);
+                        super.visitFieldInsn(var1, clName, var3, var4);
+                    }
                 } else {
                     super.visitFieldInsn(var1, var2, var3, var4);
                 }

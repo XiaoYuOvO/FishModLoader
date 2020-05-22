@@ -18,14 +18,22 @@ public class Launch {
     public static void launch(String mainClass,String[] args) throws IOException {
         Launch.mainClass = mainClass;
         ModsWalker.LoadConfig var4;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            if (arg.contains("gameDir")){
+                String gamePath = args[i+1];
+                System.out.println(gamePath);
+                System.setProperty("user.dir",gamePath);
+            }
+
+        }
         if (FishModLoader.isServer()){
             extractSource();
             var4 = ModsWalker.getBuilder("source.jar");
         }else {
-            String jarPath = System.getProperty("minecraft.client.jar");
-            if (jarPath != null){
-                String jar = jarPath.substring(jarPath.indexOf("\\")+1);
-                var4 = ModsWalker.getBuilder(jar);
+            String userPath = System.getProperty("user.dir");
+            if (userPath != null){
+                var4 = ModsWalker.getBuilder(new File(new File(userPath),"./versions/1.6.4-MITE/1.6.4-MITE.jar").getCanonicalPath());
             }else {
                 var4 = ModsWalker.getBuilder("./versions/1.6.4-MITE/1.6.4-MITE.jar");
             }
@@ -37,7 +45,7 @@ public class Launch {
             e.printStackTrace();
             var4.setDebug(false);
         }
-        var4.setModFolder(new File( new File(System.getProperty("user.dir")), "coremods"));
+        var4.setModFolder(new File("coremods"));
         var4.build();
         try {
             Class<?> var6 = Thread.currentThread().getContextClassLoader().loadClass(mainClass);

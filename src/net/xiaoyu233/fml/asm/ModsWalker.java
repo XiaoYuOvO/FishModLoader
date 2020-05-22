@@ -256,6 +256,7 @@ public class ModsWalker {
 
         if (target != null) {
             this.transformer.addClassTransform(target, reader.getClassName());
+            this.transformer.addExtendsLink(reader.getClassName(),reader.getSuperName());
             String targetFieldName;
             FieldNode fieldNode;
             if (classNode.fields != null) {

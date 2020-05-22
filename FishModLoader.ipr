@@ -43,6 +43,11 @@
       </root>
     </artifact>
   </component>
+  <component name="CommitMessageInspectionProfile">
+    <profile version="1.0">
+      <inspection_tool class="GrazieCommit" enabled="true" level="TYPO" enabled_by_default="true" />
+    </profile>
+  </component>
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">
       <option name="myName" value="Project Default" />
