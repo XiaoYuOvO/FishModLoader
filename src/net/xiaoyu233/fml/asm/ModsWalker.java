@@ -142,8 +142,14 @@ public class ModsWalker {
 
                                     for (AnnotationNode annotationNodexx : classNode.visibleAnnotations) {
                                         if (annotationNodexx.desc.equals(Type.getDescriptor(Mod.class))) {
-                                            Object modClass = this.classLoader.defineClass1(classNode.name.replace("/", "."),
-                                                    classData, 0, classData.length).newInstance();
+                                            Object modClass;
+                                            try {
+                                                 modClass = this.classLoader.defineClass1(classNode.name.replace("/", "."),
+                                                        classData, 0, classData.length).newInstance();
+                                            }catch (LinkageError error){
+                                                System.err.println("Duplicate mod file:" + jarFile.getName() + " ;with mod main class: " + classNode.name);
+                                                continue;
+                                            }
                                             if (modClass instanceof AbstractMod) {
                                                 AbstractMod mod = (AbstractMod)modClass;
                                                 mod.preInit();
@@ -154,8 +160,7 @@ public class ModsWalker {
                                                 boolean inServer = false,inClient = false;
                                                 if (annotations !=null && annotations.length == 1){
                                                     dists = annotations[0].value();
-                                                    for (int i = 0; i < dists.length; i++) {
-                                                        Dist dist = dists[i];
+                                                    for (Dist dist : dists) {
                                                         inServer = inServer || dist.equals(Dist.SERVER);
                                                         inClient = inClient || dist.equals(Dist.CLIENT);
                                                     }
@@ -367,7 +372,7 @@ public class ModsWalker {
     }
 
     public static class LoadConfig {
-        private ModsWalker modsWalker = new ModsWalker();
+        private final ModsWalker modsWalker = new ModsWalker();
 
         public LoadConfig(String jarPath) {
             this.modsWalker.jarPath = jarPath;

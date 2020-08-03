@@ -2,6 +2,7 @@ package net.xiaoyu233.fml;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import net.xiaoyu233.fml.asm.annotations.Dist;
 import net.xiaoyu233.fml.config.Config;
 import net.xiaoyu233.fml.config.JsonConfig;
@@ -9,6 +10,7 @@ import net.xiaoyu233.fml.util.ModInfo;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -122,13 +124,18 @@ public class FishModLoader {
     }
 
     static {
+        try {
+            UIManager.setLookAndFeel(new WindowsLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         if (isServer()) {
             allowsClientMods = FishModLoader.config.get("allowsClientMods");
         }else {
             allowsClientMods = true;
         }
         modsMapForLoginCheck = new HashMap<>();
-        addModInfo(new ModInfo("FishModLoader",VERSION,2,Dist.SERVER,Dist.CLIENT));
+        addModInfo(new ModInfo("FishModLoader",VERSION,VERSION_NUM,Dist.SERVER,Dist.CLIENT));
 
     }
 

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VERSION.txt" beforeDir="false" afterPath="$PROJECT_DIR$/VERSION.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +33,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -75,7 +76,7 @@
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--nogui" />
       <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\fishmodloader-B0.1.0.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\MITE-R196-HDS-PlusR5.jar&quot;" />
-      <option name="WORKING_DIRECTORY" value="H:/[1.6.4] MITE_R196_PlusR5_HDS-Server" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -85,7 +86,7 @@
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--nogui" />
       <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;F:\1.6.4-MITE-HDS-R196 - 副本.jar&quot;" />
-      <option name="WORKING_DIRECTORY" value="H:/MITE Plus R5/.minecraft" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../MITE Plus R5/.minecraft" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,6 +123,14 @@
       <workItem from="1588332968585" duration="3917000" />
       <workItem from="1589691229058" duration="7045000" />
       <workItem from="1590144563616" duration="4528000" />
+      <workItem from="1590209342315" duration="628000" />
+      <workItem from="1592715921079" duration="2829000" />
+      <workItem from="1592991962009" duration="285000" />
+      <workItem from="1593002196815" duration="30000" />
+      <workItem from="1593878360415" duration="724000" />
+      <workItem from="1593887147049" duration="599000" />
+      <workItem from="1595350804906" duration="13000" />
+      <workItem from="1596431279234" duration="391000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -190,7 +199,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
@@ -227,10 +236,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="809" y="429" width="490" height="611" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1589698130364" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1590156465453">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1590156533302">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1590156465453" />
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1590156533302" />
     <state width="701" height="466" key="DebuggerActiveHint" timestamp="1589698120969">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -279,10 +288,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589698436063" />
-    <state x="355" y="116" key="SettingsEditor" timestamp="1588333071545">
+    <state x="355" y="116" key="SettingsEditor" timestamp="1592991979147">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588333071545" />
+    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1592991979147" />
     <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2" timestamp="1590156469361">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -291,10 +300,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="715" y="364" key="cloudConfig.PluginsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586070421396" />
-    <state x="516" y="121" key="com.intellij.ide.util.TipDialog" timestamp="1589691381221">
+    <state x="516" y="121" key="com.intellij.ide.util.TipDialog" timestamp="1593002226238">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="516" y="121" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589691381221" />
+    <state x="516" y="121" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1593002226238" />
     <state x="450" y="256" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1589694094070">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -317,7 +326,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
-          <line>54</line>
+          <line>56</line>
           <properties class="net.xiaoyu233.fml.FishModLoader" method="getOnlineVersion">
             <option name="EMULATED" value="true" />
           </properties>
