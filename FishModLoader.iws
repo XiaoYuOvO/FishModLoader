@@ -19,9 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Fix some problems">
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Fix crash when place a block on redstone torch">
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +147,7 @@
       <workItem from="1601557138175" duration="119000" />
       <workItem from="1601611896420" duration="978000" />
       <workItem from="1601644193811" duration="372000" />
+      <workItem from="1601644702618" duration="549000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -219,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596431838599</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fix crash when place a block on redstone torch">
+      <created>1601644894214</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1601644894214</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -249,7 +256,8 @@
     <MESSAGE value="Fix crash by using &quot;this&quot; to refer a field in super class. &#10;Fix cannot find source jar path." />
     <MESSAGE value="Change Version Number" />
     <MESSAGE value="Fix some problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix some problems" />
+    <MESSAGE value="Fix crash when place a block on redstone torch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix crash when place a block on redstone torch" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -273,10 +281,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1601644431155" />
-    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2" timestamp="1596431916809">
+    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2" timestamp="1601644915619">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1596431916809" />
+    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1601644915619" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
