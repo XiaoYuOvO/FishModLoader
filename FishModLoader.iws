@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Fix some problems">
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/ModsWalker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,9 +31,6 @@
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="FishModLoader" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -48,7 +61,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15039062" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -130,7 +143,11 @@
       <workItem from="1593878360415" duration="724000" />
       <workItem from="1593887147049" duration="599000" />
       <workItem from="1595350804906" duration="13000" />
-      <workItem from="1596431279234" duration="391000" />
+      <workItem from="1596431279234" duration="662000" />
+      <workItem from="1596477405282" duration="16000" />
+      <workItem from="1601557138175" duration="119000" />
+      <workItem from="1601611896420" duration="978000" />
+      <workItem from="1601644193811" duration="372000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -195,11 +212,30 @@
       <option name="project" value="LOCAL" />
       <updated>1590156467887</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fix some problems">
+      <created>1596431838599</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1596431838599</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
@@ -212,114 +248,35 @@
     <MESSAGE value="Fix Crash again" />
     <MESSAGE value="Fix crash by using &quot;this&quot; to refer a field in super class. &#10;Fix cannot find source jar path." />
     <MESSAGE value="Change Version Number" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change Version Number" />
+    <MESSAGE value="Fix some problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some problems" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="178" key="#Inspections" timestamp="1586025592400">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1596431796711">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="178" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1586025592400" />
-    <state x="515" y="98" width="1092" height="668" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588337471578">
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1596431796711" />
+    <state x="737" y="260" key="FileChooserDialogImpl" timestamp="1601644429125">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="515" y="98" width="1092" height="668" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588337471578" />
-    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589694093363">
+    <state x="737" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1601644429125" />
+    <state x="102" y="81" key="MergeDialog" timestamp="1596431903452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="301" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589694093363" />
-    <state x="389" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586070713610">
+    <state x="102" y="81" key="MergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596431903452" />
+    <state x="595" y="280" key="MultipleFileMergeDialog" timestamp="1596431903458">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="389" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586070713610" />
-    <state x="809" y="429" width="490" height="611" key="#xdebugger.evaluate" timestamp="1589698130364">
+    <state x="595" y="280" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596431903458" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1601644431155">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="809" y="429" width="490" height="611" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1589698130364" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1590156533302">
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1601644431155" />
+    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2" timestamp="1596431916809">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1590156533302" />
-    <state width="701" height="466" key="DebuggerActiveHint" timestamp="1589698120969">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="701" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1589698120969" />
-    <state x="927" y="256" key="FileChooserDialogImpl" timestamp="1588337469754">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="927" y="256" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588337469754" />
-    <state x="812" y="410" key="Github.ShareDialog" timestamp="1586023420137">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="812" y="410" key="Github.ShareDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586023420137" />
-    <state x="728" y="223" key="Github.UntrackedFilesDialog" timestamp="1586023447764">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="728" y="223" key="Github.UntrackedFilesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586023447764" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1590156355804">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590156355804" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1590156355804">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590156355804" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1590156355804">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590156355804" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1590156355804">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590156355804" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1589698436063">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589698436063" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1589698436063">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589698436063" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1589698436063">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589698436063" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1589698436063">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589698436063" />
-    <state x="355" y="116" key="SettingsEditor" timestamp="1592991979147">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="355" y="116" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1592991979147" />
-    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2" timestamp="1590156469361">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590156469361" />
-    <state x="715" y="364" key="cloudConfig.PluginsDialog" timestamp="1586070421396">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="715" y="364" key="cloudConfig.PluginsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586070421396" />
-    <state x="516" y="121" key="com.intellij.ide.util.TipDialog" timestamp="1593002226238">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="516" y="121" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1593002226238" />
-    <state x="450" y="256" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1589694094070">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="450" y="256" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1589694094070" />
-    <state x="139" y="130" key="new project wizard" timestamp="1586060131214">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="139" y="130" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1586060131214" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1586024855719">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586024855719" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1589693531690">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589693531690" />
+    <state x="552" y="253" width="816" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1596431916809" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
