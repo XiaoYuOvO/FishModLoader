@@ -27,6 +27,12 @@ public class JsonConfig implements Config {
         return (T) this.configMap.get(string);
     }
 
+    public int getInt(String string) {
+        Object obj = this.configMap.get(string);
+        if (obj instanceof Number) return ((Number) obj).intValue();
+        throw new ClassCastException();
+    }
+
     public boolean has(String string){
         return this.configMap.containsKey(string);
     }

@@ -32,8 +32,9 @@ public class FishModLoader {
     private static final boolean allowsClientMods;
     private static final boolean sideSett=false;
     private static boolean isServer = false;
-    public static final String VERSION = "B0.1.2";
-    public static final int VERSION_NUM = 3;
+    public static final String VERSION = "B0.1.3";
+    public static final int VERSION_NUM = 4;
+    private static int fpsLimit = 0;
     private static final String onlineVersion = versionCheck();
     public static JsonConfig config;
     public static void addModInfo(ModInfo modInfo){
@@ -95,6 +96,7 @@ public class FishModLoader {
         var0.set("debug", Boolean.FALSE);
         var0.set("dumpClass", Boolean.FALSE);
         var0.set("printClassLoadInfo", Boolean.FALSE);
+        var0.set("fpsLimit",120);
         var0.save();
     }
 
@@ -116,7 +118,16 @@ public class FishModLoader {
         }else {
             FishModLoader.config = new JsonConfig(new File(config, "config.json"));
             FishModLoader.config.load();
+            if (!FishModLoader.config.has("fpsLimit")){
+                FishModLoader.config.set("fpsLimit",0);
+                FishModLoader.config.save();
+            }
+            FishModLoader.fpsLimit = Math.abs(FishModLoader.config.getInt("fpsLimit"));
         }
+    }
+
+    public static int getFpsLimit() {
+        return fpsLimit;
     }
 
     public static boolean isAllowsClientMods() {
