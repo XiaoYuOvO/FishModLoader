@@ -8,70 +8,85 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.objectweb.asm.Opcodes.*;
 
 public class Transformer {
-    private boolean mappingOnly;
-    private HashMap<String, String> transformMap = new HashMap<>();
-    private HashMap<String, String> superClassMap = new HashMap<> ();
-    private HashMap<String, String> fieldOwnerMap = new HashMap<>();
-    private HashMap<String, String> methodOwnerMap = new HashMap<>();
-    private ArrayListMultimap<String, FieldWrapper> fieldAddMap = ArrayListMultimap.create();
-    private ArrayListMultimap<String, MethodWrapper> methodAddMap = ArrayListMultimap.create();
-    private HashMap<String, String> linkFieldMap = new HashMap<>();
+    private final boolean mappingOnly;
+    private final HashMap<String, String> transformMap = new HashMap<>();
+    private final HashMap<String, String> superClassMap = new HashMap<> ();
+    private final HashMap<String, String> methodOwnerMap = new HashMap<>();
+    private final ArrayListMultimap<String, FieldWrapper> fieldAddMap = ArrayListMultimap.create();
+    private final ArrayListMultimap<String, MethodWrapper> methodAddMap = ArrayListMultimap.create();
+    private final HashMap<String, String> linkFieldMap = new HashMap<>();
+    private final HashMap<String,ClassNode> transformClassMap = new HashMap<>();
 
     public Transformer(boolean var1) {
         this.mappingOnly = var1;
     }
 
-    public byte[] transform(byte[] var1) {
-        var1 = this.mapping(var1);
+
+    public boolean hasBeenTransformed(String className){
+        return this.transformMap.containsValue(className);
+    }
+    public byte[] transform(byte[] srcData) {
+        srcData = this.mapping(srcData);
         if (this.mappingOnly) {
-            return var1;
+            return srcData;
         } else {
-            final ClassReader var2 = new ClassReader(var1);
-            ClassNode var3 = new ClassNode();
-            var2.accept(var3, 0);
-            String var4 = var2.getClassName();
-            if (this.transformMap.containsKey(var4)) {
-                this.interfaced(var3);
+            final ClassReader srcReader = new ClassReader(srcData);
+            ClassNode src = new ClassNode();
+            srcReader.accept(src, 0);
+            String loadingClassName = srcReader.getClassName();
+            if (this.transformMap.containsKey(loadingClassName)) {
+                //Interface transformer when load it
+                this.interfaced(src);
+                this.transformClassMap.put(loadingClassName, src);
             } else {
-                List<String> var5 = this.transformMap.entrySet().stream().filter((var1x) -> var1x.getValue().equals(var4)).map(Map.Entry::getKey).collect(Collectors.toList());
-                if (!var5.isEmpty()) {
-                    if (var3.interfaces != null) {
-                        var3.interfaces.addAll(var5);
-                    } else {
-                        var3.interfaces = var5;
+                //Transform original minecraft class
+                String transformerName = "~NULL~";
+                for (Map.Entry<String, String> transformerAndTargetClass : this.transformMap.entrySet()) {
+                    if (transformerAndTargetClass.getValue().equals(loadingClassName)) {
+                        transformerName = transformerAndTargetClass.getKey();
+                        src.interfaces.add(transformerName);
+                        ClassNode classNode = this.transformClassMap.get(transformerName);
+                        if (classNode != null){
+                            src.sourceFile = classNode.sourceFile;
+                            src.interfaces.addAll(classNode.interfaces);
+                        }
                     }
                 }
 
-                List<FieldWrapper> var6 = this.fieldAddMap.get(var4);
-//                for (FieldNode var9 : var3.fields) {
-//                    for (FieldWrapper var11 : var6) {
-//                        if (var11.fieldName.equals(var9.name)) {
-//                            var7.add(var11);
-//                        }
-//                    }
-//                }
-//
-//                var6.removeAll(var7);
-                var6.removeIf(var1x -> {
-                    for (FieldNode field : var3.fields) {
-                        if (field.name.equals(var1x.fieldName)){
-                            return true;
+                List<FieldWrapper> fieldWrappers = this.fieldAddMap.get(loadingClassName);
+                String finalTransformerName = transformerName;
+                fieldWrappers.removeIf(fieldWrapper-> {
+                    for (FieldNode field : src.fields) {
+                        if (field.name.equals(fieldWrapper.fieldName)){
+                            if (fieldWrapper.isLinked){
+                                return true;
+                            }else {
+                                System.err.println("[FML] WARNING : met same field name but didnt link:{ cl: " + loadingClassName + " | fd:" + fieldWrapper.fieldName + " | tr: "+ finalTransformerName +"}");
+                                return false;
+                            }
                         }
                     }
                     return false;
                 });
-                var6.forEach((var1x) -> var3.fields.add(new FieldNode(var1x.opcode, var1x.fieldName, var1x.desc, var1x.signature, var1x.value)));
+                for (FieldWrapper fieldWrapper : fieldWrappers) {
+                    src.fields.add(new FieldNode(fieldWrapper.opcode, fieldWrapper.fieldName, fieldWrapper.desc, fieldWrapper.signature, fieldWrapper.value));
+                }
 
                 //Transform methods
-                List<MethodWrapper> var14 = this.methodAddMap.get(var4);
+                List<MethodWrapper> var14 = this.methodAddMap.get(loadingClassName);
 
-                for (MethodNode var16 : var3.methods) {
+                for (MethodNode var16 : src.methods) {
                     MethodWrapper var17 = new MethodWrapper(var16.name, var16.desc, null);
+//                    var16.instructions.iterator().forEachRemaining(abstractInsnNode -> {
+//                        //LineNumberNode
+//                        if (abstractInsnNode.getType() == 15){
+//                            var16.instructions.remove(abstractInsnNode);
+//                        }
+//                    });
                     if (var14.contains(var17)) {
                         MethodWrapper var12 = this.getMethodWrapper(var14, var17);
                         var16.instructions.clear();
@@ -85,23 +100,26 @@ public class Transformer {
                 }
 
                 var14.forEach((var1x) -> {
-                    MethodNode methodNode = new MethodNode(var1x.node.access, var1x.methodName, var1x.desc, var1x.node.signature,
-                            var1x.node.exceptions.toArray(new String[0]));
+                    MethodNode methodNode = new MethodNode(var1x.node.access, var1x.methodName, var1x.desc, var1x.node.signature, var1x.node.exceptions.toArray(new String[0]));
                     methodNode.instructions.add(var1x.node.instructions);
-                    var3.methods.add(methodNode);
                     methodNode.maxStack = var1x.node.maxStack;
                     methodNode.maxLocals = var1x.node.maxLocals;
                     methodNode.tryCatchBlocks = var1x.node.tryCatchBlocks;
                     methodNode.localVariables = var1x.node.localVariables;
+                    methodNode.instructions.iterator().forEachRemaining(abstractInsnNode -> {
+                        //LineNumberNode
+                        if (abstractInsnNode.getType() == 15){
+                            methodNode.instructions.remove(abstractInsnNode);
+                        }
+                    });
+                    src.methods.add(methodNode);
                 });
             }
 
             ClassWriter var13 = new ClassWriter(0);
-            var3.accept(new ClassVisitor(458752, var13) {
+            src.accept(new ClassVisitor(458752, var13) {
                 public MethodVisitor visitMethod(int var1, String var2x, String var3, String var4, String[] var5) {
-                    Transformer var10002 = Transformer.this;
-                    this.getClass();
-                    return var10002.new ModMethodVisitor(var2.getClassName(), var2x, var3, super.visitMethod(var1, var2x, var3, var4, var5));
+                    return new ModMethodVisitor(srcReader.getClassName(), var2x, var3, super.visitMethod(var1, var2x, var3, var4, var5));
                 }
             });
             return var13.toByteArray();
@@ -138,9 +156,6 @@ public class Transformer {
         var1.fields.clear();
         var1.access = 0x601;
         var1.superName = "java/lang/Object";
-        if (var1.interfaces != null) {
-            var1.interfaces.clear();
-        }
 
     }
 
@@ -157,8 +172,8 @@ public class Transformer {
         }
 
         FieldNode var7;
-        for(Iterator variterator = var2.fields.iterator(); variterator.hasNext(); var7.name = Mapping.getFieldMapName(var2.name + "." + var7.name)) {
-            var7 = (FieldNode)variterator.next();
+        for(Iterator<FieldNode> variterator = var2.fields.iterator(); variterator.hasNext(); var7.name = Mapping.getFieldMapName(var2.name + "." + var7.name)) {
+            var7 = variterator.next();
         }
 
         ClassWriter var6 = new ClassWriter(0);
@@ -168,9 +183,7 @@ public class Transformer {
             }
 
             public MethodVisitor visitMethod(int var1, String var2, String var3, String var4, String[] var5) {
-                Transformer var10002 = Transformer.this;
-                this.getClass();
-                return var10002.new MappingMethodVisitor(super.visitMethod(var1, var2, Transformer.this.replaceMethodDesc(var3), var4, Transformer.this.transformInternalArray(var5)));
+                return new MappingMethodVisitor(super.visitMethod(var1, var2, Transformer.this.replaceMethodDesc(var3), var4, Transformer.this.transformInternalArray(var5)));
             }
 
             public void visit(int var1, int var2, String var3, String var4, String var5, String[] var6) {
@@ -182,11 +195,8 @@ public class Transformer {
 
     private String[] transformInternalArray(String[] var1) {
         ArrayList<String> var2 = new ArrayList<>();
-        String[] var3 = var1;
-        int var4 = var1.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
-            String var6 = var3[var5];
+        for (String var6 : var1) {
             var2.add(Mapping.getClassMapName(var6.replace('/', '.')).replace('.', '/'));
         }
 
@@ -198,11 +208,8 @@ public class Transformer {
         var2 = Transformer.this.replaceFieldDesc(var2);
         Type[] var3 = Type.getArgumentTypes(var1);
         StringBuilder var4 = new StringBuilder();
-        Type[] var5 = var3;
-        int var6 = var3.length;
 
-        for(int var7 = 0; var7 < var6; ++var7) {
-            Type var8 = var5[var7];
+        for (Type var8 : var3) {
             var4.append(Transformer.this.replaceFieldDesc(var8.getDescriptor()));
         }
 
@@ -238,29 +245,24 @@ public class Transformer {
 
     public void addMethodTransform(String var1, String var2, String var3, String var4, MethodNode var5) {
         this.addOrOverrideMethod(var1, var3, var4, var5);
-        this.addMethodVisitor(var2, var1);
-    }
-
-    private void addMethodVisitor(String var1, String var2) {
-        this.methodOwnerMap.put(var1, var2);
     }
 
     private void addOrOverrideMethod(String var1, String var2, String var3, MethodNode var4) {
         this.methodAddMap.put(var1, new MethodWrapper(var2, var3, var4));
     }
 
-    public void addFieldTransform(String var1, String var2, int var3, String var4, String var5, String var6, String var7, Object var8) {
-        this.addFiled(var1, var3, var4, var5, var6, var7, var8);
-        this.addFiledVisitor(var2, var1);
-        this.linkFieldMap.put(var1 + "/" + var5, var4);
+    public void addFieldLink(String targetClass, String className, int access, String targetFieldName, String linkedName, String desc, String signature, Object value) {
+        this.addField(targetClass, access, targetFieldName, linkedName, desc, signature, value,true);
+        this.linkFieldMap.put(className + "/" + linkedName, targetFieldName);
     }
 
-    private void addFiledVisitor(String var1, String var2) {
-        this.fieldOwnerMap.put(var1, var2);
-    }
 
-    private void addFiled(String var1, int var2, String var3, String var4, String var5, String var6, Object var7) {
-        this.fieldAddMap.put(var1, new FieldWrapper(var2, var3, var4, var5, var6, var7));
+
+    public void addField(String targetClass,String className, int access, String targetFieldName, String linkedName, String desc, String signature, Object value){
+        this.addField(targetClass, access, targetFieldName, linkedName, desc, signature, value,false);
+    }
+    private void addField(String targetClass, int access, String targetFieldName, String linkedName, String desc, String signature, Object value,boolean isLinked) {
+        this.fieldAddMap.put(targetClass, new FieldWrapper(access, targetFieldName, linkedName, desc, signature, value,isLinked));
     }
 
     private static class MethodWrapper {
@@ -407,24 +409,35 @@ public class Transformer {
             this.desc = var4;
         }
 
+        public String getDesc() {
+            return desc;
+        }
+
+        public String getMethodName() {
+            return methodName;
+        }
 
 
-        public void visitFieldInsn(int var1, String var2, String var3, String var4) {
-            if (Transformer.this.transformMap.containsKey(var2)) {
-                if (Transformer.this.transformMap.get(var2).equals(this.className)) {
-                    String fieldName = Transformer.this.linkFieldMap.get(
-                            Transformer.this.transformMap.get(var2) + "/" + var3);
-                    if (fieldName != null) {
-                        super.visitFieldInsn(var1, Transformer.this.transformMap.get(var2), fieldName, var4);
-                    }else{
-                        String clName = Transformer.this.superClassMap.get(var2);
-                        super.visitFieldInsn(var1, clName, var3, var4);
+        public void visitFieldInsn(int opcode, String className, String srcFieldName, String descriptor) {
+            if (Transformer.this.transformMap.containsKey(className)) {
+                String targetName = Transformer.this.transformMap.get(className);
+                if (targetName.equals(this.className)) {
+                    String rawName = Transformer.this.linkFieldMap.get(className + "/" + srcFieldName);
+                    if (rawName != null) {
+                        super.visitFieldInsn(opcode, targetName, rawName, descriptor);
+                    }else {
+                        super.visitFieldInsn(opcode, targetName, srcFieldName, descriptor);
                     }
                 } else {
-                    super.visitFieldInsn(var1, var2, var3, var4);
+                    String superClass = Transformer.this.superClassMap.get(className);
+                    if (superClass != null){
+                        super.visitFieldInsn(opcode, superClass, srcFieldName, descriptor);
+                    }else {
+                        super.visitFieldInsn(opcode, className, srcFieldName, descriptor);
+                    }
                 }
             } else {
-                super.visitFieldInsn(var1, var2, var3, var4);
+                super.visitFieldInsn(opcode, className, srcFieldName, descriptor);
             }
 
         }
@@ -456,14 +469,16 @@ public class Transformer {
         public final String desc;
         public final String signature;
         public final Object value;
+        public final boolean isLinked;
 
-        public FieldWrapper(int var2, String var3, String var4, String var5, String var6, Object var7) {
+        public FieldWrapper(int var2, String var3, String var4, String var5, String var6, Object var7,boolean isLinked) {
             this.opcode = var2;
             this.fieldName = var3;
             this.linkedName = var4;
             this.desc = var5;
             this.signature = var6;
             this.value = var7;
+            this.isLinked = isLinked;
         }
     }
 }

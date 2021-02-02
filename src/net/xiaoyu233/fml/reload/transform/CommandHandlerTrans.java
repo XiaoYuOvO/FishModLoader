@@ -101,7 +101,7 @@ public class CommandHandlerTrans {
 
                         for(z = 0; z < world_servers.length; ++z) {
                             if (world_servers[z] != null) {
-//                                x1 += world_servers[z].getG().size();
+                                x1 += world_servers[z].g.size();
                             }
                         }
 

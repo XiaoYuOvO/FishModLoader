@@ -177,11 +177,24 @@ public class Utils {
         }
     }
 
+    public static <R> R safeMake(DangerConsumer<R> maker,R defaultResult){
+        try {
+            return maker.dangerGet();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        return defaultResult;
+    }
+
     public static void logInfoConsole(String msg){
         System.out.println(format.format(new Date()) + " [INFO] " + msg);
     }
 
     public static boolean isJavaType(String name) {
         return !name.endsWith(";");
+    }
+
+    public interface DangerConsumer<R>  {
+        R dangerGet() throws Throwable;
     }
 }

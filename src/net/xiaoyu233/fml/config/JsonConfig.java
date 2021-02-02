@@ -45,32 +45,11 @@ public class JsonConfig implements Config {
         String jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(this.configMap);
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(this.configFile);
-            Throwable var3 = null;
-
-            try {
+            try (FileOutputStream fileOutputStream = new FileOutputStream(this.configFile)) {
                 fileOutputStream.write(jsonString.getBytes());
-            } catch (Throwable var14) {
-                var3 = var14;
-                throw var14;
-            } finally {
-                if (fileOutputStream != null) {
-                    if (var3 != null) {
-                        try {
-                            fileOutputStream.close();
-                        } catch (Throwable var13) {
-                            var3.addSuppressed(var13);
-                        }
-                    } else {
-                        fileOutputStream.close();
-                    }
-                }
-
             }
-        } catch (FileNotFoundException var16) {
+        } catch (IOException var16) {
             var16.printStackTrace();
-        } catch (IOException var17) {
-            var17.printStackTrace();
         }
 
     }
@@ -90,23 +69,19 @@ public class JsonConfig implements Config {
                 var2 = var13;
                 throw var13;
             } finally {
-                if (fileInputStream != null) {
-                    if (var2 != null) {
-                        try {
-                            fileInputStream.close();
-                        } catch (Throwable var12) {
-                            var2.addSuppressed(var12);
-                        }
-                    } else {
+                if (var2 != null) {
+                    try {
                         fileInputStream.close();
+                    } catch (Throwable var12) {
+                        var2.addSuppressed(var12);
                     }
+                } else {
+                    fileInputStream.close();
                 }
 
             }
-        } catch (FileNotFoundException var15) {
+        } catch (IOException var15) {
             var15.printStackTrace();
-        } catch (IOException var16) {
-            var16.printStackTrace();
         }
 
     }

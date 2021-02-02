@@ -17,7 +17,11 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.io.*;
-import java.util.*;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -158,7 +162,7 @@ public class ModsWalker {
                                                 Mod[] annotations = mod.getClass().getDeclaredAnnotationsByType(Mod.class);
                                                 Dist[] dists = new Dist[]{Dist.CLIENT,Dist.SERVER};
                                                 boolean inServer = false,inClient = false;
-                                                if (annotations !=null && annotations.length == 1){
+                                                if (annotations.length == 1){
                                                     dists = annotations[0].value();
                                                     for (Dist dist : dists) {
                                                         inServer = inServer || dist.equals(Dist.SERVER);
@@ -255,7 +259,7 @@ public class ModsWalker {
             if (target == null) {
                 System.out.println("target is null");
             } else {
-                System.out.println("target: " + target);
+                System.out.println(reader.getClassName() + " -> " + target);
             }
         }
 
@@ -267,61 +271,59 @@ public class ModsWalker {
             if (classNode.fields != null) {
                 for (FieldNode node : classNode.fields) {
                     fieldNode = node;
-                    targetFieldName = fieldNode.name;
+                    targetFieldName = null;
 
                     if (fieldNode.visibleAnnotations != null) {
                         for (AnnotationNode annotationNode : fieldNode.visibleAnnotations) {
-                            if (annotationNode.desc.equals(Type.getDescriptor(Link.class)) && annotationNode.values != null && !annotationNode.values.get(
-                                    1).toString().isEmpty()) {
-                                targetFieldName = annotationNode.values.get(1).toString();
-                            }
+                            if (annotationNode.desc.equals(Type.getDescriptor(Link.class)))
+                                if (annotationNode.values != null && !annotationNode.values.get(
+                                        1).toString().isEmpty()) {
+                                    targetFieldName = annotationNode.values.get(1).toString();
+                                }else {
+                                    targetFieldName = fieldNode.name;
+                                }
                         }
                     }
-
-                    if (debug) {
-                        System.out.println("field: targetFieldName:" + targetFieldName + " linkedName: " + fieldNode.name);
+                    if (targetFieldName != null){
+                        if (debug) {
+                            System.out.println("    linkField: targetFieldName:" + targetFieldName + " linkedName: " + fieldNode.name);
+                        }
+                        this.transformer.addFieldLink(target, reader.getClassName(), fieldNode.access, targetFieldName, fieldNode.name, fieldNode.desc, fieldNode.signature, fieldNode.value);
+                    }else {
+                        if (debug){
+                            System.out.println("    addField: " + fieldNode.name);
+                        }
+                        this.transformer.addField(target, reader.getClassName(), fieldNode.access, fieldNode.name, fieldNode.name, fieldNode.desc, fieldNode.signature, fieldNode.value);
                     }
-                    this.transformer.addFieldTransform(target, reader.getClassName(), fieldNode.access, targetFieldName, fieldNode.name, fieldNode.desc, fieldNode.signature, fieldNode.value);
                 }
             }
 
-            Iterator<MethodNode> var8 = classNode.methods.iterator();
-            while (true) {
-                MethodNode methodNode;
-
-                label255:
-                do {
-                    while (var8.hasNext()) {
-                        methodNode = var8.next();
-                        if (methodNode.visibleAnnotations == null) {
-                            continue label255;
-                        }
-
-                        Iterator<AnnotationNode> var27 = methodNode.visibleAnnotations.iterator();
-
-                        while (true) {
-                            if (!var27.hasNext()) {
-                                continue label255;
-                            }
-
-                            AnnotationNode annotationNodex = var27.next();
-                            if (annotationNodex.desc.equals(
-                                    Type.getDescriptor(Marker.class))) {
-                                break;
+            for (MethodNode method : classNode.methods) {
+                boolean isMarker = false;
+                if (method != null){
+                    if (method.visibleAnnotations != null){
+                        for (AnnotationNode visibleAnnotation : method.visibleAnnotations) {
+                            if (visibleAnnotation.desc.equals(Type.getDescriptor(Marker.class))){
+                                isMarker = true;
                             }
                         }
                     }
+                    //Avoid for default constructor
+                    if (method.name.equals("<init>") && method.desc.equals("()V") && method.access == Modifier.PUBLIC){
+                        isMarker = true;
+                    }
+                    if (!isMarker){
+                        if (debug) {
+                            System.out.println("    addMethod: " + method.name);
+                        }
+                        this.transformer.addMethodTransform(target, reader.getClassName(), method.name, method.desc, method);
+                    }else {
+                        if (debug) {
+                            System.out.println("    markerMethod: " + method.name);
+                        }
+                    }
 
-                    return;
-                } while (methodNode.name.equals(
-                        "<init>") && methodNode.instructions.size() == 6);
-
-                if (debug) {
-                    System.out.println("method: " + methodNode.name);
                 }
-
-                this.transformer.addMethodTransform(target, reader.getClassName(),
-                        methodNode.name, methodNode.desc, methodNode);
             }
         }
 
@@ -339,22 +341,8 @@ public class ModsWalker {
 
                 try{
                     this.transformClass(classNode,reader);
-                } catch (Throwable var22) {
-                    throwable = var22;
-                    throw var22;
                 } finally {
-                    if (inputStream != null) {
-                        if (throwable != null) {
-                            try {
-                                inputStream.close();
-                            } catch (Throwable var21) {
-                                throwable.addSuppressed(var21);
-                            }
-                        } else {
-                            inputStream.close();
-                        }
-                    }
-
+                    inputStream.close();
                 }
 
             } catch (IOException var24) {
@@ -378,9 +366,8 @@ public class ModsWalker {
             this.modsWalker.jarPath = jarPath;
         }
 
-        public LoadConfig setModFolder(File file) {
+        public void setModFolder(File file) {
             this.modsWalker.modFolder = file;
-            return this;
         }
 
         public LoadConfig setStaticMod(boolean staticMod) {

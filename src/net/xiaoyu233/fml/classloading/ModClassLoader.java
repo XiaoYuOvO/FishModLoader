@@ -28,10 +28,12 @@ public class ModClassLoader extends URLClassLoader {
     private static String dumpPath;
     private static boolean printClassLoadInfo;
     private static boolean cleanClassImplementation;
+    private static boolean filterOutput;
     private final Map<String, Class<?>> cachedClasses = new ConcurrentHashMap<>();
     private final Transformer transformManager;
     private final Set<String> unfoundClasses = new HashSet<>();
-    private URL fileUrl;
+    private final URL fileUrl;
+
 
     static {
         if (FishModLoader.config != null && FishModLoader.config.has("dumpClass")) {
@@ -41,6 +43,7 @@ public class ModClassLoader extends URLClassLoader {
                 dumpFilter = FishModLoader.config.get("dumpFilter");
                 printClassLoadInfo = FishModLoader.config.get("printClassLoadInfo");
                 cleanClassImplementation = FishModLoader.config.get("cleanClassImplementation");
+                filterOutput = FishModLoader.config.get("filterOutput");
             }
         }
     }
@@ -106,7 +109,7 @@ public class ModClassLoader extends URLClassLoader {
                                 System.out.println(var1);
                             }
 
-                            if (dumpClass && var1.contains(dumpFilter)) {
+                            if (dumpClass && var1.contains(dumpFilter) && (!filterOutput || transformManager.hasBeenTransformed(var1.replace(".", "/")))) {
                                 String var32 = dumpPath + "/" + var1.replace(".", "\\");
                                 int var9 = var32.lastIndexOf("\\");
                                 File var10 = new File(var32.substring(0, var9));

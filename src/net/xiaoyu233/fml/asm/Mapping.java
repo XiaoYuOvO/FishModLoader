@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Mapping {
-    private static BiMap<String, String> classMapping = HashBiMap.create();
-    private static BiMap<String, String> methodMapping = HashBiMap.create();
-    private static BiMap<String, String> fieldMapping = HashBiMap.create();
-    private static Function<String, String> classRule = (s) -> {
+    private static final BiMap<String, String> classMapping = HashBiMap.create();
+    private static final BiMap<String, String> methodMapping = HashBiMap.create();
+    private static final BiMap<String, String> fieldMapping = HashBiMap.create();
+    private static final Function<String, String> classRule = (s) -> {
         String str = s;
         if (!s.contains(".")) {
             str = "net.minecraft." + s;
@@ -21,8 +21,8 @@ public class Mapping {
 
         return str;
     };
-    private static Function<String, String> methodRule = (s) -> s;
-    private static Function<String, String> fieldRule = (s) -> s;
+    private static final Function<String, String> methodRule = (s) -> s;
+    private static final Function<String, String> fieldRule = (s) -> s;
 
     public static void loadMappingFromJar(){
         for (MappingType value : MappingType.values()) {
@@ -52,7 +52,7 @@ public class Mapping {
     }
 
 
-    public static Map<String ,String > addMappingFromStream(InputStream stream,MappingType type){
+    public static Map<String ,String> addMappingFromStream(InputStream stream,MappingType type){
         HashMap<String, String> map = new HashMap<>();
 
         try {
