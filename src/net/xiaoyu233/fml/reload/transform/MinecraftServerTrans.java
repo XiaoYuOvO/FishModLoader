@@ -11,21 +11,23 @@ import net.xiaoyu233.fml.reload.event.PlayerLoggedInEvent;
 import net.xiaoyu233.fml.reload.utils.VersionCheckThread;
 
 @Transform(MinecraftServer.class)
-public class MinecraftServerTrans{
-    @Link
-    private static boolean treachery_detected;
-    @Link
-    private static int treachery_shutdown_counter;
+public class MinecraftServerTrans {
+   @Link
+   private static boolean treachery_detected;
+   @Link
+   private static int treachery_shutdown_counter;
 
-    public static void setTreacheryDetected() {
-        treachery_detected = false;
-        treachery_shutdown_counter = 0;
-    }
-    @Marker
-    public void a(ChatMessage par1ChatMessageComponent){}
+   public static void setTreacheryDetected() {
+      treachery_detected = false;
+      treachery_shutdown_counter = 0;
+   }
 
-    public void playerLoggedIn(EntityPlayer par1EntityPlayerMP) {
-        MITEEvents.MITE_EVENT_BUS.post(new PlayerLoggedInEvent(par1EntityPlayerMP));
-        new VersionCheckThread(par1EntityPlayerMP).start();
-    }
+   @Marker
+   public void a(ChatMessage par1ChatMessageComponent) {
+   }
+
+   public void playerLoggedIn(EntityPlayer par1EntityPlayerMP) {
+      MITEEvents.MITE_EVENT_BUS.post(new PlayerLoggedInEvent(par1EntityPlayerMP));
+      (new VersionCheckThread(par1EntityPlayerMP)).start();
+   }
 }

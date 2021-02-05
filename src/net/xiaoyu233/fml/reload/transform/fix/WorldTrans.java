@@ -7,9 +7,10 @@ import net.xiaoyu233.fml.asm.annotations.Transform;
 
 @Transform(World.class)
 public class WorldTrans {
-    @Link
-    public WorldProvider t;
-    public WorldProvider getT() {
-        return t;
-    }
+   @Link
+   public WorldProvider t;
+
+   public WorldProvider getT() {
+      return this.t;
+   }
 }

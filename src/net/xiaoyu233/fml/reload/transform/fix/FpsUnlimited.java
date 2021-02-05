@@ -6,7 +6,7 @@ import net.xiaoyu233.fml.asm.annotations.Transform;
 
 @Transform(Minecraft.class)
 public class FpsUnlimited {
-    private int U() {
-        return FishModLoader.getFpsLimit();
-    }
+   private int U() {
+      return FishModLoader.getFpsLimit();
+   }
 }

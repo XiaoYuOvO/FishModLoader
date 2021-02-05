@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface Mod {
-    Dist[] value() default {Dist.CLIENT,Dist.SERVER};
+   Dist[] value() default {Dist.CLIENT, Dist.SERVER};
 }

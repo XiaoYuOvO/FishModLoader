@@ -6,30 +6,31 @@ import net.xiaoyu233.fml.asm.annotations.Dist;
 import java.util.ArrayList;
 
 public class ModInfo {
-    private final String modid;
-    private final String modVerStr;
-    private final int modVerNum;
-    private final ArrayList<Dist> dists;
-    public ModInfo(String modid,String modVerStr,int modVerNum,Dist... dist){
-        this.modid = modid;
-        this.modVerStr = modVerStr;
-        this.modVerNum = modVerNum;
-        this.dists = Lists.newArrayList(dist);
-    }
+   private final String modid;
+   private final String modVerStr;
+   private final int modVerNum;
+   private final ArrayList<Dist> dists;
 
-    public int getModVerNum() {
-        return modVerNum;
-    }
+   public ModInfo(String modid, String modVerStr, int modVerNum, Dist... dist) {
+      this.modid = modid;
+      this.modVerStr = modVerStr;
+      this.modVerNum = modVerNum;
+      this.dists = Lists.newArrayList(dist);
+   }
 
-    public String getModid() {
-        return modid;
-    }
+   public int getModVerNum() {
+      return this.modVerNum;
+   }
 
-    public String getModVerStr() {
-        return modVerStr;
-    }
+   public String getModid() {
+      return this.modid;
+   }
 
-    public boolean canBeUsedAt(Dist dist){
-        return dists.contains(dist);
-    }
+   public String getModVerStr() {
+      return this.modVerStr;
+   }
+
+   public boolean canBeUsedAt(Dist dist) {
+      return this.dists.contains(dist);
+   }
 }

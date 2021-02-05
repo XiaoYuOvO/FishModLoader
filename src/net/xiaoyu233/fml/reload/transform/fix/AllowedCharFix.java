@@ -9,24 +9,23 @@ import java.nio.charset.StandardCharsets;
 
 @Transform(v.class)
 public class AllowedCharFix {
-    private static String a() {
-        StringBuilder var0 = new StringBuilder();
+   private static String a() {
+      StringBuilder var0 = new StringBuilder();
 
-        try {
-            BufferedReader var1 = new BufferedReader(new InputStreamReader(AllowedCharFix.class.getResourceAsStream("/font.txt"),
-                    StandardCharsets.UTF_8));
-            String var2 = "";
+      try {
+         BufferedReader var1 = new BufferedReader(new InputStreamReader(AllowedCharFix.class.getResourceAsStream("/font.txt"), StandardCharsets.UTF_8));
+         String var2 = "";
 
-            while((var2 = var1.readLine()) != null) {
-                if (!var2.startsWith("#")) {
-                    var0.append(var2);
-                }
+         while((var2 = var1.readLine()) != null) {
+            if (!var2.startsWith("#")) {
+               var0.append(var2);
             }
+         }
 
-            var1.close();
-        } catch (Exception ignored) {
-        }
+         var1.close();
+      } catch (Exception var3) {
+      }
 
-        return var0.toString();
-    }
+      return var0.toString();
+   }
 }

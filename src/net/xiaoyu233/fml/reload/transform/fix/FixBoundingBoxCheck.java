@@ -5,6 +5,6 @@ import net.xiaoyu233.fml.asm.annotations.Transform;
 
 @Transform(EntityHuman.class)
 public class FixBoundingBoxCheck {
-    public void checkBoundingBoxAgainstSolidBlocks() {
-    }
+   public void checkBoundingBoxAgainstSolidBlocks() {
+   }
 }

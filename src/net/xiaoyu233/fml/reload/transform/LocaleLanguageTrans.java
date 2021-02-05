@@ -1,32 +1,26 @@
 package net.xiaoyu233.fml.reload.transform;
 
-import com.google.common.base.Splitter;
 import net.minecraft.LocaleLanguage;
-import net.xiaoyu233.fml.asm.annotations.Link;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 
-@Transform(LocaleLanguage.class)
+@Mixin({LocaleLanguage.class})
 public class LocaleLanguageTrans {
-    @Link
-    private static final Pattern a = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-    @Link
-    private static final Splitter b = Splitter.on('=').limit(2);
-    @Link
-    private static LocaleLanguage c = new LocaleLanguage();
-    @Link
-    private Map d;
-    public static void addTranslation(String key,String value){
-        c.getTranslationMap().put(key,value);
-    }
+   @Shadow
+   private static final LocaleLanguage instance = new LocaleLanguage();
+   @Shadow
+   private Map languageList;
 
-    public Map getTranslationMap(){
-        return this.d;
-    }
+   public static void addTranslation(String key, String value) {
+   }
 
-    static {
-        addTranslation("enchantment.slaying","杀害");
-    }
+   public Map getTranslationMap() {
+      return this.languageList;
+   }
+
+   static {
+      addTranslation("enchantment.slaying", "\u6740\u5bb3");
+   }
 }
