@@ -22,17 +22,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class FishModLoader {
-    public static final Logger logger = Logger.getLogger("FML",null);
     private static final ArrayList<ModInfo> mods = new ArrayList<>();
     private static final Map<String,ModInfo> modsMap = new HashMap<>();
     private static final Map<String,ModInfo> modsMapForLoginCheck;
     private static final boolean allowsClientMods;
-    private static final boolean sideSett=false;
+    private static final boolean sideSet =false;
     private static boolean isServer = false;
-    public static final String VERSION = "B0.2.0";
+    public static final String VERSION = "B0.1.4";
     public static final int VERSION_NUM = 5;
     private static int fpsLimit = 0;
     private static final String onlineVersion = versionCheck();
@@ -50,7 +48,7 @@ public class FishModLoader {
     }
 
     public static void setIsServer(boolean isServer){
-        if (!sideSett){
+        if (!sideSet){
             FishModLoader.isServer = isServer;
         }
     }

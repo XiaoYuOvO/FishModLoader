@@ -41,7 +41,7 @@ public class PendingConnectionTransform extends Connection {
         } else {
             this.g = par1Packet2ClientProtocol.f();
             if (!this.g.equals(StripColor.a(this.g))) {
-                this.a("Invalid username!");
+                this.a("非法用户名!");
             } else {
                 PublicKey var2 = this.e.H().getPublic();
                 if (par1Packet2ClientProtocol.d() != 78) {
@@ -53,14 +53,14 @@ public class PendingConnectionTransform extends Connection {
 
                 } else if ("1.6.4".equals(par1Packet2ClientProtocol.MC_version) && "R196".equals(par1Packet2ClientProtocol.MITE_release_number) && par1Packet2ClientProtocol.getB().contains("FishModLoader")) {
                     if (!this.e.af().d(this.g)) {
-                        this.a("You are not white-listed on this server!");
+                        this.a("你不在服务器白名单内!");
                     } else {
                         if (DedicatedServer.isTournamentThatUsesAllottedTimes()) {
                             Long tick_of_disconnection = (Long)DedicatedServer.players_kicked_for_depleted_time_shares.get(this.g);
                             if (tick_of_disconnection != null) {
                                 long current_tick = DedicatedServer.F().a(0).I();
                                 if (current_tick - tick_of_disconnection < 72000L) {
-                                    this.a("Please wait at least an hour for your time share to replenish");
+                                    this.a("请等待至少一小时后再重连");
                                     return;
                                 }
                             }
@@ -145,7 +145,7 @@ public class PendingConnectionTransform extends Connection {
                             }
                             if (!serverMods.isEmpty()){
                                 for (ModInfo value : serverMods.values()) {
-                                    problems.append("客户端缺失模组:").append(value.getModid() + "-" + value.getModVerStr()).append("\n");
+                                    problems.append("客户端缺失模组:").append(value.getModid()).append("-").append(value.getModVerStr()).append("\n");
                                 }
                             }
                             if (problems.length() > 0){
