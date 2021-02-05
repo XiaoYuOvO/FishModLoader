@@ -16,6 +16,10 @@
           <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
         </element>
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
@@ -290,6 +294,32 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.ideaLibSources/lwjgl-2.9.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="org.ow2.asm:asm-commons:8.0" type="repository">
+      <properties maven-id="org.ow2.asm:asm-commons:8.0" />
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-commons-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-commons-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="org.ow2.asm:asm:8.0" type="repository">
+      <properties maven-id="org.ow2.asm:asm:8.0" />
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
