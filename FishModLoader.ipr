@@ -20,6 +20,9 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
+        <element id="library" level="project" name="SpecialSource" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
@@ -266,6 +269,24 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
+    <library name="SpecialSource">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/../SpecialSource/target/classes" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../SpecialSource/src/main/java" />
+      </SOURCES>
+    </library>
+    <library name="bin">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/../FernFlower-master/out/production/classes" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="file://$PROJECT_DIR$/../FernFlower-master/src" />
+      </SOURCES>
+    </library>
     <library name="classes">
       <CLASSES>
         <root url="file://$PROJECT_DIR$/libs/classes" />
@@ -287,6 +308,14 @@
         <root url="file://$PROJECT_DIR$/../MITEClasses/src" />
       </SOURCES>
     </library>
+    <library name="log4j-core-2.11.2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/log4j-core-2.11.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/log4j-api-2.11.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="lwjgl-2.9.0">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/libs/lwjgl-2.9.0.jar!/" />
@@ -307,6 +336,22 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/libs/asm-commons-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="org.ow2.asm:asm-util:8.0" type="repository">
+      <properties maven-id="org.ow2.asm:asm-util:8.0" />
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-util-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-util-8.0-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/" />
         <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0-sources.jar!/" />

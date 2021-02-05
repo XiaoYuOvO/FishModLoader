@@ -12,5 +12,10 @@
     <orderEntry type="library" name="lwjgl-2.9.0" level="project" />
     <orderEntry type="library" name="org.ow2.asm:asm:8.0" level="project" />
     <orderEntry type="library" name="org.ow2.asm:asm-commons:8.0" level="project" />
+    <orderEntry type="library" name="org.ow2.asm:asm-util:8.0" level="project" />
+    <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="bin" level="project" />
+    <orderEntry type="library" name="SpecialSource" level="project" />
+    <orderEntry type="library" name="log4j-core-2.11.2" level="project" />
   </component>
 </module>

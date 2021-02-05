@@ -9,17 +9,16 @@ import org.spongepowered.asm.mixin.extensibility.IRemapper;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 public class Remapping extends CustomRemapper implements IRemapper {
-   public final Map<String, List<String>> interfaceMap = new HashMap();
-   public final Map<String, String> superClassMap = new HashMap();
+   public final Map<String, List<String>> interfaceMap = new HashMap<>();
+   public final Map<String, String> superClassMap = new HashMap<>();
    public final BiMap<String, String> classMapping = HashBiMap.create();
-   public final Map<String, String> methodMapping = new HashMap();
-   public final Map<String, String> fieldMapping = new HashMap();
+   public final Map<String, String> methodMapping = new HashMap<>();
+   public final Map<String, String> fieldMapping = new HashMap<>();
    private static final Function<String, String> classRule = (s) -> {
       String str = s;
       if (!s.contains(".")) {
@@ -39,8 +38,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
       Remapping.MappingType[] var1 = Remapping.MappingType.values();
       int var2 = var1.length;
 
-      for(int var3 = 0; var3 < var2; ++var3) {
-         Remapping.MappingType value = var1[var3];
+      for (MappingType value : var1) {
          InputStream stream = Remapping.class.getResourceAsStream("/" + value.name().toLowerCase() + ".mapping");
          this.addMappingFromStream(stream, value);
       }
@@ -51,8 +49,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
       Remapping.MappingType[] var2 = Remapping.MappingType.values();
       int var3 = var2.length;
 
-      for(int var4 = 0; var4 < var3; ++var4) {
-         Remapping.MappingType value = var2[var4];
+      for (MappingType value : var2) {
          File file = new File(mappingDir, value.name().toLowerCase() + ".mapping");
          this.addMappingFromFile(file, value);
       }
@@ -77,8 +74,8 @@ public class Remapping extends CustomRemapper implements IRemapper {
    }
 
    public Map<String, String> addMappingFromStream(InputStream stream, Remapping.MappingType type) {
-      HashMap<String, String> map = new HashMap();
-      Object inMap;
+      HashMap<String, String> map = new HashMap<>();
+      Map<String, String> inMap;
       switch(type) {
       case CLASS:
          inMap = this.classMapping;
@@ -99,7 +96,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
          String line;
          while((line = bufferedReader.readLine()) != null) {
             String[] entry = line.split(":");
-            ((Map)inMap).put(entry[0].trim(), entry[1].trim());
+            (inMap).put(entry[0].trim(), entry[1].trim());
          }
       } catch (IOException var8) {
          var8.printStackTrace();
@@ -197,11 +194,8 @@ public class Remapping extends CustomRemapper implements IRemapper {
       var2 = this.replaceFieldDesc(var2);
       Type[] var3 = Type.getArgumentTypes(var1);
       StringBuilder var4 = new StringBuilder();
-      Type[] var5 = var3;
-      int var6 = var3.length;
 
-      for(int var7 = 0; var7 < var6; ++var7) {
-         Type var8 = var5[var7];
+      for (Type var8 : var3) {
          var4.append(this.replaceFieldDesc(var8.getDescriptor()));
       }
 
@@ -251,11 +245,8 @@ public class Remapping extends CustomRemapper implements IRemapper {
       var2 = this.remapFieldDesc(var2);
       Type[] var3 = Type.getArgumentTypes(var1);
       StringBuilder var4 = new StringBuilder();
-      Type[] var5 = var3;
-      int var6 = var3.length;
 
-      for(int var7 = 0; var7 < var6; ++var7) {
-         Type var8 = var5[var7];
+      for (Type var8 : var3) {
          var4.append(this.remapFieldDesc(var8.getDescriptor()));
       }
 
@@ -279,10 +270,8 @@ public class Remapping extends CustomRemapper implements IRemapper {
          if (methodMapName == null) {
             List<String> interfaceNames = this.interfaceMap.get(owner);
             if (interfaceNames != null) {
-               Iterator var8 = interfaceNames.iterator();
 
-               while(var8.hasNext()) {
-                  String interfaceName = (String)var8.next();
+               for (String interfaceName : interfaceNames) {
                   methodMapName = this.getMethodMapName(interfaceName + "." + name, desc);
                   if (methodMapName != null) {
                      break;

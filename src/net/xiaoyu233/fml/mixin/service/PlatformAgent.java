@@ -3,12 +3,9 @@ package net.xiaoyu233.fml.mixin.service;
 import net.xiaoyu233.fml.FishModLoader;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Filter;
-import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
-import org.spongepowered.asm.launch.platform.IMixinPlatformAgent.AcceptResult;
 import org.spongepowered.asm.launch.platform.IMixinPlatformServiceAgent;
 import org.spongepowered.asm.launch.platform.MixinPlatformAgentAbstract;
 import org.spongepowered.asm.launch.platform.MixinPlatformManager;
@@ -64,7 +61,7 @@ public class PlatformAgent extends MixinPlatformAgentAbstract implements IMixinP
    }
 
    static void begin(IConsumer<Phase> delegate) {
-      org.apache.logging.log4j.Logger fmlLog = LogManager.getLogger("FishModLoader");
+      org.apache.logging.log4j.core.Logger fmlLog = (Logger) LogManager.getLogger("FishModLoader");
       if (fmlLog instanceof Logger) {
          log = fmlLog;
          oldLevel = log.getLevel();
@@ -90,7 +87,7 @@ public class PlatformAgent extends MixinPlatformAgentAbstract implements IMixinP
       private final IConsumer<Phase> delegate;
 
       MixinAppender(IConsumer<Phase> delegate) {
-         super("MixinLogWatcherAppender", (Filter)null, (Layout)null);
+         super("MixinLogWatcherAppender", null, null);
          this.delegate = delegate;
       }
 

@@ -24,7 +24,7 @@ public class JsonConfig implements Config {
    }
 
    public <T> T get(String string) {
-      return this.configMap.get(string);
+      return (T) this.configMap.get(string);
    }
 
    public int getInt(String string) {

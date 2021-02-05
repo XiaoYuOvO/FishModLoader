@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +34,7 @@ public class FishModLoader {
    private static final boolean isServer = false;
    public static final String VERSION = "B0.1.4";
    public static final int VERSION_NUM = 5;
-   private static int fpsLimit = 0;
+   private static final int fpsLimit = 0;
    private static final String onlineVersion = versionCheck();
    public static JsonConfig config;
 
@@ -110,21 +109,21 @@ public class FishModLoader {
    }
 
    public static void loadConfig() {
-      File config = new File(System.getProperty("user.dir"));
-      if (!(new File(config, "config.json")).exists()) {
-         config = new JsonConfig(new File(config, "config.json"));
-         saveDefault(config);
-         config.load();
-      } else {
-         config = new JsonConfig(new File(config, "config.json"));
-         config.load();
-         if (!config.has("fpsLimit")) {
-            config.set("fpsLimit", 0);
-            config.save();
-         }
-
-         fpsLimit = Math.abs(config.getInt("fpsLimit"));
-      }
+//      File config = new File(System.getProperty("user.dir"));
+//      if (!(new File(config, "config.json")).exists()) {
+//         config = new JsonConfig(new File(config, "config.json"));
+//         saveDefault(config);
+//         config.load();
+//      } else {
+//         config = new JsonConfig(new File(config, "config.json"));
+//         config.load();
+//         if (!config.has("fpsLimit")) {
+//            config.set("fpsLimit", 0);
+//            config.save();
+//         }
+//
+//         fpsLimit = Math.abs(config.getInt("fpsLimit"));
+//      }
 
    }
 

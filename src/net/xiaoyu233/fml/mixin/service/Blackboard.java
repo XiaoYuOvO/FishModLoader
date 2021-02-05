@@ -14,7 +14,7 @@ public class Blackboard implements IGlobalPropertyService {
    }
 
    public final <T> T getProperty(IPropertyKey key) {
-      return Launch.blackboard.get(key.toString());
+      return (T) Launch.blackboard.get(key.toString());
    }
 
    public final void setProperty(IPropertyKey key, Object value) {
@@ -23,7 +23,7 @@ public class Blackboard implements IGlobalPropertyService {
 
    public final <T> T getProperty(IPropertyKey key, T defaultValue) {
       Object value = Launch.blackboard.get(key.toString());
-      return value != null ? value : defaultValue;
+      return value != null ? (T) value : defaultValue;
    }
 
    public final String getPropertyString(IPropertyKey key, String defaultValue) {

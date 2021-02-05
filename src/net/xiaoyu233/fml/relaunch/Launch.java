@@ -33,7 +33,7 @@ import java.util.jar.JarOutputStream;
 
 public class Launch {
    public static String mainClass;
-   public static Map<String, Object> blackboard = new HashMap();
+   public static Map<String, Object> blackboard = new HashMap<>();
    public static LaunchClassLoader classLoader;
    public static String minecraftHome;
 
@@ -51,7 +51,7 @@ public class Launch {
       }
 
       MixinBootstrap.init();
-      MixinBootstrap.getPlatform().prepare(CommandLineOptions.of(Lists.newArrayList(new String[]{"/net.xiaoyu233.fml.json"})));
+      MixinBootstrap.getPlatform().prepare(CommandLineOptions.of(Lists.newArrayList("/net.xiaoyu233.fml.json")));
       MixinEnvironment preinit = MixinEnvironment.getEnvironment(Phase.PREINIT);
       preinit.setSide(FishModLoader.isServer() ? Side.SERVER : Side.CLIENT);
       Remapping remapping = new Remapping();
@@ -84,7 +84,7 @@ public class Launch {
          }
 
          FishModLoader.logger.info("Starting Minecraft");
-         var6.getMethod("main", String[].class).invoke(null, args);
+         var6.getMethod("main", String[].class).invoke(null, (Object) args);
       } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException var11) {
          var11.printStackTrace();
       }

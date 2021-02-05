@@ -21,6 +21,6 @@ public class LocaleLanguageTrans {
    }
 
    static {
-      addTranslation("enchantment.slaying", "\u6740\u5bb3");
+      addTranslation("enchantment.slaying", "杀害");
    }
 }

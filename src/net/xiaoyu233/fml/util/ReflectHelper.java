@@ -5,11 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ReflectHelper {
    public static <T> T dyCast(Object from) {
-      return from;
+      return (T) from;
    }
 
    public static <T> T dyCast(Class<T> to, Object from) {
-      return from;
+      return (T) from;
    }
 
    public static <T> T createInstance(Class<T> tClass, Object... args) {

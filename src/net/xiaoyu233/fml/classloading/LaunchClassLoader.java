@@ -55,7 +55,6 @@ public class LaunchClassLoader extends URLClassLoader {
       this.addTransformerExclusion("org.bouncycastle.");
       this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
       if (DEBUG_SAVE) {
-         int x = true;
          tempFolder = new File("H:\\IDEAProjects\\MITEClasses\\cls");
          LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
          tempFolder.mkdirs();
@@ -70,7 +69,7 @@ public class LaunchClassLoader extends URLClassLoader {
             this.renameTransformer = (IClassNameTransformer)transformer;
          }
       } catch (Exception var3) {
-         LogWrapper.log((Level)Level.ERROR, var3, "A critical problem occurred registering the ASM transformer class %s", transformer);
+         LogWrapper.log(Level.ERROR, var3, "A critical problem occurred registering the ASM transformer class %s", transformer);
       }
 
    }
@@ -83,103 +82,102 @@ public class LaunchClassLoader extends URLClassLoader {
             this.renameTransformer = (IClassNameTransformer)transformer;
          }
       } catch (Exception var3) {
-         LogWrapper.log((Level)Level.ERROR, var3, "A critical problem occurred registering the ASM transformer class %s", transformerClassName);
+         LogWrapper.log(Level.ERROR, var3, "A critical problem occurred registering the ASM transformer class %s", transformerClassName);
       }
 
    }
 
-   public Class<?> findClass(String name) throws ClassNotFoundException {
-      if (this.invalidClasses.contains(name)) {
+   public Class<?> findClass(final String name) throws ClassNotFoundException {
+      if (invalidClasses.contains(name)) {
          throw new ClassNotFoundException(name);
-      } else {
-         Iterator var2 = this.classLoaderExceptions.iterator();
+      }
 
-         String untransformedName;
-         while(var2.hasNext()) {
-            untransformedName = (String)var2.next();
-            if (name.startsWith(untransformedName)) {
-               return this.parent.loadClass(name);
+      for (final String exception : classLoaderExceptions) {
+         if (name.startsWith(exception)) {
+            return parent.loadClass(name);
+         }
+      }
+
+      if (cachedClasses.containsKey(name)) {
+         return cachedClasses.get(name);
+      }
+
+      for (final String exception : transformerExceptions) {
+         if (name.startsWith(exception)) {
+            try {
+               final Class<?> clazz = super.findClass(name);
+               cachedClasses.put(name, clazz);
+               return clazz;
+            } catch (ClassNotFoundException e) {
+               invalidClasses.add(name);
+               throw e;
             }
          }
+      }
 
-         if (this.cachedClasses.containsKey(name)) {
-            return this.cachedClasses.get(name);
-         } else {
-            var2 = this.transformerExceptions.iterator();
+      try {
+         final String transformedName = transformName(name);
+         if (cachedClasses.containsKey(transformedName)) {
+            return cachedClasses.get(transformedName);
+         }
 
-            while(var2.hasNext()) {
-               untransformedName = (String)var2.next();
-               if (name.startsWith(untransformedName)) {
-                  try {
-                     Class<?> clazz = super.findClass(name);
-                     this.cachedClasses.put(name, clazz);
-                     return clazz;
-                  } catch (ClassNotFoundException var14) {
-                     this.invalidClasses.add(name);
-                     throw var14;
-                  }
-               }
-            }
+         final String untransformedName = untransformName(name);
 
-            try {
-               String transformedName = this.transformName(name);
-               if (this.cachedClasses.containsKey(transformedName)) {
-                  return this.cachedClasses.get(transformedName);
-               } else {
-                  untransformedName = this.untransformName(name);
-                  int lastDot = untransformedName.lastIndexOf(46);
-                  String packageName = lastDot == -1 ? "" : untransformedName.substring(0, lastDot);
-                  String fileName = untransformedName.replace('.', '/').concat(".class");
-                  URLConnection urlConnection = this.findCodeSourceConnectionFor(fileName);
-                  CodeSigner[] signers = null;
-                  if (lastDot > -1 && !untransformedName.startsWith("net.minecraft.")) {
-                     if (urlConnection instanceof JarURLConnection) {
-                        JarURLConnection jarURLConnection = (JarURLConnection)urlConnection;
-                        JarFile jarFile = jarURLConnection.getJarFile();
-                        if (jarFile != null && jarFile.getManifest() != null) {
-                           Manifest manifest = jarFile.getManifest();
-                           JarEntry entry = jarFile.getJarEntry(fileName);
-                           Package pkg = this.getPackage(packageName);
-                           this.getClassBytes(untransformedName);
-                           signers = entry.getCodeSigners();
-                           if (pkg == null) {
-                              this.definePackage(packageName, manifest, jarURLConnection.getJarFileURL());
-                           } else if (pkg.isSealed() && !pkg.isSealed(jarURLConnection.getJarFileURL())) {
-                              LogWrapper.severe("The jar file %s is trying to seal already secured path %s", jarFile.getName(), packageName);
-                           } else if (this.isSealed(packageName, manifest)) {
-                              LogWrapper.severe("The jar file %s has a security seal for path %s, but that path is defined and not secure", jarFile.getName(), packageName);
-                           }
-                        }
-                     } else {
-                        Package pkg = this.getPackage(packageName);
-                        if (pkg == null) {
-                           this.definePackage(packageName, null, null, null, null, null, null, null);
-                        } else if (pkg.isSealed()) {
-                           LogWrapper.severe("The URL %s is defining elements for sealed path %s", urlConnection.getURL(), packageName);
-                        }
+         final int lastDot = untransformedName.lastIndexOf('.');
+         final String packageName = lastDot == -1 ? "" : untransformedName.substring(0, lastDot);
+         final String fileName = untransformedName.replace('.', '/').concat(".class");
+         URLConnection urlConnection = findCodeSourceConnectionFor(fileName);
+
+         CodeSigner[] signers = null;
+
+         if (lastDot > -1 && !untransformedName.startsWith("net.minecraft.")) {
+            if (urlConnection instanceof JarURLConnection) {
+               final JarURLConnection jarURLConnection = (JarURLConnection) urlConnection;
+               final JarFile jarFile = jarURLConnection.getJarFile();
+
+               if (jarFile != null && jarFile.getManifest() != null) {
+                  final Manifest manifest = jarFile.getManifest();
+                  final JarEntry entry = jarFile.getJarEntry(fileName);
+
+                  Package pkg = getPackage(packageName);
+                  getClassBytes(untransformedName);
+                  signers = entry.getCodeSigners();
+                  if (pkg == null) {
+                     pkg = definePackage(packageName, manifest, jarURLConnection.getJarFileURL());
+                  } else {
+                     if (pkg.isSealed() && !pkg.isSealed(jarURLConnection.getJarFileURL())) {
+                        LogWrapper.severe("The jar file %s is trying to seal already secured path %s", jarFile.getName(), packageName);
+                     } else if (isSealed(packageName, manifest)) {
+                        LogWrapper.severe("The jar file %s has a security seal for path %s, but that path is defined and not secure", jarFile.getName(), packageName);
                      }
                   }
-
-                  byte[] transformedClass = this.runTransformers(untransformedName, transformedName, this.getClassBytes(untransformedName));
-                  if (DEBUG_SAVE && transformedName.startsWith("net/minecraft")) {
-                     this.saveTransformedClass(transformedClass, transformedName);
-                  }
-
-                  CodeSource codeSource = urlConnection == null ? null : new CodeSource(urlConnection.getURL(), signers);
-                  Class<?> clazz = this.defineClass(transformedName.replace("/", "."), transformedClass, 0, transformedClass.length, codeSource);
-                  this.cachedClasses.put(transformedName, clazz);
-                  return clazz;
                }
-            } catch (Throwable var15) {
-               this.invalidClasses.add(name);
-               if (DEBUG) {
-                  LogWrapper.log(Level.TRACE, var15, "Exception encountered attempting classloading of %s", name);
-                  LogManager.getLogger("LaunchWrapper").log(Level.ERROR, "Exception encountered attempting classloading of %s", var15);
+            } else {
+               Package pkg = getPackage(packageName);
+               if (pkg == null) {
+                  pkg = definePackage(packageName, null, null, null, null, null, null, null);
+               } else if (pkg.isSealed()) {
+                  LogWrapper.severe("The URL %s is defining elements for sealed path %s", urlConnection.getURL(), packageName);
                }
-
-               throw new ClassNotFoundException(name, var15);
             }
          }
+
+         final byte[] transformedClass = runTransformers(untransformedName, transformedName, getClassBytes(untransformedName));
+         if (DEBUG_SAVE) {
+            saveTransformedClass(transformedClass, transformedName);
+         }
+
+         final CodeSource codeSource = urlConnection == null ? null : new CodeSource(urlConnection.getURL(), signers);
+         final Class<?> clazz = defineClass(transformedName.replace("/","."), transformedClass, 0, transformedClass.length, codeSource);
+         cachedClasses.put(transformedName, clazz);
+         return clazz;
+      } catch (Throwable e) {
+         invalidClasses.add(name);
+         if (DEBUG) {
+            LogWrapper.log(Level.TRACE, e, "Exception encountered attempting classloading of %s", name);
+            LogManager.getLogger("LaunchWrapper").log(Level.ERROR, "Exception encountered attempting classloading of %s", e);
+         }
+         throw new ClassNotFoundException(name, e);
       }
    }
 
@@ -200,7 +198,7 @@ public class LaunchClassLoader extends URLClassLoader {
             output.write(data);
             output.close();
          } catch (IOException var6) {
-            LogWrapper.log((Level)Level.WARN, var6, "Could not save transformed class \"%s\"", transformedName);
+            LogWrapper.log(Level.WARN, var6, "Could not save transformed class \"%s\"", transformedName);
          }
 
       }
@@ -334,11 +332,9 @@ public class LaunchClassLoader extends URLClassLoader {
          String reservedName;
          byte[] data;
          if (name.indexOf(46) == -1) {
-            String[] var2 = RESERVED_NAMES;
-            int var3 = var2.length;
 
-            for(int var4 = 0; var4 < var3; ++var4) {
-               reservedName = var2[var4];
+            for (String s : RESERVED_NAMES) {
+               reservedName = s;
                if (name.toUpperCase(Locale.ENGLISH).startsWith(reservedName)) {
                   data = this.getClassBytes("_" + name);
                   if (data != null) {
@@ -360,8 +356,7 @@ public class LaunchClassLoader extends URLClassLoader {
                }
 
                this.negativeResourceCache.add(name);
-               reservedName = null;
-               return (byte[])reservedName;
+               return null;
             }
 
             classStream = classResource.openStream();
@@ -369,9 +364,8 @@ public class LaunchClassLoader extends URLClassLoader {
                LogWrapper.finest("Loading class %s from resource %s", name, classResource.toString());
             }
 
-            byte[] data = this.readFully(classStream);
+            data = this.readFully(classStream);
             this.resourceCache.put(name, data);
-            data = data;
          } finally {
             closeSilently(classStream);
          }
