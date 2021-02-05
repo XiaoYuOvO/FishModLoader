@@ -32,7 +32,7 @@ public class FishModLoader {
     private static final boolean allowsClientMods;
     private static final boolean sideSett=false;
     private static boolean isServer = false;
-    public static final String VERSION = "B0.1.4";
+    public static final String VERSION = "B0.2.0";
     public static final int VERSION_NUM = 5;
     private static int fpsLimit = 0;
     private static final String onlineVersion = versionCheck();

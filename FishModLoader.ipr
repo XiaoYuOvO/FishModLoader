@@ -7,8 +7,8 @@
   </component>
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="FishModLoader:jar">
-      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/B0.1.4</output-path>
-      <root id="archive" name="FishModLoader-B0.1.4.jar">
+      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/B0.2.0</output-path>
+      <root id="archive" name="FishModLoader-B0.2.0.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
@@ -16,6 +16,11 @@
           <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
         </element>
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-8.0.jar" path-in-jar="/" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
@@ -40,6 +45,11 @@
           <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
         </element>
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
       </root>
     </artifact>
   </component>
@@ -262,6 +272,23 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
+    <library name="asm-8.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-commons-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-util-8.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-analysis-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-commons-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/asm-util-8.0-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="classes">
       <CLASSES>
         <root url="file://$PROJECT_DIR$/libs/classes" />

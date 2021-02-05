@@ -10,5 +10,6 @@
     <orderEntry type="library" name="classes" level="project" />
     <orderEntry type="library" name="cls" level="project" />
     <orderEntry type="library" name="lwjgl-2.9.0" level="project" />
+    <orderEntry type="library" name="asm-8.0" level="project" />
   </component>
 </module>
