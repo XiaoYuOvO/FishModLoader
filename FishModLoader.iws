@@ -21,9 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update API and Version">
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VERSION.txt" beforeDir="false" afterPath="$PROJECT_DIR$/VERSION.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +44,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -90,7 +92,7 @@
       <recent name="H:\IDEAProjects\FishModLoader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
@@ -105,7 +107,7 @@
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.server.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--nogui" />
-      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\fishmodloader-B0.1.2.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\MITE-R196-HDS-PlusR5.jar&quot;" />
+      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\fishmodloader-B0.1.4.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\MITE-R196-HDS-PlusR5.jar&quot;" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server" />
       <method v="2">
         <option name="Make" enabled="true" />

@@ -27,7 +27,7 @@ public class FishModLoader {
     private static final ArrayList<ModInfo> mods = new ArrayList<>();
     private static final Map<String,ModInfo> modsMap = new HashMap<>();
     private static final Map<String,ModInfo> modsMapForLoginCheck;
-    private static final boolean allowsClientMods;
+    private static boolean allowsClientMods;
     private static final boolean sideSet =false;
     private static boolean isServer = false;
     public static final String VERSION = "B0.1.4";
@@ -95,6 +95,9 @@ public class FishModLoader {
         var0.set("dumpClass", Boolean.FALSE);
         var0.set("printClassLoadInfo", Boolean.FALSE);
         var0.set("fpsLimit",120);
+        if (isServer()){
+            var0.set("allowsClientMods",true);
+        }
         var0.save();
     }
 
@@ -120,6 +123,11 @@ public class FishModLoader {
                 FishModLoader.config.set("fpsLimit",0);
                 FishModLoader.config.save();
             }
+            if (isServer()) {
+                allowsClientMods = FishModLoader.config.get("allowsClientMods");
+            }else {
+                allowsClientMods = true;
+            }
             FishModLoader.fpsLimit = Math.abs(FishModLoader.config.getInt("fpsLimit"));
         }
     }
@@ -137,11 +145,6 @@ public class FishModLoader {
             UIManager.setLookAndFeel(new WindowsLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
-        if (isServer()) {
-            allowsClientMods = FishModLoader.config.get("allowsClientMods");
-        }else {
-            allowsClientMods = true;
         }
         modsMapForLoginCheck = new HashMap<>();
         addModInfo(new ModInfo("FishModLoader",VERSION,VERSION_NUM,Dist.SERVER,Dist.CLIENT));

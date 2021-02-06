@@ -16,6 +16,7 @@ import java.util.jar.JarOutputStream;
 public class Launch {
     public static String mainClass;
     public static void launch(String mainClass,String[] args) throws IOException {
+        FishModLoader.loadConfig();
         Launch.mainClass = mainClass;
         ModsWalker.LoadConfig var4;
         for (int i = 0; i < args.length; i++) {
@@ -38,7 +39,6 @@ public class Launch {
                 var4 = ModsWalker.getBuilder("./versions/1.6.4-MITE/1.6.4-MITE.jar");
             }
         }
-        FishModLoader.loadConfig();
         try {
             var4.setDebug(FishModLoader.config.get("debug"));
         }catch (Exception e) {
