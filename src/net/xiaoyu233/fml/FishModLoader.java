@@ -7,6 +7,7 @@ import net.xiaoyu233.fml.asm.annotations.Dist;
 import net.xiaoyu233.fml.config.Config;
 import net.xiaoyu233.fml.config.JsonConfig;
 import net.xiaoyu233.fml.util.ModInfo;
+import net.xiaoyu233.fml.util.Utils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -26,12 +27,12 @@ import java.util.Scanner;
 public class FishModLoader {
     private static final ArrayList<ModInfo> mods = new ArrayList<>();
     private static final Map<String,ModInfo> modsMap = new HashMap<>();
-    private static final Map<String,ModInfo> modsMapForLoginCheck;
+    private static final Map<String,ModInfo> modsMapForLoginCheck =  new HashMap<>();
     private static boolean allowsClientMods;
     private static final boolean sideSet =false;
     private static boolean isServer = false;
-    public static final String VERSION = "B0.1.5";
-    public static final int VERSION_NUM = 6;
+    public static final String VERSION = "B0.1.6";
+    public static final int VERSION_NUM = 7;
     private static int fpsLimit = 0;
     private static final String onlineVersion = versionCheck();
     public static JsonConfig config;
@@ -132,6 +133,15 @@ public class FishModLoader {
         }
     }
 
+    public static void extractOpenAL(){
+        File file = new File(System.getProperty("java.library.path"));
+        try {
+            Utils.extractFileFromJar("/OpenAL64.dll",new File(file,"OpenAL64.dll"),true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static int getFpsLimit() {
         return fpsLimit;
     }
@@ -146,7 +156,6 @@ public class FishModLoader {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        modsMapForLoginCheck = new HashMap<>();
         addModInfo(new ModInfo("FishModLoader",VERSION,VERSION_NUM,Dist.SERVER,Dist.CLIENT));
 
     }

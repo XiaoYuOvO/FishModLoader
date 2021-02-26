@@ -63,6 +63,18 @@ public class Utils {
 
     }
 
+    public static void extractFileFromJar(String path,File outFile,boolean override) throws IOException {
+        if (outFile.exists() && !override){
+            return;
+        }
+        InputStream resourceAsStream = Utils.class.getResourceAsStream(path);
+        outFile.mkdirs();
+        FileOutputStream fos = new FileOutputStream(outFile);
+        copy(resourceAsStream, fos);
+        resourceAsStream.close();
+        fos.close();
+    }
+
     public static String getLibFileLocation(){
         return URLDecoder.decode(Transformer.class.getProtectionDomain().getCodeSource().getLocation().getFile());
     }
