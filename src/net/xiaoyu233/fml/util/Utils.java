@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -61,6 +62,18 @@ public class Utils {
             target.write(buf, 0, n);
         }
 
+    }
+
+    public static void extractFileFromJar(String path,File outFile,boolean override) throws IOException {
+        if (outFile.exists() && !override){
+            return;
+        }
+        InputStream resourceAsStream = Utils.class.getResourceAsStream(path);
+        outFile.mkdirs();
+        FileOutputStream fos = new FileOutputStream(outFile);
+        copy(resourceAsStream, fos);
+        resourceAsStream.close();
+        fos.close();
     }
 
     public static String getLibFileLocation(){
@@ -175,6 +188,11 @@ public class Utils {
 
             ++startIndex;
         }
+    }
+
+    public static <T> T make(T object, Consumer<T> consumer) {
+        consumer.accept(object);
+        return object;
     }
 
     public static <R> R safeMake(DangerConsumer<R> maker,R defaultResult){
