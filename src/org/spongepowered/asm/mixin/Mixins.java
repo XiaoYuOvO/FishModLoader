@@ -105,7 +105,7 @@ public final class Mixins {
         Mixins.registerConfiguration(config);
     }
 
-    private static void registerConfiguration(Config config) {
+    public static void registerConfiguration(Config config) {
         if (config == null || Mixins.registeredConfigs.contains(config.getName())) {
             return;
         }

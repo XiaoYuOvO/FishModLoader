@@ -1,15 +1,17 @@
 package net.xiaoyu233.fml.reload.transform.fix;
 
 import net.minecraft.v;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-@Transform(v.class)
+@Mixin( v.class)
 public class AllowedCharFix {
-   private static String a() {
+    @Overwrite
+   private static String getAllowedCharacters() {
       StringBuilder var0 = new StringBuilder();
 
       try {
@@ -23,7 +25,7 @@ public class AllowedCharFix {
          }
 
          var1.close();
-      } catch (Exception var3) {
+      } catch (Exception ignored) {
       }
 
       return var0.toString();

@@ -6,8 +6,11 @@ import net.xiaoyu233.fml.asm.IClassNameTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.service.ILegacyClassTransformer;
 
-public class Renamer implements IClassNameTransformer {
+import javax.annotation.Nonnull;
+
+public class Renamer implements IClassNameTransformer, ILegacyClassTransformer {
    private final Remapping remapping;
 
    public Renamer(Remapping remapping) {
@@ -19,20 +22,35 @@ public class Renamer implements IClassNameTransformer {
       return unmap != null ? unmap : name;
    }
 
-   public String remapClassName(String name) {
-      String map = this.remapping.map(name);
-      return map != null ? map : name;
+   @Override
+   public String getName() {
+      return "Renamer";
    }
 
-   public byte[] transform(String name, String transformedName, byte[] basicClass) {
+   @Override
+   public boolean isDelegationExcluded() {
+      return false;
+   }
+
+   public String remapClassName(String name) {
+      String map = this.remapping.map(name);
+      return map != null ? map.replace("/",".") : name;
+   }
+
+   public byte[] transform(String name, String transformedName, @Nonnull byte[] basicClass) {
       ClassReader reader = new ClassReader(basicClass);
       ClassNode source = new ClassNode();
       reader.accept(source, 0);
       ClassNode newClass = new ClassNode();
-      RemappingClassAdapter mapper = new RemappingClassAdapter(newClass, this.remapping, RuntimeRepo.getInstance());
+      RemappingClassAdapter mapper = new RemappingClassAdapter(newClass, this.remapping, RuntimeRepo.getInstance(),name);
       reader.accept(mapper, 0);
       ClassWriter wr = new ClassWriter(1);
       newClass.accept(wr);
       return wr.toByteArray();
+   }
+
+   @Override
+   public byte[] transformClassBytes(String name, String transformedName, byte[] basicClass) {
+      return this.transform(name, transformedName,basicClass);
    }
 }

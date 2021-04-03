@@ -62,7 +62,7 @@ import java.util.regex.Pattern;
 /**
  * Mixin configuration bundle
  */
-final class MixinConfig implements Comparable<MixinConfig>, IMixinConfig {
+public final class MixinConfig implements Comparable<MixinConfig>, IMixinConfig {
     
     /**
      * Wrapper for injection options
@@ -364,7 +364,7 @@ final class MixinConfig implements Comparable<MixinConfig>, IMixinConfig {
      *      returned, or false if initialisation failed and the config should
      *      be discarded
      */
-    private boolean onLoad(IMixinService service, String name, MixinEnvironment fallbackEnvironment) {
+    public boolean onLoad(IMixinService service, String name, MixinEnvironment fallbackEnvironment) {
         this.service = service;
         this.name = name;
         

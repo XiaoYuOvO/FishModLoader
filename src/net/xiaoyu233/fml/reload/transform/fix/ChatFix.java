@@ -3,23 +3,27 @@ package net.xiaoyu233.fml.reload.transform.fix;
 import net.minecraft.Minecraft;
 import net.minecraft.avk;
 import net.minecraft.awe;
-import net.xiaoyu233.fml.asm.annotations.Link;
-import net.xiaoyu233.fml.asm.annotations.Marker;
-import net.xiaoyu233.fml.asm.annotations.Transform;
 import org.lwjgl.input.Keyboard;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
-@Transform(awe.class)
+@Mixin(awe.class)
 public abstract class ChatFix extends avk {
-   @Link("f")
-   private Minecraft minecraft;
+   @Shadow()
+   private Minecraft f;
 
+   @Shadow
+   public abstract void a(char var1, int var2);
+
+   @Overwrite
    public void n() {
       try {
          int k = Keyboard.getEventKey();
          char c = Keyboard.getEventCharacter();
          if (Keyboard.getEventKeyState() || k == 0 && Character.isDefined(c)) {
             if (k == 87) {
-               this.minecraft.j();
+               this.f.j();
                return;
             }
 
@@ -30,7 +34,4 @@ public abstract class ChatFix extends avk {
          throw new RuntimeException(var3);
       }
    }
-
-   @Marker
-   public abstract void a(char var1, int var2);
 }

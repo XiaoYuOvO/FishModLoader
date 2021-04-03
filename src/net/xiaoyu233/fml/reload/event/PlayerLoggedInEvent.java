@@ -1,15 +1,15 @@
 package net.xiaoyu233.fml.reload.event;
 
-import net.minecraft.EntityPlayer;
+import net.minecraft.ServerPlayer;
 
 public class PlayerLoggedInEvent {
-   private final EntityPlayer player;
+   private final ServerPlayer player;
 
-   public PlayerLoggedInEvent(EntityPlayer player) {
+   public PlayerLoggedInEvent(ServerPlayer player) {
       this.player = player;
    }
 
-   public EntityPlayer getPlayer() {
+   public ServerPlayer getPlayer() {
       return this.player;
    }
 }

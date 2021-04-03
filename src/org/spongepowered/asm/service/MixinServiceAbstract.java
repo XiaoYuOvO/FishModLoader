@@ -186,7 +186,7 @@ public abstract class MixinServiceAbstract implements IMixinService {
         if (this.serviceAgents != null) {
             return this.serviceAgents;
         }
-        this.serviceAgents = new ArrayList<IMixinPlatformServiceAgent>();
+        this.serviceAgents = new ArrayList<>();
         for (String agentClassName : this.getPlatformAgents()) {
             try {
                 @SuppressWarnings("unchecked")

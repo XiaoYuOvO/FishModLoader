@@ -2,6 +2,7 @@ package net.xiaoyu233.fml.classloading;
 
 import net.xiaoyu233.fml.asm.IClassNameTransformer;
 import net.xiaoyu233.fml.asm.IClassTransformer;
+import net.xiaoyu233.fml.config.Configs;
 import net.xiaoyu233.fml.util.LogWrapper;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -25,42 +26,27 @@ public class LaunchClassLoader extends URLClassLoader {
    public static final int BUFFER_SIZE = 4096;
    private final List<URL> sources;
    private final ClassLoader parent = this.getClass().getClassLoader();
-   private final List<IClassTransformer> transformers = new ArrayList(2);
-   private final Map<String, Class<?>> cachedClasses = new ConcurrentHashMap();
-   private final Set<String> invalidClasses = new HashSet(1000);
-   private final Set<String> classLoaderExceptions = new HashSet();
-   private final Set<String> transformerExceptions = new HashSet();
-   private final Map<String, byte[]> resourceCache = new ConcurrentHashMap(1000);
-   private final Set<String> negativeResourceCache = Collections.newSetFromMap(new ConcurrentHashMap());
+   private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("legacy.debugClassLoading", "false")) || Configs.Debug.debug.get();
+
+   static {
+      DEBUG_FINER = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingFiner", "false")) || Configs.Debug.printClassloadInfo.get());
+      DEBUG_SAVE = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingSave", "true")) || Configs.Debug.DumpClass.dumpClass.get());
+      tempFolder = null;
+   }
+
+   private final Map<String, Class<?>> cachedClasses = new ConcurrentHashMap<>();
+   private final Set<String> classLoaderExceptions = new HashSet<>();
+   private final Set<String> invalidClasses = new HashSet<>(1000);
+   private final ThreadLocal<byte[]> loadBuffer = new ThreadLocal<>();
+   private final Set<String> negativeResourceCache = Collections.newSetFromMap(new ConcurrentHashMap<>());
    private IClassNameTransformer renameTransformer;
-   private final ThreadLocal<byte[]> loadBuffer = new ThreadLocal();
+   private final Map<String, byte[]> resourceCache = new ConcurrentHashMap<>(1000);
    private static final String[] RESERVED_NAMES = new String[]{"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
-   private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("legacy.debugClassLoading", "false"));
+   private final Set<String> transformerExceptions = new HashSet<>();
    private static final boolean DEBUG_FINER;
    private static final boolean DEBUG_SAVE;
    private static File tempFolder;
-
-   public LaunchClassLoader(URL[] sources) {
-      super(sources, null);
-      this.sources = new ArrayList(Arrays.asList(sources));
-      this.addClassLoaderExclusion("java.");
-      this.addClassLoaderExclusion("sun.");
-      this.addClassLoaderExclusion("org.lwjgl.");
-      this.addClassLoaderExclusion("org.apache.logging.");
-      this.addClassLoaderExclusion("net.minecraft.launchwrapper.");
-      this.addTransformerExclusion("javax.");
-      this.addTransformerExclusion("argo.");
-      this.addTransformerExclusion("org.objectweb.asm.");
-      this.addTransformerExclusion("com.google.common.");
-      this.addTransformerExclusion("org.bouncycastle.");
-      this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
-      if (DEBUG_SAVE) {
-         tempFolder = new File("H:\\IDEAProjects\\MITEClasses\\cls");
-         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
-         tempFolder.mkdirs();
-      }
-
-   }
+   private final List<IClassTransformer> transformers = new ArrayList<>(2);
 
    public void registerTransformer(IClassTransformer transformer) {
       try {
@@ -242,29 +228,26 @@ public class LaunchClassLoader extends URLClassLoader {
       }
    }
 
-   public byte[] runTransformers(String name, String transformedName, byte[] basicClass) {
-      Iterator var4;
-      IClassTransformer transformer;
-      if (DEBUG_FINER) {
-         LogWrapper.finest("Beginning transform of {%s (%s)} Start Length: %d", name, transformedName, basicClass == null ? 0 : basicClass.length);
-         var4 = this.transformers.iterator();
-
-         while(var4.hasNext()) {
-            transformer = (IClassTransformer)var4.next();
-            String transName = transformer.getClass().getName();
-            LogWrapper.finest("Before Transformer {%s (%s)} %s: %d", name, transformedName, transName, basicClass == null ? 0 : basicClass.length);
-            basicClass = transformer.transform(name, transformedName, basicClass);
-            LogWrapper.finest("After  Transformer {%s (%s)} %s: %d", name, transformedName, transName, basicClass == null ? 0 : basicClass.length);
-         }
-
-         LogWrapper.finest("Ending transform of {%s (%s)} Start Length: %d", name, transformedName, basicClass == null ? 0 : basicClass.length);
-      } else {
-         for(var4 = this.transformers.iterator(); var4.hasNext(); basicClass = transformer.transform(name, transformedName, basicClass)) {
-            transformer = (IClassTransformer)var4.next();
-         }
+   public LaunchClassLoader(URL[] sources) {
+      super(sources, null);
+      this.sources = new ArrayList<>(Arrays.asList(sources));
+      this.addClassLoaderExclusion("java.");
+      this.addClassLoaderExclusion("sun.");
+      this.addClassLoaderExclusion("org.lwjgl.");
+      this.addClassLoaderExclusion("org.apache.logging.");
+      this.addClassLoaderExclusion("net.minecraft.launchwrapper.");
+      this.addTransformerExclusion("javax.");
+      this.addTransformerExclusion("argo.");
+      this.addTransformerExclusion("org.objectweb.asm.");
+      this.addTransformerExclusion("com.google.common.");
+      this.addTransformerExclusion("org.bouncycastle.");
+      this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
+      if (DEBUG_SAVE) {
+         tempFolder = Configs.Debug.DumpClass.dumpPath.get();
+         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
+         tempFolder.mkdirs();
       }
 
-      return basicClass;
    }
 
    public void addURL(URL url) {
@@ -313,6 +296,10 @@ public class LaunchClassLoader extends URLClassLoader {
 
    public List<IClassTransformer> getTransformers() {
       return Collections.unmodifiableList(this.transformers);
+   }
+
+   public IClassNameTransformer getRenameTransformer() {
+      return renameTransformer;
    }
 
    public void addClassLoaderExclusion(String toExclude) {
@@ -388,9 +375,28 @@ public class LaunchClassLoader extends URLClassLoader {
       this.negativeResourceCache.removeAll(entriesToClear);
    }
 
-   static {
-      DEBUG_FINER = DEBUG && Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingFiner", "false"));
-      DEBUG_SAVE = DEBUG && Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingSave", "true"));
-      tempFolder = null;
+   public byte[] runTransformers(String name, String transformedName, byte[] basicClass) {
+      Iterator<IClassTransformer> var4;
+      IClassTransformer transformer;
+      if (DEBUG_FINER) {
+         LogWrapper.finest("Beginning transform of {%s (%s)} Start Length: %d", name, transformedName, basicClass == null ? 0 : basicClass.length);
+         var4 = this.transformers.iterator();
+
+         while(var4.hasNext()) {
+            transformer = var4.next();
+            String transName = transformer.getClass().getName();
+            LogWrapper.finest("Before Transformer {%s (%s)} %s: %d", name, transformedName, transName, basicClass == null ? 0 : basicClass.length);
+            basicClass = transformer.transform(name, transformedName, basicClass);
+            LogWrapper.finest("After  Transformer {%s (%s)} %s: %d", name, transformedName, transName, basicClass == null ? 0 : basicClass.length);
+         }
+
+         LogWrapper.finest("Ending transform of {%s (%s)} Start Length: %d", name, transformedName, basicClass == null ? 0 : basicClass.length);
+      } else {
+         for(var4 = this.transformers.iterator(); var4.hasNext(); basicClass = transformer.transform(name, transformedName, basicClass)) {
+            transformer = var4.next();
+         }
+      }
+
+      return basicClass;
    }
 }

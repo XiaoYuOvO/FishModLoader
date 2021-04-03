@@ -7,28 +7,32 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.spongepowered.asm.launch.platform.IMixinPlatformServiceAgent;
-import org.spongepowered.asm.launch.platform.MixinPlatformAgentAbstract;
+import org.spongepowered.asm.launch.platform.MixinPlatformAgentDefault;
 import org.spongepowered.asm.launch.platform.MixinPlatformManager;
 import org.spongepowered.asm.launch.platform.container.IContainerHandle;
 import org.spongepowered.asm.mixin.MixinEnvironment.Phase;
 import org.spongepowered.asm.util.IConsumer;
 
 import java.util.Collection;
+import java.util.Collections;
 
-public class PlatformAgent extends MixinPlatformAgentAbstract implements IMixinPlatformServiceAgent {
+public class PlatformAgent extends MixinPlatformAgentDefault implements IMixinPlatformServiceAgent {
    private static Logger log;
    private static AbstractAppender appender;
    private static Level oldLevel;
 
+   public PlatformAgent() {
+
+   }
+
    public AcceptResult accept(MixinPlatformManager manager, IContainerHandle handle) {
+      this.manager = manager;
+      this.handle = handle;
       return AcceptResult.ACCEPTED;
    }
 
    public String getPhaseProvider() {
       return null;
-   }
-
-   public void prepare() {
    }
 
    public void initPrimaryContainer() {
@@ -49,7 +53,7 @@ public class PlatformAgent extends MixinPlatformAgentAbstract implements IMixinP
    }
 
    public Collection<IContainerHandle> getMixinContainers() {
-      return null;
+      return Collections.singleton(this.handle);
    }
 
    public void wire(Phase phase, IConsumer<Phase> phaseConsumer) {

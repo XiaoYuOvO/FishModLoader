@@ -3,7 +3,6 @@
   "package": "net.xiaoyu233.fml.reload.transform",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-      "LocaleLanguageTrans"
   ],
   "server": [
   ],

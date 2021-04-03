@@ -86,8 +86,8 @@ public class RuntimeDecompiler extends IFernflowerLogger implements IDecompiler,
                 }
                 
             }, this, this.options, this);
-            
-            fernflower.getStructContext().addSpace(file, true);
+            //TODO
+//            fernflower.getStructContext().addSpace(file, true);
             fernflower.decompileContext();
         } catch (Throwable ex) {
             this.logger.warn("Decompilation error while processing {}", file.getName());

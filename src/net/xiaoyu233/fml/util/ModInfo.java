@@ -1,7 +1,7 @@
 package net.xiaoyu233.fml.util;
 
 import com.google.common.collect.Lists;
-import net.xiaoyu233.fml.asm.annotations.Dist;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.util.ArrayList;
 
@@ -9,9 +9,9 @@ public class ModInfo {
    private final String modid;
    private final String modVerStr;
    private final int modVerNum;
-   private final ArrayList<Dist> dists;
+   private final ArrayList<MixinEnvironment.Side> dists;
 
-   public ModInfo(String modid, String modVerStr, int modVerNum, Dist... dist) {
+   public ModInfo(String modid, String modVerStr, int modVerNum, MixinEnvironment.Side... dist) {
       this.modid = modid;
       this.modVerStr = modVerStr;
       this.modVerNum = modVerNum;
@@ -30,7 +30,7 @@ public class ModInfo {
       return this.modVerStr;
    }
 
-   public boolean canBeUsedAt(Dist dist) {
+   public boolean canBeUsedAt(MixinEnvironment.Side dist) {
       return this.dists.contains(dist);
    }
 }

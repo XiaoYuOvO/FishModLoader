@@ -26,46 +26,44 @@ import java.util.*;
 public class MixinService extends MixinServiceAbstract implements IClassBytecodeProvider, ITransformerProvider {
    private IClassProvider classProvider;
    private ClassTracker classTracker;
-   private IContainerHandle containerHandle;
+   private ContainerHandle containerHandle;
    private IMixinAuditTrail auditTrail;
-   private MixinTransformer mixin;
    private List<ILegacyClassTransformer> legacyTransformers;
-   private IClassNameTransformer nameTransformer;
    private IMixinPlatformServiceAgent platformServiceAgent;
 
-   public Collection<ITransformer> getTransformers() {
-      List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
-      List<ITransformer> wrapped = new ArrayList(transformers.size());
-      Iterator var3 = transformers.iterator();
+   public MixinService(){
+   }
 
-      while(var3.hasNext()) {
-         IClassTransformer transformer = (IClassTransformer)var3.next();
-         if (transformer instanceof ITransformer) {
-            wrapped.add((ITransformer)transformer);
-         } else {
-            wrapped.add(new TransformerWrapper(transformer));
+   private byte[] applyTransformers(String name, String transformedName, byte[] basicClass, Profiler profiler) {
+      if (!this.classTracker.isClassExcluded(name, transformedName)) {
+
+         for (ILegacyClassTransformer transformer : this.getDelegatedLegacyTransformers()) {
+            this.lock.clear();
+            int pos = transformer.getName().lastIndexOf(46);
+            String simpleName = transformer.getName().substring(pos + 1);
+            Section transformTime = profiler.begin(2, simpleName.toLowerCase(Locale.ROOT));
+            transformTime.setInfo(transformer.getName());
+            basicClass = transformer.transformClassBytes(name, transformedName, basicClass);
+            transformTime.end();
+            if (this.lock.isSet()) {
+//               this.addTransformerExclusion(transformer.getName());
+               this.lock.clear();
+               MixinServiceAbstract.logger.info("A re-entrant transformer '{}' was detected and will no longer process meta class data", transformer
+                       .getName());
+            }
          }
 
-         if (transformer instanceof IClassNameTransformer) {
-            MixinServiceAbstract.logger.debug("Found name transformer: {}", transformer.getClass().getName());
-            this.nameTransformer = (IClassNameTransformer)transformer;
-         }
       }
-
-      return Lists.newArrayList();
+      return basicClass;
    }
 
    public Collection<ITransformer> getDelegatedTransformers() {
       return Collections.unmodifiableList(this.getDelegatedLegacyTransformers());
    }
 
-   public List<ILegacyClassTransformer> getDelegatedLegacyTransformers() {
-      if (this.legacyTransformers == null) {
-         MixinTransformer activeTransformer = (MixinTransformer)MixinEnvironment.getCurrentEnvironment().getActiveTransformer();
-         this.mixin = activeTransformer == null ? new MixinTransformer() : activeTransformer;
-         return Lists.newArrayList(new ILegacyClassTransformer[]{this.mixin});
-      } else {
-         return this.legacyTransformers;
+   private void checkContainer(){
+      if (this.containerHandle == null) {
+         this.containerHandle = new ContainerHandle("FML");
       }
    }
 
@@ -116,20 +114,41 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
       return this.auditTrail;
    }
 
-   public Collection<String> getPlatformAgents() {
-      if (this.platformServiceAgent == null) {
-         this.platformServiceAgent = new PlatformAgent();
-      }
+   public byte[] getClassBytes(String name, String transformedName) throws IOException {
+      byte[] classBytes = Launch.classLoader.getClassBytes(name);
+      if (classBytes != null) {
+         return classBytes;
+      } else {
+         URLClassLoader appClassLoader;
+         if (Launch.class.getClassLoader() instanceof URLClassLoader) {
+            appClassLoader = (URLClassLoader)Launch.class.getClassLoader();
+         } else {
+            appClassLoader = new URLClassLoader(new URL[0], Launch.class.getClassLoader());
+         }
 
-      return Lists.newArrayList(new String[]{this.platformServiceAgent.getClass().getName()});
+         InputStream classStream = null;
+
+         try {
+            String resourcePath = transformedName.replace('.', '/').concat(".class");
+            classStream = appClassLoader.getResourceAsStream(resourcePath);
+            return ByteStreams.toByteArray(classStream);
+         } catch (Exception ignored) {
+         } finally {
+            Closeables.closeQuietly(classStream);
+         }
+
+         return null;
+      }
    }
 
-   public IContainerHandle getPrimaryContainer() {
-      if (this.containerHandle == null) {
-         this.containerHandle = new ContainerHandle("FML");
-      }
+   public List<ILegacyClassTransformer> getDelegatedLegacyTransformers() {
+      return Lists.newArrayList(Launch.classLoader.getRenameTransformer());
+   }
 
-      return this.containerHandle;
+   @Override
+   public Collection<IContainerHandle> getMixinContainers() {
+      this.checkContainer();
+      return Collections.singleton(this.containerHandle);
    }
 
    public InputStream getResourceAsStream(String name) {
@@ -175,59 +194,43 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
       }
    }
 
-   private byte[] applyTransformers(String name, String transformedName, byte[] basicClass, Profiler profiler) {
-      if (this.classTracker.isClassExcluded(name, transformedName)) {
-         return basicClass;
-      } else {
-         Iterator var5 = this.getDelegatedLegacyTransformers().iterator();
-
-         while(var5.hasNext()) {
-            ILegacyClassTransformer transformer = (ILegacyClassTransformer)var5.next();
-            this.lock.clear();
-            int pos = transformer.getName().lastIndexOf(46);
-            String simpleName = transformer.getName().substring(pos + 1);
-            Section transformTime = profiler.begin(2, simpleName.toLowerCase(Locale.ROOT));
-            transformTime.setInfo(transformer.getName());
-            basicClass = transformer.transformClassBytes(name, transformedName, basicClass);
-            transformTime.end();
-            if (this.lock.isSet()) {
-               this.addTransformerExclusion(transformer.getName());
-               this.lock.clear();
-               MixinServiceAbstract.logger.info("A re-entrant transformer '{}' was detected and will no longer process meta class data", transformer.getName());
-            }
-         }
-
-         return basicClass;
+   public Collection<String> getPlatformAgents() {
+      if (this.platformServiceAgent == null) {
+         this.platformServiceAgent = new PlatformAgent();
       }
+
+      return Lists.newArrayList(this.platformServiceAgent.getClass().getName());
    }
 
-   public byte[] getClassBytes(String name, String transformedName) throws IOException {
-      byte[] classBytes = Launch.classLoader.getClassBytes(name);
-      if (classBytes != null) {
-         return classBytes;
-      } else {
-         URLClassLoader appClassLoader;
-         if (Launch.class.getClassLoader() instanceof URLClassLoader) {
-            appClassLoader = (URLClassLoader)Launch.class.getClassLoader();
-         } else {
-            appClassLoader = new URLClassLoader(new URL[0], Launch.class.getClassLoader());
-         }
+   public IContainerHandle getPrimaryContainer() {
+      this.checkContainer();
 
-         InputStream classStream = null;
+      return this.containerHandle;
+   }
 
-         Object var7;
-         try {
-            String resourcePath = transformedName.replace('.', '/').concat(".class");
-            classStream = appClassLoader.getResourceAsStream(resourcePath);
-            byte[] var13 = ByteStreams.toByteArray(classStream);
-            return var13;
-         } catch (Exception var11) {
-            var7 = null;
-         } finally {
-            Closeables.closeQuietly(classStream);
-         }
-
-         return (byte[])var7;
+   public Collection<ITransformer> getTransformers() {
+      List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
+      List<ITransformer> wrapped = new ArrayList<>(transformers.size());
+      MixinTransformer activeTransformer = (MixinTransformer)MixinEnvironment.getCurrentEnvironment().getActiveTransformer();
+      MixinTransformer mixin;
+      if (activeTransformer == null) {
+         mixin = new MixinTransformer();
+      } else{
+         mixin = activeTransformer;
       }
+      wrapped.add(mixin);
+      for (IClassTransformer transformer : transformers) {
+         if (transformer instanceof ITransformer) {
+            wrapped.add((ITransformer) transformer);
+         } else {
+            wrapped.add(new TransformerWrapper(transformer));
+         }
+
+         if (transformer instanceof IClassNameTransformer) {
+            MixinServiceAbstract.logger.debug("Found name transformer: {}", transformer.getClass().getName());
+         }
+      }
+
+      return wrapped;
    }
 }

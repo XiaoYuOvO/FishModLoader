@@ -1,28 +1,29 @@
 package net.xiaoyu233.fml.reload.transform.fix.skin;
 
 import net.minecraft.*;
-import net.xiaoyu233.fml.asm.annotations.Link;
-import net.xiaoyu233.fml.asm.annotations.Marker;
-import net.xiaoyu233.fml.asm.annotations.Transform;
 import net.xiaoyu233.fml.reload.utils.SkinDownloadThread;
 import net.xiaoyu233.fml.util.ReflectHelper;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-@Transform(bic.class)
-public class BicTransform extends bia {
-   @Link
-   private String b;
-   @Link
-   private bfi c;
-   @Link
+@Mixin(bic.class)
+public abstract class BicTransform extends bia {
+   @Shadow
+   @Final
+   public String b;
+   @Shadow
    private BufferedImage d;
-   @Link
+   @Shadow
    private Thread e;
-   @Link
+   @Shadow
    private bif f;
 
+   @Overwrite
    public void a(bjp parambjp) {
       if (this.d == null) {
          if (this.f != null) {
@@ -47,16 +48,8 @@ public class BicTransform extends bia {
 
    }
 
-   @Marker
+   @Shadow
    public int b() {
       return 0;
-   }
-
-   public String getB() {
-      return this.b;
-   }
-
-   public bfi getC() {
-      return this.c;
    }
 }

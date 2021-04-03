@@ -1,10 +1,12 @@
 package net.xiaoyu233.fml.reload.transform.fix;
 
-import net.minecraft.EntityHuman;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import net.minecraft.EntityPlayer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
-@Transform(EntityHuman.class)
+@Mixin(EntityPlayer.class)
 public class FixBoundingBoxCheck {
+   @Overwrite
    public void checkBoundingBoxAgainstSolidBlocks() {
    }
 }

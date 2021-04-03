@@ -1,25 +1,28 @@
 package net.xiaoyu233.fml.reload.transform.util;
 
 import net.minecraft.EnumCommand;
-import net.xiaoyu233.fml.asm.annotations.Marker;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Transform(EnumCommand.class)
+@Mixin(EnumCommand.class)
 public class EnumCommandTrans {
-   @Marker
-   static EnumCommand get(int ordinal) {
+   @Shadow
+   private static EnumCommand get(int ordinal) {
       return null;
    }
 
-   @Marker
-   static EnumCommand get(String text) {
+   @Shadow
+   private static EnumCommand get(String text) {
       return null;
    }
 
+   @Invoker("get")
    public static EnumCommand get0(String text) {
       return get(text);
    }
 
+    @Invoker("get")
    public static EnumCommand get0(int ordinal) {
       return get(ordinal);
    }

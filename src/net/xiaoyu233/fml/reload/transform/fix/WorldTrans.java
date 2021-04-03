@@ -2,15 +2,15 @@ package net.xiaoyu233.fml.reload.transform.fix;
 
 import net.minecraft.World;
 import net.minecraft.WorldProvider;
-import net.xiaoyu233.fml.asm.annotations.Link;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
-@Transform(World.class)
+@Mixin(World.class)
 public class WorldTrans {
-   @Link
-   public WorldProvider t;
+   @Shadow
+   public WorldProvider provider;
 
-   public WorldProvider getT() {
-      return this.t;
+   public WorldProvider getProvider() {
+      return this.provider;
    }
 }

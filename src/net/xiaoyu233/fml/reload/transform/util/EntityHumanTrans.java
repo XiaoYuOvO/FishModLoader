@@ -1,17 +1,14 @@
 package net.xiaoyu233.fml.reload.transform.util;
 
-import net.minecraft.EntityHuman;
-import net.xiaoyu233.fml.asm.annotations.Marker;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import net.minecraft.EntityPlayer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Transform(EntityHuman.class)
+@Mixin(EntityPlayer.class)
 public class EntityHumanTrans {
-   @Marker
-   protected static final int getExperienceRequired(int level) {
-      return 0;
-   }
 
+   @Invoker("getExperienceRequired")
    public static int getExpRequired(int level) {
-      return getExperienceRequired(level);
+      return 0;
    }
 }

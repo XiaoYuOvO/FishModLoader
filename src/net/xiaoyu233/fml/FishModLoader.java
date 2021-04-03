@@ -3,16 +3,21 @@ package net.xiaoyu233.fml;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import net.xiaoyu233.fml.asm.annotations.Dist;
-import net.xiaoyu233.fml.config.Config;
-import net.xiaoyu233.fml.config.JsonConfig;
+import net.xiaoyu233.fml.config.Configs;
+import net.xiaoyu233.fml.config.InjectionConfig;
+import net.xiaoyu233.fml.reload.transform.MinecraftServerTrans;
 import net.xiaoyu233.fml.util.ModInfo;
+import net.xiaoyu233.fml.util.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Mixins;
+import org.spongepowered.asm.service.MixinService;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -25,34 +30,63 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FishModLoader {
-   public static final Logger logger = LogManager.getLogger("FishModLoader");
-   private static final ArrayList<ModInfo> mods = new ArrayList();
-   private static final Map<String, ModInfo> modsMap = new HashMap();
+   public static final File CONFIG_DIR = new File("configs");
+   public static final Logger LOGGER = LogManager.getLogger("FishModLoader");
+   public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModInfo> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   private static final boolean sideSett = false;
-   private static final boolean isServer = false;
-   public static final String VERSION = "B0.1.4";
-   public static final int VERSION_NUM = 5;
-   private static final int fpsLimit = 0;
+   public static final String VERSION = "B1.0.0";
+   public static final int VERSION_NUM = 100;
+   private static final ArrayList<ModInfo> mods = new ArrayList<>();
+   private static final Map<String, ModInfo> modsMap = new HashMap<>();
+   private static boolean isServer = false;
    private static final String onlineVersion = versionCheck();
-   public static JsonConfig config;
+
+   static {
+      try {
+         UIManager.setLookAndFeel(new WindowsLookAndFeel());
+      } catch (UnsupportedLookAndFeelException var1) {
+         var1.printStackTrace();
+      }
+
+      if (isServer()) {
+         allowsClientMods = Configs.Server.allowClientMods.get();
+      } else {
+         allowsClientMods = true;
+      }
+
+      modsMapForLoginCheck = new HashMap<>();
+      addModInfo(new ModInfo("FishModLoader", VERSION, VERSION_NUM, MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT));
+   }
 
    public static void addModInfo(ModInfo modInfo) {
       mods.add(modInfo);
       modsMap.put(modInfo.getModid(), modInfo);
-      if (modInfo.canBeUsedAt(Dist.CLIENT)) {
+      if (modInfo.canBeUsedAt(MixinEnvironment.Side.CLIENT)) {
          modsMapForLoginCheck.put(modInfo.getModid(), modInfo);
       }
 
+   }
+
+   public static void extractOpenAL(){
+      File file = new File(System.getProperty("java.library.path"));
+      try {
+         Utils.extractFileFromJar("/OpenAL64.dll",new File(file,"OpenAL64.dll"),true);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
+   public static int getFpsLimit() {
+      return Configs.Client.fpsLimit.get();
    }
 
    public static JsonElement getModsJson() {
       return (new Gson()).toJsonTree(mods);
    }
 
-   public static void setIsServer(boolean isServer) {
-      isServer = isServer;
+   public static Map<String, ModInfo> getModsMap() {
+      return new HashMap<>(modsMap);
    }
 
    public static String getOnlineVersion() {
@@ -61,6 +95,30 @@ public class FishModLoader {
 
    public static boolean isServer() {
       return isServer;
+   }
+
+   public static Map<String, ModInfo> getModsMapForLoginCheck() {
+      return new HashMap<>(modsMapForLoginCheck);
+   }
+
+   public static MixinEnvironment.Side getSide(){
+      return isServer ? MixinEnvironment.Side.SERVER : MixinEnvironment.Side.CLIENT;
+   }
+
+   public static void loadConfig() {
+      Configs.loadConfig();
+   }
+
+   public static void registerModloaderMixin(ClassLoader classLoader){
+      Mixins.registerConfiguration((InjectionConfig.Builder.of("FishModLoader", MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build().toConfig(classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment())));
+   }
+
+   public static void setIsServer(boolean isServer) {
+      FishModLoader.isServer = isServer;
+   }
+
+   public static boolean isAllowsClientMods() {
+      return allowsClientMods;
    }
 
    public static String versionCheck() {
@@ -83,72 +141,11 @@ public class FishModLoader {
          connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
          connection.connect();
          return (new Scanner(connection.getInputStream(), String.valueOf(StandardCharsets.UTF_8))).nextLine();
-      } catch (IOException var3) {
+      } catch (IOException ignored) {
       } catch (KeyManagementException | NoSuchAlgorithmException var4) {
          var4.printStackTrace();
       }
 
       return null;
-   }
-
-   private static void saveDefault(Config var0) {
-      var0.set("jarPath", "server.jar");
-      var0.set("debug", Boolean.FALSE);
-      var0.set("dumpClass", Boolean.FALSE);
-      var0.set("printClassLoadInfo", Boolean.FALSE);
-      var0.set("fpsLimit", 120);
-      var0.save();
-   }
-
-   public static Map<String, ModInfo> getModsMapForLoginCheck() {
-      return new HashMap(modsMapForLoginCheck);
-   }
-
-   public static Map<String, ModInfo> getModsMap() {
-      return new HashMap(modsMap);
-   }
-
-   public static void loadConfig() {
-//      File config = new File(System.getProperty("user.dir"));
-//      if (!(new File(config, "config.json")).exists()) {
-//         config = new JsonConfig(new File(config, "config.json"));
-//         saveDefault(config);
-//         config.load();
-//      } else {
-//         config = new JsonConfig(new File(config, "config.json"));
-//         config.load();
-//         if (!config.has("fpsLimit")) {
-//            config.set("fpsLimit", 0);
-//            config.save();
-//         }
-//
-//         fpsLimit = Math.abs(config.getInt("fpsLimit"));
-//      }
-
-   }
-
-   public static int getFpsLimit() {
-      return fpsLimit;
-   }
-
-   public static boolean isAllowsClientMods() {
-      return allowsClientMods;
-   }
-
-   static {
-      try {
-         UIManager.setLookAndFeel(new WindowsLookAndFeel());
-      } catch (UnsupportedLookAndFeelException var1) {
-         var1.printStackTrace();
-      }
-
-      if (isServer()) {
-         allowsClientMods = config.get("allowsClientMods");
-      } else {
-         allowsClientMods = true;
-      }
-
-      modsMapForLoginCheck = new HashMap();
-      addModInfo(new ModInfo("FishModLoader", "B0.1.4", 5, Dist.SERVER, Dist.CLIENT));
    }
 }

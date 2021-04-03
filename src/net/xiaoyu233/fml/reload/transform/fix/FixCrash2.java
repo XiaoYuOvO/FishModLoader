@@ -1,17 +1,21 @@
 package net.xiaoyu233.fml.reload.transform.fix;
 
 import net.minecraft.bbs;
-import net.xiaoyu233.fml.asm.annotations.Transform;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
-@Transform(bbs.class)
+@Mixin(bbs.class)
 public class FixCrash2 {
+   @Overwrite
+   private static void SysX() {
+   }
+
+   @Overwrite
    private static boolean isRbf() {
       return true;
    }
 
-   private void SysX() {
-   }
-
-   private void method2() {
+   @Overwrite
+   private static void method2() {
    }
 }

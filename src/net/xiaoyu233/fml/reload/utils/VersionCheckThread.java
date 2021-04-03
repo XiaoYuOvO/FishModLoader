@@ -1,23 +1,23 @@
 package net.xiaoyu233.fml.reload.utils;
 
 import net.minecraft.ChatMessage;
-import net.minecraft.EntityPlayer;
 import net.minecraft.LocaleI18n;
+import net.minecraft.ServerPlayer;
 import net.xiaoyu233.fml.FishModLoader;
 
 public class VersionCheckThread extends Thread {
-   private final EntityPlayer par1EntityPlayerMP;
+   private final ServerPlayer par1EntityPlayerMP;
 
-   public VersionCheckThread(EntityPlayer player) {
+   public VersionCheckThread(ServerPlayer player) {
       this.par1EntityPlayerMP = player;
    }
 
    public void run() {
       String onlineVersion = FishModLoader.getOnlineVersion();
       if (onlineVersion == null) {
-         this.par1EntityPlayerMP.a(ChatMessage.e(LocaleI18n.a("fishmodloader.update.offline")));
-      } else if (!onlineVersion.equals("B0.1.4")) {
-         this.par1EntityPlayerMP.a(ChatMessage.e(LocaleI18n.a("fishmodloader.update.available", onlineVersion)));
+         this.par1EntityPlayerMP.sendChatToPlayer(ChatMessage.createFromText(LocaleI18n.translateToLocal("fishmodloader.update.offline")));
+      } else if (!onlineVersion.equals(FishModLoader.VERSION)) {
+         this.par1EntityPlayerMP.sendChatToPlayer(ChatMessage.createFromText(LocaleI18n.translateToLocalFormatted("fishmodloader.update.available", onlineVersion)));
       }
 
    }
