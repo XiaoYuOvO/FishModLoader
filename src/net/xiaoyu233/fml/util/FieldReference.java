@@ -10,14 +10,16 @@ public class FieldReference<T> implements Supplier<T> {
         this.value = defaultValue;
     }
 
-    public FieldReference(){}
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FieldReference<?> that = (FieldReference<?>) o;
         return value.equals(that.value);
+    }
+
+    public Class<? extends T> getValueClass() {
+        return (Class<T>) value.getClass();
     }
 
     public T get() {

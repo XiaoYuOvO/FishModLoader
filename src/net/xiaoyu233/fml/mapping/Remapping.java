@@ -6,6 +6,7 @@ import net.md_5.specialsource.CustomRemapper;
 import net.xiaoyu233.fml.util.Utils;
 import org.objectweb.asm.Type;
 import org.spongepowered.asm.mixin.extensibility.IRemapper;
+import org.spongepowered.asm.util.ObfuscationUtil;
 
 import java.io.*;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class Remapping extends CustomRemapper implements IRemapper {
+public class Remapping extends CustomRemapper implements IRemapper, ObfuscationUtil.IClassRemapper {
    public final Map<String, List<String>> interfaceMap = new HashMap<>();
    public final Map<String, String> superClassMap = new HashMap<>();
    public final BiMap<String, String> classMapping = HashBiMap.create();
@@ -33,6 +34,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
    private static final Function<String, String> fieldRule = (s) -> {
       return s;
    };
+   private BiMap<String, String> inverse;
 
    public void loadMappingFromJar() {
       Remapping.MappingType[] var1 = Remapping.MappingType.values();
@@ -79,6 +81,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
       switch(type) {
       case CLASS:
          inMap = this.classMapping;
+         inverse = this.classMapping.inverse();
          break;
       case METHOD:
          inMap = this.methodMapping;
@@ -189,17 +192,17 @@ public class Remapping extends CustomRemapper implements IRemapper {
       this.interfaceMap.put(className, interfaceNames);
    }
 
-   public String replaceMethodDesc(String var1) {
+   private String remapMethodDesc(String var1) {
       String var2 = var1.substring(var1.indexOf(41) + 1);
-      var2 = this.replaceFieldDesc(var2);
+      var2 = this.remapFieldDesc(var2);
       Type[] var3 = Type.getArgumentTypes(var1);
       StringBuilder var4 = new StringBuilder();
 
       for (Type var8 : var3) {
-         var4.append(this.replaceFieldDesc(var8.getDescriptor()));
+         var4.append(this.remapFieldDesc(var8.getDescriptor()));
       }
 
-      return "(" + var4.toString() + ")" + var2;
+      return "(" + var4 + ")" + var2;
    }
 
    public String replaceFieldDesc(String var1) {
@@ -240,17 +243,17 @@ public class Remapping extends CustomRemapper implements IRemapper {
       }
    }
 
-   private String remapMethodDesc(String var1) {
+   public String replaceMethodDesc(String var1) {
       String var2 = var1.substring(var1.indexOf(41) + 1);
-      var2 = this.remapFieldDesc(var2);
+      var2 = this.replaceFieldDesc(var2);
       Type[] var3 = Type.getArgumentTypes(var1);
       StringBuilder var4 = new StringBuilder();
 
       for (Type var8 : var3) {
-         var4.append(this.remapFieldDesc(var8.getDescriptor()));
+         var4.append(this.replaceFieldDesc(var8.getDescriptor()));
       }
 
-      return "(" + var4.toString() + ")" + var2;
+      return "(" + var4 + ")" + var2;
    }
 
    public void addSuperclassMapping(String subClass, String superClass) {
@@ -307,7 +310,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
    }
 
    public String unmap(String typeName) {
-      return this.classMapping.inverse().get(typeName);
+      return inverse.get(typeName);
    }
 
    public String mapDesc(String desc) {
@@ -315,7 +318,7 @@ public class Remapping extends CustomRemapper implements IRemapper {
    }
 
    public String unmapDesc(String desc) {
-      return this.remapMethodDesc(desc);
+      return ObfuscationUtil.unmapDescriptor(desc,this);
    }
 
    public enum MappingType {

@@ -4,9 +4,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface Codec<T> {
-    Codec<Boolean> BOOLEAN = new Codec<Boolean>() {
+public abstract class Codec<T> {
+    public static final Codec<Boolean> BOOLEAN = new Codec<Boolean>(Boolean.class) {
         @Override
         public Boolean read(JsonElement json) {
             return json.getAsBoolean();
@@ -17,7 +19,7 @@ public interface Codec<T> {
             return new JsonPrimitive(value);
         }
     };
-    Codec<Double> DOUBLE = new Codec<Double>() {
+    public static final Codec<Double> DOUBLE = new Codec<Double>(Double.class) {
         @Override
         public Double read(JsonElement json) {
             return json.getAsDouble();
@@ -28,7 +30,7 @@ public interface Codec<T> {
             return new JsonPrimitive(value);
         }
     };
-    Codec<File> FILE = new Codec<File>() {
+    public static final Codec<File> FILE = new Codec<File>(File.class) {
         @Override
         public File read(JsonElement json) {
             return new File(json.getAsString());
@@ -39,7 +41,7 @@ public interface Codec<T> {
             return new JsonPrimitive(value.toString());
         }
     };
-    Codec<Integer> INTEGER = new Codec<Integer>() {
+    public static final Codec<Integer> INTEGER = new Codec<Integer>(Integer.class) {
         @Override
         public Integer read(JsonElement json) {
             return json.getAsInt();
@@ -50,7 +52,7 @@ public interface Codec<T> {
             return new JsonPrimitive(value);
         }
     };
-    Codec<String> STRING = new Codec<String>() {
+    public static final Codec<String> STRING = new Codec<String>(String.class) {
         @Override
         public String read(JsonElement json) {
             return json.getAsString();
@@ -61,8 +63,16 @@ public interface Codec<T> {
             return new JsonPrimitive(value);
         }
     };
+    private static final Map<Class<?>,Codec<?>> types = new HashMap<>();
+    private Codec(Class<T> typeClass){
+        types.put(typeClass,this);
+    }
 
-    T read(JsonElement json);
+    public static <T> Codec<T> getFromClass(Class<T> clazz){
+        return (Codec<T>) types.get(clazz);
+    }
 
-    JsonElement write(T value);
+    public abstract T read(JsonElement json);
+
+    public abstract JsonElement write(T value);
 }

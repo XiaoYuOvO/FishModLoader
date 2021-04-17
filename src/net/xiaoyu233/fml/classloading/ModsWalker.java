@@ -27,7 +27,6 @@ public class ModsWalker {
     public ModsWalker(File modDir, ClassLoader classLoader) throws ClassNotFoundException {
         this.modDir = modDir;
         this.classLoader = classLoader;
-        ClassLoader classLoader1 = this.getClass().getClassLoader();
     }
 
     public List<ModFile> findMods(Consumer<File> callback) {
@@ -46,7 +45,7 @@ public class ModsWalker {
                             callback.accept(file);
                             result.add(new ModFile(jarFile, mod,file));
                         }else {
-                            FishModLoader.LOGGER.error("Corrupted mod json file,not json object:" + file.toString());
+                            FishModLoader.LOGGER.error("Corrupted mod json file,not json object:" + file);
                         }
                     }
                 } catch (IOException e) {

@@ -6156,7 +6156,7 @@ bdi.NF : net/minecraft/bdi.yOffset
 bdi.OF : net/minecraft/bdi.width
 bdi.PF : net/minecraft/bdi.height
 bdi.XF : net/minecraft/bdi.ySize
-bdi.aLbcw; : net/minecraft/bdi.theInventoryEnderChest
+bdi.aLbcw; : net/minecraft/bdi.netClientHandler
 bdi.abLjava/util/Random; : net/minecraft/bdi.rand
 bdi.acI : net/minecraft/bdi.ticksExisted
 bdi.afI : net/minecraft/bdi.hurtResistantTime

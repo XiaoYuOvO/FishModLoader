@@ -171,24 +171,23 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
    }
 
    public byte[] getClassBytes(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
-      String transformedName = className.replace('/', '.');
-      String name = Launch.classLoader.untransformName(transformedName);
+      String name = Launch.classLoader.untransformName(className);
       Profiler profiler = MixinEnvironment.getProfiler();
       Section loadTime = profiler.begin(1, "class.load");
-      byte[] classBytes = this.getClassBytes(transformedName, transformedName);
+      byte[] classBytes = this.getClassBytes(className, className);
       if (name != null) {
-         classBytes = this.getClassBytes(name, transformedName);
+         classBytes = this.getClassBytes(name, className);
       }
 
       loadTime.end();
       if (runTransformers) {
          Section transformTime = profiler.begin(1, "class.transform");
-         classBytes = this.applyTransformers(name, transformedName, classBytes, profiler);
+         classBytes = this.applyTransformers(name, className, classBytes, profiler);
          transformTime.end();
       }
 
       if (classBytes == null) {
-         throw new ClassNotFoundException(String.format("The specified class '%s' was not found", transformedName));
+         throw new ClassNotFoundException(String.format("The specified class '%s' was not found", className));
       } else {
          return classBytes;
       }

@@ -1,8 +1,6 @@
 package net.xiaoyu233.fml.util;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -17,6 +15,13 @@ public class ReflectHelper {
       } catch (NoSuchMethodException e) {
          e.printStackTrace();
       }
+   }
+
+   public static void updateFinalModifiers(Field field) throws NoSuchFieldException, IllegalAccessException {
+      field.setAccessible(true);
+      Field modifiersField = Field.class.getDeclaredField("modifiers");
+      modifiersField.setAccessible(true);
+      modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
    }
 
    public static void addLoaderURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException {

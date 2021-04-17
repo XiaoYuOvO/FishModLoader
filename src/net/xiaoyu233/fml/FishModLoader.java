@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.service.MixinService;
 
+import javax.annotation.Nonnull;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.swing.*;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FishModLoader {
+public class FishModLoader extends AbstractMod{
    public static final File CONFIG_DIR = new File("configs");
    public static final Logger LOGGER = LogManager.getLogger("FishModLoader");
    public static final File MOD_DIR = new File("mods");
@@ -56,7 +57,11 @@ public class FishModLoader {
       }
 
       modsMapForLoginCheck = new HashMap<>();
-      addModInfo(new ModInfo("FishModLoader", VERSION, VERSION_NUM, MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT));
+      addModInfo(new ModInfo(new FishModLoader(), MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT));
+   }
+
+   private FishModLoader(){
+
    }
 
    public static void addModInfo(ModInfo modInfo) {
@@ -147,5 +152,31 @@ public class FishModLoader {
       }
 
       return null;
+   }
+
+   @Nonnull
+   @Override
+   public InjectionConfig getInjectionConfig() {
+      return InjectionConfig.Builder.of("FishModLoader", MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build();
+   }
+
+   @Override
+   public String modId() {
+      return "FishModLoader";
+   }
+
+   @Override
+   public int modVerNum() {
+      return VERSION_NUM;
+   }
+
+   @Override
+   public String modVerStr() {
+      return VERSION;
+   }
+
+   @Override
+   public void preInit() {
+
    }
 }

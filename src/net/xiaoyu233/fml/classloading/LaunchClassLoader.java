@@ -102,12 +102,12 @@ public class LaunchClassLoader extends URLClassLoader {
       }
 
       try {
-         final String transformedName = transformName(name);
+         final String transformedName = transformName(name.replace(".","/"));
          if (cachedClasses.containsKey(transformedName)) {
             return cachedClasses.get(transformedName);
          }
 
-         final String untransformedName = untransformName(name);
+         final String untransformedName = untransformName(name.replace(".","/"));
 
          final int lastDot = untransformedName.lastIndexOf('.');
          final String packageName = lastDot == -1 ? "" : untransformedName.substring(0, lastDot);
@@ -154,7 +154,7 @@ public class LaunchClassLoader extends URLClassLoader {
          }
 
          final CodeSource codeSource = urlConnection == null ? null : new CodeSource(urlConnection.getURL(), signers);
-         final Class<?> clazz = defineClass(transformedName.replace("/","."), transformedClass, 0, transformedClass.length, codeSource);
+         final Class<?> clazz = defineClass(transformedName, transformedClass, 0, transformedClass.length, codeSource);
          cachedClasses.put(transformedName, clazz);
          return clazz;
       } catch (Throwable e) {

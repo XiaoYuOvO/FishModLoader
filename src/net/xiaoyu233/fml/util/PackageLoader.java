@@ -26,7 +26,7 @@ public class PackageLoader {
      * @param packageName
      * @param packagePath
      */
-    public static List<Class<?>> findClassByDirectory(String packageName, String packagePath,ClassLoader classLoader,Class<? extends Annotation> targetAnnotation) {
+    public static List<String> findClassByDirectory(String packageName, String packagePath,ClassLoader classLoader,Class<? extends Annotation> targetAnnotation) {
         // 获取此包的目录 建立一个File
         File dir = new File(packagePath);
         if (!dir.exists() || !dir.isDirectory()) {
@@ -34,7 +34,7 @@ public class PackageLoader {
         }
 
         File[] dirs = dir.listFiles();
-        List<Class<?>> classes = new ArrayList<>();
+        List<String> classes = new ArrayList<>();
         // 循环所有文件
         for (File file : dirs) {
             // 如果是目录 则继续扫描
@@ -45,20 +45,15 @@ public class PackageLoader {
             else if (file.getName().endsWith(".class")) {
                 // 如果是java类文件，去掉后面的.class 只留下类名
                 String className = file.getName().substring(0, file.getName().length() - 6);
-                try {
-                    classes.add(classLoader.loadClass(packageName + '.' + className));
-                }
-                catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                classes.add((packageName + '.' + className));
             }
         }
 
         return classes;
     }
 
-    public static List<Class<?>> findClassInJar(String packageName, URL url,ClassLoader classLoader,Class<? extends Annotation> targetAnnotation) {
-        List<Class<?>> classes = new ArrayList<>();
+    public static List<String> findClassInJar(String packageName, URL url,ClassLoader classLoader,Class<? extends Annotation> targetAnnotation) {
+        List<String> classes = new ArrayList<>();
 
         String packageDirName = packageName.replace('.', '/');
         // 定义一个JarFile
@@ -84,28 +79,21 @@ public class PackageLoader {
                 if (name.startsWith(packageDirName) && name.endsWith(".class")) {
                     // 去掉后面的".class"
                     String className = name.substring(0, name.length() - 6).replace('/', '.');
-                    try {
-                        // 添加到classes
-                        if (targetAnnotation != null){
-                            ClassReader reader = new ClassReader(jar.getInputStream(entry));
-                            ClassNode classNode = new ClassNode();
-                            reader.accept(classNode,0);
-                            classNode.accept(new ClassVisitor(Opcodes.ASM8){});
-                            List<AnnotationNode> visibleAnnotations = classNode.invisibleAnnotations;
-                            if (visibleAnnotations != null && !visibleAnnotations.isEmpty()){
-                                for (AnnotationNode visibleAnnotation : visibleAnnotations) {
-                                    if (visibleAnnotation.desc.equals(Type.getDescriptor(targetAnnotation))) {
-                                        classes.add(classLoader.loadClass(className));
-                                        break;
-                                    }
+                    // 添加到classes
+                    if (targetAnnotation != null){
+                        ClassReader reader = new ClassReader(jar.getInputStream(entry));
+                        ClassNode classNode = new ClassNode();
+                        reader.accept(classNode,0);
+                        classNode.accept(new ClassVisitor(Opcodes.ASM8){});
+                        List<AnnotationNode> visibleAnnotations = classNode.invisibleAnnotations;
+                        if (visibleAnnotations != null && !visibleAnnotations.isEmpty()){
+                            for (AnnotationNode visibleAnnotation : visibleAnnotations) {
+                                if (visibleAnnotation.desc.equals(Type.getDescriptor(targetAnnotation))) {
+                                    classes.add(className);
+                                    break;
                                 }
                             }
-                        }else {
-                            classes.add(classLoader.loadClass(className));
                         }
-                    }
-                    catch (ClassNotFoundException e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -117,10 +105,10 @@ public class PackageLoader {
         return classes;
     }
 
-    public static List<Class<?>> getClasses(String packageName, ClassLoader classLoader, Class<? extends Annotation> targetAnnotation) {
+    public static List<String> getClasses(String packageName, ClassLoader classLoader, Class<? extends Annotation> targetAnnotation) {
 
         // 第一个class类的集合
-        List<Class<?>> classes = new ArrayList<>();
+        List<String> classes = new ArrayList<>();
         // 获取包的名字 并进行替换
         String packageDirName = packageName.replace('.', '/');
         // 定义一个枚举的集合 并进行循环来处理这个目录下的things

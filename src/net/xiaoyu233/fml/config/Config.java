@@ -27,7 +27,8 @@ public abstract class Config {
     @NotNull
     public abstract ReadResult read(JsonElement json);
 
-    public void readFromFile(File configFile){
+    public void readFromFile(File cfgFile){
+        File configFile = new File(FishModLoader.CONFIG_DIR,cfgFile.toString());
         Config.ReadResult read = Config.ReadResult.NO_CHANGE;
         if (!configFile.exists()){
             try {

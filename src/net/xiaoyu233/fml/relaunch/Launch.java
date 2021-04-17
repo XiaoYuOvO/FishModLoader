@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.transformer.MixinTransformer;
 import org.spongepowered.asm.service.MixinService;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +37,7 @@ public class Launch {
    public static LaunchClassLoader classLoader;
    public static String minecraftHome;
 
-   public static void launch(String mainClass, String[] args) throws IOException, ClassNotFoundException {
+   public static void launch(String mainClass, String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException {
       classLoader = new LaunchClassLoader(ClassProvider.getSystemClassPathURLs());
       seekGameDir(args);
       MixinBootstrap.init();
@@ -57,8 +58,10 @@ public class Launch {
          } catch (MalformedURLException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
          }
-      })), (abstractMod, dists) -> FishModLoader.addModInfo(new ModInfo(abstractMod.modId(), abstractMod.modVerStr(), abstractMod
-              .modVerNum(), dists)))) {
+      })), (abstractMod, dists) -> {
+              abstractMod.preInit();
+              FishModLoader.addModInfo(new ModInfo(abstractMod,dists));
+      })) {
          Mixins.registerConfiguration(loadMod.toConfig(Launch.classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment()));
       }
 
@@ -70,6 +73,17 @@ public class Launch {
          Class<?> var6 = Launch.classLoader.loadClass(mainClass);
          platform.inject();
          onEnvironmentChanged();
+         for (ModInfo value : FishModLoader.getModsMap().values()) {
+            try {
+               Class<?> aClass = Launch.classLoader.loadClass(value.getMod().getClass().getName());
+               Constructor<?> declaredConstructor = aClass.getDeclaredConstructor();
+               declaredConstructor.setAccessible(true);
+               Object o = declaredConstructor.newInstance();
+               aClass.getMethod("postInit").invoke(o);
+            }catch (Exception e){
+               FishModLoader.LOGGER.error("Cannot run post init for " + value.getModid(),e);
+            }
+         }
          var6.getMethod("main", String[].class).invoke(null, (Object) args);
       } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException var11) {
          var11.printStackTrace();

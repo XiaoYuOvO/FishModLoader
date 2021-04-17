@@ -1,6 +1,7 @@
 package net.xiaoyu233.fml.util;
 
 import com.google.common.collect.Lists;
+import net.xiaoyu233.fml.AbstractMod;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.util.ArrayList;
@@ -10,12 +11,18 @@ public class ModInfo {
    private final String modVerStr;
    private final int modVerNum;
    private final ArrayList<MixinEnvironment.Side> dists;
+   private final AbstractMod mod;
 
-   public ModInfo(String modid, String modVerStr, int modVerNum, MixinEnvironment.Side... dist) {
-      this.modid = modid;
-      this.modVerStr = modVerStr;
-      this.modVerNum = modVerNum;
+   public ModInfo(AbstractMod mod, MixinEnvironment.Side... dist) {
+      this.modid = mod.modId();
+      this.modVerStr = mod.modVerStr();
+      this.modVerNum = mod.modVerNum();
       this.dists = Lists.newArrayList(dist);
+      this.mod = mod;
+   }
+
+   public AbstractMod getMod() {
+      return mod;
    }
 
    public int getModVerNum() {

@@ -16,6 +16,23 @@ public class ConfigEntry<T> extends Config {
         this.defaultValue = defaultValue;
         this.configRef = configRef;
     }
+    public ConfigEntry(String name,FieldReference<T> configRef) {
+        super(name);
+        this.codec = (Codec<T>) Codec.getFromClass(configRef.getValueClass());
+        this.defaultValue = configRef.get();
+        this.configRef = configRef;
+    }
+    public ConfigEntry(String name, Codec<T> codec,FieldReference<T> configRef) {
+        super(name);
+        this.codec = codec;
+        this.defaultValue = configRef.get();
+        this.configRef = configRef;
+    }
+
+    public static <T> ConfigEntry<T> of(String name,FieldReference<T> configRef){
+        return new ConfigEntry<>(name, configRef);
+    }
+
 
     public T getDefaultValue() {
         return defaultValue;

@@ -24731,3 +24731,4 @@ zz.setIncludeInLowestCraftingDifficultyDetermination()V : net/minecraft/RecipeFi
 zz.setMaterialToCheckToolBenchHardnessAgainst(Lakc;)V : net/minecraft/RecipeFireworks.setMaterialToCheckToolBenchHardnessAgainst
 zz.setSkillset(I)V : net/minecraft/RecipeFireworks.setSkillset
 zz.setSkillsets([I)V : net/minecraft/RecipeFireworks.setSkillsets
+bf.k()Labw; : net/minecraft/ISourceBlock.getWorld

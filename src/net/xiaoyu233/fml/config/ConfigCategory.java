@@ -14,6 +14,9 @@ public class ConfigCategory extends Config {
         super(name);
     }
 
+    public static ConfigCategory of(String name){
+        return new ConfigCategory(name);
+    }
 
     public ConfigCategory addEntry(Config entry){
         this.child.add(entry);

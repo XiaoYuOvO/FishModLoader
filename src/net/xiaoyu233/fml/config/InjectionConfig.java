@@ -71,10 +71,10 @@ public class InjectionConfig {
         mixinObject.addProperty("package", pkgName);
         mixinObject.addProperty("compatibilityLevel",this.compatibleLevel.toString());
         JsonArray mixins = new JsonArray();
-        List<Class<?>> classes = PackageLoader.getClasses(pkgName, classLoader,Mixin.class);
-        for (Class<?> aClass : classes) {
-            String clName = aClass.getName().replace(pkgName + ".", "");
-            FishModLoader.LOGGER.info("Registering mixin class:" + clName);
+        List<String> classes = PackageLoader.getClasses(pkgName, classLoader,Mixin.class);
+        for (String aClass : classes) {
+            String clName = aClass.replace(pkgName + ".", "");
+            FishModLoader.LOGGER.info("Registering mixin class:" + clName + " for " + this.name);
             mixins.add(new JsonPrimitive(clName));
         }
         mixinObject.add("mixins",mixins);
