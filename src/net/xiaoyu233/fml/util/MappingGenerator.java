@@ -202,17 +202,17 @@ public class MappingGenerator {
 
         @Override
         public String mapFieldName(String owner, String name, String desc, int access) {
-            String fieldMapName = this.getFieldMapName(owner + "." + name + desc);
+            String fieldMapName = this.getFieldMapName(owner + "." + name);
             if (fieldMapName == null) {
                 for(String superName = this.superClassMap.get(owner); superName != null && !superName.equals("java/lang/Object"); superName = this.superClassMap.get(superName)) {
-                    fieldMapName = this.getFieldMapName(superName + "." + name + desc);
+                    fieldMapName = this.getFieldMapName(superName + "." + name);
                     if (fieldMapName != null) {
                         break;
                     }
                 }
             }
 
-            String src = owner + "." + name + desc;
+            String src = owner + "." + name;
             if (fieldMapName != null) {
                 if (!fdMap.containsKey(src)){
                     if (logRemap){

@@ -17,6 +17,10 @@ public class ReflectHelper {
       }
    }
 
+   public static Class<?> reloadClassWithLoader(Class<?> className,ClassLoader classLoader) throws ClassNotFoundException {
+       return classLoader.loadClass(className.getName());
+   }
+
    public static void updateFinalModifiers(Field field) throws NoSuchFieldException, IllegalAccessException {
       field.setAccessible(true);
       Field modifiersField = Field.class.getDeclaredField("modifiers");

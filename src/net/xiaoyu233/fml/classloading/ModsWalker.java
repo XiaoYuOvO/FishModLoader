@@ -27,6 +27,11 @@ public class ModsWalker {
     public ModsWalker(File modDir, ClassLoader classLoader) throws ClassNotFoundException {
         this.modDir = modDir;
         this.classLoader = classLoader;
+        if (!modDir.exists()){
+            if (!modDir.mkdirs()) {
+                FishModLoader.LOGGER.error("Cannot make mods dir");
+            }
+        }
     }
 
     public List<ModFile> findMods(Consumer<File> callback) {

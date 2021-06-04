@@ -23,7 +23,7 @@ public class Remapping extends CustomRemapper implements IRemapper, ObfuscationU
    private static final Function<String, String> classRule = (s) -> {
       String str = s;
       if (!s.contains(".")) {
-         str = "net.minecraft." + s;
+         str = "net/minecraft/" + s;
       }
 
       return str;

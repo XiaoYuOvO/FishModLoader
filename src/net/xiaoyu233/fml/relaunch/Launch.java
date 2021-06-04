@@ -1,5 +1,7 @@
 package net.xiaoyu233.fml.relaunch;
 
+import com.google.common.collect.Lists;
+import net.xiaoyu233.fml.AbstractMod;
 import net.xiaoyu233.fml.FishModLoader;
 import net.xiaoyu233.fml.asm.MixinTransformerProxy;
 import net.xiaoyu233.fml.classloading.LaunchClassLoader;
@@ -11,6 +13,7 @@ import net.xiaoyu233.fml.mixin.service.ClassProvider;
 import net.xiaoyu233.fml.util.LogProxy;
 import net.xiaoyu233.fml.util.ModInfo;
 import net.xiaoyu233.fml.util.ReflectHelper;
+import net.xiaoyu233.fml.util.UIUtils;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.platform.MixinPlatformManager;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -21,23 +24,22 @@ import org.spongepowered.asm.service.MixinService;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Launch {
-   static {
-      FishModLoader.loadConfig();
-
-   }
    public static String mainClass;
    public static Map<String, Object> blackboard = new HashMap<>();
    public static LaunchClassLoader classLoader;
    public static String minecraftHome;
 
    public static void launch(String mainClass, String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException {
+      FishModLoader.loadConfig();
       classLoader = new LaunchClassLoader(ClassProvider.getSystemClassPathURLs());
       seekGameDir(args);
       MixinBootstrap.init();
@@ -59,8 +61,16 @@ public class Launch {
             e.printStackTrace();
          }
       })), (abstractMod, dists) -> {
-              abstractMod.preInit();
-              FishModLoader.addModInfo(new ModInfo(abstractMod,dists));
+         if (!FishModLoader.hasMod(abstractMod.modId())){
+            abstractMod.preInit();
+            FishModLoader.addModInfo(new ModInfo(abstractMod, Lists.newArrayList(dists)));
+         }else {
+            if (!FishModLoader.isServer()){
+               UIUtils.showErrorDialog("错误,模组重复!游戏即将退出\n" + abstractMod.modId() + "-" + abstractMod.modVerStr());
+               System.exit(1);
+            }
+            throw new IllegalArgumentException("Duplicated mods! (重复的模组)" + abstractMod.modId() + "-" + abstractMod.modVerStr());
+         }
       })) {
          Mixins.registerConfiguration(loadMod.toConfig(Launch.classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment()));
       }
@@ -73,13 +83,22 @@ public class Launch {
          Class<?> var6 = Launch.classLoader.loadClass(mainClass);
          platform.inject();
          onEnvironmentChanged();
+         Class<?> modInfo = ReflectHelper.reloadClassWithLoader(ModInfo.class,Launch.classLoader);
+         Class<?> absModInfo = ReflectHelper.reloadClassWithLoader(AbstractMod.class,Launch.classLoader);
+         Method fishModLoader = ReflectHelper.reloadClassWithLoader(FishModLoader.class,Launch.classLoader).getDeclaredMethod("addModInfo", modInfo);
          for (ModInfo value : FishModLoader.getModsMap().values()) {
+            Class<?> aClass = Launch.classLoader.loadClass(value.getMod().getClass().getName());
             try {
-               Class<?> aClass = Launch.classLoader.loadClass(value.getMod().getClass().getName());
                Constructor<?> declaredConstructor = aClass.getDeclaredConstructor();
                declaredConstructor.setAccessible(true);
                Object o = declaredConstructor.newInstance();
                aClass.getMethod("postInit").invoke(o);
+               try {
+                  fishModLoader.invoke(null, modInfo.getConstructor(absModInfo, List.class).newInstance(o, value.getDists()));
+               } catch (Exception e) {
+                  FishModLoader.LOGGER.error("Cannot add mod info " + value.getModid() + "-" + value.getModVerStr() + " quitting!", e);
+                  System.exit(-1);
+               }
             }catch (Exception e){
                FishModLoader.LOGGER.error("Cannot run post init for " + value.getModid(),e);
             }

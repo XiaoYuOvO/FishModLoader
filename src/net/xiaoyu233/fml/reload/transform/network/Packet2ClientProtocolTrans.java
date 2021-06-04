@@ -8,7 +8,7 @@ import net.minecraft.Connection;
 import net.minecraft.Packet;
 import net.minecraft.Packet2Handshake;
 import net.xiaoyu233.fml.FishModLoader;
-import net.xiaoyu233.fml.util.ModInfo;
+import net.xiaoyu233.fml.util.RemoteModInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,6 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(Packet2Handshake.class)
 public abstract class Packet2ClientProtocolTrans extends Packet {
@@ -36,6 +37,7 @@ public abstract class Packet2ClientProtocolTrans extends Packet {
     @Shadow
     private String username;
     private JsonArray modInfos;
+    private final List<String> signatures = new ArrayList<>();
 
     public Packet2ClientProtocolTrans(int par1, String par2Str, String par3Str, int par4) {
         this.protocolVersion = par1;
@@ -48,19 +50,24 @@ public abstract class Packet2ClientProtocolTrans extends Packet {
         return 0;
     }
 
-    public String getUsername(){
-        return this.username.split("\\:")[0];
-    }
-
-    @Inject(method = "<init>(ILjava/lang/String;Ljava/lang/String;I)V",at = @At(value = "RETURN"))
-    public void injectCtor(int par1, String par2Str, String par3Str, int par4, CallbackInfo callbackInfo){
-        this.username = par2Str + ":" + "1.6.4" + ":" + "R" + 196 + ":" + "FishModLoader";
-        this.modInfos = (JsonArray) FishModLoader.getModsJson();
+    public ArrayList<RemoteModInfo> getModInfos() {
+        return Lists.newArrayList(new Gson().fromJson(modInfos, RemoteModInfo[].class));
     }
 
     @Shadow
     public void processPacket(Connection connection) {
 
+    }
+
+    public List<String> getSignatures() {
+        return signatures;
+    }
+
+    @Inject(method = "<init>(ILjava/lang/String;Ljava/lang/String;I)V",at = @At(value = "RETURN"))
+    public void injectCtor(int par1, String par2Str, String par3Str, int par4, CallbackInfo callbackInfo){
+        this.username = par2Str + ":" + "1.6.4" + ":" + "R" + 196;
+        this.modInfos = (JsonArray) FishModLoader.getModsJson();
+        this.signatures.add("FishModLoader");
     }
 
     @Override
@@ -80,11 +87,10 @@ public abstract class Packet2ClientProtocolTrans extends Packet {
         }
 
         this.modInfos = (JsonArray) new JsonParser().parse(readString(dataInput,32767));
-    }
-
-
-    public ArrayList<ModInfo> getModInfos() {
-        return Lists.newArrayList(new Gson().fromJson(modInfos, ModInfo[].class));
+        int i1 = dataInput.readInt();
+        for (int i = 0; i < i1; i++) {
+            this.signatures.add(readString(dataInput,255));
+        }
     }
 
     @Overwrite
@@ -95,5 +101,9 @@ public abstract class Packet2ClientProtocolTrans extends Packet {
         writeString(this.serverHost, dataOutput);
         dataOutput.writeInt(this.serverPort);
         writeString(modInfos.toString(),dataOutput);
+        dataOutput.writeInt(this.signatures.size());
+        for (String signature : this.signatures) {
+            writeString(signature,dataOutput);
+        }
     }
 }

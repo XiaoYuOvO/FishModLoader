@@ -1,5 +1,7 @@
 package net.xiaoyu233.fml;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -36,8 +38,8 @@ public class FishModLoader extends AbstractMod{
    public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModInfo> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   public static final String VERSION = "B1.0.0";
-   public static final int VERSION_NUM = 100;
+   public static final String VERSION = "v1.2.0";
+   public static final int VERSION_NUM = 120;
    private static final ArrayList<ModInfo> mods = new ArrayList<>();
    private static final Map<String, ModInfo> modsMap = new HashMap<>();
    private static boolean isServer = false;
@@ -57,7 +59,7 @@ public class FishModLoader extends AbstractMod{
       }
 
       modsMapForLoginCheck = new HashMap<>();
-      addModInfo(new ModInfo(new FishModLoader(), MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT));
+      addModInfo(new ModInfo(new FishModLoader(), Lists.newArrayList(MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT)));
    }
 
    private FishModLoader(){
@@ -65,12 +67,17 @@ public class FishModLoader extends AbstractMod{
    }
 
    public static void addModInfo(ModInfo modInfo) {
-      mods.add(modInfo);
-      modsMap.put(modInfo.getModid(), modInfo);
-      if (modInfo.canBeUsedAt(MixinEnvironment.Side.CLIENT)) {
-         modsMapForLoginCheck.put(modInfo.getModid(), modInfo);
+      if (!modsMap.containsKey(modInfo.getModid())){
+         mods.add(modInfo);
+         modsMap.put(modInfo.getModid(), modInfo);
+         if (modInfo.canBeUsedAt(MixinEnvironment.Side.CLIENT)) {
+            modsMapForLoginCheck.put(modInfo.getModid(), modInfo);
+         }
       }
+   }
 
+   public static ImmutableMap<String, ModInfo> getModsMap() {
+      return new ImmutableMap.Builder<String, ModInfo>().putAll(modsMap).build();
    }
 
    public static void extractOpenAL(){
@@ -90,8 +97,8 @@ public class FishModLoader extends AbstractMod{
       return (new Gson()).toJsonTree(mods);
    }
 
-   public static Map<String, ModInfo> getModsMap() {
-      return new HashMap<>(modsMap);
+   public static boolean hasMod(String modid){
+      return modsMap.containsKey(modid);
    }
 
    public static String getOnlineVersion() {

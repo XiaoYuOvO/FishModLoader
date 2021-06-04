@@ -2,6 +2,7 @@ package net.xiaoyu233.fml.reload.utils;
 
 import net.minecraft.Minecraft;
 import net.minecraft.bic;
+import net.xiaoyu233.fml.reload.transform.fix.skin.BicAccessor;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,14 +20,14 @@ public class SkinDownloadThread extends Thread {
       HttpURLConnection var1 = null;
 
       try {
-         var1 = (HttpURLConnection)(new URL(MojangAPI.fixImageUrl(this.a.getB()))).openConnection(Minecraft.w().I());
+         var1 = (HttpURLConnection)(new URL(MojangAPI.fixImageUrl(((BicAccessor)this.a).getB()))).openConnection(Minecraft.w().I());
          var1.setDoInput(true);
          var1.setDoOutput(false);
          var1.connect();
          if (var1.getResponseCode() / 100 == 2) {
             BufferedImage var2 = ImageIO.read(var1.getInputStream());
-            if (this.a.getC() != null) {
-               var2 = this.a.getC().a(var2);
+            if (((BicAccessor)this.a).getC() != null) {
+               var2 = ((BicAccessor)this.a).getC().a(var2);
             }
 
             this.a.a(var2);

@@ -1,5 +1,6 @@
 package net.xiaoyu233.fml.util;
 
+import net.xiaoyu233.fml.FishModLoader;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -52,7 +54,8 @@ public class PackageLoader {
         return classes;
     }
 
-    public static List<String> findClassInJar(String packageName, URL url,ClassLoader classLoader,Class<? extends Annotation> targetAnnotation) {
+
+    public static List<String> findClassInJar(String packageName, URL url, Class<? extends Annotation> targetAnnotation) {
         List<String> classes = new ArrayList<>();
 
         String packageDirName = packageName.replace('.', '/');
@@ -60,7 +63,12 @@ public class PackageLoader {
         JarFile jar;
         try {
             // 获取jar
-            jar = ((JarURLConnection) url.openConnection()).getJarFile();
+            URLConnection urlConnection = url.openConnection();
+            if (urlConnection instanceof JarURLConnection){
+                jar = ((JarURLConnection) urlConnection ).getJarFile();
+            }else {
+                jar = new JarFile(URLDecoder.decode(url.getFile(),"UTF-8"));
+            }
             Enumeration<JarEntry> entries = jar.entries();
             while (entries.hasMoreElements()) {
                 // 获取jar里的一个实体 可以是目录 和一些jar包里的其他文件 如META-INF等文件
@@ -116,19 +124,23 @@ public class PackageLoader {
         try {
             dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName);
             // 循环迭代下去
-            while (dirs.hasMoreElements()) {
-                URL url = dirs.nextElement();
-                // 得到协议的名称
-                String protocol = url.getProtocol();
-                if ("file".equals(protocol)) {
-                    // 获取包的物理路径
-                    String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-                    // 以文件的方式扫描整个包下的文件 并添加到集合中
-                    classes.addAll(findClassByDirectory(packageName, filePath,classLoader,targetAnnotation));
+            if (dirs.hasMoreElements()){
+                while (dirs.hasMoreElements()) {
+                    URL url = dirs.nextElement();
+                    // 得到协议的名称
+                    String protocol = url.getProtocol();
+                    if ("file".equals(protocol)) {
+                        // 获取包的物理路径
+                        String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
+                        // 以文件的方式扫描整个包下的文件 并添加到集合中
+                        classes.addAll(findClassByDirectory(packageName, filePath,classLoader,targetAnnotation));
+                    }
+                    else if ("jar".equals(protocol)) {
+                        classes.addAll(findClassInJar(packageName, url, targetAnnotation));
+                    }
                 }
-                else if ("jar".equals(protocol)) {
-                    classes.addAll(findClassInJar(packageName, url,classLoader,targetAnnotation));
-                }
+            }else {
+                classes.addAll(findClassInJar(packageName,FishModLoader.class.getProtectionDomain().getCodeSource().getLocation(),targetAnnotation));
             }
         }
         catch (IOException e) {
@@ -137,5 +149,4 @@ public class PackageLoader {
 
         return classes;
     }
-
 }

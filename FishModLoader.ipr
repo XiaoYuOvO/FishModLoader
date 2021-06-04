@@ -11,8 +11,8 @@
   </component>
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="FishModLoader:jar">
-      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/B0.2.0</output-path>
-      <root id="archive" name="FishModLoader-B0.2.0.jar">
+      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/v1.0.0</output-path>
+      <root id="archive" name="FishModLoader-v1.0.0.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
@@ -27,28 +27,38 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-8.0.jar" path-in-jar="/" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
-      <output-path>$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server</output-path>
-      <root id="archive" name="FishModLoader-B0.1.4.jar">
-        <element id="module-output" name="FishModLoader" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
-        <element id="directory" name="org">
-          <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
-        </element>
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
-      </root>
-    </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoaderInstall">
       <output-path>$PROJECT_DIR$/../FMLInstaller/src/net/xiaoyu233/fmlinstaller</output-path>
       <root id="archive" name="FishModLoader.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
-        <element id="directory" name="org">
-          <element id="dir-copy" path="$PROJECT_DIR$/libs/classes/org" />
-        </element>
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+        <element id="library" level="project" name="SpecialSource" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
+      <output-path>$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server</output-path>
+      <root id="archive" name="FishModLoader-v1.0.0.jar">
+        <element id="module-output" name="FishModLoader" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
+        <element id="library" level="project" name="SpecialSource" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-8.0.jar" path-in-jar="/" />
       </root>
     </artifact>
   </component>
@@ -56,19 +66,6 @@
     <profile version="1.0">
       <inspection_tool class="GrazieCommit" enabled="true" level="TYPO" enabled_by_default="true" />
     </profile>
-  </component>
-  <component name="CsvFileAttributes">
-    <option name="attributeMap">
-      <map>
-        <entry key="\src\net\xiaoyu233\fml\util\PackageLoader.java">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">

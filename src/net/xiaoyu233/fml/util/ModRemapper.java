@@ -118,9 +118,9 @@ public class ModRemapper {
         public String mapFieldName(String owner, String name, String desc, int access) {
             String fieldMapName;
             if(owner.startsWith("net/minecraft")){
-                fieldMapName = this.getFieldMapName(unmap(owner) + "." + name + unmapDesc(desc));
+                fieldMapName = this.getFieldMapName(unmap(owner) + "." + name);
             }else {
-                fieldMapName = this.getFieldMapName(owner + "." + name + unmapDesc(desc));
+                fieldMapName = this.getFieldMapName(owner + "." + name);
                 if (fieldMapName == null) {
                     for(String superName = this.superClassMap.get(owner); superName != null && !superName.equals("java/lang/Object"); superName = this.superClassMap.get(superName)) {
                         fieldMapName = this.getFieldMapName(unmap(superName) + "." + name + unmapDesc(desc));

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Codec<T> {
+    private static final Map<Class<?>,Codec<?>> types = new HashMap<>();
     public static final Codec<Boolean> BOOLEAN = new Codec<Boolean>(Boolean.class) {
         @Override
         public Boolean read(JsonElement json) {
@@ -63,7 +64,6 @@ public abstract class Codec<T> {
             return new JsonPrimitive(value);
         }
     };
-    private static final Map<Class<?>,Codec<?>> types = new HashMap<>();
     private Codec(Class<T> typeClass){
         types.put(typeClass,this);
     }

@@ -13,16 +13,6 @@ public class LocaleLanguageTrans {
    @Shadow
    private Map languageList;
 
-//   @Inject(method = {"<init>"}, at = @At("RETURN"))
-//   public void addMap(CallbackInfo callbackInfo){
-//      this.languageList.put("enchantment.slaying", "杀害");
-//   }
-
-//   @Overwrite
-//   @Intrinsic
-//   public static void addTranslation(String key, String value) {
-//   }
-
    public Map getTranslationMap() {
       return this.languageList;
    }

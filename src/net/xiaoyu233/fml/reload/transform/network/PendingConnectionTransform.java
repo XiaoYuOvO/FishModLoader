@@ -4,8 +4,10 @@ import net.minecraft.*;
 import net.minecraft.server.MinecraftServer;
 import net.xiaoyu233.fml.FishModLoader;
 import net.xiaoyu233.fml.util.ModInfo;
+import net.xiaoyu233.fml.util.RemoteModInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.security.PublicKey;
@@ -29,7 +31,8 @@ public class PendingConnectionTransform extends Connection {
     @Shadow
     private byte[] verifyToken;
 
-    public void a(Packet2Handshake par1Packet2ClientProtocol) {
+    @Overwrite
+    public void handleClientProtocol(Packet2Handshake par1Packet2ClientProtocol) {
         if (this.clientUsername != null) {
             this.kickUser("Quit repeating yourself!");
         } else {
@@ -45,7 +48,7 @@ public class PendingConnectionTransform extends Connection {
                         this.kickUser("Outdated client!");
                     }
 
-                } else if ("1.6.4".equals(par1Packet2ClientProtocol.MC_version) && "R196".equals(par1Packet2ClientProtocol.MITE_release_number) && par1Packet2ClientProtocol.getUsername().contains("FishModLoader")) {
+                } else if ("1.6.4".equals(par1Packet2ClientProtocol.MC_version) && "R196".equals(par1Packet2ClientProtocol.MITE_release_number) && par1Packet2ClientProtocol.getSignatures().contains("FishModLoader")) {
                     if (!this.mcServer.getConfigurationManager().isAllowedToLogin(this.clientUsername)) {
                         this.kickUser("You are not white-listed on this server!");
                     } else {
@@ -109,7 +112,7 @@ public class PendingConnectionTransform extends Connection {
                         if (par1Packet2ClientProtocol.getModInfos() != null){
                             StringBuilder problems = new StringBuilder();
                             Map<String,ModInfo> serverMods = FishModLoader.getModsMapForLoginCheck();
-                            for (ModInfo modInfo : ((List<ModInfo>) par1Packet2ClientProtocol.getModInfos())) {
+                            for (RemoteModInfo modInfo : ((List<RemoteModInfo>) par1Packet2ClientProtocol.getModInfos())) {
                                 String modid = modInfo.getModid();
                                 String modVerStr = modInfo.getModVerStr();
                                 boolean clientOnly = !modInfo.canBeUsedAt(MixinEnvironment.Side.SERVER);
@@ -152,7 +155,7 @@ public class PendingConnectionTransform extends Connection {
                         rand.nextBytes(this.verifyToken);
                         this.myTCPConnection.addToSendQueue(new Packet253KeyRequest(this.loginServerId, var2, this.verifyToken));
                     }
-                } else if (!par1Packet2ClientProtocol.getUsername().contains("AntiCheat")){
+                } else if (!par1Packet2ClientProtocol.getSignatures().contains("AntiCheat")){
                     this.kickUser("客户端模组不完整,请联系服主重新安装");
                 }else{
                     this.kickUser("This server requires a 1.6.4-MITE R196 client.");

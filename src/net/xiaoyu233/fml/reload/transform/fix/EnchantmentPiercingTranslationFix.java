@@ -17,7 +17,8 @@ public abstract class EnchantmentPiercingTranslationFix extends Enchantment {
       return false;
    }
 
-   @Overwrite
+
+   @Shadow
    public String getNameSuffix() {
       return null;
    }
