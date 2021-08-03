@@ -38,8 +38,8 @@ public class FishModLoader extends AbstractMod{
    public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModInfo> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   public static final String VERSION = "v1.2.0";
-   public static final int VERSION_NUM = 120;
+   public static final String VERSION = "v1.3.0";
+   public static final int VERSION_NUM = 130;
    private static final ArrayList<ModInfo> mods = new ArrayList<>();
    private static final Map<String, ModInfo> modsMap = new HashMap<>();
    private static boolean isServer = false;

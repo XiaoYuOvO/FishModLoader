@@ -21318,9 +21318,6 @@ sf.startTargetCountdown()V : net/minecraft/EntityWolf.startTargetCountdown
 sf.t()Z : net/minecraft/EntityWolf.canDespawn
 sf.warnOwner()V : net/minecraft/EntityWolf.warnOwner
 sf.willEat(Lye;)Z : net/minecraft/EntityWolf.willEat
-sg.aN()F : net/minecraft/sg.aN
-sg.aT()F : net/minecraft/sg.aT
-sg.an()Ljava/lang/String; : net/minecraft/sg.an
 sh.attackEntityFromPart(Lsi;LDamage;)LEntityDamageResult; : net/minecraft/IComplex.attackEntityFromPart
 sh.b()Labw; : net/minecraft/EntityEnderDragon.func_82194_d
 si.<init>(Lsh;Ljava/lang/String;FF)V : net/minecraft/EntityComplexPart.<init>
@@ -24732,3 +24729,6 @@ zz.setMaterialToCheckToolBenchHardnessAgainst(Lakc;)V : net/minecraft/RecipeFire
 zz.setSkillset(I)V : net/minecraft/RecipeFireworks.setSkillset
 zz.setSkillsets([I)V : net/minecraft/RecipeFireworks.setSkillsets
 bf.k()Labw; : net/minecraft/ISourceBlock.getWorld
+sg.aN()F : net/minecraft/IBossbarEntity.getHealth
+sg.aT()F : net/minecraft/IBossbarEntity.getMaxHealth
+sg.an()Ljava/lang/String; : net/minecraft/IBossbarEntity.getEntityName

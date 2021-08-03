@@ -31,6 +31,17 @@ public abstract class Codec<T> {
             return new JsonPrimitive(value);
         }
     };
+    public static final Codec<Float> FLOAT = new Codec<Float>(Float.class) {
+        @Override
+        public Float read(JsonElement json) {
+            return json.getAsFloat();
+        }
+
+        @Override
+        public JsonElement write(Float value) {
+            return new JsonPrimitive(value);
+        }
+    };
     public static final Codec<File> FILE = new Codec<File>(File.class) {
         @Override
         public File read(JsonElement json) {

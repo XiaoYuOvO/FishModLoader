@@ -41,12 +41,23 @@ public class ConfigEntry<T> extends Config {
     @Override
     public Config.ReadResult read(JsonElement json) {
         try {
-            if (json.isJsonObject()){
-                this.configRef.set(this.codec.read(json.getAsJsonObject().get("value")));
+            if (json != null){
+                if (json.isJsonObject()){
+                    this.configRef.set(this.codec.read(json.getAsJsonObject().get("value")));
+                    if (!json.getAsJsonObject().get("_comment").getAsString().equals(this.comment)) {
+                        return Config.ReadResult.ofChanged(this.writeWithValue(this.configRef.get()));
+                    }
+                }else {
+                    this.configRef.set(this.codec.read(json));
+                    if (this.comment != null && !this.comment.isEmpty()){
+                        return Config.ReadResult.ofChanged(this.writeWithValue(this.configRef.get()));
+                    }
+                }
+                return Config.ReadResult.NO_CHANGE;
             }else {
-                this.configRef.set(this.codec.read(json));
+                this.configRef.set(this.defaultValue);
+                return Config.ReadResult.ofChanged(this.writeDefault());
             }
-            return Config.ReadResult.NO_CHANGE;
         }catch (Throwable t) {
             FishModLoader.LOGGER.error("Cannot read config: " + this.getName(),t);
             this.configRef.set(this.defaultValue);
@@ -61,12 +72,16 @@ public class ConfigEntry<T> extends Config {
 
     @Override
     public JsonElement writeDefault() {
+        return this.writeWithValue(this.defaultValue);
+    }
+
+    private JsonElement writeWithValue(T value) {
         if (this.comment != null){
             JsonObject json = new JsonObject();
             json.addProperty("_comment",this.comment);
-            json.add("value",this.codec.write(this.defaultValue));
+            json.add("value",this.codec.write(value));
             return json;
         }
-        return this.codec.write(this.defaultValue);
+        return this.codec.write(value);
     }
 }

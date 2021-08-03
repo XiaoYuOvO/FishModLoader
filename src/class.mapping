@@ -1667,7 +1667,7 @@ sc : net/minecraft/EntitySquid
 sd : net/minecraft/EntityIronGolem
 se : net/minecraft/EntityWaterAnimal
 sf : net/minecraft/EntityWolf
-sg : net/minecraft/sg
+sg : net/minecraft/IBossbarEntity
 sh : net/minecraft/IComplex
 si : net/minecraft/EntityComplexPart
 siz : net/minecraft/siz
