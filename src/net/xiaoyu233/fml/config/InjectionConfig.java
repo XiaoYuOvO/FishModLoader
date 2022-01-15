@@ -60,10 +60,10 @@ public class InjectionConfig {
         return required;
     }
 
-    public Config toConfig(ClassLoader classLoader, IMixinService mixinService,MixinEnvironment environment){
+    public org.spongepowered.asm.mixin.transformer.Config toConfig(ClassLoader classLoader, IMixinService mixinService, MixinEnvironment environment){
         MixinConfig config = this.toMixinConfig(classLoader);
         config.onLoad(mixinService,this.name,environment);
-        return new Config(config);
+        return new org.spongepowered.asm.mixin.transformer.Config(config);
     }
 
     private MixinConfig toMixinConfig(ClassLoader classLoader){

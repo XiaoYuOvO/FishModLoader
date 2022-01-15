@@ -38,7 +38,7 @@ public class FishModLoader extends AbstractMod{
    public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModInfo> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   public static final String VERSION = "v1.3.0";
+   public static final String VERSION = "v1.3.1";
    public static final int VERSION_NUM = 130;
    private static final ArrayList<ModInfo> mods = new ArrayList<>();
    private static final Map<String, ModInfo> modsMap = new HashMap<>();
@@ -48,8 +48,7 @@ public class FishModLoader extends AbstractMod{
    static {
       try {
          UIManager.setLookAndFeel(new WindowsLookAndFeel());
-      } catch (UnsupportedLookAndFeelException var1) {
-         var1.printStackTrace();
+      } catch (Exception ignored) {
       }
 
       if (isServer()) {
