@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("DanglingJavadoc")
 public class Launch {
    public static String mainClass;
    public static Map<String, Object> blackboard = new HashMap<>();
@@ -85,16 +86,27 @@ public class Launch {
          onEnvironmentChanged();
          Class<?> modInfo = ReflectHelper.reloadClassWithLoader(ModInfo.class,Launch.classLoader);
          Class<?> absModInfo = ReflectHelper.reloadClassWithLoader(AbstractMod.class,Launch.classLoader);
-         Method fishModLoader = ReflectHelper.reloadClassWithLoader(FishModLoader.class,Launch.classLoader).getDeclaredMethod("addModInfo", modInfo);
+         Class<?> fmlClass = ReflectHelper.reloadClassWithLoader(FishModLoader.class, Launch.classLoader);
+         Method addModInfo = fmlClass.getDeclaredMethod("addModInfo", modInfo);
          for (ModInfo value : FishModLoader.getModsMap().values()) {
             Class<?> aClass = Launch.classLoader.loadClass(value.getMod().getClass().getName());
             try {
                Constructor<?> declaredConstructor = aClass.getDeclaredConstructor();
                declaredConstructor.setAccessible(true);
                Object o = declaredConstructor.newInstance();
+               /**
+                * @see AbstractMod#postInit()
+                * */
                aClass.getMethod("postInit").invoke(o);
+               /**
+                * @see FishModLoader#reloadAllConfigs()
+                * */
+               fmlClass.getMethod("reloadAllConfigs").invoke(null);
                try {
-                  fishModLoader.invoke(null, modInfo.getConstructor(absModInfo, List.class).newInstance(o, value.getDists()));
+                  /**
+                   * @see FishModLoader#addModInfo(ModInfo)
+                   * */
+                  addModInfo.invoke(null, modInfo.getConstructor(absModInfo, List.class).newInstance(o, value.getDists()));
                } catch (Exception e) {
                   FishModLoader.LOGGER.error("Cannot add mod info " + value.getModid() + "-" + value.getModVerStr() + " quitting!", e);
                   System.exit(-1);

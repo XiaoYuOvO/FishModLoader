@@ -17,7 +17,7 @@ public class Configs {
                     addEntry(new ConfigCategory("DumpClass").
                             addEntry(new ConfigEntry<>("dumpPath",Codec.FILE,new File("./.mixin.out"),Debug.DumpClass.dumpPath).withComment("类文件输出目录")).
                             addEntry(new ConfigEntry<>("dumpClass",Codec.BOOLEAN,false,Debug.DumpClass.dumpClass).withComment("输出Mixin处理后的类文件"))));
-    private static final File CONFIG_FILE = new File("fishmodloader.json");
+    public static final File CONFIG_FILE = new File("fishmodloader.json");
 
     public static void loadConfig(){
         CONFIG.readFromFile(CONFIG_FILE);

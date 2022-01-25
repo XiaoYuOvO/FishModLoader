@@ -30,6 +30,6 @@ public class MinecraftTrans {
 
     @Inject(method = "<init>",at = @At("RETURN"))
     private void injectCtor(CallbackInfo callbackInfo){
-        Configs.loadConfig();
+        FishModLoader.reloadAllConfigs();
     }
 }

@@ -23,6 +23,10 @@ public class ConfigCategory extends Config {
         return this;
     }
 
+    public List<Config> getChild() {
+        return child;
+    }
+
     @Override
     @NotNull
     public ReadResult read(JsonElement json) {
@@ -57,6 +61,15 @@ public class ConfigCategory extends Config {
         JsonObject result = new JsonObject();
         for (Config config : child) {
             result.add(config.getName(),config.writeDefault());
+        }
+        return result;
+    }
+
+    @Override
+    public JsonElement write() {
+        JsonObject result = new JsonObject();
+        for (Config config : child) {
+            result.add(config.getName(),config.write());
         }
         return result;
     }

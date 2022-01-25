@@ -14,7 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public abstract class Config {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final String name;
     protected Config(String name) {
         this.name = name;
@@ -28,8 +28,10 @@ public abstract class Config {
     public abstract ReadResult read(JsonElement json);
 
     public void readFromFile(File cfgFile){
-        File configFile = new File(FishModLoader.CONFIG_DIR,cfgFile.toString());
         Config.ReadResult read = Config.ReadResult.NO_CHANGE;
+        ConfigRegistry configRegistry = new ConfigRegistry(this, cfgFile);
+        FishModLoader.addConfigRegistry(configRegistry);
+        File configFile = configRegistry.getPathToConfigFile();
         if (!configFile.exists()){
             try {
                 configFile.getParentFile().mkdirs();
@@ -61,6 +63,8 @@ public abstract class Config {
     }
 
     public abstract JsonElement writeDefault();
+
+    public abstract JsonElement write();
 
     public static class ReadResult{
         public static final ReadResult NO_CHANGE = new ReadResult(false,null);

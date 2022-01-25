@@ -1,8 +1,10 @@
 package net.xiaoyu233.fml;
 
+import net.xiaoyu233.fml.config.ConfigRegistry;
 import net.xiaoyu233.fml.config.InjectionConfig;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractMod {
    /**
@@ -28,4 +30,9 @@ public abstract class AbstractMod {
    public abstract int modVerNum();
 
    public abstract String modVerStr();
+
+   @Nullable
+   public ConfigRegistry getConfigRegistry() {
+       return null;
+   }
 }

@@ -29,8 +29,24 @@ public class ConfigEntry<T> extends Config {
         this.configRef = configRef;
     }
 
-    public static <T> ConfigEntry<T> of(String name,FieldReference<T> configRef){
+    public static <T> ConfigEntry<T> of(String name, FieldReference<T> configRef){
         return new ConfigEntry<>(name, configRef);
+    }
+
+    public Codec<T> getCodec() {
+        return codec;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public T getCurrentValue() {
+        return configRef.get();
+    }
+
+    public void setCurrentValue(T value){
+        this.configRef.set(value);
     }
 
 
@@ -73,6 +89,11 @@ public class ConfigEntry<T> extends Config {
     @Override
     public JsonElement writeDefault() {
         return this.writeWithValue(this.defaultValue);
+    }
+
+    @Override
+    public JsonElement write() {
+        return this.writeWithValue(this.configRef.get());
     }
 
     private JsonElement writeWithValue(T value) {

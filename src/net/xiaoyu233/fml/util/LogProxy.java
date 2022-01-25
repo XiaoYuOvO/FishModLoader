@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.function.BiConsumer;
 
 public class LogProxy extends PrintStream {
-   private final Logger logger = LogManager.getLogger("STDOUT");
+   public static final Logger logger = LogManager.getLogger("STDOUT");
    private final LogProxy.ProxyStyle style;
 
    public LogProxy(OutputStream out, LogProxy.ProxyStyle style) {
@@ -17,16 +17,16 @@ public class LogProxy extends PrintStream {
       this.style = style;
    }
 
-   public void println() {
-      this.style.loggerMsgConsumer.accept(this.logger, "");
+   public void print(String s) {
+      this.style.loggerMsgConsumer.accept(logger, s);
    }
 
    public void println(String x) {
-      this.style.loggerMsgConsumer.accept(this.logger, x);
+      this.style.loggerMsgConsumer.accept(logger, x);
    }
 
-   public void print(String s) {
-      this.style.loggerMsgConsumer.accept(this.logger, s);
+   public void println() {
+      this.style.loggerMsgConsumer.accept(logger, "");
    }
 
    public static void proxySysout() {

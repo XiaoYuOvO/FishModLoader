@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import net.xiaoyu233.fml.config.ConfigRegistry;
 import net.xiaoyu233.fml.config.Configs;
 import net.xiaoyu233.fml.config.InjectionConfig;
 import net.xiaoyu233.fml.reload.transform.MinecraftServerTrans;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.service.MixinService;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.swing.*;
@@ -27,10 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class FishModLoader extends AbstractMod{
    public static final File CONFIG_DIR = new File("configs");
@@ -38,12 +37,14 @@ public class FishModLoader extends AbstractMod{
    public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModInfo> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   public static final String VERSION = "v1.3.1";
-   public static final int VERSION_NUM = 130;
+   public static final String VERSION = "v1.4.0";
+   public static final int VERSION_NUM = 140;
    private static final ArrayList<ModInfo> mods = new ArrayList<>();
    private static final Map<String, ModInfo> modsMap = new HashMap<>();
    private static boolean isServer = false;
    private static final String onlineVersion = versionCheck();
+   private static final List<ConfigRegistry> ALL_REGISTRIES = new ArrayList<>();
+   private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Configs.CONFIG,Configs.CONFIG_FILE);
 
    static {
       try {
@@ -73,6 +74,30 @@ public class FishModLoader extends AbstractMod{
             modsMapForLoginCheck.put(modInfo.getModid(), modInfo);
          }
       }
+   }
+
+   public static void addConfigRegistry(ConfigRegistry configRegistry){
+      if (!ALL_REGISTRIES.contains(configRegistry)){
+         ALL_REGISTRIES.add(configRegistry);
+      }
+   }
+
+   public static List<ConfigRegistry> getAllConfigRegistries() {
+       return ALL_REGISTRIES;
+   }
+
+   public static void reloadAllConfigs(){
+      mods.stream().map(ModInfo::getMod).map(AbstractMod::getConfigRegistry).filter(Objects::nonNull).forEach(FishModLoader::addConfigRegistry);
+      for (int i = 0; i < ALL_REGISTRIES.size(); i++) {
+         ConfigRegistry configRegistry = ALL_REGISTRIES.get(i);
+         configRegistry.reloadConfig();
+      }
+   }
+
+   @Nullable
+   @Override
+   public ConfigRegistry getConfigRegistry() {
+      return CONFIG_REGISTRY;
    }
 
    public static ImmutableMap<String, ModInfo> getModsMap() {

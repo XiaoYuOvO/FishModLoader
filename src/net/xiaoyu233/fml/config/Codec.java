@@ -75,8 +75,14 @@ public abstract class Codec<T> {
             return new JsonPrimitive(value);
         }
     };
+    private final Class<T> typeClass;
     private Codec(Class<T> typeClass){
         types.put(typeClass,this);
+        this.typeClass = typeClass;
+    }
+
+    public Class<T> getTypeClass() {
+        return typeClass;
     }
 
     public static <T> Codec<T> getFromClass(Class<T> clazz){

@@ -149,7 +149,7 @@ public class LaunchClassLoader extends URLClassLoader {
          }
 
          final byte[] transformedClass = runTransformers(untransformedName, transformedName, getClassBytes(untransformedName));
-         if (DEBUG_SAVE) {
+         if (DEBUG_SAVE && transformedName.startsWith("net.minecraft.")) {
             saveTransformedClass(transformedClass, transformedName);
          }
 

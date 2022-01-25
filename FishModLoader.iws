@@ -22,12 +22,24 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Fix bossbar entity crash">
-      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Log all messages through log4j2&#10;Make configs can be reloaded on runtime&#10;New GUI config editor(Downward compatible)&#10;Fix fps limit problem&#10;Remove unnecessary class dumping">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/editor/ConfigEditor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimit2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/LogTransform.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Codec.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Codec.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/LogProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/LogProxy.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,20 +85,20 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../MITEClasses/src/net/minecraft/CommandHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemappingClassAdapter.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/CustomRemapper.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm-commons/7.3.1/asm-commons-7.3.1-sources.jar!/org/objectweb/asm/commons/ClassRemapper.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarRemapper.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../MITEClasses/src/net/minecraft/CommandHandler.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemapperProcessor.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarMapping.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/NodeType.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileInputStream.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemappingClassAdapter.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/org/objectweb/asm/tree/MethodNode.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/SpecialSource.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/AccessChange.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileReader.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/NodeType.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarMapping.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/org/objectweb/asm/Opcodes.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm-commons/7.3.1/asm-commons-7.3.1-sources.jar!/org/objectweb/asm/commons/ClassRemapper.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileReader.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/SpecialSource.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/CustomRemapper.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileInputStream.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/AccessChange.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -117,10 +129,10 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15039062" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -451,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627997455652</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Log4j2 lookup vulnerability fix">
+      <created>1642223425663</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1642223425663</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -490,7 +509,9 @@
     <MESSAGE value="Update classloading and configs&#10;Add a event type&#10;Add some tools" />
     <MESSAGE value="Add mod duplication detect&#10;Make players can join in server &#10;Fix slaying's translation&#10;Fixed some connection problems" />
     <MESSAGE value="Fix bossbar entity crash" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix bossbar entity crash" />
+    <MESSAGE value="Log4j2 lookup vulnerability fix" />
+    <MESSAGE value="Log all messages through log4j2&#10;Make configs can be reloaded on runtime&#10;New GUI config editor(Downward compatible)&#10;Fix fps limit problem&#10;Remove unnecessary class dumping" />
+    <option name="LAST_COMMIT_MESSAGE" value="Log all messages through log4j2&#10;Make configs can be reloaded on runtime&#10;New GUI config editor(Downward compatible)&#10;Fix fps limit problem&#10;Remove unnecessary class dumping" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -660,7 +681,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
-          <line>71</line>
+          <line>72</line>
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
