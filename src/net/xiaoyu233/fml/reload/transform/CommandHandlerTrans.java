@@ -28,12 +28,23 @@ public class CommandHandlerTrans {
             callbackInfo.setReturnValue(1);
         }
         if (par2Str.startsWith("configs edit")){
-            if (player != null){
-                player.sendChatToPlayer(ChatMessage.createFromText("正在打开配置文件编辑器..."));
+            if (mc_server instanceof IntegratedServer && (mc_server.getConfigurationManager()
+                    .getCurrentPlayerCount() > 1) &&
+                    //Is remote player
+                    !(Minecraft.getClientPlayer().getEntityName().equals(player.getEntityName()))) {
+                player.sendChatToPlayer(ChatMessage.createFromText("你不是局域网主机,无法修改配置").setColor(EnumChatFormat.RED));
+            }else if (mc_server.isDedicatedServer() &&
+                    //Not server console
+                    player != null){
+                player.sendChatToPlayer(ChatMessage.createFromText("无法编辑服务器配置,请联系服主修改").setColor(EnumChatFormat.RED));
             }else {
-                System.out.println("正在打开配置文件编辑器...");
+                if (player != null) {
+                    player.sendChatToPlayer(ChatMessage.createFromText("正在打开配置文件编辑器..."));
+                } else {
+                    System.out.println("正在打开配置文件编辑器...");
+                }
+                new ConfigEditor(FishModLoader.getAllConfigRegistries()).setVisible(true);
             }
-            new ConfigEditor(FishModLoader.getAllConfigRegistries()).setVisible(true);
             callbackInfo.setReturnValue(1);
         }
     }
