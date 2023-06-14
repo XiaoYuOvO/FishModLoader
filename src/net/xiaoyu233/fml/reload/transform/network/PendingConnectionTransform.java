@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 @Mixin(PendingConnection.class)
-public class PendingConnectionTransform extends Connection {
+public abstract class PendingConnectionTransform extends Connection {
     @Shadow
     private static Random rand;
     @Shadow

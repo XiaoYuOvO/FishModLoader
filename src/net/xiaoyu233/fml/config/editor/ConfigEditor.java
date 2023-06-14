@@ -95,6 +95,7 @@ public class ConfigEditor extends JFrame {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                registry.reloadConfig();
             }
             JOptionPane.showMessageDialog(this,"保存成功,更改已生效!");
             ConfigEditor.this.dispose();
