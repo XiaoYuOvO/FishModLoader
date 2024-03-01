@@ -5,10 +5,11 @@ import net.minecraft.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.xiaoyu233.fml.reload.event.MITEEvents;
 import net.xiaoyu233.fml.reload.event.PlayerLoggedInEvent;
-import net.xiaoyu233.fml.reload.utils.VersionCheckThread;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerTrans {
@@ -17,16 +18,17 @@ public class MinecraftServerTrans {
    @Shadow
    private static int treachery_shutdown_counter;
 
-   @Overwrite
-   public static void setTreacheryDetected() {
+   @Inject(method = "setTreacheryDetected", at = @At("HEAD"), cancellable = true)
+   private static void removeTreacheryDetect(CallbackInfo info) {
       treachery_detected = false;
       treachery_shutdown_counter = 0;
+      info.cancel();
    }
 
-   @Overwrite
-   public void playerLoggedIn(ServerPlayer par1EntityPlayerMP) {
+   @Inject(method = "playerLoggedIn", at = @At("HEAD"))
+   private void onPlayerLoggedIn(ServerPlayer par1EntityPlayerMP, CallbackInfo callbackInfo) {
       MITEEvents.MITE_EVENT_BUS.post(new PlayerLoggedInEvent(par1EntityPlayerMP));
-      (new VersionCheckThread(par1EntityPlayerMP)).start();
+
    }
 
    @Shadow

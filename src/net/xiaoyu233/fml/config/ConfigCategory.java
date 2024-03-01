@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigCategory extends Config {
+    protected String comment = null;
     private final List<Config> child = new ArrayList<>();
     public ConfigCategory(String name) {
         super(name);
@@ -26,6 +27,14 @@ public class ConfigCategory extends Config {
     public List<Config> getChild() {
         return child;
     }
+    public ConfigCategory withComment(String comment) {
+        this.comment = comment;
+        return this;
+    }
+
+    public String getComment() {
+        return comment;
+    }
 
     @Override
     @NotNull
@@ -34,6 +43,17 @@ public class ConfigCategory extends Config {
             if (json.isJsonObject()){
                 JsonObject obj = ((JsonObject) json);
                 boolean oneChanged = false;
+                if (this.comment != null && !this.comment.isEmpty()){
+                    boolean hasComment = obj.has("_comment");
+                    if (hasComment && !obj.get("_comment").getAsString().equals(this.comment)){
+                        obj.remove("_comment");
+                        obj.addProperty("_comment", this.comment);
+                        oneChanged = true;
+                    }else if (!hasComment){
+                        obj.addProperty("_comment", this.comment);
+                        oneChanged = true;
+                    }
+                }
                 for (Config config : this.child) {
                     String name = config.getName();
                     ReadResult result = config.read(obj.get(name));
@@ -62,6 +82,9 @@ public class ConfigCategory extends Config {
         for (Config config : child) {
             result.add(config.getName(),config.writeDefault());
         }
+        if (this.comment != null && !this.comment.isEmpty()){
+            result.addProperty("_comment", this.getComment());
+        }
         return result;
     }
 
@@ -70,6 +93,9 @@ public class ConfigCategory extends Config {
         JsonObject result = new JsonObject();
         for (Config config : child) {
             result.add(config.getName(),config.write());
+        }
+        if (this.comment != null && !this.comment.isEmpty()){
+            result.addProperty("_comment", this.getComment());
         }
         return result;
     }

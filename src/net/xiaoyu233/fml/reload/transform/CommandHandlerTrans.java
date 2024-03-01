@@ -23,9 +23,24 @@ public class CommandHandlerTrans {
             callbackInfo.setReturnValue(1);
         }
         if (par2Str.startsWith("configs reload")){
-            mc_server.sendChatToPlayer(ChatMessage.createFromText("[Server] 正在重载所有配置文件"));
-            FishModLoader.reloadAllConfigs();
-            callbackInfo.setReturnValue(1);
+            if ((mc_server instanceof IntegratedServer && (mc_server.getConfigurationManager()
+                    .getCurrentPlayerCount() > 1) &&
+                    //Is remote player
+                    !(Minecraft.getClientPlayer().getEntityName().equals(player.getEntityName())))
+            ) {
+                player.sendChatToPlayer(ChatMessage.createFromText("你不是局域网主机,无法重载配置").setColor(EnumChatFormat.RED));
+                callbackInfo.setReturnValue(-1);
+                return;
+            }else if (mc_server.isDedicatedServer() &&
+                    //Not server console
+                    player != null){
+                player.sendChatToPlayer(ChatMessage.createFromText("你不是服务器控制台,无法重载配置").setColor(EnumChatFormat.RED));
+                callbackInfo.setReturnValue(-1);
+            }else {
+                mc_server.sendChatToPlayer(ChatMessage.createFromText("[Server] 正在重载所有配置文件"));
+                FishModLoader.reloadAllConfigs();
+                callbackInfo.setReturnValue(1);
+            }
         }
         if (par2Str.startsWith("configs edit")){
             if (mc_server instanceof IntegratedServer && (mc_server.getConfigurationManager()

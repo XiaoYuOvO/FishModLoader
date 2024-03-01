@@ -5,10 +5,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(EntityPlayer.class)
-public class EntityHumanTrans {
-
+public interface EntityHumanTrans {
    @Invoker("getExperienceRequired")
-   public static int getExpRequired(int level) {
-      return 0;
+   static int getExpRequired(int level) {
+      throw new AssertionError();
    }
 }

@@ -169,7 +169,11 @@ public class ConfigEditor extends JFrame {
 
     private void addAllConfigs(Config config, DefaultMutableTreeNode root){
         if (config instanceof ConfigCategory){
-            DefaultMutableTreeNode defaultMutableTreeNode = new DefaultMutableTreeNode(config.getName());
+            String comment = ((ConfigCategory) config).getComment();
+            if (comment == null || comment.isEmpty()){
+                comment = config.getName();
+            }
+            DefaultMutableTreeNode defaultMutableTreeNode = new DefaultMutableTreeNode(comment);
             root.add(defaultMutableTreeNode);
             for (Config child : ((ConfigCategory) config).getChild()) {
                 addAllConfigs(child,defaultMutableTreeNode);

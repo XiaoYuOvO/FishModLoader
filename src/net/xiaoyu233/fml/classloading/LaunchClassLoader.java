@@ -12,6 +12,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.util.*;
@@ -26,11 +27,11 @@ public class LaunchClassLoader extends URLClassLoader {
    public static final int BUFFER_SIZE = 4096;
    private final List<URL> sources;
    private final ClassLoader parent = this.getClass().getClassLoader();
-   private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("legacy.debugClassLoading", "false")) || Configs.Debug.debug.get();
+   private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("legacy.debugClassLoading", "false")) || Configs.Debug.DEBUG.get();
 
    static {
-      DEBUG_FINER = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingFiner", "false")) || Configs.Debug.printClassloadInfo.get());
-      DEBUG_SAVE = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingSave", "true")) || Configs.Debug.DumpClass.dumpClass.get());
+      DEBUG_FINER = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingFiner", "false")) || Configs.Debug.PRINT_CLASSLOAD_INFO.get());
+      DEBUG_SAVE = DEBUG && (Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingSave", "true")) || Configs.Debug.DumpClass.DUMP_CLASS.get());
       tempFolder = null;
    }
 
@@ -167,27 +168,26 @@ public class LaunchClassLoader extends URLClassLoader {
       }
    }
 
-   private void saveTransformedClass(byte[] data, String transformedName) {
-      if (tempFolder != null) {
-         File outFile = new File(tempFolder, transformedName.replace('.', File.separatorChar) + ".class");
-         File outDir = outFile.getParentFile();
-         if (!outDir.exists()) {
-            outDir.mkdirs();
-         }
-
-         if (outFile.exists()) {
-            outFile.delete();
-         }
-
-         try {
-            OutputStream output = new FileOutputStream(outFile);
-            output.write(data);
-            output.close();
-         } catch (IOException var6) {
-            LogWrapper.log(Level.WARN, var6, "Could not save transformed class \"%s\"", transformedName);
-         }
-
+   public LaunchClassLoader(URL[] sources) {
+      super(sources, null);
+      this.sources = new ArrayList<>(Arrays.asList(sources));
+      this.addClassLoaderExclusion("java.");
+      this.addClassLoaderExclusion("sun.");
+      this.addClassLoaderExclusion("org.lwjgl.");
+      this.addClassLoaderExclusion("org.apache.logging.");
+      this.addClassLoaderExclusion("net.minecraft.launchwrapper.");
+      this.addTransformerExclusion("javax.");
+      this.addTransformerExclusion("argo.");
+      this.addTransformerExclusion("org.objectweb.asm.");
+      this.addTransformerExclusion("com.google.common.");
+      this.addTransformerExclusion("org.bouncycastle.");
+      this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
+      if (DEBUG_SAVE) {
+         tempFolder = Configs.Debug.DumpClass.DUMP_PATH.get();
+         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
+         tempFolder.mkdirs();
       }
+
    }
 
    public String untransformName(String name) {
@@ -228,26 +228,27 @@ public class LaunchClassLoader extends URLClassLoader {
       }
    }
 
-   public LaunchClassLoader(URL[] sources) {
-      super(sources, null);
-      this.sources = new ArrayList<>(Arrays.asList(sources));
-      this.addClassLoaderExclusion("java.");
-      this.addClassLoaderExclusion("sun.");
-      this.addClassLoaderExclusion("org.lwjgl.");
-      this.addClassLoaderExclusion("org.apache.logging.");
-      this.addClassLoaderExclusion("net.minecraft.launchwrapper.");
-      this.addTransformerExclusion("javax.");
-      this.addTransformerExclusion("argo.");
-      this.addTransformerExclusion("org.objectweb.asm.");
-      this.addTransformerExclusion("com.google.common.");
-      this.addTransformerExclusion("org.bouncycastle.");
-      this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
-      if (DEBUG_SAVE) {
-         tempFolder = Configs.Debug.DumpClass.dumpPath.get();
-         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
-         tempFolder.mkdirs();
-      }
+   private void saveTransformedClass(byte[] data, String transformedName) {
+      if (tempFolder != null) {
+         File outFile = new File(tempFolder, transformedName.replace('.', File.separatorChar) + ".class");
+         File outDir = outFile.getParentFile();
+         if (!outDir.exists()) {
+            outDir.mkdirs();
+         }
 
+         if (outFile.exists()) {
+            outFile.delete();
+         }
+
+         try {
+            OutputStream output = Files.newOutputStream(outFile.toPath());
+            output.write(data);
+            output.close();
+         } catch (IOException var6) {
+            LogWrapper.log(Level.WARN, var6, "Could not save transformed class \"%s\"", transformedName);
+         }
+
+      }
    }
 
    public void addURL(URL url) {

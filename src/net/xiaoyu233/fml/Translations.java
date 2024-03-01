@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Translations {
-   private static final Map<String, Map<String, String>> allTranslations = new HashMap();
+   private static final Map<String, Map<String, String>> allTranslations = new HashMap<>();
 
    public static void addTranslationsFor(Map translations, String languageKey) {
-      translations.putAll(allTranslations.getOrDefault(languageKey, new HashMap()));
+      translations.putAll(allTranslations.getOrDefault(languageKey, new HashMap<>()));
    }
 
    public static void addLanguage(String languageKey) {
-      allTranslations.put(languageKey, new HashMap());
+      allTranslations.put(languageKey, new HashMap<>());
    }
 
    public static Map<String, String> getLanguageMapFor(String langKey) {
       if (allTranslations.containsKey(langKey)) {
          return allTranslations.get(langKey);
       } else {
-         HashMap<String, String> map = new HashMap();
+         HashMap<String, String> map = new HashMap<>();
          allTranslations.put(langKey, map);
          return map;
       }

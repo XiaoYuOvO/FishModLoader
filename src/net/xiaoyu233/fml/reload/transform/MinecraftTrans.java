@@ -18,7 +18,7 @@ public class MinecraftTrans {
     @Overwrite
     public static void setErrorMessage(String text, boolean echo_to_err) {
         FishModLoader.LOGGER.error(text);
-        if (Configs.Debug.debug.get()){
+        if (Configs.Debug.DEBUG.get()){
             if (echo_to_err && (error_message == null || !error_message.equals(text))) {
                 System.err.println(text);
             }

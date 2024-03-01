@@ -1,11 +1,13 @@
 package net.xiaoyu233.fml.reload.transform.fix;
 
 import net.minecraft.Block;
-import net.minecraft.BlockMinecartTrack;
+import net.minecraft.BlockMinecartTrackAbstract;
 import net.minecraft.BlockRedstoneTorch;
 import net.minecraft.BlockTorch;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockRedstoneTorch.class)
 public abstract class RedstoneTorchFix extends BlockTorch {
@@ -13,8 +15,10 @@ public abstract class RedstoneTorchFix extends BlockTorch {
       super(par1);
    }
 
-   @Overwrite
-   public boolean canBeReplacedBy(int metadata, Block other_block, int other_block_metadata) {
-      return !(other_block instanceof BlockRedstoneTorch) && !(other_block instanceof BlockMinecartTrack) && super.canBeReplacedBy(metadata, other_block, other_block_metadata);
+   @Inject(method = "canBeReplacedBy", at = @At("HEAD"), cancellable = true)
+   public void fixReplaceCrash(int metadata, Block other_block, int other_block_metadata, CallbackInfoReturnable<Boolean> callbackInfo) {
+      if (other_block instanceof BlockMinecartTrackAbstract){
+         callbackInfo.setReturnValue(false);
+      }
    }
 }

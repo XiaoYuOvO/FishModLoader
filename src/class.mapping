@@ -856,7 +856,7 @@ aw : net/minecraft/CommandToggleDownfall
 awa : net/minecraft/awa
 awb : net/minecraft/awb
 awd : net/minecraft/awd
-awe : net/minecraft/awe
+awe : net/minecraft/GuiScreen
 awf : net/minecraft/awf
 awg : net/minecraft/GuiSlot
 awh : net/minecraft/GuiSelectWorld
@@ -879,7 +879,7 @@ awx : net/minecraft/awx
 awy : net/minecraft/awy
 awz : net/minecraft/awz
 ax : net/minecraft/CommandWeather
-axa : net/minecraft/axa
+axa : net/minecraft/GuiBeacon
 axb : net/minecraft/axb
 axc : net/minecraft/axc
 axd : net/minecraft/axd
@@ -1246,7 +1246,7 @@ blp : net/minecraft/blp
 blq : net/minecraft/blq
 blr : net/minecraft/blr
 bls : net/minecraft/bls
-blt : net/minecraft/blt
+blt : net/minecraft/GuiMainMenu
 blu : net/minecraft/blu
 blv : net/minecraft/blv
 blw : net/minecraft/blw
@@ -1829,7 +1829,7 @@ ye : net/minecraft/ItemStack
 yf : net/minecraft/ItemLeaves
 yg : net/minecraft/ItemLeash
 yh : net/minecraft/ItemWorldMap
-yi : net/minecraft/yi
+yi : net/minecraft/ItemBucketMilk
 yj : net/minecraft/ItemMinecart
 yk : net/minecraft/DispenseBehaviorMinecart
 yl : net/minecraft/ItemMultiTexture
@@ -1837,7 +1837,7 @@ ym : net/minecraft/ItemNameTag
 yn : net/minecraft/ItemPickaxe
 yo : net/minecraft/ItemPiston
 yp : net/minecraft/ItemPotion
-yq : net/minecraft/yq
+yq : net/minecraft/EnchantmentRarity
 yr : net/minecraft/ItemRecord
 ys : net/minecraft/ItemRedstone
 yt : net/minecraft/ItemSaddle

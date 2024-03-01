@@ -1,5 +1,6 @@
 package net.xiaoyu233.fml.config;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -8,10 +9,8 @@ import com.sun.istack.internal.NotNull;
 import net.xiaoyu233.fml.FishModLoader;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 
 public abstract class Config {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -38,7 +37,7 @@ public abstract class Config {
                 if (!configFile.createNewFile()) {
                     FishModLoader.LOGGER.error("Cannot create config file");
                 }else {
-                    try (FileWriter writer = new FileWriter(configFile)){
+                    try (OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(configFile.toPath()), Charsets.UTF_8)){
                         GSON.toJson(this.writeDefault(),writer);
                     }
                 }
@@ -46,8 +45,8 @@ public abstract class Config {
                 FishModLoader.LOGGER.error("Cannot create config file",e);
             }
         }
-        try (FileReader reader = new FileReader(configFile)){
-            read= this.read(new JsonParser().parse(reader));
+        try (InputStreamReader reader = new InputStreamReader(Files.newInputStream(configFile.toPath()), Charsets.UTF_8)){
+            read = this.read(new JsonParser().parse(reader));
         }catch (Throwable e) {
             FishModLoader.LOGGER.error("Error in reading config",e);
         }

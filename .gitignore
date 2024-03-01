@@ -1,0 +1,16 @@
+/src/OpenAL64.dll
+/src/net/xiaoyu233/fml/util/MappingConvertor.java
+/src/net/xiaoyu233/fml/util/MappingGenerator.java
+/src/net/xiaoyu233/fml/util/MapConnector.java
+/src/net/xiaoyu233/fml/util/ModRemapper.java
+/src/mappings.srg
+/src/field_backup.mapping
+/src/method_backup.mapping
+/src/method.mapping.backup
+method_.mapping
+class_.mapping
+field_.mapping
+/.shelf
+/.idea
+/libs
+/out

@@ -22,12 +22,46 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Fix illegally open config editor">
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to v1.4.2">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/ClientPlayerMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/SkillAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/class.mapping" beforeDir="false" afterPath="$PROJECT_DIR$/src/class.mapping" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/field_backup.mapping" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/method.mapping.backup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/method_backup.mapping" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/Translations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/Translations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/editor/ConfigEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/editor/ConfigEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LanguageLoaderTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LanguageLoaderTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LocaleLanguageTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LocaleLanguageTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/AllowedCharFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/AllowedCharFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/ChatFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/ChatFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/EnchantmentPiercingTranslationFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/EnchantmentPiercingTranslationFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixAnvilStackCrash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixAnvilStackCrash.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WeaponDamageTranslationFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WeaponDamageTranslationFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/BicTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/BicTransform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/Packet2ClientProtocolTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/Packet2ClientProtocolTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PacketTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PacketTrans.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/DebugAttackTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/DebugAttackTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityHumanTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityHumanTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EnumCommandTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EnumCommandAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/SkillTrans.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/MapConnector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/MappingGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ModRemapper.java" beforeDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,20 +107,19 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../MITEClasses/src/net/minecraft/CommandHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemapperProcessor.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarRemapper.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemappingClassAdapter.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/NodeType.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileInputStream.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$MAVEN_REPOSITORY$/org/ow2/asm/asm-commons/7.3.1/asm-commons-7.3.1-sources.jar!/org/objectweb/asm/commons/ClassRemapper.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarMapping.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/org/objectweb/asm/Opcodes.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileReader.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/SpecialSource.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/CustomRemapper.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/AccessChange.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/org/objectweb/asm/tree/MethodNode.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../MITEClasses/src/net/minecraft/CommandHandler.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/AccessChange.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/CustomRemapper.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarMapping.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/JarRemapper.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/NodeType.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemapperProcessor.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/RemappingClassAdapter.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../SpecialSource/src/main/java/net/md_5/specialsource/SpecialSource.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileInputStream.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$PROJECT_DIR$/../../jdk8u192/src.zip!/java/io/FileReader.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -94,6 +127,10 @@
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="1a5LddGgm0EHvbxEzAB2OrnMmr7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -102,26 +139,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15039062" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "H:/IDEAProjects/FishModLoader/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.1515625",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -130,11 +164,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\IDEAProjects\FishModLoader\src" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\reload" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\config" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml" />
       <recent name="I:\Projects\IDEAProjects\FishModLoader\libs" />
-      <recent name="H:\IDEAProjects\FishModLoader\src" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="net.xiaoyu233.fml.reload.transform.network" />
@@ -148,7 +182,7 @@
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--username liuRT --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d8c754e649c42bd4e --width 854 --height 480" />
-      <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.0.0\\fishmodloader-v1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
+      <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.5.0\\fishmodloader-v1.5.0.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
       <option name="WORKING_DIRECTORY" value="F:/MITE Plus R5/.minecraft" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -212,7 +246,7 @@
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.server.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--nogui" />
-      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\IDEAProjects\FishModLoader\libs\guava-28.0-jre.jar;H:\IDEAProjects\FishModLoader\libs\lwjgl-2.9.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-commons-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-tree-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-analysis-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-util-8.0.jar;H:\IDEAProjects\FishModLoader\libs\log4j-core-2.11.2.jar;H:\IDEAProjects\FishModLoader\libs\log4j-api-2.11.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.2.0\\fishmodloader-v1.2.0.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\MITE-R196-HDS-PlusR5.jar&quot;" />
+      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\IDEAProjects\FishModLoader\libs\guava-28.0-jre.jar;H:\IDEAProjects\FishModLoader\libs\lwjgl-2.9.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-commons-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-tree-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-analysis-8.0.jar;H:\IDEAProjects\FishModLoader\libs\asm-util-8.0.jar;H:\IDEAProjects\FishModLoader\libs\log4j-core-2.11.2.jar;H:\IDEAProjects\FishModLoader\libs\log4j-api-2.11.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.5.0\\fishmodloader-v1.5.0.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\1.6.4-MITE-HDS-R196.jar&quot;" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -296,6 +330,9 @@
       <workItem from="1603000443548" duration="782000" />
       <workItem from="1604216056586" duration="79000" />
       <workItem from="1619835270977" duration="21000" />
+      <workItem from="1709284044557" duration="478000" />
+      <workItem from="1709284528093" duration="4985000" />
+      <workItem from="1709289776741" duration="10462000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -472,11 +509,18 @@
       <option name="project" value="LOCAL" />
       <updated>1643181723484</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Update to v1.4.2">
+      <created>1686754190175</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1686754190175</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ID_ORDER">
@@ -525,7 +569,8 @@
     <MESSAGE value="Log4j2 lookup vulnerability fix" />
     <MESSAGE value="Log all messages through log4j2&#10;Make configs can be reloaded on runtime&#10;New GUI config editor(Downward compatible)&#10;Fix fps limit problem&#10;Remove unnecessary class dumping" />
     <MESSAGE value="Fix illegally open config editor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix illegally open config editor" />
+    <MESSAGE value="Update to v1.4.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to v1.4.2" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -579,22 +624,6 @@
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/../MITEClasses/cls/net/minecraft/PendingConnection.class</url>
-          <line>127</line>
-          <properties class="net.minecraft.PendingConnection">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="234" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java</url>
-          <line>34</line>
-          <properties class="net.xiaoyu233.fml.reload.transform.network.PendingConnectionTransform" method="handleClientProtocol">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="237" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
@@ -685,7 +714,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java</url>
-          <line>114</line>
+          <line>42</line>
           <option name="timeStamp" value="238" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -702,6 +731,11 @@
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModsWalker.java</url>
           <line>72</line>
           <option name="timeStamp" value="252" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LanguageLoaderTrans.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="255" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />

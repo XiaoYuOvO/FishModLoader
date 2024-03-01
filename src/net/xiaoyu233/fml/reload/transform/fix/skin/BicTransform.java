@@ -1,55 +1,41 @@
 package net.xiaoyu233.fml.reload.transform.fix.skin;
 
-import net.minecraft.*;
+import net.minecraft.bia;
+import net.minecraft.bic;
+import net.minecraft.bif;
+import net.minecraft.bjp;
 import net.xiaoyu233.fml.reload.utils.SkinDownloadThread;
 import net.xiaoyu233.fml.util.ReflectHelper;
-import org.spongepowered.asm.mixin.Final;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @Mixin(bic.class)
 public abstract class BicTransform extends bia {
-   @Shadow
-   @Final
-   public String b;
-   @Shadow
-   private BufferedImage d;
-   @Shadow
-   private Thread e;
+   @Shadow private Thread e;
    @Shadow
    private bif f;
 
-   @Overwrite
-   public void a(bjp parambjp) {
-      if (this.d == null) {
-         if (this.f != null) {
-            try {
-               this.f.a(parambjp);
-            } catch (IOException var3) {
-               var3.printStackTrace();
-            }
+   @Inject(method = "a(Lnet/minecraft/bjp;)V", at = @At(value = "FIELD" ,target = "Lnet/minecraft/bic;e:Ljava/lang/Thread;", shift = At.Shift.AFTER, opcode = Opcodes.PUTFIELD))
+   private void injectReplaceCreateSkinThread(CallbackInfo callbackInfo){
+      this.e = new SkinDownloadThread(ReflectHelper.dyCast(this));
+   }
 
-            super.a = this.f.b();
-         }
-      } else {
-         bip.a(this.b(), this.d);
+   @Redirect(method = "a(Lnet/minecraft/bjp;)V" ,at = @At(value = "INVOKE", target = "Lnet/minecraft/bif;a(Lnet/minecraft/bjp;)V"))
+   private void redirectSafeSkinLoading(bif obj, bjp resourceManager){
+      try {
+         this.f.a(resourceManager);
+      } catch (IOException e) {
+         e.printStackTrace();
       }
-
-      if (this.e == null) {
-         this.e = new SkinDownloadThread(ReflectHelper.dyCast(this));
-         this.e.setDaemon(true);
-         this.e.setName("Skin downloader: " + this.b);
-         this.e.start();
-      }
-
    }
 
    @Shadow
-   public int b() {
-      return 0;
-   }
+   public abstract int b();
 }

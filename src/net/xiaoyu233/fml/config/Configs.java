@@ -6,17 +6,18 @@ import java.io.File;
 
 public class Configs {
 
-    public static final ConfigCategory CONFIG = new ConfigCategory("root").
-            addEntry(new ConfigCategory("Server").
-                    addEntry(new ConfigEntry<>("allowClientMods",Codec.BOOLEAN,true,Server.allowClientMods).withComment("允许客户端使用客户端模组(如坐标器)"))).
-            addEntry(new ConfigCategory("Client").
-                    addEntry(new ConfigEntry<>("fpsLimit",Codec.INTEGER,120,Client.fpsLimit).withComment("FPS最大值"))).
-            addEntry(new ConfigCategory("Debug").
-                    addEntry(new ConfigEntry<>("debug",Debug.debug).withComment("开启调试模式")).
-                    addEntry(new ConfigEntry<>("printClassloadInfo",Codec.BOOLEAN,false,Debug.printClassloadInfo).withComment("输出类加载信息")).
-                    addEntry(new ConfigCategory("DumpClass").
-                            addEntry(new ConfigEntry<>("dumpPath",Codec.FILE,new File("./.mixin.out"),Debug.DumpClass.dumpPath).withComment("类文件输出目录")).
-                            addEntry(new ConfigEntry<>("dumpClass",Codec.BOOLEAN,false,Debug.DumpClass.dumpClass).withComment("输出Mixin处理后的类文件"))));
+    public static final ConfigCategory CONFIG = new ConfigCategory("root").withComment("根目录").
+            addEntry(new ConfigCategory("Server").withComment("服务端").
+                    addEntry(new ConfigCategory("Client").withComment("客户端").
+                            addEntry(new ConfigEntry<>("allowClientMods",Codec.BOOLEAN,true,Server.ALLOW_CLIENT_MODS).withComment("允许客户端使用客户端模组(如坐标器)"))).
+                    addEntry(new ConfigEntry<>("fpsLimit",Codec.INTEGER,120,Client.FPS_LIMIT).withComment("FPS最大值"))).
+            addEntry(new ConfigCategory("Debug").withComment("调试").
+                    addEntry(new ConfigEntry<>("debug",Debug.DEBUG).withComment("开启调试模式")).
+                    addEntry(new ConfigEntry<>("print_entity_damage_info", Debug.PRINT_ENTITY_DAMAGE_INFO).withComment("输出实体受到伤害信息")).
+                    addEntry(new ConfigEntry<>("printClassloadInfo",Codec.BOOLEAN,false,Debug.PRINT_CLASSLOAD_INFO).withComment("输出类加载信息")).
+                    addEntry(new ConfigCategory("DumpClass").withComment("类导出").
+                            addEntry(new ConfigEntry<>("dumpPath",Codec.FILE,new File("./.mixin.out"),Debug.DumpClass.DUMP_PATH).withComment("类文件输出目录")).
+                            addEntry(new ConfigEntry<>("dumpClass",Codec.BOOLEAN,false,Debug.DumpClass.DUMP_CLASS).withComment("输出Mixin处理后的类文件"))));
     public static final File CONFIG_FILE = new File("fishmodloader.json");
 
     public static void loadConfig(){
@@ -24,20 +25,21 @@ public class Configs {
     }
 
     public static class Client{
-        public static final FieldReference<Integer> fpsLimit = new FieldReference<>(120);
+        public static final FieldReference<Integer> FPS_LIMIT = new FieldReference<>(120);
     }
 
     public static class Debug{
-        public static final FieldReference<Boolean> debug = new FieldReference<>(false);
-        public static final FieldReference<Boolean> printClassloadInfo = new FieldReference<>(false);
+        public static final FieldReference<Boolean> DEBUG = new FieldReference<>(false);
+        public static final FieldReference<Boolean> PRINT_CLASSLOAD_INFO = new FieldReference<>(false);
+        public static final FieldReference<Boolean> PRINT_ENTITY_DAMAGE_INFO = new FieldReference<>(true);
 
         public static class DumpClass{
-            public static final FieldReference<Boolean> dumpClass = new FieldReference<>(false);
-            public static final FieldReference<File> dumpPath = new FieldReference<>(new File(""));
+            public static final FieldReference<Boolean> DUMP_CLASS = new FieldReference<>(false);
+            public static final FieldReference<File> DUMP_PATH = new FieldReference<>(new File(""));
         }
     }
 
     public static class Server{
-        public static final FieldReference<Boolean> allowClientMods = new FieldReference<>(true);
+        public static final FieldReference<Boolean> ALLOW_CLIENT_MODS = new FieldReference<>(true);
     }
 }

@@ -13,12 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PacketTrans {
     @Shadow
     static void addIdClassMapping(int par0, boolean par1, boolean par2, Class par3Class){}
-    @Inject(
-            method = "<clinit>",
-    at = @At("RETURN"))
+    @Inject(method = "<clinit>", at = @At("RETURN"))
     private static void injectRegisterPacket(CallbackInfo callback){
         MITEEvents.MITE_EVENT_BUS.post(new PacketRegisterEvent(PacketTrans::addIdClassMapping));
     }
-
-
 }

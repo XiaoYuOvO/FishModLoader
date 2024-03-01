@@ -10,7 +10,6 @@ import net.xiaoyu233.fml.config.Configs;
 import net.xiaoyu233.fml.config.InjectionConfig;
 import net.xiaoyu233.fml.reload.transform.MinecraftServerTrans;
 import net.xiaoyu233.fml.util.ModInfo;
-import net.xiaoyu233.fml.util.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -42,7 +41,8 @@ public class FishModLoader extends AbstractMod{
    private static final ArrayList<ModInfo> mods = new ArrayList<>();
    private static final Map<String, ModInfo> modsMap = new HashMap<>();
    private static boolean isServer = false;
-   private static final String onlineVersion = versionCheck();
+   //Cancel version check
+   private static final String onlineVersion = VERSION;
    private static final List<ConfigRegistry> ALL_REGISTRIES = new ArrayList<>();
    private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Configs.CONFIG,Configs.CONFIG_FILE);
 
@@ -53,7 +53,7 @@ public class FishModLoader extends AbstractMod{
       }
 
       if (isServer()) {
-         allowsClientMods = Configs.Server.allowClientMods.get();
+         allowsClientMods = Configs.Server.ALLOW_CLIENT_MODS.get();
       } else {
          allowsClientMods = true;
       }
@@ -88,8 +88,7 @@ public class FishModLoader extends AbstractMod{
 
    public static void reloadAllConfigs(){
       mods.stream().map(ModInfo::getMod).map(AbstractMod::getConfigRegistry).filter(Objects::nonNull).forEach(FishModLoader::addConfigRegistry);
-      for (int i = 0; i < ALL_REGISTRIES.size(); i++) {
-         ConfigRegistry configRegistry = ALL_REGISTRIES.get(i);
+      for (ConfigRegistry configRegistry : ALL_REGISTRIES) {
          configRegistry.reloadConfig();
       }
    }
@@ -104,17 +103,17 @@ public class FishModLoader extends AbstractMod{
       return new ImmutableMap.Builder<String, ModInfo>().putAll(modsMap).build();
    }
 
-   public static void extractOpenAL(){
-      File file = new File(System.getProperty("java.library.path"));
-      try {
-         Utils.extractFileFromJar("/OpenAL64.dll",new File(file,"OpenAL64.dll"),true);
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-   }
+//   public static void extractOpenAL(){
+//      File file = new File(System.getProperty("java.library.path"));
+//      try {
+//         Utils.extractFileFromJar("/OpenAL64.dll",new File(file,"OpenAL64.dll"),true);
+//      } catch (IOException e) {
+//         e.printStackTrace();
+//      }
+//   }
 
    public static int getFpsLimit() {
-      return Configs.Client.fpsLimit.get();
+      return Configs.Client.FPS_LIMIT.get();
    }
 
    public static JsonElement getModsJson() {

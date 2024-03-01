@@ -1,51 +1,24 @@
 package net.xiaoyu233.fml.reload.transform.util;
 
-import net.minecraft.Damage;
 import net.minecraft.DebugAttack;
-import net.minecraft.Entity;
 import net.minecraft.Minecraft;
 import net.minecraft.server.MinecraftServer;
-import net.xiaoyu233.fml.util.ReflectHelper;
+import net.xiaoyu233.fml.config.Configs;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-import static net.minecraft.DebugAttack.flush;
+import java.io.PrintStream;
 
 @Mixin(DebugAttack.class)
 public class DebugAttackTrans {
-    @Shadow
-    private static DebugAttack instance;
-    @Shadow
-    private float damage_dealt_to_armor;
-    @Shadow
-    private float resulting_damage;
-    @Shadow
-    private Entity target;
-
-    @Overwrite
-    public static void start(Entity target, Damage damage) {
-        if (target.onClient()) {
-            Minecraft.setErrorMessage("DebugAttack.start: called on client?");
-        }
-
-
-        if (instance != null) {
-            flush();
-        }
-        instance = ReflectHelper.createInstance(DebugAttack.class,new Class[]{Entity.class,Damage.class}, target, damage);
-
+    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/Minecraft;inDevMode()Z"))
+    private static boolean redirectShouldPrintDamageInfo() {
+        return Configs.Debug.PRINT_ENTITY_DAMAGE_INFO.get() || Minecraft.inDevMode();
     }
 
-    @Overwrite
-    private void flushInstance() {
-        if (this.target.onClient()) {
-            Minecraft.setErrorMessage("flushInstance: called on client?");
-        }
-
-        if (this.damage_dealt_to_armor != 0.0F || this.resulting_damage != 0.0F) {
-            MinecraftServer.F().getLogAgent().logInfo(this.toString());
-        }
-
+    @Redirect(method = "flushInstance", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/Object;)V"))
+    private void flushInstance(PrintStream stream, Object info) {
+        MinecraftServer.F().getLogAgent().logInfo(info.toString());
     }
 }
