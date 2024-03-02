@@ -15,6 +15,6 @@ public abstract class FixAnvilStackCrash extends BlockFalling {
     public boolean canFallDownTo(World world, int x, int y, int z, int metadata) {
         Block block_below = world.getBlock(x, y, z);
         int block_below_metadata = world.getBlockMetadata(x, y, z);
-        return (block_below == null || !block_below.isSolid(block_below_metadata) || EntityFallingBlock.canDislodgeOrCrushBlockAt(world, dyCast(this), metadata, x, y, z)) && !(world.getBlock(x, y, z) instanceof BlockLadder);
+        return (block_below == null || !block_below.isSolid(block_below_metadata) || EntityFallingSand.canDislodgeOrCrushBlockAt(world, dyCast(this), metadata, x, y, z)) && !(world.getBlock(x, y, z) instanceof BlockLadder);
     }
 }

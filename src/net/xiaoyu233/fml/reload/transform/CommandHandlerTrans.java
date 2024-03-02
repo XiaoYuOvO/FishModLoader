@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 public class CommandHandlerTrans {
 
     @Inject(locals = LocalCapture.CAPTURE_FAILHARD ,method = "executeCommand",at = @At(value = "INVOKE_ASSIGN",shift = At.Shift.AFTER,target = "Lnet/minecraft/EnumCommand;get(Ljava/lang/String;)Lnet/minecraft/EnumCommand;"),cancellable = true)
-    public void onCommandExecuted(ICommandListener par1ICommandSender, String par2Str,boolean permission_override, CallbackInfoReturnable<Integer> callbackInfo,MinecraftServer mc_server,WorldServer world, ServerPlayer player,EnumCommand command){
+    public void onCommandExecuted(ICommandSender par1ICommandSender, String par2Str,boolean permission_override, CallbackInfoReturnable<Integer> callbackInfo,MinecraftServer mc_server,WorldServer world, ServerPlayer player,EnumCommand command){
         HandleChatCommandEvent commandEvent = new HandleChatCommandEvent(par1ICommandSender,par2Str,player,world);
         MITEEvents.MITE_EVENT_BUS.post(commandEvent);
         if (commandEvent.isExecuteSuccess()){
@@ -28,16 +28,16 @@ public class CommandHandlerTrans {
                     //Is remote player
                     !(Minecraft.getClientPlayer().getEntityName().equals(player.getEntityName())))
             ) {
-                player.sendChatToPlayer(ChatMessage.createFromText("你不是局域网主机,无法重载配置").setColor(EnumChatFormat.RED));
+                player.sendChatToPlayer(ChatMessageComponent.createFromText("你不是局域网主机,无法重载配置").setColor(EnumChatFormatting.RED));
                 callbackInfo.setReturnValue(-1);
                 return;
             }else if (mc_server.isDedicatedServer() &&
                     //Not server console
                     player != null){
-                player.sendChatToPlayer(ChatMessage.createFromText("你不是服务器控制台,无法重载配置").setColor(EnumChatFormat.RED));
+                player.sendChatToPlayer(ChatMessageComponent.createFromText("你不是服务器控制台,无法重载配置").setColor(EnumChatFormatting.RED));
                 callbackInfo.setReturnValue(-1);
             }else {
-                mc_server.sendChatToPlayer(ChatMessage.createFromText("[Server] 正在重载所有配置文件"));
+                mc_server.sendChatToPlayer(ChatMessageComponent.createFromText("[Server] 正在重载所有配置文件"));
                 FishModLoader.reloadAllConfigs();
                 callbackInfo.setReturnValue(1);
             }
@@ -47,14 +47,14 @@ public class CommandHandlerTrans {
                     .getCurrentPlayerCount() > 1) &&
                     //Is remote player
                     !(Minecraft.getClientPlayer().getEntityName().equals(player.getEntityName()))) {
-                player.sendChatToPlayer(ChatMessage.createFromText("你不是局域网主机,无法修改配置").setColor(EnumChatFormat.RED));
+                player.sendChatToPlayer(ChatMessageComponent.createFromText("你不是局域网主机,无法修改配置").setColor(EnumChatFormatting.RED));
             }else if (mc_server.isDedicatedServer() &&
                     //Not server console
                     player != null){
-                player.sendChatToPlayer(ChatMessage.createFromText("无法编辑服务器配置,请联系服主修改").setColor(EnumChatFormat.RED));
+                player.sendChatToPlayer(ChatMessageComponent.createFromText("无法编辑服务器配置,请联系服主修改").setColor(EnumChatFormatting.RED));
             }else {
                 if (player != null) {
-                    player.sendChatToPlayer(ChatMessage.createFromText("正在打开配置文件编辑器..."));
+                    player.sendChatToPlayer(ChatMessageComponent.createFromText("正在打开配置文件编辑器..."));
                 } else {
                     System.out.println("正在打开配置文件编辑器...");
                 }

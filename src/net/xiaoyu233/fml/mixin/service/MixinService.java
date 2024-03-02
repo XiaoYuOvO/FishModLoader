@@ -38,6 +38,7 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
       if (!this.classTracker.isClassExcluded(name, transformedName)) {
 
          for (ILegacyClassTransformer transformer : this.getDelegatedLegacyTransformers()) {
+            if (transformer == null) continue;
             this.lock.clear();
             int pos = transformer.getName().lastIndexOf(46);
             String simpleName = transformer.getName().substring(pos + 1);
@@ -115,7 +116,7 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
    }
 
    public byte[] getClassBytes(String name, String transformedName) throws IOException {
-      byte[] classBytes = Launch.classLoader.getClassBytes(name);
+      byte[] classBytes = Launch.transformClassLoader.getClassBytes(name);
       if (classBytes != null) {
          return classBytes;
       } else {
@@ -142,7 +143,7 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
    }
 
    public List<ILegacyClassTransformer> getDelegatedLegacyTransformers() {
-      return Lists.newArrayList(Launch.classLoader.getRenameTransformer());
+      return Lists.newArrayList(Launch.transformClassLoader.getRenameTransformer());
    }
 
    @Override
@@ -171,7 +172,7 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
    }
 
    public byte[] getClassBytes(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
-      String name = Launch.classLoader.untransformName(className);
+      String name = Launch.transformClassLoader.untransformName(className);
       Profiler profiler = MixinEnvironment.getProfiler();
       Section loadTime = profiler.begin(1, "class.load");
       byte[] classBytes = this.getClassBytes(className, className);
@@ -208,7 +209,7 @@ public class MixinService extends MixinServiceAbstract implements IClassBytecode
    }
 
    public Collection<ITransformer> getTransformers() {
-      List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
+      List<IClassTransformer> transformers = Launch.transformClassLoader.getTransformers();
       List<ITransformer> wrapped = new ArrayList<>(transformers.size());
       MixinTransformer activeTransformer = (MixinTransformer)MixinEnvironment.getCurrentEnvironment().getActiveTransformer();
       MixinTransformer mixin;

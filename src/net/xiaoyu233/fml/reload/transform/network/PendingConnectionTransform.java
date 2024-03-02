@@ -1,8 +1,12 @@
 package net.xiaoyu233.fml.reload.transform.network;
 
-import net.minecraft.*;
+import net.minecraft.INetworkManager;
+import net.minecraft.NetHandler;
+import net.minecraft.NetLoginHandler;
+import net.minecraft.Packet2ClientProtocol;
 import net.minecraft.server.MinecraftServer;
 import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.network.FMLClientProtocol;
 import net.xiaoyu233.fml.util.ModInfo;
 import net.xiaoyu233.fml.util.RemoteModInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,32 +16,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
-@Mixin(PendingConnection.class)
-public abstract class PendingConnectionTransform extends Connection {
-    @Shadow
-    private static Random rand;
-    @Shadow
-    public NetworkManager myTCPConnection;
-    @Shadow
-    private String clientUsername;
-    @Shadow
-    private String loginServerId;
+@Mixin(NetLoginHandler.class)
+public abstract class PendingConnectionTransform extends NetHandler {
+    @Shadow private String clientUsername;
+
+    @Shadow public abstract void raiseErrorAndDisconnect(String par1Str);
     @Shadow
     private MinecraftServer mcServer;
-    @Shadow
-    private byte[] verifyToken;
 
     @Inject(method = "handleClientProtocol", at = @At("HEAD") ,cancellable = true)
-    public void handleClientProtocol(Packet2Handshake par1Packet2ClientProtocol, CallbackInfo callbackInfo) {
-        if (par1Packet2ClientProtocol.getModInfos() != null && par1Packet2ClientProtocol.getSignatures().contains("FishModLoader")){
+    public void handleClientProtocol(Packet2ClientProtocol par1Packet2ClientProtocol, CallbackInfo callbackInfo) {
+        FMLClientProtocol fmlClientProtocol = (FMLClientProtocol) par1Packet2ClientProtocol;
+        if (fmlClientProtocol.getModInfos() != null && fmlClientProtocol.getSignatures().contains("FishModLoader")){
             StringBuilder problems = new StringBuilder();
             Map<String,ModInfo> serverMods = FishModLoader.getModsMapForLoginCheck();
-            for (RemoteModInfo modInfo : ((List<RemoteModInfo>) par1Packet2ClientProtocol.getModInfos())) {
+            for (RemoteModInfo modInfo : fmlClientProtocol.getModInfos()) {
                 String modid = modInfo.getModid();
                 String modVerStr = modInfo.getModVerStr();
                 boolean clientOnly = !modInfo.canBeUsedAt(MixinEnvironment.Side.SERVER);
@@ -71,7 +67,7 @@ public abstract class PendingConnectionTransform extends Connection {
                 }
             }
             if (problems.length() > 0){
-                this.kickUser(problems.toString());
+                this.raiseErrorAndDisconnect(problems.toString());
                 callbackInfo.cancel();
             }
         }
@@ -89,8 +85,4 @@ public abstract class PendingConnectionTransform extends Connection {
         return false;
     }
 
-    @Shadow
-    private void kickUser(String s) {
-
-    }
 }

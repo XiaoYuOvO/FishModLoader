@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(EntityRenderer.class)
 public class FpsUnlimit2 {
     @Overwrite
-    public static int a(int par0) {
+    public static int performanceToFps(int par0) {
         return FishModLoader.getFpsLimit();
     }
 }

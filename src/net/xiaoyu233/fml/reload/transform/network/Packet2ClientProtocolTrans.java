@@ -4,10 +4,11 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import net.minecraft.Connection;
+import net.minecraft.NetHandler;
 import net.minecraft.Packet;
-import net.minecraft.Packet2Handshake;
+import net.minecraft.Packet2ClientProtocol;
 import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.network.FMLClientProtocol;
 import net.xiaoyu233.fml.util.RemoteModInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,8 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(Packet2Handshake.class)
-public abstract class Packet2ClientProtocolTrans extends Packet {
+@Mixin(Packet2ClientProtocol.class)
+public abstract class Packet2ClientProtocolTrans extends Packet implements FMLClientProtocol {
     @Shadow
     private String username;
     private JsonArray modInfos;
@@ -40,7 +41,7 @@ public abstract class Packet2ClientProtocolTrans extends Packet {
     }
 
     @Shadow
-    public void processPacket(Connection connection) {
+    public void processPacket(NetHandler connection) {
 
     }
 

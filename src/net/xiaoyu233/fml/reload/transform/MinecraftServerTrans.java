@@ -1,6 +1,6 @@
 package net.xiaoyu233.fml.reload.transform;
 
-import net.minecraft.ChatMessage;
+import net.minecraft.ChatMessageComponent;
 import net.minecraft.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.xiaoyu233.fml.reload.event.MITEEvents;
@@ -28,10 +28,9 @@ public class MinecraftServerTrans {
    @Inject(method = "playerLoggedIn", at = @At("HEAD"))
    private void onPlayerLoggedIn(ServerPlayer par1EntityPlayerMP, CallbackInfo callbackInfo) {
       MITEEvents.MITE_EVENT_BUS.post(new PlayerLoggedInEvent(par1EntityPlayerMP));
-
    }
 
    @Shadow
-   public void sendChatToPlayer(ChatMessage par1ChatMessageComponent) {
+   public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent) {
    }
 }

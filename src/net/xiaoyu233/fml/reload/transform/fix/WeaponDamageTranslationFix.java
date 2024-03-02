@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(EnchantmentWeaponDamage.class)
+@Mixin(EnchantmentDamage.class)
 public class WeaponDamageTranslationFix extends Enchantment {
-   protected WeaponDamageTranslationFix(int id, EnchantmentRarity rarity, int difficulty) {
+   protected WeaponDamageTranslationFix(int id, EnumRarity rarity, int difficulty) {
       super(id, rarity, difficulty);
    }
 
@@ -26,12 +26,12 @@ public class WeaponDamageTranslationFix extends Enchantment {
    @Inject(method = "getTranslatedName", at = @At("HEAD"), cancellable = true)
    private void injectTranslateSlaying(Item item, CallbackInfoReturnable<String> callbackInfoReturnable) {
       if (this == Enchantment.sharpness && item instanceof ItemAxe) {
-         callbackInfoReturnable.setReturnValue(LocaleI18n.translateToLocal("enchantment.slaying"));
+         callbackInfoReturnable.setReturnValue(I18n.getString("enchantment.slaying"));
       }
    }
 
    @Shadow
-   public boolean isOnCreativeTab(CreativeModeTab creativeModeTab) {
+   public boolean isOnCreativeTab(CreativeTabs creativeModeTab) {
       return false;
    }
 }

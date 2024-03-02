@@ -15,8 +15,8 @@ public class Configs {
                     addEntry(new ConfigEntry<>("debug",Debug.DEBUG).withComment("开启调试模式")).
                     addEntry(new ConfigEntry<>("print_entity_damage_info", Debug.PRINT_ENTITY_DAMAGE_INFO).withComment("输出实体受到伤害信息")).
                     addEntry(new ConfigEntry<>("printClassloadInfo",Codec.BOOLEAN,false,Debug.PRINT_CLASSLOAD_INFO).withComment("输出类加载信息")).
-                    addEntry(new ConfigCategory("DumpClass").withComment("类导出").
-                            addEntry(new ConfigEntry<>("dumpPath",Codec.FILE,new File("./.mixin.out"),Debug.DumpClass.DUMP_PATH).withComment("类文件输出目录")).
+                    addEntry(new ConfigCategory("DumpClass").withComment("类导出(注意! 类导出将在未来逐步禁用!并尝试通过接口注入的方式替换类导出实现的功能!请尽量不要依赖类导出构建您的模组,这会使得迁移困难!)").
+                            addEntry(new ConfigEntry<>("dumpPath",Codec.FILE,new File("./.mixin.out"),Debug.DumpClass.DUMP_PATH).withComment("类文件输出目录(现在可以通过导入.fml/remappedJars/下的jar文件作为编译依赖而不需类导出)")).
                             addEntry(new ConfigEntry<>("dumpClass",Codec.BOOLEAN,false,Debug.DumpClass.DUMP_CLASS).withComment("输出Mixin处理后的类文件"))));
     public static final File CONFIG_FILE = new File("fishmodloader.json");
 
@@ -33,8 +33,11 @@ public class Configs {
         public static final FieldReference<Boolean> PRINT_CLASSLOAD_INFO = new FieldReference<>(false);
         public static final FieldReference<Boolean> PRINT_ENTITY_DAMAGE_INFO = new FieldReference<>(true);
 
+        @Deprecated
         public static class DumpClass{
+            @Deprecated
             public static final FieldReference<Boolean> DUMP_CLASS = new FieldReference<>(false);
+            @Deprecated
             public static final FieldReference<File> DUMP_PATH = new FieldReference<>(new File(""));
         }
     }

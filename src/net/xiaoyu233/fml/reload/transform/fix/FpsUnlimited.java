@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(Minecraft.class)
 public class FpsUnlimited {
    @Overwrite
-   private int U() {
+   private int getLimitFramerate() {
       return FishModLoader.getFpsLimit();
    }
 }

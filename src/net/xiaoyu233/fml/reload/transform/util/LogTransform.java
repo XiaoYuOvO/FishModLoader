@@ -1,11 +1,11 @@
 package net.xiaoyu233.fml.reload.transform.util;
 
-import net.minecraft.ConsoleLogManager;
+import net.minecraft.LogAgent;
 import net.xiaoyu233.fml.util.LogProxy;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(ConsoleLogManager.class)
+@Mixin(LogAgent.class)
 public class LogTransform {
 
     @Overwrite

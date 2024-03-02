@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentPiercing.class)
 public abstract class EnchantmentPiercingTranslationFix extends Enchantment {
 
-   protected EnchantmentPiercingTranslationFix(int id, EnchantmentRarity rarity, int difficulty) {
+   protected EnchantmentPiercingTranslationFix(int id, EnumRarity rarity, int difficulty) {
       super(id, rarity, difficulty);
    }
 
@@ -28,12 +28,12 @@ public abstract class EnchantmentPiercingTranslationFix extends Enchantment {
    @Inject(method = "getTranslatedName", at = @At("HEAD"), cancellable = true)
    private void injectTranslateCleaving(Item item, CallbackInfoReturnable<String> callbackInfoReturnable) {
       if (item instanceof ItemAxe) {
-         callbackInfoReturnable.setReturnValue(LocaleI18n.translateToLocal("enchantment.cleaving"));
+         callbackInfoReturnable.setReturnValue(I18n.getString("enchantment.cleaving"));
       }
    }
 
    @Shadow
-   public boolean isOnCreativeTab(CreativeModeTab var1) {
+   public boolean isOnCreativeTab(CreativeTabs var1) {
       return false;
    }
 }

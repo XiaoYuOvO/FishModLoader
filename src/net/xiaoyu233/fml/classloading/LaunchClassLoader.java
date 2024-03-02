@@ -12,7 +12,6 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
-import java.nio.file.Files;
 import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.util.*;
@@ -103,7 +102,7 @@ public class LaunchClassLoader extends URLClassLoader {
       }
 
       try {
-         final String transformedName = transformName(name.replace(".","/"));
+         final String transformedName = transformName(name.replace(".","/")).replace("/",".");
          if (cachedClasses.containsKey(transformedName)) {
             return cachedClasses.get(transformedName);
          }
@@ -241,11 +240,11 @@ public class LaunchClassLoader extends URLClassLoader {
          }
 
          try {
-            OutputStream output = Files.newOutputStream(outFile.toPath());
+            OutputStream output = new FileOutputStream(outFile);
             output.write(data);
             output.close();
-         } catch (IOException var6) {
-            LogWrapper.log(Level.WARN, var6, "Could not save transformed class \"%s\"", transformedName);
+         } catch (Exception var6) {
+            LogWrapper.log(Level.WARN, var6, "Could not save transformed class \"%s\" to %s", transformedName, outFile.getAbsolutePath());
          }
 
       }

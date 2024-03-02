@@ -6,7 +6,7 @@ import org.spongepowered.asm.service.IPropertyKey;
 
 public class Blackboard implements IGlobalPropertyService {
    public Blackboard() {
-      Launch.classLoader.hashCode();
+      Launch.transformClassLoader.hashCode();
    }
 
    public IPropertyKey resolveKey(String name) {

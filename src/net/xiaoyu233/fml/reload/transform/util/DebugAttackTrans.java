@@ -19,6 +19,6 @@ public class DebugAttackTrans {
 
     @Redirect(method = "flushInstance", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/Object;)V"))
     private void flushInstance(PrintStream stream, Object info) {
-        MinecraftServer.F().getLogAgent().logInfo(info.toString());
+        MinecraftServer.getServer().getLogAgent().logInfo(info.toString());
     }
 }
