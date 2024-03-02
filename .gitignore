@@ -9,6 +9,7 @@
 method_.mapping
 class_.mapping
 field_.mapping
+/logs
 /.shelf
 /.idea
 /libs
