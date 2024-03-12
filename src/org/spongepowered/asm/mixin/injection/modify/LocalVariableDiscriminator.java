@@ -28,7 +28,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.LocalVariableNode;
-import org.spongepowered.asm.mixin.injection.modify.LocalVariableDiscriminator.Context.Local;
+import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.injection.struct.Target;
 import org.spongepowered.asm.util.*;
 
@@ -41,157 +41,7 @@ import java.util.*;
  */
 public class LocalVariableDiscriminator {
     
-    /**
-     * Discriminator context information, wraps all relevant information about
-     * a target location for use when performing discrimination
-     */
-    public static class Context implements org.spongepowered.asm.util.PrettyPrinter.IPrettyPrintable {
-        
-        /**
-         * Information about a local variable in the LVT, used during
-         * discrimination
-         */
-        public class Local {
-            
-            /**
-             * Ordinal value of this local variable type 
-             */
-            int ord = 0;
-            
-            /**
-             * Local variable name 
-             */
-            String name;
-            
-            /**
-             * Local variable type 
-             */
-            Type type;
-
-            public Local(String name, Type type) {
-                this.name = name;
-                this.type = type;
-            }
-            
-            @Override
-            public String toString() {
-                return String.format("Local[ordinal=%d, name=%s, type=%s]", this.ord, this.name, this.type);
-            }
-            
-        }
-        
-        /**
-         * Target method for this context
-         */
-        final Target target;
-        
-        /**
-         * The return type of the handler in question, also the type of the
-         * local variable that we care about 
-         */
-        final Type returnType;
-        
-        /**
-         * Injection point 
-         */
-        final AbstractInsnNode node;
-        
-        /**
-         * Base argument index, for static methods this is 0, for instance
-         * methods this is 1
-         */
-        final int baseArgIndex;
-        
-        /**
-         * Enumerated locals in this context
-         */
-        final Local[] locals;
-        
-        /**
-         * True if the handler (and target) are static 
-         */
-        private final boolean isStatic;
-
-        public Context(Type returnType, boolean argsOnly, Target target, AbstractInsnNode node) {
-            this.isStatic = Bytecode.isStatic(target.method);
-            this.returnType = returnType;
-            this.target = target;
-            this.node = node;
-            this.baseArgIndex = this.isStatic ? 0 : 1;
-            this.locals = this.initLocals(target, argsOnly, node);
-            this.initOrdinals();
-        }
-
-        private Local[] initLocals(Target target, boolean argsOnly, AbstractInsnNode node) {
-            if (!argsOnly) {
-                LocalVariableNode[] locals = Locals.getLocalsAt(target.classNode, target.method, node);
-                if (locals != null) {
-                    Local[] lvt = new Local[locals.length];
-                    for (int l = 0; l < locals.length; l++) {
-                        if (locals[l] != null) {
-                            lvt[l] = new Local(locals[l].name, Type.getType(locals[l].desc));
-                        }
-                    }
-                    return lvt;
-                }
-            }
-            
-            Local[] lvt = new Local[this.baseArgIndex + target.arguments.length];
-            if (!this.isStatic) {
-                lvt[0] = new Local("this", Type.getObjectType(target.classNode.name));
-            }
-            for (int local = this.baseArgIndex; local < lvt.length; local++) {
-                Type arg = target.arguments[local - this.baseArgIndex];
-                lvt[local] = new Local("arg" + local, arg);
-            }
-            return lvt;
-        }
-        
-        private void initOrdinals() {
-            Map<Type, Integer> ordinalMap = new HashMap<Type, Integer>();
-            for (int l = 0; l < this.locals.length; l++) {
-                Integer ordinal = Integer.valueOf(0);
-                if (this.locals[l] != null) {
-                    ordinal = ordinalMap.get(this.locals[l].type);
-                    ordinalMap.put(this.locals[l].type, ordinal = Integer.valueOf(ordinal == null ? 0 : ordinal.intValue() + 1));
-                    this.locals[l].ord = ordinal.intValue();
-                }
-            }
-        }
-        
-        public int getCandidateCount() {
-            int candidateCount = 0;
-            for (int l = this.baseArgIndex; l < this.locals.length; l++) {
-                if (this.locals[l] != null && this.returnType.equals(this.locals[l].type)) {
-                    candidateCount++;
-                }
-            }
-            return candidateCount;
-        }
-
-        @Override
-        public void print(PrettyPrinter printer) {
-            printer.add("%5s  %7s  %30s  %-50s  %s", "INDEX", "ORDINAL", "TYPE", "NAME", "CANDIDATE");
-            for (int l = this.baseArgIndex; l < this.locals.length; l++) {
-                Local local = this.locals[l];
-                if (local != null) {
-                    Type localType = local.type;
-                    String localName = local.name;
-                    int ordinal = local.ord;
-                    String candidate = this.returnType.equals(localType) ? "YES" : "-";
-                    printer.add("[%3d]    [%3d]  %30s  %-50s  %s", l, ordinal, SignaturePrinter.getTypeName(localType, false), localName, candidate);
-                } else if (l > 0) {
-                    Local prevLocal = this.locals[l - 1];
-                    boolean isTop = prevLocal != null && prevLocal.type != null && prevLocal.type.getSize() > 1;
-                    printer.add("[%3d]           %30s", l, isTop ? "<top>" : "-");
-                }
-            }
-        }
-
-    }
-        
-    /**
-     * True to consider only method args
+ True to consider only method args
      */
     private final boolean argsOnly;
     
@@ -227,7 +77,7 @@ public class LocalVariableDiscriminator {
         this.argsOnly = argsOnly;
         this.ordinal = ordinal;
         this.index = index;
-        this.names = Collections.unmodifiableSet(names);
+        this.names = Collections.<String>unmodifiableSet(names);
         this.print = print;
     }
     
@@ -340,10 +190,33 @@ public class LocalVariableDiscriminator {
         throw new InvalidImplicitDiscriminatorException("Found " + count + " candidate variables but exactly 1 is required.");
     }
 
+        /**
+
+     *ocal variable discriminator from the supplied annotation
+     *
+     * @param annotation annotation to parse
+     * @return discriminator configured using values from the annoation
+     */
+    public static LocalVariableDiscriminator parse(AnnotationNode annotation) {
+        boolean argsOnly = Annotations.<Boolean>getValue(annotation, "argsOnly", Boolean.FALSE).booleanValue();
+        int ordinal = Annotations.<Integer>getValue(annotation, "ordinal", -1);
+        int index = Annotations.<Integer>getValue(annotation, "index", -1);
+        boolean print = Annotations.<Boolean>getValue(annotation, "print", Boolean.FALSE).booleanValue();
+
+        Set<String> names = new HashSet<String>();
+        List<String> namesList = Annotations.<List<String>>getValue(annotation, "name", (List<String>)null);
+        if (namesList != null) {
+            names.addAll(namesList);
+        }
+
+        return new LocalVariableDiscriminator(argsOnly, ordinal, index, names, print);
+    }
+    
     /**
-     * Find an explicit local variable in the local variable table. Returns -1
+     * Find an e
+xplicit local variable in the local variable table. Returns -1
      * if no variables match the discriminator
-     * 
+     *
      * @param context search context
      * @return variable index or -1 if not found
      */
@@ -354,7 +227,7 @@ public class LocalVariableDiscriminator {
                 continue;
             }
             if (this.ordinal > -1) {
-                if (this.ordinal == local.ord) {
+                if (this.ordinal == local.getOrdinal()) {
                     return index;
                 }
                 continue;
@@ -369,29 +242,174 @@ public class LocalVariableDiscriminator {
                 return index;
             }
         }
-        
+
         return -1;
     }
-    
+
     /**
-     * Parse a local variable discriminator from the supplied annotation
-     * 
-     * @param annotation annotation to parse
-     * @return discriminator configured using values from the annoation
+     * Parse a l
+    /**
+     * Discriminator context information, wraps all relevant information about
+     * a target location for use when performing discrimination
      */
-    public static LocalVariableDiscriminator parse(AnnotationNode annotation) {
-        boolean argsOnly = Annotations.<Boolean>getValue(annotation, "argsOnly", Boolean.FALSE).booleanValue();
-        int ordinal = Annotations.<Integer>getValue(annotation, "ordinal", -1);
-        int index = Annotations.<Integer>getValue(annotation, "index", -1);
-        boolean print = Annotations.<Boolean>getValue(annotation, "print", Boolean.FALSE).booleanValue();
-        
-        Set<String> names = new HashSet<String>();
-        List<String> namesList = Annotations.getValue(annotation, "name", (List<String>)null);
-        if (namesList != null) {
-            names.addAll(namesList);
+    public static class Context implements org.spongepowered.asm.util.PrettyPrinter.IPrettyPrintable {
+
+        final InjectionInfo info;
+         */
+        /**
+         * InjectionInfo info, Type returnType, boolean argsOnly, Target target, AbstractInsnNode node) {
+            this.info = info;
+            this.isStatic = Bytecode.isStatic(target.method);
+            this.returnType = returnType;
+            this.target = target;
+            this.node = node;
+            this.baseArgIndex = this.isStatic ? 0 : 1;
+            this.locals = this.initLocals(target, argsOnly, node);
+            this.initOrdinals();
         }
-        
-        return new LocalVariableDiscriminator(argsOnly, ordinal, index, names, print);
+
+        private Local[       * Target method for this context
+         */
+        final Target target;
+        /**
+         * The return type of the handler in question, also the type of the
+         * local variable that we care about
+         */
+        final Type returnType;
+        /**
+         * Injection point
+         */
+        final AbstractInsnNode node;
+        /**
+         * Base argument index, for static methods this is 0, for instance
+         * methods this is 1
+         */
+        final int baseArgIndex;
+        /**
+         * Enumerated locals in this context
+         */
+        final Local[] locals;
+        /**
+         * True if the handler (and target) are static
+         */
+        private final boolean isStatic;
+njection info
+void ini
+
+        privat]
+        public Context(I
+initLocals(Target target, boolean argsOnly, AbstractInsnNode node) {
+            if (!argsOnly) {
+                LocalVariableNode[] locals = Locals.getLocalsAt(target.classNode, target.method, node);
+                if (locals != null) {
+                    Local[] lvt = new Local[locals.length];
+                    for (int l = 0; l < locals.length; l++) {
+                        if (locals[l] != null) {
+                            lvt[l] = new Local(locals[l].name, Type.getType(locals[l].desc));
+                        }
+                    }
+                    return lvt;
+                }
+            }
+
+            Local[] lvt = new Local[this.baseArgIndex + Bytecode.getArgsSize(target.arguments)];
+            if (!this.isStatic) {
+                lvt[0] = new Local("this", Type.getObjectType(target.classNode.name));
+            }
+            for (int local = this.baseArgIndex, arg = 0; local < lvt.length; local++) {
+                Type argType = target.arguments[arg++];
+                lvt[local] = new Local("arg" + local, argType);
+                if (argType.getSize() == 2) {
+                    lvt[++local] = null;
+                }
+            }
+            return lvt;
+        }
+
+        publice tOrdinals() {
+            Map<Type, Integer> ordinalMap = new HashMap<Type, Integer>();
+            for (int l = 0; l < this.locals.length; l++) {
+                Integer ordinal = Integer.valueOf(0);
+                if (this.locals[l] != null) {
+                    ordinal = ordinalMap.get(this.locals[l].type);
+                    ordinalMap.put(this.locals[l].type, ordinal = Integer.valueOf(ordinal == null ? 0 : ordinal.intValue() + 1));
+                    this.locals[l].setOrdinal(ordinal.intValue());
+                }
+            }
+        }
+
+  public void print(PrettyPrinter printer) {
+            printer.add("%5s  %7s  %30s  %-50s  %s", "INDEX", "ORDINAL", "TYPE", "NAME", "CANDIDATE");
+            for (int l = this.baseArgIndex; l < this.locals.length; l++) {
+                Local local = this.locals[l];
+                if (local != null) {
+                    Type localType = local.type;
+                    String localName = local.name;
+                    int ordinal = local.getOrdinal();
+                    String candidate = this.returnType.equals(localType) ? "YES" : "-";
+                    printer.add("[%3d]    [%3d]  %30s  %-50s  %s", l, ordinal, SignaturePrinter.getTypeName(localType, false), localName, candidate);
+                } else if (l > 0) {
+                    Local prevLocal = this.locals[l - 1];
+                    boolean isTop = prevLocal != null && prevLocal.type != null && prevLocal.type.getSize() > 1;
+                    printer.add("[%3d]           %30s", l, isTop ? "<top>" : "-");
+                }
+            }
+        }
+
     }
+
+    /** int getCandidateCount() {
+            int candidateCount = 0;
+            for (int l = this.baseArgIndex; l < this.locals.length; l++) {
+                if (this.locals[l] != null && this.returnType.equals(this.locals[l].type)) {
+                    candidateCount++;
+                }
+            }
+            return candidateCount;
+        }
+
+        @Override
+
+        /**
+         * Information about a local variable in the LVT, used during
+         * discrimination
+         */
+        public class Local {
+
+            /**
+             * Local variable name
+             */
+            final String name;
+            /**
+             * Local variable type
+             */
+            final Type type;
+            /**
+             * Ordinal value of this local variable type
+             */
+            private int ord = -1;
+
+            public Local(String name, Type type) {
+                this.name = name;
+                this.type = type;
+            }
+
+            @Override
+            public String toString() {
+                return String.format("Local[ordinal=%d, name=%s, type=%s]", this.ord, this.name, this.type);
+            }
+
+            int getOrdinal() {
+                return this.ord;
+            }
+
+            void setOrdinal(int ordinal) {
+                if (this.ord > -1 && this.ord != ordinal) {
+                    throw new IllegalStateException("Attempted to reset ordinal for computed local");
+                }
+                this.ord = ordinal;
+            }
+
+        }
 
 }

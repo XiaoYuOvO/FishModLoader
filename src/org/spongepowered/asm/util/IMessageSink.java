@@ -35,6 +35,6 @@ public interface IMessageSink {
      * @param format Message format
      * @param args Message args
      */
-    void addMessage(String format, Object... args);
+    public abstract void addMessage(String format, Object... args);
 
 }

@@ -37,18 +37,18 @@ public interface ITransformerProvider {
     /**
      * Get currently available transformers in the environment
      */
-    Collection<ITransformer> getTransformers();
+    public abstract Collection<ITransformer> getTransformers();
 
     /**
      * Get currently available transformers in the environment
      */
-    Collection<ITransformer> getDelegatedTransformers();
+    public abstract Collection<ITransformer> getDelegatedTransformers();
     
     /**
      * Adds a transformer to the transformer exclusions list
      * 
      * @param name Class transformer exclusion to add
      */
-    void addTransformerExclusion(String name);
+    public abstract void addTransformerExclusion(String name);
 
 }

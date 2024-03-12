@@ -39,7 +39,16 @@ public interface ITypeHandleProvider {
      * @param name Type name (class name)
      * @return A new type handle or null if the type could not be found
      */
-    TypeHandle getTypeHandle(String name);
+    public abstract TypeHandle getTypeHandle(String name);
+    
+    /**
+     * Get a type handle for the specified type
+     * 
+     * @param type Type source, can be a String, TypeMirror, TypeElement or an
+     *      existing TypeHandle
+     * @return TypeHandle
+     */
+    public abstract TypeHandle getTypeHandle(Object type);
 
     /**
      * Generate a type handle for the specified type, simulate the target using
@@ -49,6 +58,6 @@ public interface ITypeHandleProvider {
      * @param simulatedTarget Simulation target
      * @return A new type handle
      */
-    TypeHandle getSimulatedHandle(String name, TypeMirror simulatedTarget);
+    public abstract TypeHandle getSimulatedHandle(String name, TypeMirror simulatedTarget);
     
 }

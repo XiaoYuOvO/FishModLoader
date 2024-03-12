@@ -39,6 +39,6 @@ public interface ISliceContext extends IInjectionPointContext {
      * @param id slice id to fetch
      * @return method slice matching query
      */
-    MethodSlice getSlice(String id);
+    public abstract MethodSlice getSlice(String id);
 
 }

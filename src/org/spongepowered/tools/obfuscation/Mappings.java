@@ -92,14 +92,14 @@ class Mappings implements IMappingConsumer {
         
         @Override
         public void addFieldMapping(ObfuscationType type, MappingField from, MappingField to) {
-            if (!this.checkForExistingMapping(type, from, to, this.fields)) {
+            if (!this.<MappingField>checkForExistingMapping(type, from, to, this.fields)) {
                 this.mappings.addFieldMapping(type, from, to);
             }
         }
 
         @Override
         public void addMethodMapping(ObfuscationType type, MappingMethod from, MappingMethod to) {
-            if (!this.checkForExistingMapping(type, from, to, this.methods)) {
+            if (!this.<MappingMethod>checkForExistingMapping(type, from, to, this.methods)) {
                 this.mappings.addMethodMapping(type, from, to);
             }
         }

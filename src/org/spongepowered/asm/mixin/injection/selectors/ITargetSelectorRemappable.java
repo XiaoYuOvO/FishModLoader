@@ -33,36 +33,73 @@ import org.spongepowered.asm.obfuscation.mapping.common.MappingMethod;
  * service
  */
 public interface ITargetSelectorRemappable extends ITargetSelectorByName {
+
+    /**
+     * Get whether this reference is fully qualified
+     * 
+     * @return true if all components of this reference are non-null 
+     */
+    public abstract boolean isFullyQualified();
+
+    /**
+     * Get whether this target selector is definitely a field, the output of
+     * this method is undefined if {@link #isFullyQualified} returns false.
+     * 
+     * @return true if this is definitely a field
+     */
+    public abstract boolean isField();
+
+    /**
+     * Get whether this member represents a constructor
+     * 
+     * @return true if member name is <tt>&lt;init&gt;</tt>
+     */
+    public abstract boolean isConstructor();
     
+    /**
+     * Get whether this selector represents a class initialiser
+     * 
+     * @return true if member name is <tt>&lt;clinit&gt;</tt>
+     */
+    public abstract boolean isClassInitialiser();
+    
+    /**
+     * Get whether this selector represents a constructor or class initialiser
+     * 
+     * @return true if member name is <tt>&lt;init&gt;</tt> or
+     *      <tt>&lt;clinit&gt;</tt>
+     */
+    public abstract boolean isInitialiser();
+
     /**
      * Returns this selector as a {@link MappingField} or
      * {@link MappingMethod}
      */
-    IMapping<?> asMapping();
+    public abstract IMapping<?> asMapping();
 
     /**
      * Returns this selector as a mapping method
      */
-    MappingMethod asMethodMapping();
+    public abstract MappingMethod asMethodMapping();
     
     /**
      * Returns this selector as a mapping field
      */
-    MappingField asFieldMapping();
+    public abstract MappingField asFieldMapping();
     
     /**
      * Create a new version of this member with a different owner
      * 
      * @param newOwner New owner for this member
      */
-    ITargetSelectorRemappable move(String newOwner);
+    public abstract ITargetSelectorRemappable move(String newOwner);
     
     /**
      * Create a new version of this member with a different descriptor
      * 
      * @param newDesc New descriptor for this member
      */
-    ITargetSelectorRemappable transform(String newDesc);
+    public abstract ITargetSelectorRemappable transform(String newDesc);
     
     /**
      * Create a remapped version of this member using the supplied method data
@@ -71,6 +108,6 @@ public interface ITargetSelectorRemappable extends ITargetSelectorByName {
      * @param setOwner True to set the owner as well as the name
      * @return New MethodInfo with remapped values
      */
-    ITargetSelectorRemappable remapUsing(MappingMethod srgMethod, boolean setOwner);
+    public abstract ITargetSelectorRemappable remapUsing(MappingMethod srgMethod, boolean setOwner);
     
 }

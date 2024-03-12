@@ -38,21 +38,21 @@ public interface IExtension {
      * @param environment current environment
      * @return true if the module should be active in the specified environment
      */
-    boolean checkActive(MixinEnvironment environment);
+    public abstract boolean checkActive(MixinEnvironment environment);
 
     /**
      * Called before the mixins are applied
      * 
      * @param context Target class context
      */
-    void preApply(ITargetClassContext context);
+    public abstract void preApply(ITargetClassContext context);
 
     /**
      * Called after the mixins are applied
      * 
      * @param context Target class context
      */
-    void postApply(ITargetClassContext context);
+    public abstract void postApply(ITargetClassContext context);
 
     /**
      * Called when a class needs to be exported
@@ -63,6 +63,6 @@ public interface IExtension {
      *      would normally disable it
      * @param classNode Class to export
      */
-    void export(MixinEnvironment env, String name, boolean force, ClassNode classNode);
+    public abstract void export(MixinEnvironment env, String name, boolean force, ClassNode classNode);
 
 }

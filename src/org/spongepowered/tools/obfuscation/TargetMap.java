@@ -74,7 +74,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * 
      * @param mixin mixin to add targets for
      */
-    public void registerTargets(AnnotatedMixin mixin) {
+    void registerTargets(AnnotatedMixin mixin) {
         this.registerTargets(mixin.getTargets(), mixin.getHandle());
     }
 
@@ -84,7 +84,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param targets List of targets
      * @param mixin Mixin class
      */
-    public void registerTargets(List<TypeHandle> targets, TypeHandle mixin) {
+    void registerTargets(List<TypeHandle> targets, TypeHandle mixin) {
         for (TypeHandle target : targets) {
             this.addMixin(target, mixin);
         }
@@ -96,7 +96,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @param mixin Mixin class
      */
-    public void addMixin(TypeHandle target, TypeHandle mixin) {
+    void addMixin(TypeHandle target, TypeHandle mixin) {
         this.addMixin(target.getReference(), mixin.getReference());
     }
 
@@ -106,7 +106,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @param mixin Mixin class
      */
-    public void addMixin(String target, String mixin) {
+    void addMixin(String target, String mixin) {
         this.addMixin(new TypeReference(target), new TypeReference(mixin));
     }
     
@@ -116,7 +116,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @param mixin Mixin class
      */
-    public void addMixin(TypeReference target, TypeReference mixin) {
+    void addMixin(TypeReference target, TypeReference mixin) {
         Set<TypeReference> mixins = this.getMixinsFor(target);
         mixins.add(mixin);
     }
@@ -127,7 +127,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @return Collection of mixins registered as targetting the specified class
      */
-    public Collection<TypeReference> getMixinsTargeting(TypeElement target) {
+    Collection<TypeReference> getMixinsTargeting(TypeElement target) {
         return this.getMixinsTargeting(new TypeHandle(target));
     }
     
@@ -137,7 +137,7 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @return Collection of mixins registered as targetting the specified class
      */
-    public Collection<TypeReference> getMixinsTargeting(TypeHandle target) {
+    Collection<TypeReference> getMixinsTargeting(TypeHandle target) {
         return this.getMixinsTargeting(target.getReference());
     }
     
@@ -147,8 +147,8 @@ public final class TargetMap extends HashMap<TypeReference, Set<TypeReference>> 
      * @param target Target class
      * @return Collection of mixins registered as targetting the specified class
      */
-    public Collection<TypeReference> getMixinsTargeting(TypeReference target) {
-        return Collections.unmodifiableCollection(this.getMixinsFor(target));
+    Collection<TypeReference> getMixinsTargeting(TypeReference target) {
+        return Collections.<TypeReference>unmodifiableCollection(this.getMixinsFor(target));
     }
     
     /**

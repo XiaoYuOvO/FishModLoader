@@ -32,12 +32,12 @@ public interface ITargetSelectorConstructor extends ITargetSelectorByName {
     /**
      * Returns the <em>constructor type</em> represented by this selector
      */
-    String toCtorType();
+    public abstract String toCtorType();
     
     /**
      * Returns the <em>constructor descriptor</em> represented by this
      * selector, returns null if no descriptor is present.
      */
-    String toCtorDesc();
+    public abstract String toCtorDesc();
 
 }

@@ -25,6 +25,7 @@
 package org.spongepowered.tools.obfuscation;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -33,13 +34,12 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic.Kind;
 import java.util.Set;
 
 /**
  * Base class for mixin annotation processor modules
  */
-public abstract class MixinObfuscationProcessor extends AbstractProcessor {
+abstract class MixinObfuscationProcessor extends AbstractProcessor {
     
     /**
      * Mixin info manager 
@@ -68,7 +68,8 @@ public abstract class MixinObfuscationProcessor extends AbstractProcessor {
             if (elem.getKind() == ElementKind.CLASS || elem.getKind() == ElementKind.INTERFACE) {
                 this.mixins.registerMixin((TypeElement)elem);
             } else {
-                this.mixins.printMessage(Kind.ERROR, "Found an @Mixin annotation on an element which is not a class or interface", elem);
+                this.mixins.printMessage(MessageType.MIXIN_ON_INVALID_TYPE,
+                        "Found an @Mixin annotation on an element which is not a class or interface", elem);
             }
         }
     }
@@ -79,13 +80,7 @@ public abstract class MixinObfuscationProcessor extends AbstractProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        try {
-            return SourceVersion.valueOf("RELEASE_8");
-        } catch (IllegalArgumentException ex) {
-            // Java 8 not supported
-        }
-        
-        return super.getSupportedSourceVersion();
+        return SourceVersion.latestSupported();
     }
     
     @Override

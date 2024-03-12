@@ -29,6 +29,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import org.spongepowered.asm.mixin.injection.Coerce;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.InjectionPoint;
 import org.spongepowered.asm.mixin.injection.Surrogate;
 import org.spongepowered.asm.mixin.injection.code.Injector;
@@ -43,7 +44,8 @@ import org.spongepowered.asm.util.*;
 import java.util.*;
 
 /**
- * This class is responsible for generating the bytecode for injected callbacks
+ * This class is responsible for generating the bytecode for injected callbacks,
+ * for details of usage see {@link Inject &#64;Inject}.
  */
 public class CallbackInjector extends Injector {
     
@@ -315,6 +317,11 @@ public class CallbackInjector extends Injector {
     }
     
     /**
+     * Decorator key for local variables decoration
+     */
+    private static final String LOCALS_KEY = "locals";
+
+    /**
      * True if cancellable 
      */
     private final boolean cancellable;
@@ -405,6 +412,35 @@ public class CallbackInjector extends Injector {
         myNodes.add(injectionNode);
         this.totalInjections++;
     }
+    
+    private static List<String> summariseLocals(String desc, int pos, int count) {
+        return CallbackInjector.summariseLocals(Type.getArgumentTypes(desc), pos, count);
+    }
+
+    private static List<String> summariseLocals(Type[] locals, int pos, int count) {
+        List<String> list = new ArrayList<String>();
+        if (locals != null) {
+            for (; pos < locals.length && list.size() < count; pos++) {
+                if (locals[pos] != null) {
+                    list.add(locals[pos].toString());
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    protected void preInject(Target target, InjectionNode node) {
+        if ((this.localCapture.isCaptureLocals() || this.localCapture.isPrintLocals()) && !node.hasDecoration(CallbackInjector.LOCALS_KEY)) {
+            LocalVariableNode[] locals = Locals.getLocalsAt(this.classNode, target.method, node.getCurrentTarget());
+            for (int j = 0; j < locals.length; j++) {
+                if (locals[j] != null && locals[j].desc != null && locals[j].desc.startsWith("Lorg/spongepowered/asm/mixin/injection/callback/")) {
+                    locals[j] = null;
+                }
+            }
+            node.<LocalVariableNode[]>decorate(CallbackInjector.LOCALS_KEY, locals);
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.spongepowered.asm.mixin.injection.callback.BytecodeInjector
@@ -413,119 +449,8 @@ public class CallbackInjector extends Injector {
      */
     @Override
     protected void inject(Target target, InjectionNode node) {
-        LocalVariableNode[] locals = null;
-
-        if (this.localCapture.isCaptureLocals() || this.localCapture.isPrintLocals()) {
-            locals = Locals.getLocalsAt(this.classNode, target.method, node.getCurrentTarget());
-            for (int j = 0; j < locals.length; j++) {
-                if (locals[j] != null && locals[j].desc != null && locals[j].desc.startsWith("Lorg/spongepowered/asm/mixin/injection/callback/")) {
-                    locals[j] = null;
-                }
-            }
-        }
-
+        LocalVariableNode[] locals = node.<LocalVariableNode[]>getDecoration(CallbackInjector.LOCALS_KEY);
         this.inject(new Callback(this.methodNode, target, node, locals, this.localCapture.isCaptureLocals()));
-    }
-
-    /**
-     * Generate the actual bytecode for the callback
-     * 
-     * @param callback callback handle
-     */
-    private void inject(final Callback callback) {
-        if (this.localCapture.isPrintLocals()) {
-            this.printLocals(callback);
-            this.info.addCallbackInvocation(this.methodNode);
-            return;
-        }
-        
-        // The actual callback method, to start with this is set to the handler
-        // method but we will redirect to our generated handler if the signature
-        // is invalid and we have to generate an error handler stub method
-        MethodNode callbackMethod = this.methodNode;
-
-        if (!callback.checkDescriptor(this.methodNode.desc)) {
-            if (this.info.getTargets().size() > 1) {
-                return; // Look for a match in other targets before failing
-            }
-
-            if (callback.canCaptureLocals) {
-                // First check whether there is a compatible method in the class
-                // the method must have an identical name and an appropriate
-                // signature for the current locals. This allows silent failover
-                // if changes to the local variable table are EXPECTED for some
-                // reason.
-                MethodNode surrogateHandler = Bytecode.findMethod(this.classNode, this.methodNode.name, callback.getDescriptor());
-                if (surrogateHandler != null && Annotations.getVisible(surrogateHandler, Surrogate.class) != null) {
-                    // Found a matching method, use it
-                    callbackMethod = surrogateHandler;
-                } else {
-                    // No matching method, generate a message to bitch about it
-                    String message = this.generateBadLVTMessage(callback);
-                    
-                    switch (this.localCapture) {
-                        case CAPTURE_FAILEXCEPTION:
-                            Injector.logger.error("Injection error: {}", message);
-                            callbackMethod = this.generateErrorMethod(callback, "org/spongepowered/asm/mixin/injection/throwables/InjectionError",
-                                    message);
-                            break;
-                        case CAPTURE_FAILSOFT:
-                            Injector.logger.warn("Injection warning: {}", message);
-                            return;
-                        default:
-                            Injector.logger.error("Critical injection failure: {}", message);
-                            throw new InjectionError(message);
-                    }
-                }
-            } else {
-                // Check whether user is just using the wrong CallbackInfo type
-                String returnableSig = this.methodNode.desc.replace(
-                        "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;",
-                        "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;");
-
-                if (callback.checkDescriptor(returnableSig)) {
-                    // Switching out CallbackInfo for CallbackInfoReturnable
-                    // worked, so notify the user that they done derped
-                    throw new InvalidInjectionException(this.info, "Invalid descriptor on " + this.info + "! CallbackInfoReturnable is required!");  
-                }
-                
-                MethodNode surrogateHandler = Bytecode.findMethod(this.classNode, this.methodNode.name, callback.getDescriptor());
-                if (surrogateHandler != null && Annotations.getVisible(surrogateHandler, Surrogate.class) != null) {
-                    // Found a matching surrogate method, use it
-                    callbackMethod = surrogateHandler;
-                } else {
-                    throw new InvalidInjectionException(this.info, "Invalid descriptor on " + this.info + "! Expected " + callback.getDescriptor()
-                            + " but found " + this.methodNode.desc);
-                }
-            }
-        }
-        
-        this.dupReturnValue(callback);
-        if (this.cancellable || this.totalInjections > 1) {
-            this.createCallbackInfo(callback, true);
-        }
-        this.invokeCallback(callback, callbackMethod);
-        this.injectCancellationCode(callback);
-        
-        callback.inject();
-        this.info.notifyInjected(callback.target);
-    }
-
-    /**
-     * Generate the "bad local variable table" message
-     * 
-     * @param callback callback handle
-     * @return generated message
-     */
-    private String generateBadLVTMessage(final Callback callback) {
-        int position = callback.target.indexOf(callback.node);
-        List<String> expected = CallbackInjector.summariseLocals(this.methodNode.desc, callback.target.arguments.length + 1);
-        List<String> found = CallbackInjector.summariseLocals(callback.getDescriptor(), callback.frameSize + (callback.target.isStatic ? 1 : 0));
-        if (expected.equals(found)) {
-            return String.format("Invalid descriptor on %s! Expected %s but found %s", this.info, callback.getDescriptor(), this.methodNode.desc);
-        }
-        return String.format("LVT in %s has incompatible changes at opcode %d in callback %s.\nExpected: %s\n   Found: %s",
-                callback.target, position, this, expected, found);
     }
 
     /**
@@ -773,20 +698,107 @@ public class CallbackInjector extends Injector {
         return this.isStatic;
     }
 
-    private static List<String> summariseLocals(String desc, int pos) {
-        return CallbackInjector.summariseLocals(Type.getArgumentTypes(desc), pos);
-    }
+    /**
+     * Generate the actual bytecode for the callback
+     *
+     * @param callback callback handle
+     */
+    private void inject(final Callback callback) {
+        if (this.localCapture.isPrintLocals()) {
+            this.printLocals(callback);
+            this.info.addCallbackInvocation(this.methodNode);
+            return;
+        }
 
-    private static List<String> summariseLocals(Type[] locals, int pos) {
-        List<String> list = new ArrayList<String>();
-        if (locals != null) {
-            for (; pos < locals.length; pos++) {
-                if (locals[pos] != null) {
-                    list.add(locals[pos].toString());
+        // The actual callback method, to start with this is set to the handler
+        // method but we will redirect to our generated handler if the signature
+        // is invalid and we have to generate an error handler stub method
+        MethodNode callbackMethod = this.methodNode;
+
+        if (!callback.checkDescriptor(this.methodNode.desc)) {
+            if (this.info.getTargetCount() > 1) {
+                return; // Look for a match in other targets before failing
+            }
+
+            if (callback.canCaptureLocals) {
+                // First check whether there is a compatible method in the class
+                // the method must have an identical name and an appropriate
+                // signature for the current locals. This allows silent failover
+                // if changes to the local variable table are EXPECTED for some
+                // reason.
+                MethodNode surrogateHandler = Bytecode.findMethod(this.classNode, this.methodNode.name, callback.getDescriptor());
+                if (surrogateHandler != null && Annotations.getVisible(surrogateHandler, Surrogate.class) != null) {
+                    // Found a matching method, use it
+                    callbackMethod = surrogateHandler;
+                } else {
+                    // No matching method, generate a message to bitch about it
+                    String message = this.generateBadLVTMessage(callback);
+
+                    switch (this.localCapture) {
+                        case CAPTURE_FAILEXCEPTION:
+                            Injector.logger.error("Injection error: {}", message);
+                            callbackMethod = this.generateErrorMethod(callback, "org/spongepowered/asm/mixin/injection/throwables/InjectionError",
+                                    message);
+                            break;
+                        case CAPTURE_FAILSOFT:
+                            Injector.logger.warn("Injection warning: {}", message);
+                            return;
+                        default:
+                            Injector.logger.error("Critical injection failure: {}", message);
+                            throw new InjectionError(message);
+                    }
+                }
+            } else {
+                // Check whether user is just using the wrong CallbackInfo type
+                String returnableSig = this.methodNode.desc.replace(
+                        "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;",
+                        "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;");
+
+                if (callback.checkDescriptor(returnableSig)) {
+                    // Switching out CallbackInfo for CallbackInfoReturnable
+                    // worked, so notify the user that they done derped
+                    throw new InvalidInjectionException(this.info, "Invalid descriptor on " + this.info + "! CallbackInfoReturnable is required!");
+                }
+
+                MethodNode surrogateHandler = Bytecode.findMethod(this.classNode, this.methodNode.name, callback.getDescriptor());
+                if (surrogateHandler != null && Annotations.getVisible(surrogateHandler, Surrogate.class) != null) {
+                    // Found a matching surrogate method, use it
+                    callbackMethod = surrogateHandler;
+                } else {
+                    throw new InvalidInjectionException(this.info, "Invalid descriptor on " + this.info + "! Expected " + callback.getDescriptor()
+                            + " but found " + this.methodNode.desc);
                 }
             }
         }
-        return list;
+
+        this.dupReturnValue(callback);
+        if (this.cancellable || this.totalInjections > 1) {
+            this.createCallbackInfo(callback, true);
+        }
+        this.invokeCallback(callback, callbackMethod);
+        this.injectCancellationCode(callback);
+
+        callback.inject();
+        this.info.notifyInjected(callback.target);
+    }
+
+    /**
+     * Generate the "bad local variable table" message
+     *
+     * @param callback callback handle
+     * @return generated message
+     */
+    private String generateBadLVTMessage(final Callback callback) {
+        int position = callback.target.indexOf(callback.node);
+        int targetArgc = callback.target.arguments.length + 1;
+        List<String> expected = CallbackInjector.summariseLocals(this.methodNode.desc, targetArgc, 255);
+        List<String> found = CallbackInjector.summariseLocals(callback.getDescriptorWithAllLocals(), targetArgc, expected.size());
+        if (expected.equals(found)) {
+            return String.format("Invalid descriptor on %s! Expected %s but found %s", this.info, callback.getDescriptor(), this.methodNode.desc);
+        }
+        List<String> available = CallbackInjector.summariseLocals(callback.getDescriptorWithAllLocals(), targetArgc, 255);
+        return String.format("LVT in %s has incompatible changes at opcode %d in callback %s.\n Expected: %s\n    Found: %s\nAvailable: %s",
+                callback.target, position, this.info, expected, found, available);
     }
 
     static String meltSnowman(int index, String varName) {

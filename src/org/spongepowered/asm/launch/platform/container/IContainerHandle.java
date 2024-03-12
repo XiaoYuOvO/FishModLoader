@@ -41,7 +41,7 @@ public interface IContainerHandle {
      * @param name attribute name
      * @return attribute value or null if not present
      */
-    String getAttribute(String name);
+    public abstract String getAttribute(String name);
     
     /**
      * Get nested containers from this container, allows a container to detect
@@ -49,6 +49,6 @@ public interface IContainerHandle {
      * detecting and returning file containers, or a virtual container returning
      * real containers after a scan.
      */
-    Collection<IContainerHandle> getNestedContainers();
+    public abstract Collection<IContainerHandle> getNestedContainers();
 
 }

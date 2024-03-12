@@ -1,9 +1,8 @@
 package net.xiaoyu233.fml.reload.transform.network;
 
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.NetHandler;
 import net.minecraft.Packet;
 import net.minecraft.Packet2ClientProtocol;
@@ -36,8 +35,8 @@ public abstract class Packet2ClientProtocolTrans extends Packet implements FMLCl
 
     @SuppressWarnings("unused")
     //Used on login check
-    public ArrayList<RemoteModInfo> getModInfos() {
-        return Lists.newArrayList(new Gson().fromJson(modInfos, RemoteModInfo[].class));
+    public List<RemoteModInfo> getModInfos() throws VersionParsingException {
+        return RemoteModInfo.readFromJson(modInfos);
     }
 
     @Shadow

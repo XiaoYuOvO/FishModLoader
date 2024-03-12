@@ -48,8 +48,8 @@ public class CallbackInjectionInfo extends InjectionInfo {
     @Override
     protected Injector parseInjector(AnnotationNode injectAnnotation) {
         boolean cancellable = Annotations.<Boolean>getValue(injectAnnotation, "cancellable", Boolean.FALSE);
-        LocalCapture locals = Annotations.getValue(injectAnnotation, "locals", LocalCapture.class, LocalCapture.NO_CAPTURE);
-        String identifier = Annotations.getValue(injectAnnotation, "id", "");
+        LocalCapture locals = Annotations.<LocalCapture>getValue(injectAnnotation, "locals", LocalCapture.class, LocalCapture.NO_CAPTURE);
+        String identifier = Annotations.<String>getValue(injectAnnotation, "id", "");
         
         return new CallbackInjector(this, cancellable, locals, identifier);
     }

@@ -1,21 +1,12 @@
 package net.xiaoyu233.fml.util;
 
-import java.lang.reflect.*;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 
 public class ReflectHelper {
-   private static final Class<? extends URLClassLoader> URLClassLoader = URLClassLoader.class;
-   private static Method addURL;
 
-   static {
-      try {
-         addURL = URLClassLoader.getDeclaredMethod("addURL", URL.class);
-         addURL.setAccessible(true);
-      } catch (NoSuchMethodException e) {
-         e.printStackTrace();
-      }
-   }
 
    public static Class<?> reloadClassWithLoader(Class<?> className,ClassLoader classLoader) throws ClassNotFoundException {
        return classLoader.loadClass(className.getName());
@@ -28,9 +19,6 @@ public class ReflectHelper {
       modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
    }
 
-   public static void addLoaderURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException {
-      addURL.invoke(loader,url);
-   }
    public static <T> T dyCast(Object from) {
       return (T) from;
    }

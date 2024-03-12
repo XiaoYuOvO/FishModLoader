@@ -50,33 +50,6 @@ import java.lang.annotation.Target;
 public @interface At {
     
     /**
-     * <b>Shift</b> is used to shift resulting opcodes
-     */
-    enum Shift {
-        
-        /**
-         * Do not shift the returned opcodes
-         */
-        NONE,
-        
-        /**
-         * Shift the returned opcodes back one instruction 
-         */
-        BEFORE,
-        
-        /**
-         * Shift the returned opcodes forward one instruction 
-         */
-        AFTER,
-        
-        /**
-         * Shift the returned opcodes by the amount specified in {@link At#by} 
-         */
-        BY
-        
-    }
-    
-    /**
      * The identifier for this injection point, can be retrieved via the
      * {@link CallbackInfo#getId} accessor. If specified, the ID is appended to
      * the value specified in the outer annotion. Eg. specifying "foo" for this
@@ -84,16 +57,16 @@ public @interface At {
      * will result in a combined id of <tt>"bar:foo"</tt>. Note that if no id
      * is specified for the outer injector, the name of the calling method is
      * used.
-     * 
+     *
      * @return the injection point id to use
      */
-    String id() default "";
-
+    public String id() default "";
+    
     /**
      * <p>Type of {@link InjectionPoint} to use. Can be a built-in class or the
      * fully-qualified name of a custom class which extends
      * {@link InjectionPoint}.</p>
-     * 
+     *
      * <p>Built-in types are
      * {@link MethodHead HEAD},
      * {@link BeforeReturn RETURN},
@@ -107,32 +80,32 @@ public @interface At {
      * {@link BeforeConstant CONSTANT}.
      * See the javadoc for each type for more details on the scheme used by each
      * injection point.</p>
-     * 
+     *
      * @return Injection point specifier or fully-qualified class name
      */
-    String value();
-    
+    public String value();
+
     /**
      * For {@link Inject} queries, this specifies the ID of the slice to use for
      * this query. For other injector types it is ignored because only one slice
      * is supported.
-     * 
+     *
      * <p>For more details see the {@link Slice#id}</p>
-     * 
+     *
      * @return the slice identifier, or empty string to use the default slice
      */
-    String slice() default "";
+    public String slice() default "";
     
     /**
      * Shift type for returned opcodes. For example use {@link At.Shift#AFTER
      * AFTER} with an INVOKE InjectionPoint to move the returned opcodes to
      * <i>after</i> the invoation. Use {@link At.Shift#BY BY} in conjunction
      * with the {@link #by} parameter to shift by an arbitrary number of
-     * opcodes. 
-     * 
+     * opcodes.
+     *
      * @return Type of shift to apply
      */
-    Shift shift() default Shift.NONE;
+    public Shift shift() default Shift.NONE;
     
     /**
      * If {@link #shift} is specified as {@link At.Shift#BY BY}, specifies the
@@ -141,29 +114,35 @@ public @interface At {
      * with a custom injection point or with sliced injection points. The
      * warning/error threshold is defined by the config (with a hard limit on
      * value of {@link InjectionPoint#MAX_ALLOWED_SHIFT_BY})
-     * 
+     *
      * @return Amount of shift to apply for the {@link At.Shift#BY BY} shift
      */
-    int by() default 0;
+    public int by() default 0;
     
     /**
      * <p>The <b>named arguments</b> list is used to expand the scope of the
      * annotation beyond the fixed values below in order to accommodate the
      * needs of custom injection point classes.</p>
-     * 
+     *
      * @return Named arguments for the injection point
      */
-    String[] args() default { };
+    public String[] args() default { };
     
     /**
      * Target identifier used by INVOKE, INVOKE_STRING, INVOKE_ASSIGN, FIELD and
      * NEW. This <b>must be specified as a fully-qualified member path</b>
      * including the class name and signature. Failing to fully-qualify the
      * target member will result in an error at obfuscation time.
-     * 
+     *
      * @return target reference for supported InjectionPoint types
      */
-    String target() default "";
+    public String target() default "";
+    
+    /**
+     * Target descriptor used in place of string-based descriptors for
+     * {@link #target}
+     */
+    public Desc desc() default @Desc("");
     
     /**
      * Ordinal offset. Many InjectionPoints will return every opcode matching
@@ -173,18 +152,18 @@ public @interface At {
      * of 0 or higher returns <em>only</em> the requested opcode (if one exists:
      * for example specifying an ordinal of 4 when only 2 opcodes are matched by
      * the InjectionPoint is not going to work particularly well!)
-     * 
+     *
      * @return ordinal value for supported InjectionPoint types
      */
-    int ordinal() default -1;
+    public int ordinal() default -1;
     
     /**
      * Target opcode for FIELD and JUMP InjectionPoints. See the javadoc for the
      * relevant injection point for more details.
-     * 
+     *
      * @return Bytecode opcode for supported InjectionPoints
      */
-    int opcode() default -1;
+    public int opcode() default -1;
     
     /**
      * By default, the annotation processor will attempt to locate an
@@ -197,10 +176,37 @@ public @interface At {
      * this value to <em>false</em> will cause the annotation processor to skip
      * this annotation when attempting to build the obfuscation table for the
      * mixin.
-     * 
+     *
      * @return True to instruct the annotation processor to search for
-     *      obfuscation mappings for this annotation 
+     *      obfuscation mappings for this annotation
      */
-    boolean remap() default true;
+    public boolean remap() default true;
+    
+    /**
+     * <b>Shift</b> is used to shift resulting opcodes
+     */
+    public enum Shift {
+
+        /**
+         * Do not shift the returned opcodes
+         */
+        NONE,
+
+        /**
+         * Shift the returned opcodes back one instruction
+         */
+        BEFORE,
+
+        /**
+         * Shift the returned opcodes forward one instruction
+         */
+        AFTER,
+
+        /**
+         * Shift the returned opcodes by the amount specified in {@link At#by}
+         */
+        BY
+
+    }
 
 }

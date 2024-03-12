@@ -43,6 +43,6 @@ public interface IMappingWriter {
      * @param fields field mappings
      * @param methods method mappings
      */
-    void write(String output, ObfuscationType type, MappingSet<MappingField> fields, MappingSet<MappingMethod> methods);
+    public abstract void write(String output, ObfuscationType type, MappingSet<MappingField> fields, MappingSet<MappingMethod> methods);
 
 }

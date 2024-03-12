@@ -1,38 +1,44 @@
 package net.xiaoyu233.fml.mapping;
 
+import net.fabricmc.tinyremapper.IMappingProvider;
 import net.fabricmc.tinyremapper.NonClassCopyMode;
 import net.fabricmc.tinyremapper.OutputConsumerPath;
 import net.fabricmc.tinyremapper.TinyRemapper;
-import net.fabricmc.tinyremapper.TinyUtils;
-import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.util.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class CachedMappedJar {
-    private final URL jarSource;
+    private static final Logger LOGGER = LogManager.getLogger("GameRemapper");
+    private final Path jarSource;
     private final File minecraftDir;
     private final Path cacheDir;
+//    private final Set<InterfaceInjection> injections;
     private final TinyRemapper remapper;
 
-    public CachedMappedJar(URL jarSource, BufferedReader mappingReader, File minecraftDir) throws IOException, NoSuchAlgorithmException {
+    public CachedMappedJar(Path jarSource, IMappingProvider provider, File minecraftDir
+//            , Set<InterfaceInjection> injections
+    ) throws IOException, NoSuchAlgorithmException {
         this.jarSource = jarSource;
-        this.remapper = TinyRemapper.newRemapper()
-                .withMappings(TinyUtils.createTinyMappingProvider(mappingReader, "left", "right"))
+        TinyRemapper.Builder builder = TinyRemapper.newRemapper()
+                .withMappings(provider)
                 .ignoreConflicts(true)
-                .checkPackageAccess(true)
-                .build();
+                .checkPackageAccess(true);
+//        if (!injections.isEmpty()){
+//            builder.extension(new InterfaceInjectionExtension(injections));
+//        }
+        this.remapper = builder.build();
         this.minecraftDir = minecraftDir;
         this.cacheDir = minecraftDir.toPath().resolve(".fml").resolve("remappedJars");
+//        this.injections = injections;
         Files.createDirectories(cacheDir);
     }
 
@@ -54,27 +60,48 @@ public class CachedMappedJar {
         return result.toString();
     }
 
-    public URL ensureJarMapped() throws MalformedURLException, UnsupportedEncodingException {
-        String decode = URLDecoder.decode(jarSource.getPath(), "UTF-8");
-        File sourceJarFile = new File(decode);
-        Path mappedJar = this.cacheDir.resolve(sourceJarFile.getName() + "-" + FishModLoader.VERSION + ".jar");
-        if (Files.exists(mappedJar)){
-            FishModLoader.LOGGER.info("Found mapped jar cache");
-            return mappedJar.toUri().toURL();
+    public Path ensureJarMapped() throws IOException {
+        Path mappedJar = this.cacheDir.resolve(jarSource.getFileName() + "-" + Constants.VERSION + ".jar");
+        boolean injectionsInvalid = false;
+        //Check injection valid
+//        String injectionHash = Integer.toHexString(injections.hashCode());
+//        Path interfaceInjectionHash = this.cacheDir.resolve("InterfaceInjectionHash");
+//        if (!this.injections.isEmpty()) {
+//            if (Files.exists(interfaceInjectionHash)) {
+//                List<String> strings = Files.readAllLines(interfaceInjectionHash, Charsets.UTF_8);
+//                if (strings.isEmpty()){
+//                    injectionsInvalid = true;
+//                }else {
+//                    injectionsInvalid = !strings.get(0).trim().equals(injectionHash);
+//                }
+//            } else {
+//                injectionsInvalid = true;
+//            }
+//        }
+
+        if (Files.exists(mappedJar) && !injectionsInvalid){
+            LOGGER.info("Found mapped jar cache");
+            return mappedJar;
         }else {
-            FishModLoader.LOGGER.info("Mapped jar cache not found, remapping with TinyRemapper on FML version " + FishModLoader.VERSION);
+//            if (injectionsInvalid){
+//                LOGGER.info("Mapped jar cache invalid by interface injections, remapping with TinyRemapper on FML version " + Constants.VERSION + " with injection hash: " + injectionHash);
+//            }else {
+                LOGGER.info("Mapped jar cache not found, remapping with TinyRemapper on FML version " + Constants.VERSION);
+//            }
             try (OutputConsumerPath outputConsumer = new OutputConsumerPath.Builder(mappedJar).build()) {
-                Path input = sourceJarFile.toPath();
-                outputConsumer.addNonClassFiles(input, NonClassCopyMode.UNCHANGED, remapper);
-                this.remapper.readInputs(input);
+                outputConsumer.addNonClassFiles(this.jarSource, NonClassCopyMode.UNCHANGED, remapper);
+                this.remapper.readInputs(this.jarSource);
                 remapper.apply(outputConsumer);
-                FishModLoader.LOGGER.info("Minecraft jar has successfully remapped");
+//                if (!injections.isEmpty()){
+//                    Files.write(interfaceInjectionHash, Lists.newArrayList(injectionHash), StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+//                }
+                LOGGER.info("Minecraft jar has successfully remapped");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
                 remapper.finish();
             }
         }
-        return mappedJar.toUri().toURL();
+        return mappedJar;
     }
 }

@@ -36,6 +36,6 @@ public interface IDecompiler {
      * 
      * @param file .class file to decompile
      */
-    void decompile(File file);
+    public abstract void decompile(File file);
     
 }

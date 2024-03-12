@@ -35,10 +35,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.InjectionPoint.Selector;
 import org.spongepowered.asm.mixin.injection.modify.LocalVariableDiscriminator;
 import org.spongepowered.asm.mixin.injection.selectors.ITargetSelector;
+import org.spongepowered.asm.mixin.injection.selectors.InvalidSelectorException;
 import org.spongepowered.asm.mixin.injection.selectors.TargetSelector;
+import org.spongepowered.asm.mixin.injection.selectors.dynamic.DynamicSelectorDesc;
 import org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionPointException;
 import org.spongepowered.asm.mixin.refmap.IMixinContext;
+import org.spongepowered.asm.util.Annotations;
+import org.spongepowered.asm.util.Annotations.Handle;
 import org.spongepowered.asm.util.IMessageSink;
+import org.spongepowered.asm.util.asm.IAnnotationHandle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -172,11 +177,12 @@ public class InjectionPointData {
         return this.selector;
     }
     
-    /**
-     * Get the context
-     */
-    public IMixinContext getContext() {
-        return this.context.getContext();
+    private static Pattern createPattern() {
+        return Pattern.compile(String.format("^(.+?)(:(%s))?$", Joiner.on('|').join(Selector.values())));
+    }
+    
+    private static Selector parseSelector(Matcher matcher) {
+        return matcher.matches() && matcher.group(3) != null ? Selector.valueOf(matcher.group(3)) : Selector.DEFAULT;
     }
     
     /**
@@ -194,10 +200,10 @@ public class InjectionPointData {
     }
     
     /**
-     * Get the root annotation (eg. {@link Inject})
+     * Get the injection point context
      */
-    public AnnotationNode getParent() {
-        return this.context.getAnnotation();
+    public IInjectionPointContext getContext() {
+        return this.context;
     }
     
     /**
@@ -249,38 +255,33 @@ public class InjectionPointData {
     }
 
     /**
+     * Get the mixin context
+     */
+    public IMixinContext getMixin() {
+        return this.context.getMixin();
+    }
+    
+    /**
+     * Get the root annotation (eg. {@link Inject})
+     */
+    public AnnotationNode getParent() {
+        return this.context.getAnnotationNode();
+    }
+
+    /**
      * Get the supplied value from the named args as a target selector,
      * throws an exception if the argument cannot be parsed as a target selector
-     * 
+     *
      * @param key argument name
      * @return argument value as a target selector
      */
     public ITargetSelector get(String key) {
         try {
-            return TargetSelector.parseAndValidate(this.get(key, ""), this.getContext());
-        } catch (InvalidMemberDescriptorException ex) {
-            throw new InvalidInjectionPointException(this.getContext(), "Failed parsing @At(\"%s\").%s descriptor \"%s\" on %s",
+            return TargetSelector.parseAndValidate(this.get(key, ""), this.context);
+        } catch (InvalidSelectorException ex) {
+            throw new InvalidInjectionPointException(this.getMixin(), ex, "Failed parsing @At(\"%s\").%s \"%s\" on %s",
                     this.at, key, this.target, this.getDescription());
         }
-    }
-    
-    /**
-     * Get the target value specified on the injector
-     */
-    public ITargetSelector getTarget() {
-        try {
-            return TargetSelector.parseAndValidate(this.target, this.getContext());
-        } catch (InvalidMemberDescriptorException ex) {
-            throw new InvalidInjectionPointException(this.getContext(), "Failed parsing @At(\"%s\").target descriptor \"%s\" on %s",
-                    this.at, this.target, this.getDescription());
-        }
-    }
-
-    /**
-     * Get a description of this injector for use in error messages
-     */
-    public String getDescription() {
-        return InjectionInfo.describeInjector(this.getContext(), this.getParent(), this.getMethod());
     }
 
     /**
@@ -338,8 +339,26 @@ public class InjectionPointData {
         return this.type;
     }
 
-    private static Pattern createPattern() {
-        return Pattern.compile(String.format("^([^:]+):?(%s)?$", Joiner.on('|').join(Selector.values())));
+    /**
+     * Get the target value specified on the injector
+     */
+    public ITargetSelector getTarget() {
+        try {
+            if (Strings.isNullOrEmpty(this.target)) {
+                IAnnotationHandle selectorAnnotation = this.context.getSelectorAnnotation();
+                AnnotationNode desc = Annotations.<AnnotationNode>getValue(((Handle)selectorAnnotation).getNode(), "desc");
+                if (desc != null) {
+                    String id = Annotations.<String>getValue(desc, "id", "at");
+                    if ("at".equalsIgnoreCase(id)) {
+                        return DynamicSelectorDesc.of(Annotations.handleOf(desc), this.context);
+                    }
+                }
+            }
+            return TargetSelector.parseAndValidate(this.target, this.context);
+        } catch (InvalidSelectorException ex) {
+            throw new InvalidInjectionPointException(this.getMixin(), ex, "Failed validating @At(\"%s\").target \"%s\" on %s",
+                    this.at, this.target, this.getDescription());
+        }
     }
 
     /**
@@ -357,8 +376,11 @@ public class InjectionPointData {
         return matcher.matches() ? matcher.group(1) : at;
     }
 
-    private static Selector parseSelector(Matcher matcher) {
-        return matcher.matches() && matcher.group(2) != null ? Selector.valueOf(matcher.group(2)) : Selector.DEFAULT;
+    /**
+     * Get a description of this injector for use in error messages
+     */
+    public String getDescription() {
+        return InjectionInfo.describeInjector(this.context.getMixin(), this.context.getAnnotationNode(), this.context.getMethod());
     }
     
     private static int parseInt(String string, int defaultValue) {

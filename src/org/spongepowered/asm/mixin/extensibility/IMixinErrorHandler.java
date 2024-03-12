@@ -24,7 +24,7 @@
  */
 package org.spongepowered.asm.mixin.extensibility;
 
-import org.apache.logging.log4j.Level;
+import org.spongepowered.asm.logging.Level;
 
 /**
  * Interface for objects which want to perform custom behaviour when fatal mixin
@@ -33,50 +33,15 @@ import org.apache.logging.log4j.Level;
 public interface IMixinErrorHandler {
     
     /**
-     * Action to take when handling an error. By default, if a config is marked
-     * as "required" then the default action will be {@link #ERROR}, and will be
-     * {@link #WARN} otherwise.
-     */
-    enum ErrorAction {
-        
-        /**
-         * Take no action, this should be treated as a non-critical error and
-         * processing should continue 
-         */
-        NONE(Level.INFO),
-        
-        /**
-         * Generate a warning but continue processing 
-         */
-        WARN(Level.WARN),
-        
-        /**
-         * Throw a
-         * {@link org.spongepowered.asm.mixin.throwables.MixinApplyError} to
-         * halt further processing if possible
-         */
-        ERROR(Level.FATAL);
-        
-        /**
-         * Logging level for the specified error action
-         */
-        public final Level logLevel;
-
-        ErrorAction(Level logLevel) {
-            this.logLevel = logLevel;
-        }
-    }
-    
-    /**
      * Called when an error occurs whilst initialising a mixin config. This
      * allows the plugin to display more user-friendly error messages if
      * required.
-     * 
+     *
      * <p>By default, when a critical error occurs the mixin processor will
      * raise a warning if the config is not marked as "required" and will throw
      * an {@link Error} if it is. This behaviour can be altered by returning
      * different values from this method.</p>
-     * 
+     *
      * <p>The original throwable which was caught is passed in via the <code>
      * th</code> parameter and the default action is passed in to the <code>
      * action</code> parameter. A plugin can choose to output a friendly message
@@ -84,7 +49,7 @@ public interface IMixinErrorHandler {
      * or returning <code>action</code> directly. Alternatively it may throw a
      * different exception or error, or can reduce the severity of the error by
      * returning a different {@link ErrorAction}.</p>
-     * 
+     *
      * @param config Config being prepared when the error occurred
      * @param th Throwable which was caught
      * @param mixin Mixin which was being applied at the time of the error
@@ -92,17 +57,17 @@ public interface IMixinErrorHandler {
      * @return null to perform the default action (or return action) or new
      *      action to take
      */
-    ErrorAction onPrepareError(IMixinConfig config, Throwable th, IMixinInfo mixin, ErrorAction action);
+    public abstract ErrorAction onPrepareError(IMixinConfig config, Throwable th, IMixinInfo mixin, ErrorAction action);
     
     /**
      * Called when an error occurs applying a mixin. This allows
      * the plugin to display more user-friendly error messages if required.
-     * 
+     *
      * <p>By default, when a critical error occurs the mixin processor will
      * raise a warning if the config is not marked as "required" and will throw
      * an {@link Error} if it is. This behaviour can be altered by returning
      * different values from this method.</p>
-     * 
+     *
      * <p>The original throwable which was caught is passed in via the <code>
      * th</code> parameter and the default action is passed in to the <code>
      * action</code> parameter. A plugin can choose to output a friendly message
@@ -110,7 +75,7 @@ public interface IMixinErrorHandler {
      * or returning <code>action</code> directly. Alternatively it may throw a
      * different exception or error, or can reduce the severity of the error by
      * returning a different {@link ErrorAction}.</p>
-     * 
+     *
      * @param targetClassName Class being transformed when the error occurred
      * @param th Throwable which was caught
      * @param mixin Mixin which was being applied at the time of the error
@@ -118,6 +83,41 @@ public interface IMixinErrorHandler {
      * @return null to perform the default action (or return action) or new
      *      action to take
      */
-    ErrorAction onApplyError(String targetClassName, Throwable th, IMixinInfo mixin, ErrorAction action);
+    public abstract ErrorAction onApplyError(String targetClassName, Throwable th, IMixinInfo mixin, ErrorAction action);
+    
+    /**
+     * Action to take when handling an error. By default, if a config is marked
+     * as "required" then the default action will be {@link #ERROR}, and will be
+     * {@link #WARN} otherwise.
+     */
+    public static enum ErrorAction {
+
+        /**
+         * Take no action, this should be treated as a non-critical error and
+         * processing should continue
+         */
+        NONE(Level.INFO),
+
+        /**
+         * Generate a warning but continue processing
+         */
+        WARN(Level.WARN),
+
+        /**
+         * Throw a
+         * {@link org.spongepowered.asm.mixin.throwables.MixinApplyError} to
+         * halt further processing if possible
+         */
+        ERROR(Level.FATAL);
+
+        /**
+         * Logging level for the specified error action
+         */
+        public final Level logLevel;
+
+        private ErrorAction(Level logLevel) {
+            this.logLevel = logLevel;
+        }
+    }
     
 }

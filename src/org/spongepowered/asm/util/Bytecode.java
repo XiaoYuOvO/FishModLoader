@@ -36,7 +36,6 @@ import org.spongepowered.asm.util.throwables.SyntheticBridgeException.Problem;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.annotation.Annotation;
 import java.util.*;
 
 /**
@@ -44,56 +43,16 @@ import java.util.*;
  */
 public final class Bytecode {
     
-    /**
-     * Ordinal member visibility level. This is used to represent visibility of
-     * a member in a formal way from lowest to highest. The
-     * {@link Bytecode#getVisibility} methods can be used to convert access
-     * flags to this enum. The value returned from {@link #ordinal} can then be
-     * used to determine whether a visibility level is <i>higher</i> or <i>lower
-     * </i> than any other given visibility level.  
-     */
-    public enum Visibility {
-        
-        /**
-         * Members decorated with {@link Opcodes#ACC_PRIVATE} 
-         */
-        PRIVATE(Opcodes.ACC_PRIVATE),
-        
-        /**
-         * Members decorated with {@link Opcodes#ACC_PROTECTED} 
-         */
-        PROTECTED(Opcodes.ACC_PROTECTED),
-        
-        /**
-         * Members not decorated with any access flags
-         */
-        PACKAGE(0),
-        
-        /**
-         * Members decorated with {@link Opcodes#ACC_PUBLIC} 
-         */
-        PUBLIC(Opcodes.ACC_PUBLIC);
-        
-        static final int MASK = Opcodes.ACC_PRIVATE | Opcodes.ACC_PROTECTED | Opcodes.ACC_PUBLIC;
-        
-        final int access;
-
-        Visibility(int access) {
-            this.access = access;
-        }
-        
-        /**
-         * Get whether this visibility level represents a level which is the
-         * same or greater than the supplied level
-         * 
-         * @param other level to compare to
-         * @return true if greater or equal
-         */
-        public boolean isAtLeast(Visibility other) {
-            return other == null || other.ordinal() <= this.ordinal();
-        }
-        
-    }
+    private static final String[] CONSTANTS_TYPES = {
+        "V", // null is returned as Type.VOID_TYPE
+        "I",
+        "I", "I", "I", "I", "I", "I",
+        "J", "J",
+        "F", "F", "F",
+        "D", "D",
+        "I", //"B",
+        "I", //"S"
+    };
     
     /**
      * Information bundle returned from {@link Bytecode#findDelegateInit}
@@ -188,16 +147,15 @@ public final class Bytecode {
         Double.valueOf(0.0), Double.valueOf(1.0)
     };
     
-    private static final String[] CONSTANTS_TYPES = {
-        null,
-        "I",
-        "I", "I", "I", "I", "I", "I",
-        "J", "J",
-        "F", "F", "F", 
-        "D", "D",
-        "I", //"B",
-        "I", //"S"
-    };
+    /**
+     * Gets a description of the supplied node for debugging purposes
+     *
+     * @param node node to describe
+     * @return human-readable description of node
+     */
+    public static String describeNode(AbstractInsnNode node) {
+        return Bytecode.describeNode(node, true);
+    }
     
     /**
      * Mapping of {@link Type#getSort()} return values to boxing types 
@@ -398,20 +356,22 @@ public final class Bytecode {
 
     /**
      * Gets a description of the supplied node for debugging purposes
-     * 
+     *
      * @param node node to describe
+     * @param listFormat format the returned string so that returned nodes line
+     *      up (node names aligned to 14 chars)
      * @return human-readable description of node
      */
-    public static String describeNode(AbstractInsnNode node) {
+    public static String describeNode(AbstractInsnNode node, boolean listFormat) {
         if (node == null) {
-            return String.format("   %-14s ", "null");
+            return listFormat ? String.format("   %-14s ", "null") : "null";
         }
-        
+
         if (node instanceof LabelNode) {
             return String.format("[%s]", ((LabelNode)node).getLabel());
         }
-        
-        String out = String.format("   %-14s ", node.getClass().getSimpleName().replace("Node", ""));
+
+        String out = String.format(listFormat ? "   %-14s " : "%s ", node.getClass().getSimpleName().replace("Node", ""));
         if (node instanceof JumpInsnNode) {
             out += String.format("[%s] [%s]", Bytecode.getOpcodeName(node), ((JumpInsnNode)node).label.getLabel());
         } else if (node instanceof VarInsnNode) {
@@ -435,10 +395,26 @@ public final class Bytecode {
             out += (((IntInsnNode)node).operand);
         } else if (node instanceof FrameNode) {
             out += String.format("[%s] ", Bytecode.getOpcodeName(((FrameNode)node).type, "H_INVOKEINTERFACE", -1));
+        } else if (node instanceof TypeInsnNode) {
+            out += String.format("[%s] %s", Bytecode.getOpcodeName(node), ((TypeInsnNode)node).desc);
         } else {
             out += String.format("[%s] ", Bytecode.getOpcodeName(node));
         }
         return out;
+    }
+        
+    /**
+     * Get an array of Types from an array of classes.
+     *
+     * @param classes Array of classes to convert
+     * @return Array of types
+     */
+    public static Type[] getTypes(Class<?>... classes) {
+        Type[] types = new Type[classes.length];
+        for (int index = 0; index < classes.length; index++) {
+            types[index] = Type.getType(classes[index]);
+        }
+        return types;
     }
     
     /**
@@ -635,6 +611,69 @@ public final class Bytecode {
         }
     }
     
+//    /**
+//     * Generate required APPEND frame nodes for the listed types and append them
+//     * to the supplied instruction list
+//     * 
+//     * @param insns Insnlist to append to
+//     * @param types frame types to append
+//     */
+//    public static void extendFrame(InsnList insns, Type[] types) {
+//        int offset = 0;
+//        Object[] locals = new Object[3];
+//        
+//        for (int index = 0; index < types.length; index++) {
+//            
+//            Type type = types[index];
+//            int size = type.getSize();
+//            if (offset + size <= 3) {
+//                if (type.getSort() < Type.ARRAY) {
+//                    locals[offset] = type.getSort();
+//                } else {
+//                    locals[offset] = type.getInternalName();
+//                }
+//                if (size > 1) {
+//                    locals[offset + 1] = null;
+//                }
+//                offset += size;
+//            } else {
+//                insns.add(new FrameNode(Opcodes.F_APPEND, offset, locals, 0, null));
+//                offset = 0;
+//            }
+//        }
+//        
+//        if (offset > 0) {
+//            insns.add(new FrameNode(Opcodes.F_APPEND, offset, locals, 0, null));
+//        }
+//    }
+//    
+//    /**
+//     * Generate required CHOP frame nodes for the listed types and append them
+//     * to the supplied insn list
+//     * 
+//     * @param insns Insnlist to append generated nodes to
+//     * @param types types to chop
+//     */
+//    public static void chopFrame(InsnList insns, Type[] types) {
+//        int size = Bytecode.getArgsSize(types);
+//        while (size > 0) {
+//            int chop = Math.min(size, 3);
+//            insns.add(new FrameNode(Opcodes.F_CHOP, chop, null, 0, null));
+//            size -= chop;
+//        }
+//    }
+
+    /**
+     * Set the visibility of the specified class, leaving other access flags
+     * unchanged
+     *
+     * @param classNode class to change
+     * @param visibility new visibility
+     */
+    public static void setVisibility(ClassNode classNode, Visibility visibility) {
+        classNode.access = Bytecode.setVisibility(classNode.access, visibility.access);
+    }
+    
     /**
      * Clones all of the labels in the source instruction list and returns the
      * clones in a map of old label -&gt; new label. This is used to facilitate
@@ -742,17 +781,6 @@ public final class Bytecode {
     }
 
     /**
-     * Returns the simple name of an annotation, mainly used for printing
-     * annotation names in error messages/user-facing strings
-     * 
-     * @param annotationType annotation
-     * @return annotation's simple name
-     */
-    public static String getSimpleName(Class<? extends Annotation> annotationType) {
-        return annotationType.getSimpleName();
-    }
-
-    /**
      * Returns the simple name of a type representing a class
      * 
      * @param type type
@@ -760,17 +788,6 @@ public final class Bytecode {
      */
     public static String getSimpleName(Type type) {
         return type.getSort() < Type.ARRAY ? type.getDescriptor() : Bytecode.getSimpleName(type.getClassName());
-    }
-    
-    /**
-     * Returns the simple name of an annotation, mainly used for printing
-     * annotation names in error messages/user-facing strings
-     * 
-     * @param annotation annotation node
-     * @return annotation's simple name
-     */
-    public static String getSimpleName(AnnotationNode annotation) {
-        return Bytecode.getSimpleName(annotation.desc);
     }
 
     /**
@@ -998,6 +1015,17 @@ public final class Bytecode {
     }
     
     /**
+     * Set the visibility of the specified class, leaving other access flags
+     * unchanged
+     *
+     * @param classNode class to change
+     * @param access new visibility
+     */
+    public static void setVisibility(ClassNode classNode, int access) {
+        classNode.access = Bytecode.setVisibility(classNode.access, access);
+    }
+    
+    /**
      * Set the visibility of the specified member, leaving other access flags
      * unchanged
      * 
@@ -1017,6 +1045,35 @@ public final class Bytecode {
      */
     public static void setVisibility(FieldNode field, Visibility visibility) {
         field.access = Bytecode.setVisibility(field.access, visibility.access);
+    }
+    
+    /**
+     * Perform a naïve merge of ClassNode members onto a target ClassNode
+     *
+     * @param source Source ClassNode to merge from
+     * @param dest Destination ClassNode to merge to
+     */
+    public static void merge(ClassNode source, ClassNode dest) {
+        if (source == null) {
+            return;
+        }
+
+        if (dest == null) {
+            throw new NullPointerException("Target ClassNode for merge must not be null");
+        }
+
+        dest.version = Math.max(source.version, dest.version);
+
+        dest.interfaces = Bytecode.<String>merge(source.interfaces, dest.interfaces);
+        dest.invisibleAnnotations = Bytecode.<AnnotationNode>merge(source.invisibleAnnotations, dest.invisibleAnnotations);
+        dest.visibleAnnotations = Bytecode.<AnnotationNode>merge(source.visibleAnnotations, dest.visibleAnnotations);
+        dest.visibleTypeAnnotations = Bytecode.<TypeAnnotationNode>merge(source.visibleTypeAnnotations, dest.visibleTypeAnnotations);
+        dest.invisibleTypeAnnotations = Bytecode.<TypeAnnotationNode>merge(source.invisibleTypeAnnotations, dest.invisibleTypeAnnotations);
+        dest.attrs = Bytecode.<Attribute>merge(source.attrs, dest.attrs);
+        dest.innerClasses = Bytecode.<InnerClassNode>merge(source.innerClasses, dest.innerClasses);
+        dest.fields = Bytecode.<FieldNode>merge(source.fields, dest.fields);
+        dest.methods = Bytecode.<MethodNode>merge(source.methods, dest.methods);
+
     }
     
     /**
@@ -1140,37 +1197,8 @@ public final class Bytecode {
     }
 
     /**
-     * Perform a naïve merge of ClassNode members onto a target ClassNode 
-     * 
-     * @param source Source ClassNode to merge from
-     * @param dest Destination ClassNode to merge to
-     */
-    public static void merge(ClassNode source, ClassNode dest) {
-        if (source == null) {
-            return;
-        }
-        
-        if (dest == null) {
-            throw new NullPointerException("Target ClassNode for merge must not be null");
-        }
-        
-        dest.version = Math.max(source.version, dest.version);
-        
-        dest.interfaces = Bytecode.merge(source.interfaces, dest.interfaces);
-        dest.invisibleAnnotations = Bytecode.merge(source.invisibleAnnotations, dest.invisibleAnnotations);
-        dest.visibleAnnotations = Bytecode.merge(source.visibleAnnotations, dest.visibleAnnotations);
-        dest.visibleTypeAnnotations = Bytecode.merge(source.visibleTypeAnnotations, dest.visibleTypeAnnotations);
-        dest.invisibleTypeAnnotations = Bytecode.merge(source.invisibleTypeAnnotations, dest.invisibleTypeAnnotations);
-        dest.attrs = Bytecode.merge(source.attrs, dest.attrs);
-        dest.innerClasses = Bytecode.merge(source.innerClasses, dest.innerClasses);
-        dest.fields = Bytecode.merge(source.fields, dest.fields);
-        dest.methods = Bytecode.merge(source.methods, dest.methods);
-        
-    }
-    
-    /**
-     * Replace all values in a target ClassNode with values from the Source 
-     * 
+     * Replace all values in a target ClassNode with values from the Source
+     *
      * @param source Source ClassNode to merge from
      * @param dest Destination ClassNode to merge to
      */
@@ -1178,11 +1206,11 @@ public final class Bytecode {
         if (source == null) {
             return;
         }
-        
+
         if (dest == null) {
             throw new NullPointerException("Target ClassNode for replace must not be null");
         }
-        
+
         dest.name = source.name;
         dest.signature = source.signature;
         dest.superName = source.superName;
@@ -1195,28 +1223,93 @@ public final class Bytecode {
         dest.outerClass = source.outerClass;
         dest.outerMethod = source.outerMethod;
         dest.outerMethodDesc = source.outerMethodDesc;
-        
-        Bytecode.clear(dest.interfaces);
-        Bytecode.clear(dest.visibleAnnotations);
-        Bytecode.clear(dest.invisibleAnnotations);
-        Bytecode.clear(dest.visibleTypeAnnotations);
-        Bytecode.clear(dest.invisibleTypeAnnotations);
-        Bytecode.clear(dest.attrs);
-        Bytecode.clear(dest.innerClasses);
-        Bytecode.clear(dest.fields);
-        Bytecode.clear(dest.methods);
+
+        Bytecode.<String>clear(dest.interfaces);
+        Bytecode.<AnnotationNode>clear(dest.visibleAnnotations);
+        Bytecode.<AnnotationNode>clear(dest.invisibleAnnotations);
+        Bytecode.<TypeAnnotationNode>clear(dest.visibleTypeAnnotations);
+        Bytecode.<TypeAnnotationNode>clear(dest.invisibleTypeAnnotations);
+        Bytecode.<Attribute>clear(dest.attrs);
+        Bytecode.<InnerClassNode>clear(dest.innerClasses);
+        Bytecode.<FieldNode>clear(dest.fields);
+        Bytecode.<MethodNode>clear(dest.methods);
 
         if (ASM.API_VERSION >= Opcodes.ASM6) {
             dest.module = source.module;
         }
-        
+
         // TODO Java 10
-//        dest.nestHostClassExperimental = source.nestHostClassExperimental;
-//        Bytecode.<String>clear(dest.nestMembersExperimental);
-//        dest.nestMembersExperimental = Bytecode.<String>merge(source.nestMembersExperimental, dest.nestMembersExperimental);
-        
+//        if (MixinEnvironment.getCompatibilityLevel().supports(LanguageFeatures.NESTING)) {
+//            ClassNodeAdapter.setNestHostClass(dest, ClassNodeAdapter.getNestHostClass(source));
+//            Bytecode.<String>clear(ClassNodeAdapter.getNestMembers(dest));
+//            ClassNodeAdapter.setNestMembers(dest, Bytecode.<String>merge(ClassNodeAdapter.getNestMembers(source),
+//                    ClassNodeAdapter.getNestMembers(dest)));
+//        }
+
         Bytecode.merge(source, dest);
-        
+
+    }
+    
+    /**
+     * Ordinal member visibility level. This is used to represent visibility of
+     * a member in a formal way from lowest to highest. The
+     * {@link Bytecode#getVisibility} methods can be used to convert access
+     * flags to this enum. The value returned from {@link #ordinal} can then be
+     * used to determine whether a visibility level is <i>higher</i> or <i>lower
+     * </i> than any other given visibility level.
+     */
+    public enum Visibility {
+
+        /**
+         * Members decorated with {@link Opcodes#ACC_PRIVATE}
+         */
+        PRIVATE(Opcodes.ACC_PRIVATE),
+
+        /**
+         * Members decorated with {@link Opcodes#ACC_PROTECTED}
+         */
+        PROTECTED(Opcodes.ACC_PROTECTED),
+
+        /**
+         * Members not decorated with any access flags
+         */
+        PACKAGE(0),
+
+        /**
+         * Members decorated with {@link Opcodes#ACC_PUBLIC}
+         */
+        PUBLIC(Opcodes.ACC_PUBLIC);
+
+        static final int MASK = Opcodes.ACC_PRIVATE | Opcodes.ACC_PROTECTED | Opcodes.ACC_PUBLIC;
+
+        final int access;
+
+        private Visibility(int access) {
+            this.access = access;
+        }
+
+        /**
+         * Get whether this visibility level represents a level which is the
+         * same or greater than the supplied level
+         *
+         * @param other level to compare to
+         * @return true if greater or equal
+         */
+        public boolean isAtLeast(Visibility other) {
+            return other == null || other.ordinal() <= this.ordinal();
+        }
+
+        /**
+         * Get whether this visibility level represents a level which less than
+         * the supplied level
+         *
+         * @param other level to compare to
+         * @return true if greater or equal
+         */
+        public boolean isLessThan(Visibility other) {
+            return other != null && this.ordinal() < other.ordinal();
+        }
+
     }
     
     /**

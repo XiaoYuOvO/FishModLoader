@@ -24,20 +24,24 @@
  */
 package org.spongepowered.asm.mixin.injection.points;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.IInjectionPointContext;
 import org.spongepowered.asm.mixin.injection.InjectionPoint;
 import org.spongepowered.asm.mixin.injection.InjectionPoint.AtCode;
+import org.spongepowered.asm.mixin.injection.selectors.ElementNode;
 import org.spongepowered.asm.mixin.injection.selectors.ITargetSelector;
+import org.spongepowered.asm.mixin.injection.selectors.ITargetSelector.Configure;
 import org.spongepowered.asm.mixin.injection.selectors.ITargetSelectorByName;
+import org.spongepowered.asm.mixin.injection.selectors.throwables.SelectorConstraintException;
 import org.spongepowered.asm.mixin.injection.struct.InjectionPointData;
 import org.spongepowered.asm.mixin.injection.struct.MemberInfo;
 import org.spongepowered.asm.mixin.refmap.IMixinContext;
+import org.spongepowered.asm.service.MixinService;
 
 import java.util.Collection;
 import java.util.ListIterator;
@@ -108,12 +112,17 @@ public class BeforeInvoke extends InjectionPoint {
     /**
      * 
      */
-    protected final IMixinContext context;
+    protected final IInjectionPointContext context;
+    
+    /**
+     * 
+     */
+    protected final IMixinContext mixin;
 
     /**
      * Logger reference 
      */
-    protected final Logger logger = LogManager.getLogger("mixin");
+    protected final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * True to turn on strategy debugging to the console
@@ -128,12 +137,13 @@ public class BeforeInvoke extends InjectionPoint {
         this.log = data.get("log", false);
         this.className = this.getClassName();
         this.context = data.getContext();
-        this.allowPermissive = this.context.getOption(Option.REFMAP_REMAP) && this.context.getOption(Option.REFMAP_REMAP_ALLOW_PERMISSIVE)
-                && !this.context.getReferenceMapper().isDefault();
+        this.mixin = data.getMixin();
+        this.allowPermissive = this.mixin.getOption(Option.REFMAP_REMAP) && this.mixin.getOption(Option.REFMAP_REMAP_ALLOW_PERMISSIVE)
+                && !this.mixin.getReferenceMapper().isDefault();
     }
 
     private String getClassName() {
-        AtCode atCode = this.getClass().getAnnotation(AtCode.class);
+        AtCode atCode = this.getClass().<AtCode>getAnnotation(AtCode.class);
         return String.format("@At(%s)", atCode != null ? atCode.value() : this.getClass().getSimpleName().toUpperCase(Locale.ROOT));
     }
 
@@ -155,14 +165,14 @@ public class BeforeInvoke extends InjectionPoint {
      */
     @Override
     public boolean find(String desc, InsnList insns, Collection<AbstractInsnNode> nodes) {
-        this.log("{} is searching for an injection point in method with descriptor {}", this.className, desc);
+        this.log("{}->{} is searching for an injection point in method with descriptor {}", this.context, this.className, desc);
         
         boolean hasDescriptor = this.target instanceof ITargetSelectorByName && ((ITargetSelectorByName)this.target).getDesc() == null;
         boolean found = this.find(desc, insns, nodes, this.target, SearchType.STRICT);
 
         if (!found && hasDescriptor && this.allowPermissive) {
             this.logger.warn("STRICT match for {} using \"{}\" in {} returned 0 results, attempting permissive search. "
-                    + "To inhibit permissive search set mixin.env.allowPermissiveMatch=false", this.className, this.target, this.context);
+                    + "To inhibit permissive search set mixin.env.allowPermissiveMatch=false", this.className, this.target, this.mixin);
             found = this.find(desc, insns, nodes, this.target, SearchType.PERMISSIVE);
         }
 
@@ -174,10 +184,10 @@ public class BeforeInvoke extends InjectionPoint {
             return false;
         }
         
-        ITargetSelector target = searchType == SearchType.PERMISSIVE ? selector.configure("permissive") : selector;
+        ITargetSelector target = (searchType == SearchType.PERMISSIVE ? selector.configure(Configure.PERMISSIVE) : selector)
+                .configure(Configure.SELECT_INSTRUCTION);
         
-        int ordinal = 0;
-        int found = 0;
+        int ordinal = 0, found = 0, matchCount = 0;
         
         ListIterator<AbstractInsnNode> iter = insns.iterator();
         while (iter.hasNext()) {
@@ -185,23 +195,22 @@ public class BeforeInvoke extends InjectionPoint {
 
             if (this.matchesInsn(insn)) {
                 MemberInfo nodeInfo = new MemberInfo(insn);
-                this.log("{} is considering insn {}", this.className, nodeInfo);
+                this.log("{}->{} is considering {}", this.context, this.className, nodeInfo);
 
-                if (target.match(insn).isExactMatch()) {
-                    this.log("{} > found a matching insn, checking preconditions...", this.className);
+                if (target.match(ElementNode.<AbstractInsnNode>of(insn)).isExactMatch()) {
+                    this.log("{}->{} > found a matching insn, checking preconditions...", this.context, this.className);
+                    if (++matchCount > target.getMaxMatchCount()) {
+                        break;
+                    }
                     
                     if (this.matchesOrdinal(ordinal)) {
-                        this.log("{} > > > found a matching insn at ordinal {}", this.className, ordinal);
+                        this.log("{}->{} > > > found a matching insn at ordinal {}", this.context, this.className, ordinal);
                         
                         if (this.addInsn(insns, nodes, insn)) {
                             found++;
                         }
-
-                        if (this.ordinal == ordinal) {
-                            break;
-                        }
                     }
-
+                    
                     ordinal++;
                 }
             }
@@ -211,7 +220,12 @@ public class BeforeInvoke extends InjectionPoint {
         
         if (searchType == SearchType.PERMISSIVE && found > 1) {
             this.logger.warn("A permissive match for {} using \"{}\" in {} matched {} instructions, this may cause unexpected behaviour. "
-                    + "To inhibit permissive search set mixin.env.allowPermissiveMatch=false", this.className, selector, this.context, found);
+                    + "To inhibit permissive search set mixin.env.allowPermissiveMatch=false", this.className, selector, this.mixin, found);
+        }
+        
+        if (matchCount < target.getMinMatchCount()) {
+            throw new SelectorConstraintException(target, String.format("%s did not match the required number of targets (required=%d, matched=%d)",
+                    target, selector.getMinMatchCount(), matchCount));
         }
 
         return found > 0;
@@ -231,7 +245,7 @@ public class BeforeInvoke extends InjectionPoint {
     }
 
     protected boolean matchesOrdinal(int ordinal) {
-        this.log("{} > > comparing target ordinal {} with current ordinal {}", this.className, this.ordinal, ordinal);
+        this.log("{}->{} > > comparing target ordinal {} with current ordinal {}", this.context, this.className, this.ordinal, ordinal);
         return this.ordinal == -1 || this.ordinal == ordinal;
     }
     

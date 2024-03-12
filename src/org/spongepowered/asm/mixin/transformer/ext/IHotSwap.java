@@ -38,7 +38,7 @@ public interface IHotSwap {
      *
      * @param name Fully qualified name of the mixin class
      */
-    void registerMixinClass(String name);
+    public abstract void registerMixinClass(String name);
 
     /**
      * Registers a class targeted by at least one mixin.
@@ -49,6 +49,6 @@ public interface IHotSwap {
      * @param name Name of the class
      * @param classNode ASM tree of the class before mixins have been applied
      */
-    void registerTargetClass(String name, ClassNode classNode);
+    public abstract void registerTargetClass(String name, ClassNode classNode);
 
 }

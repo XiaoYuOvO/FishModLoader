@@ -25,11 +25,10 @@
 package org.spongepowered.asm.mixin.injection.code;
 
 import com.google.common.collect.ObjectArrays;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.InjectionPoint;
@@ -45,6 +44,7 @@ import org.spongepowered.asm.mixin.refmap.IMixinContext;
 import org.spongepowered.asm.mixin.transformer.ClassInfo;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Traversal;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.TypeLookup;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Annotations;
 import org.spongepowered.asm.util.Bytecode;
 import org.spongepowered.asm.util.Bytecode.DelegateInitialiser;
@@ -58,41 +58,9 @@ import java.util.*;
 public abstract class Injector {
 
     /**
-     * A nominated target node
+     * Log more things
      */
-    public static final class TargetNode {
-        
-        final AbstractInsnNode insn;
-        
-        final Set<InjectionPoint> nominators = new HashSet<InjectionPoint>();
-
-        TargetNode(AbstractInsnNode insn) {
-            this.insn = insn;
-        }
-        
-        public AbstractInsnNode getNode() {
-            return this.insn;
-        }
-        
-        public Set<InjectionPoint> getNominators() {
-            return Collections.unmodifiableSet(this.nominators);
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null || obj.getClass() != TargetNode.class) {
-                return false;
-            }
-            
-            return ((TargetNode)obj).insn == this.insn;
-        }
-        
-        @Override
-        public int hashCode() {
-            return this.insn.hashCode();
-        }
-        
-    }
+    protected static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     /**
      * Redirection data bundle base. No this isn't meant to be pretty, it's a
@@ -155,9 +123,16 @@ public abstract class Injector {
     }
 
     /**
-     * Log more things
+     * Performs pre-injection checks and tasks on the specified target
+     *
+     * @param target target potentially being injected into
+     * @param nodes selected target nodes
      */
-    protected static final Logger logger = LogManager.getLogger("mixin");
+    public final void preInject(Target target, List<InjectionNode> nodes) {
+        for (InjectionNode node : nodes) {
+            this.preInject(target, node);
+        }
+    }
 
     /**
      * Injection info
@@ -240,44 +215,44 @@ public abstract class Injector {
     
     /**
      * Performs the injection on the specified target
-     * 
+     *
      * @param target target to inject into
      * @param nodes selected nodes
      */
     public final void inject(Target target, List<InjectionNode> nodes) {
         for (InjectionNode node : nodes) {
             if (node.isRemoved()) {
-                if (this.info.getContext().getOption(Option.DEBUG_VERBOSE)) {
+                if (this.info.getMixin().getOption(Option.DEBUG_VERBOSE)) {
                     Injector.logger.warn("Target node for {} was removed by a previous injector in {}", this.info, target);
                 }
                 continue;
             }
             this.inject(target, node);
         }
-        
+
         for (InjectionNode node : nodes) {
             this.postInject(target, node);
         }
     }
-
+    
     /**
      * Use the supplied InjectionPoints to find target insns in the target
      * method
-     * 
+     *
      * @param injectorTarget Target method
      * @param injectionPoints List of injection points parsed from At
      *      annotations on the callback method
      * @return Target insn nodes in the target method
      */
     private Collection<TargetNode> findTargetNodes(InjectorTarget injectorTarget, List<InjectionPoint> injectionPoints) {
-        IMixinContext mixin = this.info.getContext();
+        IMixinContext mixin = this.info.getMixin();
         MethodNode method = injectorTarget.getMethod();
         Map<Integer, TargetNode> targetNodes = new TreeMap<Integer, TargetNode>();
         Collection<AbstractInsnNode> nodes = new ArrayList<AbstractInsnNode>(32);
-        
+
         for (InjectionPoint injectionPoint : injectionPoints) {
             nodes.clear();
-            
+
             if (injectorTarget.isMerged()
                     && !mixin.getClassName().equals(injectorTarget.getMergedBy())
                     && !injectionPoint.checkPriority(injectorTarget.getMergedPriority(), mixin.getPriority())) {
@@ -286,7 +261,7 @@ public abstract class Injector {
                         injectorTarget, injectorTarget.getMergedBy(), injectorTarget.getMergedPriority()));
             }
 
-            if (this.findTargetNodes(method, injectionPoint, injectorTarget.getSlice(injectionPoint), nodes)) {
+            if (this.findTargetNodes(method, injectionPoint, injectorTarget, nodes)) {
                 for (AbstractInsnNode insn : nodes) {
                     Integer key = method.instructions.indexOf(insn);
                     TargetNode targetNode = targetNodes.get(key);
@@ -298,12 +273,17 @@ public abstract class Injector {
                 }
             }
         }
-        
+
         return targetNodes.values();
     }
 
-    protected boolean findTargetNodes(MethodNode into, InjectionPoint injectionPoint, InsnList insns, Collection<AbstractInsnNode> nodes) {
-        return injectionPoint.find(into.desc, insns, nodes);
+    protected boolean findTargetNodes(MethodNode into, InjectionPoint injectionPoint, InjectorTarget injectorTarget,
+            Collection<AbstractInsnNode> nodes) {
+        return injectionPoint.find(into.desc, injectorTarget.getSlice(injectionPoint), nodes);
+    }
+
+    protected void preInject(Target target, InjectionNode node) {
+        // stub
     }
 
     protected void sanityCheck(Target target, List<InjectionPoint> injectionPoints) {
@@ -371,6 +351,20 @@ public abstract class Injector {
         this.checkTargetModifiers(target, true);
     }
 
+    /**
+     * Store args on the stack starting at the end and working back to position
+     * specified by start, return the generated argMap
+     *
+     * @param target target method
+     * @param args argument types
+     * @param insns instruction list to generate insns into
+     * @param start Starting index
+     * @return the generated argmap
+     */
+    protected int[] storeArgs(Target target, Type[] args, InsnList insns, int start) {
+        return this.storeArgs(target, args, insns, start, null, null);
+    }
+
     protected abstract void inject(Target target, InjectionNode node);
 
     protected void postInject(Target target, InjectionNode node) {
@@ -429,35 +423,109 @@ public abstract class Injector {
         this.pushArgs(args, insns, argMap, startArg, endArg);
         return this.invokeHandler(insns);
     }
-
+    
     /**
      * Store args on the stack starting at the end and working back to position
      * specified by start, return the generated argMap
-     * 
+     *
      * @param target target method
      * @param args argument types
      * @param insns instruction list to generate insns into
      * @param start Starting index
+     * @param from The label marking the start of the region for the locals
+     * @param to The label marking the end of the region for the stored locals
      * @return the generated argmap
      */
-    protected int[] storeArgs(Target target, Type[] args, InsnList insns, int start) {
+    protected int[] storeArgs(Target target, Type[] args, InsnList insns, int start, LabelNode from, LabelNode to) {
         int[] argMap = target.generateArgMap(args, start);
-        this.storeArgs(args, insns, argMap, start, args.length);
+        this.storeArgs(target, args, insns, argMap, start, args.length, from, to);
         return argMap;
     }
-
+    
     /**
      * Store args on the stack to their positions allocated based on argMap
-     * 
+     *
      * @param args argument types
      * @param insns instruction list to generate insns into
      * @param argMap generated argmap containing local indices for all args
      * @param start Starting index
      * @param end Ending index
      */
-    protected void storeArgs(Type[] args, InsnList insns, int[] argMap, int start, int end) {
+    protected void storeArgs(Target target, Type[] args, InsnList insns, int[] argMap, int start, int end) {
+        this.storeArgs(target, args, insns, argMap, start, end, null, null);
+    }
+
+    /**
+     * Store args on the stack to their positions allocated based on argMap
+     *
+     * @param args argument types
+     * @param insns instruction list to generate insns into
+     * @param argMap generated argmap containing local indices for all args
+     * @param start Starting index
+     * @param end Ending index
+     * @param from The label marking the start of the region for the locals
+     * @param to The label marking the end of the region for the stored locals
+     */
+    protected void storeArgs(Target target, Type[] args, InsnList insns, int[] argMap, int start, int end, LabelNode from, LabelNode to) {
         for (int arg = end - 1; arg >= start; arg--) {
             insns.add(new VarInsnNode(args[arg].getOpcode(Opcodes.ISTORE), argMap[arg]));
+            target.addLocalVariable(argMap[arg], String.format("injectorAllocatedLocal%d", argMap[arg]), args[arg].getDescriptor(), from, to);
+        }
+    }
+
+    /**
+     * Collects all the logic from old validateParams/checkDescriptor so that we
+     * can consistently apply coercion logic to method params, and also provide
+     * more detailed errors when something doesn't line up.
+     *
+     * <p>The supplied return type and argument list will be verified first. Any
+     * arguments on the handler beyond the base arguments consume arguments from
+     * the target. The flag <tt>allowCoerceArgs</tt> on the <tt>redirect</tt>
+     * instance determines whether coercion is supported for the base args and
+     * return type, coercion is always allowed for captured target args.</p>
+     *
+     * <p>Following validation, the <tt>captureTargetArgs</tt> and
+     * <tt>coerceReturnType</tt> values will be set on the bundle and the
+     * calling injector function should adjust itself accordingly.</p>
+     *
+     * @param injector Data bundle for the injector
+     * @param returnType Return type for the handler, must not be null
+     * @param args Array of handler args, must not be null
+     */
+    protected final void validateParams(InjectorData injector, Type returnType, Type... args) {
+        String description = String.format("%s %s method %s from %s", this.annotationType, injector, this, this.info.getMixin());
+        int argIndex = 0;
+        try {
+            injector.coerceReturnType = this.checkCoerce(-1, returnType, description, injector.allowCoerceArgs);
+
+            for (Type arg : args) {
+                if (arg != null) {
+                    this.checkCoerce(argIndex, arg, description, injector.allowCoerceArgs);
+                    argIndex++;
+                }
+            }
+
+            if (argIndex == this.methodArgs.length) {
+                return;
+            }
+
+            for (int targetArg = 0; targetArg < injector.target.arguments.length && argIndex < this.methodArgs.length; targetArg++, argIndex++) {
+                this.checkCoerce(argIndex, injector.target.arguments[targetArg], description, true);
+                injector.captureTargetArgs++;
+            }
+        } catch (InvalidInjectionException ex) {
+            String expected = this.methodArgs.length > args.length
+                    ? Bytecode.generateDescriptor(returnType, ObjectArrays.concat(args, injector.target.arguments, Type.class))
+                    : Bytecode.generateDescriptor(returnType, args);
+            throw new InvalidInjectionException(this.info, String.format("%s. Handler signature: %s Expected signature: %s", ex.getMessage(),
+                    this.methodNode.desc, expected));
+        }
+
+        if (argIndex < this.methodArgs.length) {
+            Type[] extraArgs = Arrays.copyOfRange(this.methodArgs, argIndex, this.methodArgs.length);
+            throw new InvalidInjectionException(this.info, String.format(
+                    "%s has an invalid signature. Found %d unexpected additional method arguments: %s",
+                    description, this.methodArgs.length - argIndex, new SignaturePrinter(extraArgs).getFormattedArgs()));
         }
     }
 
@@ -493,66 +561,10 @@ public abstract class Injector {
     }
 
     /**
-     * Collects all the logic from old validateParams/checkDescriptor so that we
-     * can consistently apply coercion logic to method params, and also provide
-     * more detailed errors when something doesn't line up.
-     * 
-     * <p>The supplied return type and argument list will be verified first. Any
-     * arguments on the handler beyond the base arguments consume arguments from
-     * the target. The flag <tt>allowCoerceArgs</tt> on the <tt>redirect</tt>
-     * instance determines whether coercion is supported for the base args and
-     * return type, coercion is always allowed for captured target args.</p>
-     * 
-     * <p>Following validation, the <tt>captureTargetArgs</tt> and
-     * <tt>coerceReturnType</tt> values will be set on the bundle and the
-     * calling injector function should adjust itself accordingly.</p>
-     * 
-     * @param injector Data bundle for the injector
-     * @param returnType Return type for the handler, must not be null
-     * @param args Array of handler args, must not be null
-     */
-    protected final void validateParams(InjectorData injector, Type returnType, Type... args) {
-        String description = String.format("%s %s method %s from %s", this.annotationType, injector, this, this.info.getContext());
-        int argIndex = 0;
-        try {
-            injector.coerceReturnType = this.checkCoerce(-1, returnType, description, injector.allowCoerceArgs);
-            
-            for (Type arg : args) {
-                if (arg != null) {
-                    this.checkCoerce(argIndex, arg, description, injector.allowCoerceArgs);
-                    argIndex++;
-                }
-            }
-            
-            if (argIndex == this.methodArgs.length) {
-                return;
-            }
-            
-            for (int targetArg = 0; targetArg < injector.target.arguments.length && argIndex < this.methodArgs.length; targetArg++, argIndex++) {
-                this.checkCoerce(argIndex, injector.target.arguments[targetArg], description, true);
-                injector.captureTargetArgs++;
-            }
-        } catch (InvalidInjectionException ex) {
-            String expected = this.methodArgs.length > args.length
-                    ? Bytecode.generateDescriptor(returnType, ObjectArrays.concat(args, injector.target.arguments, Type.class))
-                    : Bytecode.generateDescriptor(returnType, args);
-            throw new InvalidInjectionException(this.info, String.format("%s. Handler signature: %s Expected signature: %s", ex.getMessage(),
-                    this.methodNode.desc, expected));
-        }
-        
-        if (argIndex < this.methodArgs.length) {
-            Type[] extraArgs = Arrays.copyOfRange(this.methodArgs, argIndex, this.methodArgs.length);
-            throw new InvalidInjectionException(this.info, String.format(
-                    "%s has an invalid signature. Found %d unexpected additional method arguments: %s",
-                    description, this.methodArgs.length - argIndex, new SignaturePrinter(extraArgs).getFormattedArgs()));
-        }
-    }
-    
-    /**
      * Called inside {@link #validateParams} but can also be used directly. This
      * method checks whether the supplied type is compatible with the specified
      * handler argument, apply coercion logic where necessary.
-     * 
+     *
      * @param index Handler argument index, pass in a negative value (by
      *      convention -1) to specify handler return type
      * @param toType Desired type based on the injector contract
@@ -564,57 +576,96 @@ public abstract class Injector {
      *      if coercion is required for the argument
      */
     protected final boolean checkCoerce(int index, Type toType, String description, boolean allowCoercion) {
-        Type fromType = index < 0 ? this.returnType : this.methodArgs[index];
         if (index >= this.methodArgs.length) {
             throw new InvalidInjectionException(this.info, String.format(
                     "%s has an invalid signature. Not enough arguments: expected argument type %s at index %d",
                     description, SignaturePrinter.getTypeName(toType), index));
         }
-        
+
+        Type fromType = index < 0 ? this.returnType : this.methodArgs[index];
+
         AnnotationNode coerce = Annotations.getInvisibleParameter(this.methodNode, Coerce.class, index);
         boolean isReturn = index < 0;
         String argType = isReturn ? "return" : "argument";
         Object argIndex = isReturn ? "" : " at index " + index;
-        
+
         if (fromType.equals(toType)) {
-            if (coerce != null && this.info.getContext().getOption(Option.DEBUG_VERBOSE)) {
+            if (coerce != null && this.info.getMixin().getOption(Option.DEBUG_VERBOSE)) {
                 Injector.logger.info("Possibly-redundant @Coerce on {} {} type{}, {} is identical to {}", description, argType, argIndex,
                         SignaturePrinter.getTypeName(toType), SignaturePrinter.getTypeName(fromType));
             }
             return false;
         }
-        
+
         if (coerce == null || !allowCoercion) {
             String coerceWarning = coerce != null ? ". @Coerce not allowed here" : "";
             throw new InvalidInjectionException(this.info, String.format(
                     "%s has an invalid signature. Found unexpected %s type %s%s, expected %s%s", description, argType,
                     SignaturePrinter.getTypeName(fromType), argIndex, SignaturePrinter.getTypeName(toType), coerceWarning));
         }
-        
+
         boolean canCoerce = Injector.canCoerce(fromType, toType);
         if (!canCoerce) {
             throw new InvalidInjectionException(this.info, String.format(
                     "%s has an invalid signature. Cannot @Coerce %s type %s%s to %s", description, argType,
                     SignaturePrinter.getTypeName(toType), argIndex, SignaturePrinter.getTypeName(fromType)));
         }
-        
+
         return true;
     }
-
+    
     /**
      * Throw an exception. The exception class must have a string which takes a
      * string argument
-     * 
+     *
      * @param insns Insn list to inject into
      * @param exceptionType Type of exception to throw (binary name)
      * @param message Message to pass to the exception constructor
      */
-    protected void throwException(InsnList insns, String exceptionType, String message) {
+    protected void throwException(InsnList insns, Extension extraStack, String exceptionType, String message) {
         insns.add(new TypeInsnNode(Opcodes.NEW, exceptionType));
         insns.add(new InsnNode(Opcodes.DUP));
         insns.add(new LdcInsnNode(message));
         insns.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, exceptionType, "<init>", "(Ljava/lang/String;)V", false));
         insns.add(new InsnNode(Opcodes.ATHROW));
+        extraStack.add(3);
+    }
+
+    /**
+     * A nominated target node
+     */
+    public static final class TargetNode {
+
+        final AbstractInsnNode insn;
+
+        final Set<InjectionPoint> nominators = new HashSet<InjectionPoint>();
+
+        TargetNode(AbstractInsnNode insn) {
+            this.insn = insn;
+        }
+
+        public AbstractInsnNode getNode() {
+            return this.insn;
+        }
+
+        public Set<InjectionPoint> getNominators() {
+            return Collections.<InjectionPoint>unmodifiableSet(this.nominators);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null || obj.getClass() != TargetNode.class) {
+                return false;
+            }
+
+            return ((TargetNode)obj).insn == this.insn;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.insn.hashCode();
+        }
+
     }
     
     /**

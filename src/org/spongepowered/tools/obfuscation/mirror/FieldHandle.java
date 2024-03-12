@@ -26,6 +26,7 @@ package org.spongepowered.tools.obfuscation.mirror;
 
 import com.google.common.base.Strings;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingField;
+import org.spongepowered.asm.util.Bytecode.Visibility;
 
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -62,10 +63,18 @@ public class FieldHandle extends MemberHandle<MappingField> {
         this(owner, element, rawType, TypeUtils.getName(element), TypeUtils.getInternalName(element));
     }
     
+    public FieldHandle(TypeHandle owner, String name, String desc) {
+        this(owner, null, false, name, desc);
+    }
+
     public FieldHandle(String owner, String name, String desc) {
         this(owner, null, false, name, desc);
     }
     
+    public FieldHandle(TypeHandle owner, VariableElement element, boolean rawType, String name, String desc) {
+        this(owner != null ? owner.getName() : null, element, rawType, name, desc);
+    }
+
     private FieldHandle(String owner, VariableElement element, boolean rawType, String name, String desc) {
         super(owner, name, desc);
         this.element = element;

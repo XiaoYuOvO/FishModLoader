@@ -1,0 +1,545 @@
+/*
+ * Copyright 2016 FabricMC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.xiaoyu233.fml.classloading;
+
+import com.google.common.collect.Sets;
+import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.mixin.service.MixinService;
+import net.xiaoyu233.fml.util.*;
+import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.net.JarURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.CodeSource;
+import java.security.cert.Certificate;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.Manifest;
+
+public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.ClassLoaderAccess> implements KnotClassLoaderInterface {
+	private static final boolean LOG_CLASS_LOAD = System.getProperty(SystemProperties.DEBUG_LOG_CLASS_LOAD) != null;
+	private static final boolean LOG_CLASS_LOAD_ERRORS = LOG_CLASS_LOAD || System.getProperty(SystemProperties.DEBUG_LOG_CLASS_LOAD_ERRORS) != null;
+	private static final boolean LOG_TRANSFORM_ERRORS = System.getProperty(SystemProperties.DEBUG_LOG_TRANSFORM_ERRORS) != null;
+	private static final boolean DISABLE_ISOLATION = System.getProperty(SystemProperties.DEBUG_DISABLE_CLASS_PATH_ISOLATION) != null;
+	private static final ClassLoader PLATFORM_CLASS_LOADER = getPlatformClassLoader();
+	private final Map<Path, Metadata> metadataCache = new ConcurrentHashMap<>();
+	private final T classLoader;
+	private final ClassLoader parentClassLoader;
+	private final Set<String> blockedClassPrefix = Sets.newHashSet();
+	private final Set<String> whitelistClassPrefix = Sets.newHashSet();
+	private final Map<Path, String[]> allowedPrefixes = new ConcurrentHashMap<>();
+	private final Set<String> parentSourcedClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
+	private IMixinTransformer mixinTransformer;
+	private boolean transformInitialized = false;
+	private volatile Set<Path> codeSources = Collections.emptySet();
+	private volatile Set<Path> validParentCodeSources = Collections.emptySet();
+	KnotClassDelegate(T classLoader, ClassLoader parentClassLoader) {
+		this.classLoader = classLoader;
+		this.parentClassLoader = parentClassLoader;
+	}
+
+	private static boolean canTransformClass(String name) {
+		name = name.replace('/', '.');
+		// Blocking Fabric Loader classes is no longer necessary here as they don't exist on the modding class loader
+		return /* !"net.fabricmc.api.EnvType".equals(name) && !name.startsWith("net.fabricmc.loader.") && */ !name.startsWith("org.apache.logging.log4j");
+	}
+
+	private static boolean hasRegularCodeSource(URL url) {
+		return url.getProtocol().equals("file") || url.getProtocol().equals("jar");
+	}
+
+	private static Path getCodeSource(URL url, String fileName) {
+		try {
+			return LoaderUtil.normalizeExistingPath(UrlUtil.getCodeSource(url, fileName));
+		} catch (UrlConversionException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static ClassLoader getPlatformClassLoader() {
+		try {
+			return (ClassLoader) ClassLoader.class.getMethod("getPlatformClassLoader").invoke(null); // Java 9+ only
+		} catch (NoSuchMethodException e) {
+			return new ClassLoader(null) { }; // fall back to boot cl
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public ClassLoader getClassLoader() {
+		return classLoader;
+	}
+
+	@Override
+	public void initializeTransformers() {
+		if (transformInitialized) throw new IllegalStateException("Cannot initialize KnotClassDelegate twice!");
+
+		mixinTransformer = MixinService.getTransformer();
+		if (mixinTransformer == null) {
+			try { // reflective instantiation for older mixin versions
+				@SuppressWarnings("unchecked")
+				Constructor<IMixinTransformer> ctor = (Constructor<IMixinTransformer>) Class.forName("org.spongepowered.asm.mixin.transformer.MixinTransformer").getConstructor();
+				ctor.setAccessible(true);
+				mixinTransformer = ctor.newInstance();
+			} catch (ReflectiveOperationException e) {
+				Log.debug( "Can't create Mixin transformer through reflection (only applicable for 0.8-0.8.2): %s", e);
+
+//				 both lookups failed (not received through IMixinService.offer and not found through reflection)
+				throw new IllegalStateException("mixin transformer unavailable?");
+			}
+		}
+
+		transformInitialized = true;
+	}
+
+	private IMixinTransformer getMixinTransformer() {
+		assert mixinTransformer != null;
+		return mixinTransformer;
+	}
+
+	@Override
+	public void addCodeSource(Path path) {
+		path = LoaderUtil.normalizeExistingPath(path);
+
+		synchronized (this) {
+			Set<Path> codeSources = this.codeSources;
+			if (codeSources.contains(path)) return;
+
+			Set<Path> newCodeSources = new HashSet<>(codeSources.size() + 1, 1);
+			newCodeSources.addAll(codeSources);
+			newCodeSources.add(path);
+
+			this.codeSources = newCodeSources;
+		}
+
+		try {
+			classLoader.addUrlFwd(UrlUtil.asUrl(path));
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+
+		if (LOG_CLASS_LOAD_ERRORS) Log.info( "added code source %s", path);
+	}
+
+	@Override
+	public void setAllowedPrefixes(Path codeSource, String... prefixes) {
+		codeSource = LoaderUtil.normalizeExistingPath(codeSource);
+
+		if (prefixes.length == 0) {
+			allowedPrefixes.remove(codeSource);
+		} else {
+			allowedPrefixes.put(codeSource, prefixes);
+		}
+	}
+
+	@Override
+	public void setValidParentClassPath(Collection<Path> paths) {
+		Set<Path> validPaths = new HashSet<>(paths.size(), 1);
+
+		for (Path path : paths) {
+			validPaths.add(LoaderUtil.normalizeExistingPath(path));
+		}
+
+		this.validParentCodeSources = validPaths;
+	}
+
+	@Override
+	public Manifest getManifest(Path codeSource) {
+		return getMetadata(LoaderUtil.normalizeExistingPath(codeSource)).manifest;
+	}
+
+	@Override
+	public void blockClassPrefix(String prefix) {
+		this.blockedClassPrefix.add(prefix);
+	}
+
+	@Override
+	public void whitelistClassPrefix(String prefix){
+		this.whitelistClassPrefix.add(prefix);
+	}
+
+	@Override
+	public void unlockBlocking() {
+		this.blockedClassPrefix.clear();
+	}
+
+	@Override
+	public boolean isClassLoaded(String name) {
+		synchronized (classLoader.getClassLoadingLockFwd(name)) {
+			return classLoader.findLoadedClassFwd(name) != null;
+		}
+	}
+
+	@Override
+	public Class<?> loadIntoTarget(String name) throws ClassNotFoundException {
+		synchronized (classLoader.getClassLoadingLockFwd(name)) {
+			Class<?> c = classLoader.findLoadedClassFwd(name);
+
+			if (c == null) {
+				c = tryLoadClass(name, true);
+
+				if (c == null) {
+					throw new ClassNotFoundException("can't find class "+name);
+				} else if (LOG_CLASS_LOAD) {
+					Log.info( "loaded class %s into target", name);
+				}
+			}
+
+			classLoader.resolveClassFwd(c);
+
+			return c;
+		}
+	}
+
+	Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+		synchronized (classLoader.getClassLoadingLockFwd(name)) {
+			Class<?> c = classLoader.findLoadedClassFwd(name);
+
+			if (c == null) {
+				if (name.startsWith("java.")) { // fast path for java.** (can only be loaded by the platform CL anyway)
+					c = PLATFORM_CLASS_LOADER.loadClass(name);
+				}  else {
+					c = tryLoadClass(name, false); // try local load
+
+					if (c == null) { // not available locally, try system class loader
+						String fileName = LoaderUtil.getClassFileName(name);
+						URL url = parentClassLoader.getResource(fileName);
+
+						if (url == null) { // no .class file
+							try {
+								c = PLATFORM_CLASS_LOADER.loadClass(name);
+								if (LOG_CLASS_LOAD) Log.info( "loaded resources-less class %s from platform class loader");
+							} catch (ClassNotFoundException e) {
+								if (LOG_CLASS_LOAD_ERRORS) Log.warn( "can't find class %s", name);
+								throw e;
+							}
+						} else if (!isValidParentUrl(url, fileName)) { // available, but restricted
+							// The class would technically be available, but the game provider restricted it from being
+							// loaded by setting validParentUrls and not including "url". Typical causes are:
+							// - accessing classes too early (game libs shouldn't be used until Loader is ready)
+							// - using jars that are only transient (deobfuscation input or pass-through installers)
+							String msg = String.format("can't load class %s at %s as it hasn't been exposed to the game (yet? The system property "+SystemProperties.PATH_GROUPS+" may not be set correctly in-dev)",
+									name, getCodeSource(url, fileName));
+							if (LOG_CLASS_LOAD_ERRORS) Log.warn( msg);
+							throw new ClassNotFoundException(msg);
+						} else { // load from system cl
+							if (LOG_CLASS_LOAD) Log.info( "loading class %s using the parent class loader", name);
+							c = parentClassLoader.loadClass(name);
+						}
+					} else if (LOG_CLASS_LOAD) {
+						Log.info( "loaded class %s", name);
+					}
+				}
+			}
+
+			if (resolve) {
+				classLoader.resolveClassFwd(c);
+			}
+
+			return c;
+		}
+	}
+
+	/**
+	 * Check if an url is loadable by the parent class loader.
+	 *
+	 * <p>This handles explicit parent url whitelisting by {@link #validParentCodeSources} or shadowing by {@link #codeSources}
+	 */
+	private boolean isValidParentUrl(URL url, String fileName) {
+		if (url == null) return false;
+		if (DISABLE_ISOLATION) return true;
+		if (!hasRegularCodeSource(url)) return true;
+
+		Path codeSource = getCodeSource(url, fileName);
+		Set<Path> validParentCodeSources = this.validParentCodeSources;
+
+		if (validParentCodeSources != null) { // explicit whitelist (in addition to platform cl classes)
+			return validParentCodeSources.contains(codeSource) || PLATFORM_CLASS_LOADER.getResource(fileName) != null;
+		} else { // reject urls shadowed by this cl
+			return !codeSources.contains(codeSource);
+		}
+	}
+
+	Class<?> tryLoadClass(String name, boolean allowFromParent) throws ClassNotFoundException {
+		if ((whitelistClassPrefix.stream().noneMatch(name::startsWith)) && (name.startsWith("java.") || blockedClassPrefix.stream().anyMatch(name::startsWith))) {
+			return null;
+		}
+
+		if (!allowedPrefixes.isEmpty() && !DISABLE_ISOLATION) { // check prefix restrictions (allows exposing libraries partially during startup)
+			String fileName = LoaderUtil.getClassFileName(name);
+			URL url = classLoader.getResource(fileName);
+
+			if (url != null && hasRegularCodeSource(url)) {
+				Path codeSource = getCodeSource(url, fileName);
+				String[] prefixes = allowedPrefixes.get(codeSource);
+
+				if (prefixes != null) {
+					assert prefixes.length > 0;
+					boolean found = false;
+
+					for (String prefix : prefixes) {
+						if (name.startsWith(prefix)) {
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						String msg = "class "+name+" is currently restricted from being loaded";
+						if (LOG_CLASS_LOAD_ERRORS) Log.warn(msg);
+						throw new ClassNotFoundException(msg);
+					}
+				}
+			}
+		}
+
+		if (!allowFromParent && !parentSourcedClasses.isEmpty()) { // propagate loadIntoTarget behavior to its nested classes
+			int pos = name.length();
+
+			while ((pos = name.lastIndexOf('$', pos - 1)) > 0) {
+				if (parentSourcedClasses.contains(name.substring(0, pos))) {
+					allowFromParent = true;
+					break;
+				}
+			}
+		}
+
+		byte[] input = getPostMixinClassByteArray(name, allowFromParent);
+		if (input == null) return null;
+
+		// The class we're currently loading could have been loaded already during Mixin initialization triggered by `getPostMixinClassByteArray`.
+		// If this is the case, we want to return the instance that was already defined to avoid attempting a duplicate definition.
+		Class<?> existingClass = classLoader.findLoadedClassFwd(name);
+
+		if (existingClass != null) {
+			return existingClass;
+		}
+
+		if (allowFromParent) {
+			parentSourcedClasses.add(name);
+		}
+
+		Metadata metadata = getMetadata(name);
+
+		int pkgDelimiterPos = name.lastIndexOf('.');
+
+		if (pkgDelimiterPos > 0) {
+			// TODO: package definition stub
+			String pkgString = name.substring(0, pkgDelimiterPos);
+
+			if (classLoader.getPackageFwd(pkgString) == null) {
+				try {
+					classLoader.definePackageFwd(pkgString, null, null, null, null, null, null, null);
+				} catch (IllegalArgumentException e) { // presumably concurrent package definition
+					if (classLoader.getPackageFwd(pkgString) == null) throw e; // still not defined?
+				}
+			}
+		}
+
+		return classLoader.defineClassFwd(name, input, 0, input.length, metadata.codeSource);
+	}
+
+	private Metadata getMetadata(String name) {
+		String fileName = LoaderUtil.getClassFileName(name);
+		URL url = classLoader.getResource(fileName);
+		if (url == null || !hasRegularCodeSource(url)) return Metadata.EMPTY;
+
+		return getMetadata(getCodeSource(url, fileName));
+	}
+
+	private Metadata getMetadata(Path codeSource) {
+		return metadataCache.computeIfAbsent(codeSource, (Path path) -> {
+			Manifest manifest = null;
+			CodeSource cs = null;
+			Certificate[] certificates = null;
+
+			try {
+				if (Files.isDirectory(path)) {
+					manifest = ManifestUtil.readManifest(path);
+				} else {
+					URLConnection connection = new URL("jar:" + path.toUri() + "!/").openConnection();
+
+					if (connection instanceof JarURLConnection) {
+						manifest = ((JarURLConnection) connection).getManifest();
+						certificates = ((JarURLConnection) connection).getCertificates();
+					}
+
+					if (manifest == null) {
+						try (FileSystemUtil.FileSystemDelegate jarFs = FileSystemUtil.getJarFileSystem(path, false)) {
+							manifest = ManifestUtil.readManifest(jarFs.get().getRootDirectories().iterator().next());
+						}
+					}
+
+					// TODO
+					/* JarEntry codeEntry = codeSourceJar.getJarEntry(filename);
+
+					if (codeEntry != null) {
+						cs = new CodeSource(codeSourceURL, codeEntry.getCodeSigners());
+					} */
+				}
+			} catch (IOException | FileSystemNotFoundException e) {
+			}
+
+			if (cs == null) {
+				try {
+					cs = new CodeSource(UrlUtil.asUrl(path), certificates);
+				} catch (MalformedURLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			return new Metadata(manifest, cs);
+		});
+	}
+
+	private byte[] getPostMixinClassByteArray(String name, boolean allowFromParent) {
+		byte[] transformedClassArray = getPreMixinClassByteArray(name, allowFromParent);
+
+		if (!transformInitialized || !canTransformClass(name)) {
+			return transformedClassArray;
+		}
+
+		try {
+			return getMixinTransformer().transformClassBytes(name, name, transformedClassArray);
+		} catch (Throwable t) {
+			String msg = String.format("Mixin transformation of %s failed", name);
+			if (LOG_TRANSFORM_ERRORS) Log.warn( msg, t);
+
+			throw new RuntimeException(msg, t);
+		}
+	}
+
+	@Override
+	public byte[] getPreMixinClassBytes(String name) {
+		return getPreMixinClassByteArray(name, true);
+	}
+
+	@Override
+	public Optional<Path> findClassCodeSource(String className) {
+		String classFileName = LoaderUtil.getClassFileName(className);
+		URL url = this.classLoader.getResource(classFileName);
+		if (url != null && hasRegularCodeSource(url)) {
+			return Optional.of(getCodeSource(url, classFileName));
+		}
+		return Optional.empty();
+	}
+
+	/**
+	 * Runs all the class transformers except mixin.
+	 */
+	private byte[] getPreMixinClassByteArray(String name, boolean allowFromParent) {
+		// some of the transformers rely on dot notation
+		name = name.replace('/', '.');
+
+		if (!transformInitialized || !canTransformClass(name)) {
+			try {
+				return getRawClassByteArray(name, allowFromParent);
+			} catch (IOException e) {
+				throw new RuntimeException("Failed to load class file for '" + name + "'!", e);
+			}
+		}
+
+		byte[] input;
+
+        try {
+            input = getRawClassByteArray(name, allowFromParent);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load class file for '" + name + "'!", e);
+        }
+
+		if (input != null) {
+			return FMLClassTransformer.transform(FishModLoader.isDevelopmentEnvironment(), name, input);
+		}
+
+        return null;
+    }
+
+	@Override
+	public byte[] getRawClassBytes(String name) throws IOException {
+		return getRawClassByteArray(name, true);
+	}
+
+	private byte[] getRawClassByteArray(String name, boolean allowFromParent) throws IOException {
+		name = LoaderUtil.getClassFileName(name);
+		URL url = classLoader.findResourceFwd(name);
+
+		if (url == null) {
+			if (!allowFromParent) return null;
+
+			url = parentClassLoader.getResource(name);
+
+			if (!isValidParentUrl(url, name)) {
+				if (LOG_CLASS_LOAD) Log.info( "refusing to load class %s at %s from parent class loader", name, getCodeSource(url, name));
+
+				return null;
+			}
+		}
+
+		try (InputStream inputStream = url.openStream()) {
+			int a = inputStream.available();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream(a < 32 ? 32768 : a);
+			byte[] buffer = new byte[8192];
+			int len;
+
+			while ((len = inputStream.read(buffer)) > 0) {
+				outputStream.write(buffer, 0, len);
+			}
+
+			return outputStream.toByteArray();
+		}
+	}
+
+	@Override
+	public Set<Path> getCodeSource() {
+		return this.codeSources;
+	}
+
+	public interface ClassLoaderAccess {
+		void addUrlFwd(URL url);
+		URL findResourceFwd(String name);
+
+		Package getPackageFwd(String name);
+		Package definePackageFwd(String name, String specTitle, String specVersion, String specVendor, String implTitle, String implVersion, String implVendor, URL sealBase) throws IllegalArgumentException;
+
+		Object getClassLoadingLockFwd(String name);
+		Class<?> findLoadedClassFwd(String name);
+		Class<?> defineClassFwd(String name, byte[] b, int off, int len, CodeSource cs);
+		void resolveClassFwd(Class<?> cls);
+	}
+
+	static final class Metadata {
+		static final Metadata EMPTY = new Metadata(null, null);
+
+		final Manifest manifest;
+		final CodeSource codeSource;
+
+		Metadata(Manifest manifest, CodeSource codeSource) {
+			this.manifest = manifest;
+			this.codeSource = codeSource;
+		}
+	}
+}

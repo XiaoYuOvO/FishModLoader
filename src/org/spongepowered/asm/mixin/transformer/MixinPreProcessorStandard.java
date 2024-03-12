@@ -25,29 +25,30 @@
 package org.spongepowered.asm.mixin.transformer;
 
 import com.google.common.base.Strings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.MixinEnvironment.CompatibilityLevel;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
+import org.spongepowered.asm.mixin.extensibility.IActivityContext.IActivity;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.gen.throwables.InvalidAccessorException;
 import org.spongepowered.asm.mixin.throwables.ClassMetadataNotFoundException;
 import org.spongepowered.asm.mixin.throwables.MixinException;
-import org.spongepowered.asm.mixin.transformer.ActivityStack.Activity;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Field;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Method;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.SearchType;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.TypeLookup;
 import org.spongepowered.asm.mixin.transformer.MixinInfo.MixinClassNode;
 import org.spongepowered.asm.mixin.transformer.MixinInfo.MixinMethodNode;
+import org.spongepowered.asm.mixin.transformer.ext.Extensions;
 import org.spongepowered.asm.mixin.transformer.meta.MixinRenamed;
 import org.spongepowered.asm.mixin.transformer.throwables.InvalidMixinException;
 import org.spongepowered.asm.mixin.transformer.throwables.MixinPreProcessorException;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Annotations;
 import org.spongepowered.asm.util.Bytecode;
 import org.spongepowered.asm.util.Bytecode.Visibility;
@@ -83,45 +84,10 @@ import java.util.Iterator;
 class MixinPreProcessorStandard {
     
     /**
-     * Types of annotated special method handled by the preprocessor
-     */
-    enum SpecialMethod {
-        
-        MERGE(true),
-        OVERWRITE(true, Overwrite.class),
-        SHADOW(false, Shadow.class),
-        ACCESSOR(false, Accessor.class),
-        INVOKER(false, Invoker.class);
-        
-        final boolean isOverwrite;
-        
-        final Class<? extends Annotation> annotation;
-        
-        final String description;
-
-        SpecialMethod(boolean isOverwrite, Class<? extends Annotation> type) {
-            this.isOverwrite = isOverwrite;
-            this.annotation = type;
-            this.description = "@" + Bytecode.getSimpleName(type);
-        }
-        
-        SpecialMethod(boolean isOverwrite) {
-            this.isOverwrite = isOverwrite;
-            this.annotation = null;
-            this.description = "overwrite";
-        }
-        
-        @Override
-        public String toString() {
-            return this.description;
-        }
-        
-    }
-    
-    /**
      * Logger
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
+    protected final Profiler profiler = Profiler.getProfiler("mixin");
 
     /**
      * The mixin
@@ -135,7 +101,14 @@ class MixinPreProcessorStandard {
     
     protected final MixinEnvironment env;
     
-    protected final Profiler profiler = MixinEnvironment.getProfiler();
+    private static String getDynamicInfo(String targetType, AnnotationNode annotation) {
+        String description = Strings.nullToEmpty(Annotations.<String>getValue(annotation));
+        Type upstream = Annotations.<Type>getValue(annotation, "mixin");
+        if (upstream != null) {
+            description = String.format("{%s} %s", upstream.getClassName(), description).trim();
+        }
+        return description.length() > 0 ? String.format(" %s is @Dynamic(%s)", targetType, description) : "";
+    }
     
     protected final ActivityStack activities = new ActivityStack();
 
@@ -156,7 +129,7 @@ class MixinPreProcessorStandard {
      * 
      * @return Prepared classnode
      */
-    final MixinPreProcessorStandard prepare() {
+    final MixinPreProcessorStandard prepare(Extensions extensions) {
         if (this.prepared) {
             return this;
         }
@@ -166,17 +139,19 @@ class MixinPreProcessorStandard {
         this.activities.clear();
         Section prepareTimer = this.profiler.begin("prepare");
         try {
-    
-            Activity activity = this.activities.begin("Prepare method");
+            IActivity activity = this.activities.begin("Prepare inner classes");
+            this.prepareInnerClasses(extensions);
+            
+            activity.next("Prepare method");
             for (MixinMethodNode mixinMethod : this.classNode.mixinMethods) {
                 Method method = this.mixin.getClassInfo().findMethod(mixinMethod);
-                Activity methodActivity = this.activities.begin(mixinMethod.toString());
+                IActivity methodActivity = this.activities.begin(mixinMethod.toString());
                 this.prepareMethod(mixinMethod, method);
                 methodActivity.end();
             }
             activity.next("Prepare field");
             for (FieldNode mixinField : this.classNode.fields) {
-                Activity fieldActivity = this.activities.begin(String.format("%s:%s", mixinField.name, mixinField.desc));
+                IActivity fieldActivity = this.activities.begin(String.format("%s:%s", mixinField.name, mixinField.desc));
                 this.prepareField(mixinField);
                 fieldActivity.end();
             }
@@ -190,6 +165,16 @@ class MixinPreProcessorStandard {
         return this;
     }
 
+    protected void prepareInnerClasses(Extensions extensions) {
+        InnerClassGenerator icg = extensions.<InnerClassGenerator>getGenerator(InnerClassGenerator.class);
+        for (String targetClassName : this.mixin.getDeclaredTargetClasses()) {
+            ClassInfo targetClassInfo = ClassInfo.forName(targetClassName);
+            for (String innerClass : this.mixin.getInnerClasses()) {
+                icg.registerInnerClass(this.mixin, targetClassInfo, innerClass);
+            }
+        }
+    }
+
     protected void prepareMethod(MixinMethodNode mixinMethod, Method method) {
         this.prepareShadow(mixinMethod, method);
         this.prepareSoftImplements(mixinMethod, method);
@@ -201,7 +186,7 @@ class MixinPreProcessorStandard {
             return;
         }
         
-        String prefix = Annotations.getValue(shadowAnnotation, "prefix", Shadow.class);
+        String prefix = Annotations.<String>getValue(shadowAnnotation, "prefix", Shadow.class);
         if (mixinMethod.name.startsWith(prefix)) {
             Annotations.setVisible(mixinMethod, MixinRenamed.class, "originalName", mixinMethod.name);
             String newName = mixinMethod.name.substring(prefix.length());
@@ -232,7 +217,7 @@ class MixinPreProcessorStandard {
             for (MixinMethodNode mixinMethod : this.classNode.mixinMethods) {
                 if (mixinMethod.isInjector()) {
                     Method method = this.mixin.getClassInfo().findMethod(mixinMethod, ClassInfo.INCLUDE_ALL);
-                    Activity methodActivity = this.activities.begin("Conform injector %s", mixinMethod);
+                    IActivity methodActivity = this.activities.begin("Conform injector %s", mixinMethod);
                     this.conformInjector(target, mixinMethod, method);
                     methodActivity.end();
                 }
@@ -275,7 +260,7 @@ class MixinPreProcessorStandard {
         try {
             // Perform context-sensitive attachment phase
             Section timer = this.profiler.begin("methods");
-            Activity activity = this.activities.begin("Attach method");
+            IActivity activity = this.activities.begin("Attach method");
             this.attachMethods(context);
             timer = timer.next("fields");
             activity.next("Attach field");
@@ -297,7 +282,7 @@ class MixinPreProcessorStandard {
     }
 
     protected void attachMethods(MixinTargetContext context) {
-        Activity methodActivity = this.activities.begin("?");
+        IActivity methodActivity = this.activities.begin("?");
         for (Iterator<MixinMethodNode> iter = this.classNode.mixinMethods.iterator(); iter.hasNext();) {
             MixinMethodNode mixinMethod = iter.next();
             methodActivity.next(mixinMethod.toString());
@@ -370,7 +355,7 @@ class MixinPreProcessorStandard {
             } else {
                 String uniqueName = context.getUniqueName(mixinMethod, true);
                 MixinPreProcessorStandard.logger.log(this.mixin.getLoggingLevel(), "Renaming @{} method {}{} to {} in {}",
-                        Bytecode.getSimpleName(annotation), mixinMethod.name, mixinMethod.desc, uniqueName, this.mixin);
+                        Annotations.getSimpleName(annotation), mixinMethod.name, mixinMethod.desc, uniqueName, this.mixin);
                 mixinMethod.name = method.conform(uniqueName);
             }
 
@@ -575,7 +560,7 @@ class MixinPreProcessorStandard {
     }
 
     protected void attachFields(MixinTargetContext context) {
-        Activity fieldActivity = this.activities.begin("?");
+        IActivity fieldActivity = this.activities.begin("?");
         for (Iterator<FieldNode> iter = this.classNode.getFields().iterator(); iter.hasNext();) {
             FieldNode mixinField = iter.next();
             fieldActivity.next("%s:%s", mixinField.name, mixinField.desc);
@@ -678,7 +663,7 @@ class MixinPreProcessorStandard {
         }
 
         // Shadow fields can't have prefixes, it's meaningless for them anyway
-        String prefix = Annotations.getValue(shadow, "prefix", Shadow.class);
+        String prefix = Annotations.<String>getValue(shadow, "prefix", Shadow.class);
         if (field.name.startsWith(prefix)) {
             throw new InvalidMixinException(context, String.format("@Shadow field %s.%s has a shadow prefix. This is not allowed.",
                     context, field.name));
@@ -706,12 +691,12 @@ class MixinPreProcessorStandard {
      * accesses in the mixin
      */
     protected void transform(MixinTargetContext context) {
-        Activity methodActivity = this.activities.begin("method");
+        IActivity methodActivity = this.activities.begin("method");
         for (MethodNode mixinMethod : this.classNode.methods) {
             methodActivity.next("Method %s", mixinMethod);
             for (Iterator<AbstractInsnNode> iter = mixinMethod.instructions.iterator(); iter.hasNext();) {
                 AbstractInsnNode insn = iter.next();
-                Activity activity = this.activities.begin(Bytecode.getOpcodeName(insn));
+                IActivity activity = this.activities.begin(Bytecode.getOpcodeName(insn));
                 if (insn instanceof MethodInsnNode) {
                     this.transformMethod((MethodInsnNode)insn);
                 } else if (insn instanceof FieldInsnNode) {
@@ -724,7 +709,7 @@ class MixinPreProcessorStandard {
     }
 
     protected void transformMethod(MethodInsnNode methodNode) {
-        Activity activity = this.activities.begin("%s::%s%s", methodNode.owner, methodNode.name, methodNode.desc);
+        IActivity activity = this.activities.begin("%s::%s%s", methodNode.owner, methodNode.name, methodNode.desc);
         Section metaTimer = this.profiler.begin("meta");
         ClassInfo owner = ClassInfo.forDescriptor(methodNode.owner, TypeLookup.DECLARED_TYPE);
         if (owner == null) {
@@ -741,7 +726,7 @@ class MixinPreProcessorStandard {
     }
 
     protected void transformField(FieldInsnNode fieldNode) {
-        Activity activity = this.activities.begin("%s::%s:%s", fieldNode.owner, fieldNode.name, fieldNode.desc);
+        IActivity activity = this.activities.begin("%s::%s:%s", fieldNode.owner, fieldNode.name, fieldNode.desc);
         Section metaTimer = this.profiler.begin("meta");
         ClassInfo owner = ClassInfo.forDescriptor(fieldNode.owner, TypeLookup.DECLARED_TYPE);
         if (owner == null) {
@@ -783,13 +768,40 @@ class MixinPreProcessorStandard {
         return MixinPreProcessorStandard.getDynamicInfo("Field", Annotations.getInvisible(method, Dynamic.class));
     }
 
-    private static String getDynamicInfo(String targetType, AnnotationNode annotation) {
-        String description = Strings.nullToEmpty(Annotations.getValue(annotation));
-        Type upstream = Annotations.getValue(annotation, "mixin");
-        if (upstream != null) {
-            description = String.format("{%s} %s", upstream.getClassName(), description).trim();
+    /**
+     * Types of annotated special method handled by the preprocessor
+     */
+    enum SpecialMethod {
+
+        MERGE(true),
+        OVERWRITE(true, Overwrite.class),
+        SHADOW(false, Shadow.class),
+        ACCESSOR(false, Accessor.class),
+        INVOKER(false, Invoker.class);
+
+        final boolean isOverwrite;
+
+        final Class<? extends Annotation> annotation;
+
+        final String description;
+
+        private SpecialMethod(boolean isOverwrite, Class<? extends Annotation> type) {
+            this.isOverwrite = isOverwrite;
+            this.annotation = type;
+            this.description = "@" + Annotations.getSimpleName(type);
         }
-        return description.length() > 0 ? String.format(" %s is @Dynamic(%s)", targetType, description) : "";
+
+        private SpecialMethod(boolean isOverwrite) {
+            this.isOverwrite = isOverwrite;
+            this.annotation = null;
+            this.description = "overwrite";
+        }
+
+        @Override
+        public String toString() {
+            return this.description;
+        }
+
     }
 
 }

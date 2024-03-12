@@ -37,21 +37,21 @@ public interface ISyntheticClassInfo {
      * Get the mixin which incepted this synthetic class (if more than one mixin
      * is resposible, returns the first)
      */
-    IMixinInfo getMixin();
+    public abstract IMixinInfo getMixin();
 
     /**
      * Get the class name (binary name)
      */
-    String getName();
+    public abstract String getName();
     
     /**
      * Get the class name (java format)
      */
-    String getClassName();
+    public abstract String getClassName();
 
     /**
      * Get whether the synthetic class has been loaded (and therefore generated)
      */
-    boolean isLoaded();
+    public abstract boolean isLoaded();
 
 }

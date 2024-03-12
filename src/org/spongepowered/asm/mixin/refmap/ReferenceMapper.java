@@ -244,7 +244,7 @@ public final class ReferenceMapper implements IReferenceMapper, Serializable {
      * @param writer Writer to write to
      */
     public void write(Appendable writer) {
-        new GsonBuilder().setPrettyPrinting().create().toJson(this, writer);
+        new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(this, writer);
     }
     
     /**

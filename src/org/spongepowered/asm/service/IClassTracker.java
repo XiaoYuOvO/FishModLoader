@@ -38,7 +38,7 @@ public interface IClassTracker {
      * 
      * @param className invalid class name
      */
-    void registerInvalidClass(String className);
+    public abstract void registerInvalidClass(String className);
 
     /**
      * Check whether the specified class was already loaded by the service
@@ -47,7 +47,7 @@ public interface IClassTracker {
      * @param className class name to check
      * @return true if the class was already loaded
      */
-    boolean isClassLoaded(String className);
+    public abstract boolean isClassLoaded(String className);
 
     /**
      * Check whether the specified class name is subject to any restrictions in
@@ -57,6 +57,6 @@ public interface IClassTracker {
      * @return comma-separated list of restrictions, empty string if no
      *      restrictions apply
      */
-    String getClassRestrictions(String className);
+    public abstract String getClassRestrictions(String className);
 
 }

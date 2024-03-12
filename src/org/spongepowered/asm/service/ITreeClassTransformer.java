@@ -41,6 +41,6 @@ public interface ITreeClassTransformer extends ITransformer {
      * @param classNode class tree
      * @return true if transformations were applied
      */
-    boolean transformClassNode(String name, String transformedName, ClassNode classNode);
+    public abstract boolean transformClassNode(String name, String transformedName, ClassNode classNode);
 
 }

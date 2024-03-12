@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class MappingProviderTSrg extends MappingProvider {
     
-    private final List<String> inputMappings = new ArrayList<String>();
+    private List<String> inputMappings = new ArrayList<String>();
 
     public MappingProviderTSrg(Messager messager, Filer filer) {
         super(messager, filer);
@@ -63,7 +63,7 @@ public class MappingProviderTSrg extends MappingProvider {
         this.inputMappings.addAll(Files.readLines(input, Charset.defaultCharset()));
         
         for (String line : this.inputMappings) {
-            if (Strings.isNullOrEmpty(line) || line.startsWith("#")) {
+            if (Strings.isNullOrEmpty(line) || line.startsWith("#") || line.startsWith("tsrg2") || line.startsWith("\t\t")) {
                 continue;
             }
             

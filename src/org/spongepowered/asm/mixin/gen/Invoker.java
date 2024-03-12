@@ -78,7 +78,7 @@ public @interface Invoker {
      * @return name for the target method, or empty string to inflect using the
      *      annotated method name
      */
-    String value() default "";
+    public String value() default "";
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -93,6 +93,6 @@ public @interface Invoker {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation
      */
-    boolean remap() default true;
+    public boolean remap() default true;
 
 }

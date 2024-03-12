@@ -55,7 +55,7 @@ import java.lang.annotation.Target;
  *    int def = 1;
  *    Foo someObject = new Foo();
  *  
- *    // Hooking this method
+ *    <del>// Hooking this method</del>
  *    boolean xyz = someObject.bar(abc, def);
  *}</pre>
  * </blockquote>
@@ -63,7 +63,7 @@ import java.lang.annotation.Target;
  * <p>The signature of the redirected method should be:</p>
  * 
  * <blockquote>
- *      <pre>public boolean barProxy(Foo someObject, int abc, int def)</pre>
+ *      <code>public boolean barProxy(Foo someObject, int abc, int def)</code>
  * </blockquote>
  * 
  * <p>For obvious reasons this does not apply for static methods, for static
@@ -77,8 +77,8 @@ import java.lang.annotation.Target;
  * arguments) by appending the arguments to the method signature:</p>
  * 
  * <blockquote>
- *      <pre>public boolean barProxy(Foo someObject, int abc, int def,
- *    int someInt, String someString)</pre>
+ *      <code>public boolean barProxy(Foo someObject, int abc, int def,
+ *    int someInt, String someString)</code>
  * </blockquote>
  * 
  * <p>All arguments of a method redirect handler, and the return type, can be
@@ -92,7 +92,7 @@ import java.lang.annotation.Target;
  * handling a field <b>write</b> (<tt>PUTFIELD</tt>, <tt>PUTSTATIC</tt>) or a
  * field <b>read</b> (<tt>GETFIELD</tt>, <tt>GETSTATIC</tt>).</p>
  * 
- * <table width="100%">
+ * <table width="100%" class="infoTable">
  *   <tr>
  *     <th width="25%">Operation (OPCODE)</th>
  *     <th>Handler signature</th>
@@ -148,7 +148,7 @@ import java.lang.annotation.Target;
  * <em>indices</em>, for multi-dimensional arrays) and returns <em>the element
  * type</em> (in this case <tt>String</tt>) as follows:</p>
  * 
- * <table width="100%">
+ * <table width="100%" class="infoTable">
  *   <tr>
  *     <th width="25%">Operation</th>
  *     <th>Handler signature</th>
@@ -177,16 +177,16 @@ import java.lang.annotation.Target;
  * <tt>array=length</tt> and configure your handler signature to return <tt>int
  * </tt> and consume the array as an argument:</p>
  * 
- * <blockquote><code>private int getLength(<b>ElementType</b>[] array)
+ * <blockquote><code>private int getLength(<ins>ElementType</ins>[] array)
  * </code></blockquote>
- * 
+ * -
  * <p>For multi-dimensional arrays, provide one <tt>int</tt> argument for each
  * additional dimension of the array:</p>
  * 
- * <blockquote><code>// Multidimensional array<br />
- * private <b>ElementType</b>[][] array;<br /><br />
- * // Handler signature:<br /> 
- * private <b>int</b> getLength(<b>ElementType</b>[][] array, int baseDim)
+ * <blockquote><code><del>// Multidimensional array</del><br />
+ * private <ins>ElementType</ins>[][] array;<br /><br />
+ * <del>// Handler signature:</del><br /> private <ins>int</ins>
+ * getLength(<ins>ElementType</ins>[][] array, int baseDim)
  * </code></blockquote>
  * 
  * <h3>New Object Redirect Mode (Factory Mode)</h3>
@@ -211,7 +211,7 @@ import java.lang.annotation.Target;
  *class Foo {
  *    private final int x, y;
  *  
- *    // ctor we wish to hook
+ *    <del>// ctor we wish to hook</del>
  *    Foo(int x, int y) {
  *        this.x = x;
  *        this.y = y;
@@ -231,7 +231,7 @@ import java.lang.annotation.Target;
  * example to redirect the following object creation call:</p>
  * 
  * <blockquote><pre>public void exampleFunc(String someString, int dx, int dy) {
- *    // Hooking this constructor
+ *    <del>// Hooking this constructor</del>
  *    Foo someFoo = new Foo(dx * 10, dy * 10);
  *}</pre>
  * </blockquote>
@@ -239,15 +239,15 @@ import java.lang.annotation.Target;
  * <p>The signature of the handler method should be:</p>
  * 
  * <blockquote>
- *      <pre>public Foo constructFoo(int x, int y)</pre>
+ *      <code>public Foo constructFoo(int x, int y)</code>
  * </blockquote>
  * 
  * <p>Note that like other redirectors, it is possible to capture the target
  * method's arguments by appending them to the handler method's signature:</p>
  * 
  * <blockquote>
- *      <tt>public Foo constructFoo(int x, int y, String someString, int dx,
- *      int dy)</tt>
+ *      <code>public Foo constructFoo(int x, int y, String someString, int dx,
+ *      int dy)</code>
  * </blockquote>
  * 
  * <h3><tt>instanceof</tt> Redirect Mode</h3>
@@ -277,8 +277,8 @@ import java.lang.annotation.Target;
  *
  * <p>Note that this results in the injected code being less efficient, because
  * the <tt>instanceof</tt> opcode is replaced with discrete code similar to <tt>
- * reference != null && yourClass.isAssignableFrom(reference.getClass())</tt> in
- * the target method body.</p>
+ * reference != null &amp;&amp; yourClass.isAssignableFrom(reference.getClass())
+ * </tt> in the target method body.</p>
  * 
  * <p>The arguments to an <tt>instanceof</tt> redirect handler <b>must always be
  * <tt>Object, Class</tt> even if the variable type is known</b>. This is
@@ -298,7 +298,7 @@ import java.lang.annotation.Target;
  * 
  * <blockquote><pre>class Foo : Bar {
  *    Foo(int arg) {
- *        super(<span style="background: #FF0">Foo.isEven(arg)</span>);
+ *        super(<ins>Foo.isEven(arg)</ins>);
  *    }
  *    
  *    static int isEven(int arg) {
@@ -326,7 +326,15 @@ public @interface Redirect {
      * 
      * @return target method(s) for this injector
      */
-    String[] method();
+    public String[] method() default {};
+    
+    /**
+     * Literal representation of one or more {@link Desc &#064;Desc} annotations
+     * which identify the target methods.
+     * 
+     * @return target method(s) for this injector as descriptors
+     */
+    public Desc[] target() default {};
     
     /**
      * A {@link Slice} annotation which describes the method bisection used in
@@ -334,7 +342,7 @@ public @interface Redirect {
      * 
      * @return slice
      */
-    Slice slice() default @Slice;
+    public Slice slice() default @Slice;
 
     /**
      * An {@link At} annotation which describes the {@link InjectionPoint} in
@@ -344,7 +352,7 @@ public @interface Redirect {
      * 
      * @return {@link At} which identifies the target method invocation
      */
-    At at();
+    public At at();
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -361,7 +369,7 @@ public @interface Redirect {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * In general, injectors are intended to "fail soft" in that a failure to
@@ -383,7 +391,7 @@ public @interface Redirect {
      * @return Minimum required number of injected callbacks, default specified
      *      by the containing config
      */
-    int require() default -1;
+    public int require() default -1;
     
     /**
      * Like {@link #require()} but only enabled if the
@@ -395,7 +403,7 @@ public @interface Redirect {
      * 
      * @return Minimum number of <em>expected</em> callbacks, default 1
      */
-    int expect() default 1;
+    public int expect() default 1;
     
     /**
      * Injection points are in general expected to match every candidate
@@ -421,7 +429,7 @@ public @interface Redirect {
      * 
      * @return Maximum allowed number of injections for this 
      */
-    int allow() default -1;
+    public int allow() default -1;
 
     /**
      * Returns constraints which must be validated for this injector to
@@ -429,6 +437,6 @@ public @interface Redirect {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
 
 }

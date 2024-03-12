@@ -36,14 +36,14 @@ public interface IMixinConfig {
     /**
      * Default priority for mixin configs and mixins
      */
-    int DEFAULT_PRIORITY = 1000;
+    public static final int DEFAULT_PRIORITY = 1000;
     
     /**
      * Get the parent environment of this config
      * 
      * @return the parent environment
      */
-    MixinEnvironment getEnvironment();
+    public abstract MixinEnvironment getEnvironment();
 
     /**
      * Get the name of the file from which this configuration object was
@@ -51,28 +51,28 @@ public interface IMixinConfig {
      * 
      * @return the config filename (resource name)
      */
-    String getName();
+    public abstract String getName();
 
     /**
      * Get the package containing all mixin classes
      * 
      * @return the base package name for this config
      */
-    String getMixinPackage();
+    public abstract String getMixinPackage();
 
     /**
      * Get the priority
      * 
      * @return the priority
      */
-    int getPriority();
+    public abstract int getPriority();
 
     /**
      * Get the companion plugin, if available
      * 
      * @return the companion plugin instance or null if no plugin
      */
-    IMixinConfigPlugin getPlugin();
+    public abstract IMixinConfigPlugin getPlugin();
 
     /**
      * True if this mixin is <em>required</em> (failure to apply a defined mixin
@@ -80,13 +80,41 @@ public interface IMixinConfig {
      * 
      * @return true if this config is marked as required
      */
-    boolean isRequired();
+    public abstract boolean isRequired();
 
     /**
      * Get targets for this configuration
      * 
      * @return target classes of mixins in this config
      */
-    Set<String> getTargets();
+    public abstract Set<String> getTargets();
+    
+    /**
+     * Decorate this config with arbitrary metadata for debugging or
+     * compatibility purposes
+     * 
+     * @param key meta key
+     * @param value meta value
+     * @param <V> value type
+     * @throws IllegalArgumentException if the specified key exists already
+     */
+    public abstract <V> void decorate(String key, V value);
+    
+    /**
+     * Get whether this node is decorated with the specified key
+     * 
+     * @param key meta key
+     * @return true if the specified decoration exists
+     */
+    public abstract boolean hasDecoration(String key);
+    
+    /**
+     * Get the specified decoration
+     * 
+     * @param key meta key
+     * @param <V> value type
+     * @return decoration value or null if absent
+     */
+    public abstract <V> V getDecoration(String key);
 
 }

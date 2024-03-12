@@ -2,53 +2,74 @@ package net.xiaoyu233.fml;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import net.fabricmc.accesswidener.AccessWidener;
+import net.fabricmc.accesswidener.AccessWidenerReader;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.LanguageAdapter;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
+import net.fabricmc.loader.api.metadata.ModEnvironment;
+import net.fabricmc.loader.impl.ModContainerImpl;
+import net.fabricmc.loader.impl.discovery.*;
+import net.fabricmc.loader.impl.entrypoint.EntrypointStorage;
+import net.fabricmc.loader.impl.metadata.*;
+import net.fabricmc.loader.impl.util.DefaultLanguageAdapter;
+import net.fabricmc.loader.impl.util.ExceptionUtil;
+import net.fabricmc.loader.impl.util.log.Log;
+import net.fabricmc.loader.impl.util.log.LogCategory;
 import net.xiaoyu233.fml.config.ConfigRegistry;
 import net.xiaoyu233.fml.config.Configs;
 import net.xiaoyu233.fml.config.InjectionConfig;
+import net.xiaoyu233.fml.relaunch.Launch;
 import net.xiaoyu233.fml.reload.transform.MinecraftServerTrans;
-import net.xiaoyu233.fml.util.ModInfo;
+import net.xiaoyu233.fml.util.Constants;
+import net.xiaoyu233.fml.util.RemoteModInfo;
+import net.xiaoyu233.fml.util.UrlUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
+import org.spongepowered.asm.mixin.transformer.Config;
 import org.spongepowered.asm.service.MixinService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 import javax.swing.*;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class FishModLoader extends AbstractMod{
    public static final File CONFIG_DIR = new File("configs");
-   public static final Logger LOGGER = LogManager.getLogger("FishModLoader");
+   public static final String VERSION = Constants.VERSION;
+   private static final String MOD_ID = Constants.MOD_ID;
+   public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
    public static final File MOD_DIR = new File("mods");
-   private static final Map<String, ModInfo> modsMapForLoginCheck;
+   private static final Map<String, ModContainerImpl> modsMapForLoginCheck;
    private static final boolean allowsClientMods;
-   public static final String VERSION = "v2.0.0";
-   public static final int VERSION_NUM = 200;
-   private static final ArrayList<ModInfo> mods = new ArrayList<>();
-   private static final Map<String, ModInfo> modsMap = new HashMap<>();
+   private static final ArrayList<ModContainerImpl> mods = new ArrayList<>();
+   private static final Map<String, ModContainerImpl> modsMap = new HashMap<>();
    private static boolean isServer = false;
    //Cancel version check
    private static final String onlineVersion = VERSION;
    private static final List<ConfigRegistry> ALL_REGISTRIES = new ArrayList<>();
    private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Configs.CONFIG,Configs.CONFIG_FILE);
+   private static final Map<String, LanguageAdapter> adapterMap = new HashMap<>();
+   private static final EntrypointStorage entrypointStorage = new EntrypointStorage();
+   private static AccessWidener accessWidener = new AccessWidener();
+   private static boolean frozen;
 
    static {
       try {
-         UIManager.setLookAndFeel(new WindowsLookAndFeel());
+         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
       } catch (Exception ignored) {
       }
 
@@ -59,21 +80,10 @@ public class FishModLoader extends AbstractMod{
       }
 
       modsMapForLoginCheck = new HashMap<>();
-      addModInfo(new ModInfo(new FishModLoader(), Lists.newArrayList(MixinEnvironment.Side.SERVER, MixinEnvironment.Side.CLIENT)));
    }
 
    private FishModLoader(){
 
-   }
-
-   public static void addModInfo(ModInfo modInfo) {
-      if (!modsMap.containsKey(modInfo.getModid())){
-         mods.add(modInfo);
-         modsMap.put(modInfo.getModid(), modInfo);
-         if (modInfo.canBeUsedAt(MixinEnvironment.Side.CLIENT)) {
-            modsMapForLoginCheck.put(modInfo.getModid(), modInfo);
-         }
-      }
    }
 
    public static void addConfigRegistry(ConfigRegistry configRegistry){
@@ -87,20 +97,288 @@ public class FishModLoader extends AbstractMod{
    }
 
    public static void reloadAllConfigs(){
-      mods.stream().map(ModInfo::getMod).map(AbstractMod::getConfigRegistry).filter(Objects::nonNull).forEach(FishModLoader::addConfigRegistry);
       for (ConfigRegistry configRegistry : ALL_REGISTRIES) {
          configRegistry.reloadConfig();
       }
    }
 
-   @Nullable
-   @Override
-   public ConfigRegistry getConfigRegistry() {
-      return CONFIG_REGISTRY;
+   public static EnvType getEnvironmentType() {
+      return isServer ? EnvType.SERVER : EnvType.CLIENT;
    }
 
-   public static ImmutableMap<String, ModInfo> getModsMap() {
-      return new ImmutableMap.Builder<String, ModInfo>().putAll(modsMap).build();
+   public static Optional<ModContainer> getModContainer(String parentModId) {
+      return Optional.empty();
+   }
+
+   public static void setup() throws ModResolutionException {
+      FishModLoader.loadConfig();
+
+      //Start mod discovery
+      boolean remapRegularMods = FishModLoader.isDevelopmentEnvironment();
+      VersionOverrides versionOverrides = new VersionOverrides();
+      DependencyOverrides depOverrides = new DependencyOverrides(FishModLoader.CONFIG_DIR.toPath());
+
+      // discover mods
+
+      ModDiscoverer discoverer = new ModDiscoverer(versionOverrides, depOverrides);
+      discoverer.addCandidateFinder(new ClasspathModCandidateFinder());
+      discoverer.addCandidateFinder(new DirectoryModCandidateFinder(FishModLoader.MOD_DIR.toPath(), remapRegularMods));
+      discoverer.addCandidateFinder(new ArgumentModCandidateFinder(remapRegularMods));
+      HashMap<String, Set<ModCandidate>> envDisabledModsOut = new HashMap<>();
+      List<ModCandidate> modCandidates = discoverer.discoverMods(envDisabledModsOut);
+      modCandidates = ModResolver.resolve(modCandidates, FishModLoader.getEnvironmentType(), envDisabledModsOut);
+      dumpModList(modCandidates);
+      for (ModCandidate modCandidate : modCandidates) {
+         if (!modCandidate.hasPath() && !modCandidate.isBuiltin()) {
+            try {
+               modCandidate.setPaths(Collections.singletonList(modCandidate.copyToDir(MOD_DIR.toPath(), false)));
+            } catch (IOException e) {
+               throw new RuntimeException("Error extracting mod "+ modCandidate, e);
+            }
+         }
+
+         addMod(modCandidate);
+      }
+      //Finish mod discovery
+      MixinBootstrap.init();
+   }
+
+   public static void freeze() {
+      if (frozen) {
+         throw new IllegalStateException("Already frozen!");
+      }
+
+      frozen = true;
+      finishModLoading();
+   }
+
+   private static void finishModLoading() {
+      // add mods to classpath
+      // TODO: This can probably be made safer, but that's a long-term goal
+      for (ModContainerImpl mod : mods) {
+         if (!mod.getMetadata().getId().equals(MOD_ID) && !mod.getMetadata().getType().equals("builtin")) {
+            for (Path path : mod.getCodeSourcePaths()) {
+               Launch.knotLoader.addCodeSource(path);
+            }
+         }
+      }
+
+      setupLanguageAdapters();
+      setupMods();
+   }
+
+   private static void setupMods() {
+      for (ModContainerImpl mod : mods) {
+         try {
+            for (String in : mod.getInfo().getOldInitializers()) {
+               String adapter = mod.getInfo().getOldStyleLanguageAdapter();
+               entrypointStorage.addDeprecated(mod, adapter, in);
+            }
+
+            for (String key : mod.getInfo().getEntrypointKeys()) {
+               for (EntrypointMetadata in : mod.getInfo().getEntrypoints(key)) {
+                  entrypointStorage.add(mod, key, in, adapterMap);
+               }
+            }
+            if (mod.getMetadata().getEnvironment().matches(EnvType.CLIENT)) {
+               modsMapForLoginCheck.put(mod.getMetadata().getId(), mod);
+            }
+         } catch (Exception e) {
+            throw new RuntimeException(String.format("Failed to setup mod %s (%s)", mod.getInfo().getName(), mod.getOrigin()), e);
+         }
+      }
+
+   }
+
+   private static void setupLanguageAdapters() {
+      adapterMap.put("default", DefaultLanguageAdapter.INSTANCE);
+
+      for (ModContainerImpl mod : mods) {
+         // add language adapters
+         for (Map.Entry<String, String> laEntry : mod.getInfo().getLanguageAdapterDefinitions().entrySet()) {
+            if (adapterMap.containsKey(laEntry.getKey())) {
+               throw new RuntimeException("Duplicate language adapter key: " + laEntry.getKey() + "! (" + laEntry.getValue() + ", " + adapterMap.get(laEntry.getKey()).getClass().getName() + ")");
+            }
+
+            try {
+               adapterMap.put(laEntry.getKey(), (LanguageAdapter) Class.forName(laEntry.getValue(), true, Launch.knotLoader.getClassLoader()).getDeclaredConstructor().newInstance());
+            } catch (Exception e) {
+               throw new RuntimeException("Failed to instantiate language adapter: " + laEntry.getKey(), e);
+            }
+         }
+      }
+   }
+
+   private static void addMod(ModCandidate candidate) {
+      ModContainerImpl container = new ModContainerImpl(candidate);
+      mods.add(container);
+      modsMap.put(candidate.getId(), container);
+
+      for (String provides : candidate.getProvides()) {
+         modsMap.put(provides, container);
+      }
+   }
+
+   private static void dumpModList(List<ModCandidate> mods) {
+      StringBuilder modListText = new StringBuilder();
+
+      boolean[] lastItemOfNestLevel = new boolean[mods.size()];
+      List<ModCandidate> topLevelMods = mods.stream()
+              .filter(mod -> mod.getParentMods().isEmpty())
+              .toList();
+      int topLevelModsCount = topLevelMods.size();
+
+      for (int i = 0; i < topLevelModsCount; i++) {
+         boolean lastItem = i == topLevelModsCount - 1;
+
+         if (lastItem) lastItemOfNestLevel[0] = true;
+
+         dumpModList0(topLevelMods.get(i), modListText, 0, lastItemOfNestLevel);
+      }
+
+      int modsCount = mods.size();
+      LOGGER.info( "Loading {} mod{}: \n{}", modsCount, modsCount != 1 ? "s" : "", modListText);
+   }
+
+   private static void dumpModList0(ModCandidate mod, StringBuilder log, int nestLevel, boolean[] lastItemOfNestLevel) {
+      if (log.length() > 0) log.append('\n');
+
+      for (int depth = 0; depth < nestLevel; depth++) {
+         log.append(depth == 0 ? "\t" : lastItemOfNestLevel[depth] ? "     " : "   | ");
+      }
+
+      log.append(nestLevel == 0 ? "\t" : "  ");
+      log.append(nestLevel == 0 ? "-" : lastItemOfNestLevel[nestLevel] ? " \\--" : " |--");
+      log.append(' ');
+      log.append(mod.getId());
+      log.append(' ');
+      log.append(mod.getVersion().getFriendlyString());
+
+      List<ModCandidate> nestedMods = new ArrayList<>(mod.getNestedMods());
+      nestedMods.sort(Comparator.comparing(nestedMod -> nestedMod.getMetadata().getId()));
+
+      if (!nestedMods.isEmpty()) {
+         Iterator<ModCandidate> iterator = nestedMods.iterator();
+         ModCandidate nestedMod;
+         boolean lastItem;
+
+         while (iterator.hasNext()) {
+            nestedMod = iterator.next();
+            lastItem = !iterator.hasNext();
+
+            if (lastItem) lastItemOfNestLevel[nestLevel+1] = true;
+
+            dumpModList0(nestedMod, log, nestLevel + 1, lastItemOfNestLevel);
+
+            if (lastItem) lastItemOfNestLevel[nestLevel+1] = false;
+         }
+      }
+   }
+
+   public static void initModMixin() {
+      System.setProperty("mixin.service", net.xiaoyu233.fml.mixin.service.MixinService.class.getName());
+
+      MixinBootstrap.init();
+      registerModloaderMixin(Launch.class.getClassLoader());
+      Map<String, ModContainerImpl> configToModMap = new HashMap<>();
+
+      for (ModContainerImpl mod : mods) {
+         for (String config : mod.getMetadata().getMixinConfigs(getEnvironmentType())) {
+            ModContainerImpl prev = configToModMap.putIfAbsent(config, mod);
+            if (prev != null) throw new RuntimeException(String.format("Non-unique Mixin config name %s used by the mods %s and %s", config, prev.getMetadata().getId(), mod.getMetadata().getId()));
+
+            try {
+               Mixins.addConfiguration(config);
+            } catch (Throwable t) {
+               throw new RuntimeException(String.format("Error creating Mixin config %s for mod %s", config, mod.getMetadata().getId()), t);
+            }
+         }
+      }
+
+      for (Config config : Mixins.getConfigs()) {
+         ModContainerImpl mod = configToModMap.get(config.getName());
+         if (mod == null) continue;
+      }
+
+      finishMixinBootstrapping();
+   }
+
+   public static boolean hasEntrypoints(String key) {
+      return entrypointStorage.hasEntrypoints(key);
+   }
+
+   public static  <T> void invokeEntrypoints(String key, Class<T> type, Consumer<? super T> invoker) {
+      if (!hasEntrypoints(key)) {
+         Log.debug(LogCategory.ENTRYPOINT, "No subscribers for entrypoint '%s'", key);
+         return;
+      }
+
+      RuntimeException exception = null;
+      Collection<EntrypointContainer<T>> entrypoints = getEntrypointContainers(key, type);
+
+      Log.debug(LogCategory.ENTRYPOINT, "Iterating over entrypoint '%s'", key);
+
+      for (EntrypointContainer<T> container : entrypoints) {
+         try {
+            invoker.accept(container.getEntrypoint());
+         } catch (Throwable t) {
+            exception = ExceptionUtil.gatherExceptions(t,
+                    exception,
+                    exc -> new RuntimeException(String.format("Could not execute entrypoint stage '%s' due to errors, provided by '%s'!",
+                            key, container.getProvider().getMetadata().getId()),
+                            exc));
+         }
+      }
+
+      if (exception != null) {
+         throw exception;
+      }
+   }
+
+   public static <T> List<EntrypointContainer<T>> getEntrypointContainers(String key, Class<T> type) {
+      return entrypointStorage.getEntrypointContainers(key, type);
+   }
+
+   private static void finishMixinBootstrapping() {
+      try {
+         Method m = MixinEnvironment.class.getDeclaredMethod("gotoPhase", MixinEnvironment.Phase.class);
+         m.setAccessible(true);
+         m.invoke(null, MixinEnvironment.Phase.INIT);
+         m.invoke(null, MixinEnvironment.Phase.DEFAULT);
+      } catch (Exception e) {
+         throw new RuntimeException(e);
+      }
+   }
+
+   public static AccessWidener getAccessWidener() {
+      return accessWidener;
+   }
+
+   public static void loadAccessWideners() {
+      AccessWidenerReader accessWidenerReader = new AccessWidenerReader(accessWidener);
+
+      for (net.fabricmc.loader.api.ModContainer modContainer : mods) {
+         LoaderModMetadata modMetadata = (LoaderModMetadata) modContainer.getMetadata();
+         String accessWidener = modMetadata.getAccessWidener();
+         if (accessWidener == null) continue;
+
+         Path path = modContainer.findPath(accessWidener).orElse(null);
+         if (path == null) throw new RuntimeException(String.format("Missing accessWidener file %s from mod %s", accessWidener, modContainer.getMetadata().getId()));
+
+         try (BufferedReader reader = Files.newBufferedReader(path)) {
+            accessWidenerReader.read(reader, "named");
+         } catch (Exception e) {
+            throw new RuntimeException("Failed to read accessWidener file from mod " + modMetadata.getId(), e);
+         }
+      }
+   }
+
+   public static ImmutableMap<String, ModContainerImpl> getModsMap() {
+      return new ImmutableMap.Builder<String, ModContainerImpl>().putAll(modsMap).build();
+   }
+
+   public static JsonElement getModsJson() {
+      return RemoteModInfo.writeToJson(mods.stream().map(ModContainerImpl::getMetadata).map(RemoteModInfo::new).collect(Collectors.toList()));
    }
 
 //   public static void extractOpenAL(){
@@ -116,8 +394,8 @@ public class FishModLoader extends AbstractMod{
       return Configs.Client.FPS_LIMIT.get();
    }
 
-   public static JsonElement getModsJson() {
-      return (new Gson()).toJsonTree(mods);
+   public static Map<String, ModContainerImpl> getModsMapForLoginCheck() {
+      return new HashMap<>(modsMapForLoginCheck);
    }
 
    public static boolean hasMod(String modid){
@@ -132,8 +410,8 @@ public class FishModLoader extends AbstractMod{
       return isServer;
    }
 
-   public static Map<String, ModInfo> getModsMapForLoginCheck() {
-      return new HashMap<>(modsMapForLoginCheck);
+   public static void registerModloaderMixin(ClassLoader classLoader){
+      Mixins.registerConfiguration((InjectionConfig.Builder.of(MOD_ID, MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.DEFAULT).plugin("com.chocohead.mm.Plugin").build().toConfig(classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment())));
    }
 
    public static MixinEnvironment.Side getSide(){
@@ -144,8 +422,8 @@ public class FishModLoader extends AbstractMod{
       Configs.loadConfig();
    }
 
-   public static void registerModloaderMixin(ClassLoader classLoader){
-      Mixins.registerConfiguration((InjectionConfig.Builder.of("FishModLoader", MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build().toConfig(classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment())));
+   public static boolean isDevelopmentEnvironment() {
+      return false;
    }
 
    public static void setIsServer(boolean isServer) {
@@ -156,53 +434,40 @@ public class FishModLoader extends AbstractMod{
       return allowsClientMods;
    }
 
-   public static String versionCheck() {
-      try {
-         URL url = new URL("https://raw.githubusercontent.com/XiaoYuOvO/FishModLoader/master/VERSION.txt");
-         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
-         SSLContext sc = SSLContext.getInstance("TLSv1.2");
-         sc.init(null, null, new SecureRandom());
-         connection.setSSLSocketFactory(sc.getSocketFactory());
-         connection.setRequestMethod("GET");
-         connection.setDoInput(true);
-         connection.setInstanceFollowRedirects(false);
-         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0");
-         connection.setRequestProperty("Upgrade-Insecure-Requests", "1");
-         connection.setRequestProperty("Accept-Encoding", "text");
-         connection.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-         connection.setRequestProperty("Cache-Control", "max-age=0");
-         connection.setRequestProperty("Host", "raw.githubusercontent.com");
-         connection.setRequestProperty("Connection", "keep-alive");
-         connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-         connection.connect();
-         return (new Scanner(connection.getInputStream(), String.valueOf(StandardCharsets.UTF_8))).nextLine();
-      } catch (IOException ignored) {
-      } catch (KeyManagementException | NoSuchAlgorithmException var4) {
-         var4.printStackTrace();
-      }
+   public static List<ModCandidate.BuiltinMod> getBuiltinMods() {
+      return Lists.newArrayList(new ModCandidate.BuiltinMod(Collections.singletonList(UrlUtil.asPath(FishModLoader.class.getProtectionDomain()
+              .getCodeSource()
+              .getLocation())), new BuiltinModMetadata.Builder(MOD_ID, VERSION).setEnvironment(ModEnvironment.UNIVERSAL)
+              .setName(MOD_ID)
+              .accesswidener("fishmodloader.accesswidener")
+              .build()));
+   }
 
-      return null;
+    @Nullable
+   @Override
+   public ConfigRegistry getConfigRegistry() {
+      return CONFIG_REGISTRY;
    }
 
    @Nonnull
    @Override
    public InjectionConfig getInjectionConfig() {
-      return InjectionConfig.Builder.of("FishModLoader", MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build();
-   }
-
-   @Override
-   public String modId() {
-      return "FishModLoader";
-   }
-
-   @Override
-   public int modVerNum() {
-      return VERSION_NUM;
+      return InjectionConfig.Builder.of(MOD_ID, MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build();
    }
 
    @Override
    public String modVerStr() {
       return VERSION;
+   }
+
+   @Override
+   public String modId() {
+      return MOD_ID;
+   }
+
+   @Override
+   public int modVerNum() {
+      return 0;
    }
 
    @Override

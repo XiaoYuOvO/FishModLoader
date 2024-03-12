@@ -50,7 +50,7 @@ public @interface Debug {
      * 
      * @return whether to export the decorated target class
      */
-    boolean export() default false;
+    public boolean export() default false;
 
     /**
      * Print the method bytecode to the console after mixin application. This
@@ -59,6 +59,6 @@ public @interface Debug {
      * 
      * @return whether to print the class or method to the console.
      */
-    boolean print() default false;
+    public boolean print() default false;
     
 }

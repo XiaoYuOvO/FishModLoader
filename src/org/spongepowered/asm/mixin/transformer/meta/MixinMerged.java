@@ -44,7 +44,7 @@ public @interface MixinMerged {
      * 
      * @return mixin name 
      */
-    String mixin();
+    public String mixin();
     
     /**
      * Prioriy of the mixin which merged this method, used to allow mixins with
@@ -53,6 +53,6 @@ public @interface MixinMerged {
      * 
      * @return mixin priority
      */
-    int priority();
+    public int priority();
     
 }

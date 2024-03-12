@@ -25,9 +25,9 @@
 package org.spongepowered.asm.util;
 
 import com.google.common.base.Strings;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.logging.ILogger;
+import org.spongepowered.asm.logging.Level;
+import org.spongepowered.asm.service.MixinService;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -43,26 +43,26 @@ import java.util.regex.Pattern;
 public class PrettyPrinter {
     
     /**
-     * Interface for object which supports printing to pretty printer
+     * Outputs this printer to stderr and to a logger decorated with specified
+     * name with level {@link Level#DEBUG}
+     *
+     * @param logger Logger name to write to
+     * @return fluent interface
      */
-    public interface IPrettyPrintable {
-        
-        /**
-         * Append this objec to specified pretty printer
-         * 
-         * @param printer printer to append to
-         */
-        void print(PrettyPrinter printer);
-        
+    public PrettyPrinter trace(String logger) {
+        return this.trace(System.err, MixinService.getService().getLogger(logger));
     }
     
     /**
-     * Interface for objects which need their width calculated prior to printing
+     * Outputs this printer to stderr and to a logger decorated with specified
+     * name with the specified level
+     *
+     * @param logger Logger name to write to
+     * @param level Log level to write messages
+     * @return fluent interface
      */
-    interface IVariableWidthEntry {
-        
-        int getWidth();
-        
+    public PrettyPrinter trace(String logger, Level level) {
+        return this.trace(System.err, MixinService.getService().getLogger(logger), level);
     }
     
     /**
@@ -136,11 +136,14 @@ public class PrettyPrinter {
     }
     
     /**
-     * Table column alignment
+     * Outputs this printer to stderr and to the supplied logger with level
+     * {@link Level#DEBUG}
+     *
+     * @param logger Logger to write to
+     * @return fluent interface
      */
-    public enum Alignment {
-        LEFT,
-        RIGHT
+    public PrettyPrinter trace(ILogger logger) {
+        return this.trace(System.err, logger);
     }
     
     /**
@@ -940,49 +943,52 @@ public class PrettyPrinter {
     }
 
     /**
-     * Outputs this printer to stderr and to a logger decorated with specified
-     * name with level {@link Level#DEBUG}
-     * 
-     * @param logger Logger name to write to
+     * Outputs this printer to stderr and to the supplied logger with the
+     * specified level
+     *
+     * @param logger Logger to write to
+     * @param level Log level to write messages
      * @return fluent interface
      */
-    public PrettyPrinter trace(String logger) {
-        return this.trace(System.err, LogManager.getLogger(logger));
+    public PrettyPrinter trace(ILogger logger, Level level) {
+        return this.trace(System.err, logger, level);
     }
 
     /**
-     * Outputs this printer to stderr and to a logger decorated with specified
-     * name with the specified level
-     * 
+     * Outputs this printer to the specified stream and to a logger with the
+     * specified name with level {@link Level#DEBUG}
+     *
+     * @param stream Output stream to print to
+     * @param logger Logger name to write to
+     * @return fluent interface
+     */
+    public PrettyPrinter trace(PrintStream stream, String logger) {
+        return this.trace(stream, MixinService.getService().getLogger(logger));
+    }
+
+    /**
+     * Outputs this printer to the specified stream and to a logger with the
+     * specified name at the specified level
+     *
+     * @param stream Output stream to print to
      * @param logger Logger name to write to
      * @param level Log level to write messages
      * @return fluent interface
      */
-    public PrettyPrinter trace(String logger, Level level) {
-        return this.trace(System.err, LogManager.getLogger(logger), level);
-    }
-
-    /**
-     * Outputs this printer to stderr and to the supplied logger with level
-     * {@link Level#DEBUG}
-     * 
-     * @param logger Logger to write to
-     * @return fluent interface
-     */
-    public PrettyPrinter trace(Logger logger) {
-        return this.trace(System.err, logger);
+    public PrettyPrinter trace(PrintStream stream, String logger, Level level) {
+        return this.trace(stream, MixinService.getService().getLogger(logger), level);
     }
     
     /**
-     * Outputs this printer to stderr and to the supplied logger with the
-     * specified level
-     * 
+     * Outputs this printer to the specified stream and to the supplied logger
+     * with level {@link Level#DEBUG}
+     *
+     * @param stream Output stream to print to
      * @param logger Logger to write to
-     * @param level Log level to write messages
      * @return fluent interface
      */
-    public PrettyPrinter trace(Logger logger, Level level) {
-        return this.trace(System.err, logger, level);
+    public PrettyPrinter trace(PrintStream stream, ILogger logger) {
+        return this.trace(stream, logger, Level.DEBUG);
     }
     
     /**
@@ -1009,54 +1015,58 @@ public class PrettyPrinter {
     }
     
     /**
-     * Outputs this printer to the specified stream and to a logger with the
-     * specified name with level {@link Level#DEBUG}
-     * 
-     * @param stream Output stream to print to
-     * @param logger Logger name to write to
-     * @return fluent interface
-     */
-    public PrettyPrinter trace(PrintStream stream, String logger) {
-        return this.trace(stream, LogManager.getLogger(logger));
-    }
-    
-    /**
-     * Outputs this printer to the specified stream and to a logger with the
-     * specified name at the specified level
-     * 
-     * @param stream Output stream to print to
-     * @param logger Logger name to write to
-     * @param level Log level to write messages
-     * @return fluent interface
-     */
-    public PrettyPrinter trace(PrintStream stream, String logger, Level level) {
-        return this.trace(stream, LogManager.getLogger(logger), level);
-    }
-    
-    /**
-     * Outputs this printer to the specified stream and to the supplied logger
-     * with level {@link Level#DEBUG}
-     * 
-     * @param stream Output stream to print to
-     * @param logger Logger to write to
-     * @return fluent interface
-     */
-    public PrettyPrinter trace(PrintStream stream, Logger logger) {
-        return this.trace(stream, logger, Level.DEBUG);
-    }
-    
-    /**
      * Outputs this printer to the specified stream and to the supplied logger
      * with at the specified level
-     * 
+     *
      * @param stream Output stream to print to
      * @param logger Logger to write to
      * @param level Log level to write messages
      * @return fluent interface
      */
-    public PrettyPrinter trace(PrintStream stream, Logger logger, Level level) {
+    public PrettyPrinter trace(PrintStream stream, ILogger logger, Level level) {
         this.log(logger, level);
         this.print(stream);
+        return this;
+    }
+    
+    /**
+     * Write this printer to the specified logger at {@link Level#INFO}
+     *
+     * @param logger logger to log to
+     * @return fluent interface
+     */
+    public PrettyPrinter log(ILogger logger) {
+        return this.log(logger, Level.INFO);
+    }
+    
+    /**
+     * Write this printer to the specified logger at {@link Level#INFO}
+     *
+     * @param level log level
+     * @return fluent interface
+     */
+    public PrettyPrinter log(Level level) {
+        return this.log(MixinService.getService().getLogger(PrettyPrinter.getDefaultLoggerName()), level);
+    }
+    
+    /**
+     * Write this printer to the specified logger
+     *
+     * @param logger logger to log to
+     * @param level log level
+     * @return fluent interface
+     */
+    public PrettyPrinter log(ILogger logger, Level level) {
+        this.updateWidth();
+        this.logSpecial(logger, level, this.horizontalRule);
+        for (Object line : this.lines) {
+            if (line instanceof ISpecialEntry) {
+                this.logSpecial(logger, level, (ISpecialEntry)line);
+            } else {
+                this.logString(logger, level, line.toString());
+            }
+        }
+        this.logSpecial(logger, level, this.horizontalRule);
         return this;
     }
     
@@ -1099,55 +1109,45 @@ public class PrettyPrinter {
         }
     }
 
-    /**
-     * Write this printer to the specified logger at {@link Level#INFO}
-     * 
-     * @param logger logger to log to
-     * @return fluent interface
-     */
-    public PrettyPrinter log(Logger logger) {
-        return this.log(logger, Level.INFO);
-    }
-    
-    /**
-     * Write this printer to the specified logger at {@link Level#INFO}
-     * 
-     * @param level log level
-     * @return fluent interface
-     */
-    public PrettyPrinter log(Level level) {
-        return this.log(LogManager.getLogger(PrettyPrinter.getDefaultLoggerName()), level);
-    }
-    
-    /**
-     * Write this printer to the specified logger
-     * 
-     * @param logger logger to log to
-     * @param level log level
-     * @return fluent interface
-     */
-    public PrettyPrinter log(Logger logger, Level level) {
-        this.updateWidth();
-        this.logSpecial(logger, level, this.horizontalRule);
-        for (Object line : this.lines) {
-            if (line instanceof ISpecialEntry) {
-                this.logSpecial(logger, level, (ISpecialEntry)line);
-            } else {
-                this.logString(logger, level, line.toString());
-            }
-        }
-        this.logSpecial(logger, level, this.horizontalRule);
-        return this;
-    }
-
-    private void logSpecial(Logger logger, Level level, ISpecialEntry line) {
+    private void logSpecial(ILogger logger, Level level, ISpecialEntry line) {
         logger.log(level, "/*{}*/", line.toString());
     }
-
-    private void logString(Logger logger, Level level, String line) {
+    
+    private void logString(ILogger logger, Level level, String line) {
         if (line != null) {
-            logger.log(level, String.format("/* %-" + this.width + "s */", line));
+            logger.log(level, "/* {} */", String.format("%-" + this.width + "s", line));
         }
+    }
+    
+    /**
+     * Table column alignment
+     */
+    public static enum Alignment {
+        LEFT,
+        RIGHT
+    }
+
+    /**
+     * Interface for object which supports printing to pretty printer
+     */
+    public interface IPrettyPrintable {
+
+        /**
+         * Append this objec to specified pretty printer
+         *
+         * @param printer printer to append to
+         */
+        public abstract void print(PrettyPrinter printer);
+
+    }
+
+    /**
+     * Interface for objects which need their width calculated prior to printing
+     */
+    interface IVariableWidthEntry {
+
+        public abstract int getWidth();
+
     }
     
     private void updateWidth() {

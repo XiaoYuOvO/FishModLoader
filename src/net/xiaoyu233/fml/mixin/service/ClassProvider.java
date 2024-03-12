@@ -45,14 +45,14 @@ public class ClassProvider implements IClassProvider {
    }
 
    public Class<?> findClass(String name) throws ClassNotFoundException {
-      return Class.forName(name, true, Thread.currentThread().getContextClassLoader());
+      return Class.forName(name, true, Launch.knotLoader.getClassLoader());
    }
 
    public Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException {
-      return Class.forName(name, initialize, Thread.currentThread().getContextClassLoader());
+      return Class.forName(name, initialize, Launch.knotLoader.getClassLoader());
    }
 
    public Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException {
-      return Class.forName(name, initialize, Launch.class.getClassLoader());
+      return Class.forName(name, initialize, Launch.knotLoader.getClassLoader());
    }
 }

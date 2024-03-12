@@ -27,22 +27,23 @@ package org.spongepowered.asm.mixin.gen;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.gen.throwables.InvalidAccessorException;
+import org.spongepowered.asm.mixin.injection.selectors.ElementNode;
+import org.spongepowered.asm.mixin.injection.selectors.ISelectorContext;
 import org.spongepowered.asm.mixin.injection.selectors.ITargetSelector;
+import org.spongepowered.asm.mixin.injection.selectors.ITargetSelector.Configure;
 import org.spongepowered.asm.mixin.injection.selectors.TargetSelector;
 import org.spongepowered.asm.mixin.injection.selectors.TargetSelector.Result;
 import org.spongepowered.asm.mixin.injection.struct.MemberInfo;
-import org.spongepowered.asm.mixin.refmap.IMixinContext;
 import org.spongepowered.asm.mixin.struct.SpecialMethodInfo;
 import org.spongepowered.asm.mixin.transformer.MixinTargetContext;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Annotations;
 import org.spongepowered.asm.util.Bytecode;
-import org.spongepowered.asm.util.asm.ElementNode;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -54,82 +55,17 @@ import java.util.regex.Pattern;
  */
 public class AccessorInfo extends SpecialMethodInfo {
     
-    /**
-     * Accessor types
-     */
-    public enum AccessorType {
-
-        /**
-         * A field getter, accessor must accept no args and return field type
-         */
-        FIELD_GETTER(ImmutableSet.of("get", "is")) {
-            @Override
-            AccessorGenerator getGenerator(AccessorInfo info) {
-                return new AccessorGeneratorFieldGetter(info);
-            }
-        },
-        
-        /**
-         * A field setter, accessor must accept single arg of the field type and
-         * return void
-         */
-        FIELD_SETTER(ImmutableSet.of("set")) {
-            @Override
-            AccessorGenerator getGenerator(AccessorInfo info) {
-                return new AccessorGeneratorFieldSetter(info);
-            }
-        },
-        
-        /**
-         * An invoker (proxy) method
-         */
-        METHOD_PROXY(ImmutableSet.of("call", "invoke")) {
-            @Override
-            AccessorGenerator getGenerator(AccessorInfo info) {
-                return new AccessorGeneratorMethodProxy(info);
-            }
-        },
-        
-        /**
-         * An invoker (proxy) method
-         */
-        OBJECT_FACTORY(ImmutableSet.of("new", "create")) {
-            @Override
-            AccessorGenerator getGenerator(AccessorInfo info) {
-                return new AccessorGeneratorObjectFactory(info);
-            }
-        };
-        
-        private final Set<String> expectedPrefixes;
-        
-        AccessorType(Set<String> expectedPrefixes) {
-            this.expectedPrefixes = expectedPrefixes;
-        }
-        
-        /**
-         * Returns true if the supplied prefix string is an allowed prefix for
-         * this accessor type
-         * 
-         * @param prefix prefix to check
-         * @return true if the expected prefix set contains the supplied value
-         */
-        public boolean isExpectedPrefix(String prefix) {
-            return this.expectedPrefixes.contains(prefix);
-        }
-        
-        /**
-         * Returns all the expected prefixes for this accessor type as a string
-         * for debugging/error message purposes
-         * 
-         * @return string representation of expected prefixes for this accessor
-         *      type
-         */
-        public Set<String> getExpectedPrefixes() {
-            return Collections.unmodifiableSet(this.expectedPrefixes);
-        }
-        
-        abstract AccessorGenerator getGenerator(AccessorInfo info);
-    
+    protected AccessorInfo(MixinTargetContext mixin, MethodNode method, Class<? extends Annotation> annotationClass) {
+        super(mixin, method, Annotations.getVisible(method, annotationClass));
+        this.annotationClass = annotationClass;
+        this.argTypes = Type.getArgumentTypes(method.desc);
+        this.returnType = Type.getReturnType(method.desc);
+        this.isStatic = Bytecode.isStatic(method);
+        this.specifiedName = Annotations.<String>getValue(this.annotation);
+        this.type = this.initType();
+        this.targetFieldType = this.initTargetFieldType();
+        this.target = this.initTarget();
+        this.annotation.visit("target", this.target.toString());
     }
     
     /**
@@ -287,16 +223,25 @@ public class AccessorInfo extends SpecialMethodInfo {
         this(mixin, method, Accessor.class);
     }
     
-    protected AccessorInfo(MixinTargetContext mixin, MethodNode method, Class<? extends Annotation> annotationClass) {
-        super(mixin, method, Annotations.getVisible(method, annotationClass));
-        this.annotationClass = annotationClass;
-        this.argTypes = Type.getArgumentTypes(method.desc);
-        this.returnType = Type.getReturnType(method.desc);
-        this.isStatic = Bytecode.isStatic(method);
-        this.specifiedName = Annotations.getValue(this.annotation);
-        this.type = this.initType();
-        this.targetFieldType = this.initTargetFieldType();
-        this.target = this.initTarget();
+    /**
+     * Uses the name of an accessor method and the accessor type to try and
+     * inflect the name of the target field or method. This allows a method
+     * named <tt>getFoo</tt> to be inflected to a target named <tt>foo</tt> for
+     * example.
+     *
+     * @param name Name of the accessor method
+     * @param type Type of accessor being processed, this is calculated
+     *      from the method signature (<tt>void</tt> methods being setters,
+     *      methods with return types being getters)
+     * @param description description of the accessor to include in
+     *      error messages
+     * @param context Mixin context
+     * @param verbose Emit warnings when accessor prefix doesn't match type
+     * @return inflected target member name or <tt>null</tt> if name cannot be
+     *      inflected
+     */
+    public static String inflectTarget(String name, AccessorType type, String description, ISelectorContext context, boolean verbose) {
+        return AccessorInfo.inflectTarget(AccessorName.of(name), type, description, context, verbose);
     }
 
     protected AccessorType initType() {
@@ -325,10 +270,36 @@ public class AccessorInfo extends SpecialMethodInfo {
         }
     }
 
+    /**
+     * Uses the name of an accessor method and the accessor type to try and
+     * inflect the name of the target field or method. This allows a method
+     * named <tt>getFoo</tt> to be inflected to a target named <tt>foo</tt> for
+     * example.
+     *
+     * @param name Name of the accessor method
+     * @param type Type of accessor being processed, this is calculated
+     *      from the method signature (<tt>void</tt> methods being setters,
+     *      methods with return types being getters)
+     * @param description description of the accessor to include in
+     *      error messages
+     * @param context Mixin context
+     * @param verbose Emit warnings when accessor prefix doesn't match type
+     * @return inflected target member name or <tt>null</tt> if name cannot be
+     *      inflected
+     */
+    public static String inflectTarget(AccessorName name, AccessorType type, String description, ISelectorContext context, boolean verbose) {
+        if (name != null) {
+            if (!type.isExpectedPrefix(name.prefix) && verbose) {
+                MixinService.getService().getLogger("mixin").warn("Unexpected prefix for {}, found [{}] expecting {}", description, name.prefix,
+                        type.getExpectedPrefixes());
+            }
+            return TargetSelector.parseName(name.name, context);
+        }
+        return null;
+    }
+
     protected ITargetSelector initTarget() {
-        MemberInfo target = new MemberInfo(this.getTargetName(this.specifiedName), null, this.targetFieldType.getDescriptor());
-        this.annotation.visit("target", target.toString());
-        return target;
+        return new MemberInfo(this.getTargetName(this.specifiedName), null, this.targetFieldType.getDescriptor());
     }
 
     protected String getTargetName(String name) {
@@ -340,67 +311,25 @@ public class AccessorInfo extends SpecialMethodInfo {
             }
             return inflectedTarget;
         }
-        return TargetSelector.parseName(name, this.mixin);
+        return TargetSelector.parseName(name, this);
     }
 
     /**
      * Uses the name of this accessor method and the calculated accessor type to
      * try and inflect the name of the target field or method. This allows a
      * method named <tt>getFoo</tt> to be inflected to a target named
-     * <tt>foo</tt> for example.  
+     * <tt>foo</tt> for example.
      */
     protected String inflectTarget() {
-        return AccessorInfo.inflectTarget(this.method.name, this.type, this.toString(), this.mixin,
+        return AccessorInfo.inflectTarget(this.method.name, this.type, this.toString(), this,
                 this.mixin.getEnvironment().getOption(Option.DEBUG_VERBOSE));
     }
-
-    /**
-     * Uses the name of an accessor method and the accessor type to try and
-     * inflect the name of the target field or method. This allows a method
-     * named <tt>getFoo</tt> to be inflected to a target named <tt>foo</tt> for
-     * example.  
-     * 
-     * @param name Name of the accessor method
-     * @param type Type of accessor being processed, this is calculated
-     *      from the method signature (<tt>void</tt> methods being setters,
-     *      methods with return types being getters)
-     * @param description description of the accessor to include in
-     *      error messages
-     * @param context Mixin context
-     * @param verbose Emit warnings when accessor prefix doesn't match type
-     * @return inflected target member name or <tt>null</tt> if name cannot be
-     *      inflected 
-     */
-    public static String inflectTarget(String name, AccessorType type, String description, IMixinContext context, boolean verbose) {
-        return AccessorInfo.inflectTarget(AccessorName.of(name), type, description, context, verbose);
-    }
     
-    /**
-     * Uses the name of an accessor method and the accessor type to try and
-     * inflect the name of the target field or method. This allows a method
-     * named <tt>getFoo</tt> to be inflected to a target named <tt>foo</tt> for
-     * example.  
-     * 
-     * @param name Name of the accessor method
-     * @param type Type of accessor being processed, this is calculated
-     *      from the method signature (<tt>void</tt> methods being setters,
-     *      methods with return types being getters)
-     * @param description description of the accessor to include in
-     *      error messages
-     * @param context Mixin context
-     * @param verbose Emit warnings when accessor prefix doesn't match type
-     * @return inflected target member name or <tt>null</tt> if name cannot be
-     *      inflected 
-     */
-    public static String inflectTarget(AccessorName name, AccessorType type, String description, IMixinContext context, boolean verbose) {
-        if (name != null) {
-            if (!type.isExpectedPrefix(name.prefix) && verbose) {
-                LogManager.getLogger("mixin").warn("Unexpected prefix for {}, found [{}] expecting {}", description, name.prefix,
-                        type.getExpectedPrefixes());
-            }
-            return TargetSelector.parseName(name.name, context);
-        }
-        return null;
+    @Override
+    public String toString() {
+        String typeString = this.type != null ? this.type.toString() : "UNPARSED_ACCESSOR";
+        return String.format("%s->@%s[%s]::%s%s", this.mixin, Annotations.getSimpleName(this.annotation), typeString,
+                this.methodName, this.method.desc);
     }
     
     
@@ -454,11 +383,8 @@ public class AccessorInfo extends SpecialMethodInfo {
         return this.isStatic;
     }
 
-    @Override
-    public String toString() {
-        String typeString = this.type != null ? this.type.toString() : "UNPARSED_ACCESSOR";
-        return String.format("%s->@%s[%s]::%s%s", this.mixin, Bytecode.getSimpleName(this.annotation), typeString,
-                this.methodName, this.method.desc);
+    private FieldNode findTargetField() {
+        return this.<FieldNode>findTarget(ElementNode.fieldList(this.classNode));
     }
 
     /**
@@ -492,26 +418,100 @@ public class AccessorInfo extends SpecialMethodInfo {
         return generatedAccessor;
     }
 
-    private FieldNode findTargetField() {
-        return this.findTarget(ElementNode.fieldList(this.classNode));
-    }
-        
     /**
      * Generified candidate search, since the search logic is the same for both
      * fields and methods.
-     * 
+     *
      * @param nodes Node list to search (method/field list)
      * @param <TNode> node type
      * @return best match
      */
     protected <TNode> TNode findTarget(List<ElementNode<TNode>> nodes) {
-        Result<TNode> result = TargetSelector.run(this.target.configure("orphan"), nodes);
+        Result<TNode> result = TargetSelector.<TNode>run(this.target.configure(Configure.ORPHAN), nodes);
 
         try {
             return result.getSingleResult(true);
         } catch (IllegalStateException ex) {
             throw new InvalidAccessorException(this, ex.getMessage() + " matching " + this.target + " in " + this.classNode.name + " for " + this);
         }
+    }
+        
+    /**
+     * Accessor types
+     */
+    public enum AccessorType {
+
+        /**
+         * A field getter, accessor must accept no args and return field type
+         */
+        FIELD_GETTER(ImmutableSet.<String>of("get", "is")) {
+            @Override
+            AccessorGenerator getGenerator(AccessorInfo info) {
+                return new AccessorGeneratorFieldGetter(info);
+            }
+        },
+
+        /**
+         * A field setter, accessor must accept single arg of the field type and
+         * return void
+         */
+        FIELD_SETTER(ImmutableSet.<String>of("set")) {
+            @Override
+            AccessorGenerator getGenerator(AccessorInfo info) {
+                return new AccessorGeneratorFieldSetter(info);
+            }
+        },
+
+        /**
+         * An invoker (proxy) method
+         */
+        METHOD_PROXY(ImmutableSet.<String>of("call", "invoke")) {
+            @Override
+            AccessorGenerator getGenerator(AccessorInfo info) {
+                return new AccessorGeneratorMethodProxy(info);
+            }
+        },
+
+        /**
+         * An invoker (proxy) method
+         */
+        OBJECT_FACTORY(ImmutableSet.<String>of("new", "create")) {
+            @Override
+            AccessorGenerator getGenerator(AccessorInfo info) {
+                return new AccessorGeneratorObjectFactory(info);
+            }
+        };
+
+        private final Set<String> expectedPrefixes;
+
+        private AccessorType(Set<String> expectedPrefixes) {
+            this.expectedPrefixes = expectedPrefixes;
+        }
+
+        /**
+         * Returns true if the supplied prefix string is an allowed prefix for
+         * this accessor type
+         *
+         * @param prefix prefix to check
+         * @return true if the expected prefix set contains the supplied value
+         */
+        public boolean isExpectedPrefix(String prefix) {
+            return this.expectedPrefixes.contains(prefix);
+        }
+
+        /**
+         * Returns all the expected prefixes for this accessor type as a string
+         * for debugging/error message purposes
+         *
+         * @return string representation of expected prefixes for this accessor
+         *      type
+         */
+        public Set<String> getExpectedPrefixes() {
+            return Collections.<String>unmodifiableSet(this.expectedPrefixes);
+        }
+
+        abstract AccessorGenerator getGenerator(AccessorInfo info);
+
     }
     
     /**

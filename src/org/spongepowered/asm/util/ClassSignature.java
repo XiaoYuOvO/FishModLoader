@@ -122,27 +122,27 @@ public class ClassSignature {
     /**
      * Interface for signature tokens
      */
-    interface IToken {
+    static interface IToken {
 
         /**
          * Available wildcard modifiers
          */
-        String WILDCARDS = "+-";
+        static final String WILDCARDS = "+-";
         
         /**
          * Return this token as a string representation of its type
          */
-        String asType();
+        public abstract String asType();
         
         /**
          * Return this token as a string representation of a bound
          */
-        String asBound();
+        public abstract String asBound();
 
         /**
          * Return this token as a hard token object
          */
-        Token asToken();
+        public abstract Token asToken();
         
         /**
          * Set the arrayness status of this token, logical OR is applied between
@@ -151,7 +151,7 @@ public class ClassSignature {
          * @param array arrayness flag
          * @return this token
          */
-        IToken setArray(boolean array);
+        public abstract IToken setArray(boolean array);
         
         /**
          * Set the wildcard on this token, only accepted if one of the valid
@@ -160,7 +160,7 @@ public class ClassSignature {
          * @param wildcard wildcard to set
          * @return this token
          */
-        IToken setWildcard(char wildcard);
+        public abstract IToken setWildcard(char wildcard);
         
     }
     

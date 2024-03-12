@@ -35,7 +35,7 @@ public interface IGlobalPropertyService {
      * @param name name of key to resolve
      * @return resolved key
      */
-    IPropertyKey resolveKey(String name);
+    public abstract IPropertyKey resolveKey(String name);
 
     /**
      * Get a value from the global property store (blackboard) and duck-type it
@@ -45,7 +45,7 @@ public interface IGlobalPropertyService {
      * @param <T> duck type
      * @return value
      */
-    <T> T getProperty(IPropertyKey key);
+    public abstract <T> T getProperty(IPropertyKey key);
     
     /**
      * Set the specified value in the global property store (blackboard)
@@ -53,7 +53,7 @@ public interface IGlobalPropertyService {
      * @param key blackboard key
      * @param value new value
      */
-    void setProperty(IPropertyKey key, Object value);
+    public abstract void setProperty(IPropertyKey key, Object value);
     
     /**
      * Get the value from the global property store (blackboard) but return
@@ -64,7 +64,7 @@ public interface IGlobalPropertyService {
      * @param <T> duck type
      * @return value from blackboard or default value
      */
-    <T> T getProperty(IPropertyKey key, T defaultValue);
+    public abstract <T> T getProperty(IPropertyKey key, T defaultValue);
     
     /**
      * Get a string from the global property store (blackboard), returns default
@@ -75,6 +75,6 @@ public interface IGlobalPropertyService {
      *      set or is null
      * @return value from blackboard or default
      */
-    String getPropertyString(IPropertyKey key, String defaultValue);
+    public abstract String getPropertyString(IPropertyKey key, String defaultValue);
 
 }

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
 import java.util.function.BiConsumer;
 
 public class LogProxy extends PrintStream {
@@ -30,32 +29,12 @@ public class LogProxy extends PrintStream {
    }
 
    public static void proxySysout() {
-      try {
-         Field out = System.class.getField("out");
-         out.setAccessible(true);
-         Field modifiers = out.getClass().getDeclaredField("modifiers");
-         modifiers.setAccessible(true);
-         modifiers.setInt(out, out.getModifiers() & -17);
-         out.set(null, new LogProxy(System.out, LogProxy.ProxyStyle.OUT));
-         modifiers.setInt(out, out.getModifiers() & -17);
-      } catch (IllegalAccessException | NoSuchFieldException var2) {
-         var2.printStackTrace();
-      }
+       System.setOut(new LogProxy(System.out, ProxyStyle.OUT));
 
    }
 
    public static void proxySyserr() {
-      try {
-         Field out = System.class.getField("err");
-         out.setAccessible(true);
-         Field modifiers = out.getClass().getDeclaredField("modifiers");
-         modifiers.setAccessible(true);
-         modifiers.setInt(out, out.getModifiers() & -17);
-         modifiers.setInt(out, out.getModifiers() & -17);
-      } catch (IllegalAccessException | NoSuchFieldException var2) {
-         var2.printStackTrace();
-      }
-
+      System.setErr(new LogProxy(System.err, ProxyStyle.ERR));
    }
 
    private enum ProxyStyle {

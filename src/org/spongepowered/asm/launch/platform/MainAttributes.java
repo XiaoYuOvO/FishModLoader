@@ -25,15 +25,22 @@
 package org.spongepowered.asm.launch.platform;
 
 import com.google.common.io.ByteSource;
-import com.google.common.io.Files;
+import org.spongepowered.asm.util.Files;
+import org.spongepowered.asm.util.JavaVersion;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.Attributes;
+import java.util.jar.Attributes.Name;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -54,8 +61,8 @@ public final class MainAttributes {
         this.attributes = new Attributes();
     }
 
-    private MainAttributes(File jar) {
-        this.attributes = MainAttributes.getAttributes(jar);
+    private MainAttributes(URI codeSource) {
+        this.attributes = MainAttributes.getAttributes(codeSource);
     }
 
     /**
@@ -72,26 +79,59 @@ public final class MainAttributes {
         return null;
     }
     
-    private static Attributes getAttributes(File codeSource) {
+    private static Attributes getAttributes(URI codeSource) {
         if (codeSource == null) {
             return null;
         }
-        
-        if (codeSource.isFile()) {
-            Attributes attributes = MainAttributes.getJarAttributes(codeSource);
+
+        if ("file".equals(codeSource.getScheme())) {
+            File file = Files.toFile(codeSource);
+
+            if (file.isFile()) {
+                Attributes attributes = MainAttributes.getJarAttributes(file);
+                if (attributes != null) {
+                    return attributes;
+                }
+            } else if (file.isDirectory()) {
+                Attributes attributes = MainAttributes.getDirAttributes(file);
+                if (attributes != null) {
+                    return attributes;
+                }
+            }
+        } else if (JavaVersion.current() >= JavaVersion.JAVA_7) {
+            // Can try getting the resource using nio if we are on Java 7 or later
+            Attributes attributes = MainAttributes.getNioAttributes(codeSource);
             if (attributes != null) {
                 return attributes;
             }
         }
-        
-        if (codeSource.isDirectory()) {
-            Attributes attributes = MainAttributes.getDirAttributes(codeSource);
-            if (attributes != null) {
-                return attributes;
-            }
-        }
-        
+
         return new Attributes();
+    }
+    
+    private static Attributes getDirAttributes(File dir) {
+        File manifestFile = new File(dir, JarFile.MANIFEST_NAME);
+        if (manifestFile.isFile()) {
+            ByteSource source = com.google.common.io.Files.asByteSource(manifestFile);
+            InputStream inputStream = null;
+            try {
+                inputStream = source.openBufferedStream();
+                Manifest manifest = new Manifest(inputStream);
+                return manifest.getMainAttributes();
+            } catch (IOException ex) {
+                // be quiet checkstyle
+            } finally {
+                try {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+        }
+
+        return null;
     }
 
     private static Attributes getJarAttributes(File jar) {
@@ -116,13 +156,12 @@ public final class MainAttributes {
         return null;
     }
     
-    private static Attributes getDirAttributes(File dir) {
-        File manifestFile = new File(dir, JarFile.MANIFEST_NAME);
-        if (manifestFile.isFile()) {
-            ByteSource source = Files.asByteSource(manifestFile);
-            InputStream inputStream = null;
+    private static Attributes getNioAttributes(URI uri) {
+        try {
+            Path manifestPath = Paths.get(uri).resolve(JarFile.MANIFEST_NAME);
+            BufferedInputStream inputStream = null;
             try {
-                inputStream = source.openBufferedStream();
+                inputStream = new BufferedInputStream(java.nio.file.Files.newInputStream(manifestPath));
                 Manifest manifest = new Manifest(inputStream);
                 return manifest.getMainAttributes();
             } catch (IOException ex) {
@@ -136,11 +175,30 @@ public final class MainAttributes {
                     // ignore
                 }
             }
+        } catch (FileSystemNotFoundException ex) {
+            // No FS available?
+            ex.printStackTrace();
+        } catch (InvalidPathException ex) {
+            ex.printStackTrace();
         }
-        
+
         return null;
     }
-
+    
+    /**
+     * Create a MainAttributes instance for the supplied jar file
+     *
+     * @param uri jar file location
+     * @return MainAttributes instance
+     */
+    public static MainAttributes of(URI uri) {
+        MainAttributes attributes = MainAttributes.instances.get(uri);
+        if (attributes == null) {
+            attributes = new MainAttributes(uri);
+            MainAttributes.instances.put(uri, attributes);
+        }
+        return attributes;
+    }
 
     /**
      * Create a MainAttributes instance for the supplied jar file
@@ -153,17 +211,16 @@ public final class MainAttributes {
     }
 
     /**
-     * Create a MainAttributes instance for the supplied jar file
-     * 
-     * @param uri jar file location
-     * @return MainAttributes instance
+     * Retrieve the value of attribute with the specified name, or null if not
+     * present
+     *
+     * @param name attribute name
+     * @return attribute value or null if not present
      */
-    public static MainAttributes of(URI uri) {
-        MainAttributes attributes = MainAttributes.instances.get(uri);
-        if (attributes == null) {
-            attributes = new MainAttributes(new File(uri));
-            MainAttributes.instances.put(uri, attributes);
+    public final String get(Name name) {
+        if (this.attributes != null) {
+            return this.attributes.getValue(name);
         }
-        return attributes;
+        return null;
     }
 }

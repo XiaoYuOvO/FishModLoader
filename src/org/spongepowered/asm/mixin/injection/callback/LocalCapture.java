@@ -72,11 +72,11 @@ public enum LocalCapture {
     
     private final boolean printLocals;
     
-    LocalCapture() {
+    private LocalCapture() {
         this(true, false);
     }
 
-    LocalCapture(boolean captureLocals, boolean printLocals) {
+    private LocalCapture(boolean captureLocals, boolean printLocals) {
         this.captureLocals = captureLocals;
         this.printLocals = printLocals;
     }

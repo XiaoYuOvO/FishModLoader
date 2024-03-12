@@ -38,31 +38,31 @@ import org.spongepowered.tools.obfuscation.ReferenceManager.ReferenceConflictExc
 public interface IReferenceManager {
     
     /**
+     * Get whether replacement mappings are allowed. Normally a mapping conflict
+     * will raise a {@link ReferenceConflictException}.
+     *
+     * @return true if conflicts are allowed
+     */
+    public boolean getAllowConflicts();
+    
+    /**
      * Set whether this reference manager should allow conflicts to be inserted
      * without raising an exception. Set to allow overrides to be written into
      * the refmap when necessary
-     * 
+     *
      * @param allowConflicts allow conflicts without raising an exception
      */
-    void setAllowConflicts(boolean allowConflicts);
-    
-    /**
-     * Get whether replacement mappings are allowed. Normally a mapping conflict
-     * will raise a {@link ReferenceConflictException}.
-     * 
-     * @return true if conflicts are allowed
-     */
-    boolean getAllowConflicts();
+    public void setAllowConflicts(boolean allowConflicts);
 
     /**
      * Write the generated refmap to file
      */
-    void write();
+    public abstract void write();
 
     /**
      * Get the underlying reference mapper
      */
-    ReferenceMapper getMapper();
+    public abstract ReferenceMapper getMapper();
 
     /**
      * Adds a method mapping to the internal refmap
@@ -71,7 +71,7 @@ public interface IReferenceManager {
      * @param reference Original reference, as it appears in the annotation
      * @param obfMethodData Method data to add for this mapping
      */
-    void addMethodMapping(String className, String reference, ObfuscationData<MappingMethod> obfMethodData);
+    public abstract void addMethodMapping(String className, String reference, ObfuscationData<MappingMethod> obfMethodData);
 
     /**
      * Adds a method mapping to the internal refmap, generates refmap entries
@@ -83,8 +83,8 @@ public interface IReferenceManager {
      *      supplied obfuscation data
      * @param obfMethodData Method data to add for this mapping
      */
-    void addMethodMapping(String className, String reference, ITargetSelectorRemappable context,
-                          ObfuscationData<MappingMethod> obfMethodData);
+    public abstract void addMethodMapping(String className, String reference, ITargetSelectorRemappable context,
+            ObfuscationData<MappingMethod> obfMethodData);
 
     /**
      * Adds a field mapping to the internal refmap, generates refmap entries
@@ -96,8 +96,8 @@ public interface IReferenceManager {
      *      supplied obfuscation data
      * @param obfFieldData Field data to add for this mapping
      */
-    void addFieldMapping(String className, String reference, ITargetSelectorRemappable context,
-                         ObfuscationData<MappingField> obfFieldData);
+    public abstract void addFieldMapping(String className, String reference, ITargetSelectorRemappable context,
+            ObfuscationData<MappingField> obfFieldData);
 
     /**
      * Adds a class mapping to the internal refmap
@@ -106,6 +106,6 @@ public interface IReferenceManager {
      * @param reference Original reference, as it appears in the annotation
      * @param obfClassData Class obf names
      */
-    void addClassMapping(String className, String reference, ObfuscationData<String> obfClassData);
+    public abstract void addClassMapping(String className, String reference, ObfuscationData<String> obfClassData);
 
 }

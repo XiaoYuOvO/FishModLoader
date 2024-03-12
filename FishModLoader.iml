@@ -31,5 +31,8 @@
     <orderEntry type="library" name="org.ow2.asm:asm-util:9.3" level="project" />
     <orderEntry type="library" name="org.ow2.asm:asm-commons:9.3" level="project" />
     <orderEntry type="library" name="org.ow2.asm:asm:9.3" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.13.0" level="project" />
+    <orderEntry type="library" name="ow2.sat4j.pb" level="project" />
+    <orderEntry type="library" name="access-widener-2.1.0" level="project" />
   </component>
 </module>

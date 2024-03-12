@@ -39,7 +39,7 @@ public interface IObfuscationService {
      * 
      * @return supported options as a Set
      */
-    Set<String> getSupportedOptions();
+    public abstract Set<String> getSupportedOptions();
 
     /**
      * This method should return a collection of available obfuscation types
@@ -48,6 +48,6 @@ public interface IObfuscationService {
      * @param ap Annotation Processor instance
      * @return available obfuscation types or null
      */
-    Collection<ObfuscationTypeDescriptor> getObfuscationTypes(IMixinAnnotationProcessor ap);
+    public abstract Collection<ObfuscationTypeDescriptor> getObfuscationTypes(IMixinAnnotationProcessor ap);
     
 }

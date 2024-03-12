@@ -36,6 +36,6 @@ public interface IConsumer<TItem> {
      * 
      * @param item item to consume
      */
-    void accept(TItem item);
+    public abstract void accept(TItem item);
     
 }

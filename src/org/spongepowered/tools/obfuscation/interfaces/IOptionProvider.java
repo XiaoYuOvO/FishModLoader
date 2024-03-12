@@ -37,7 +37,7 @@ public interface IOptionProvider {
      * @param option Name of the option to fetch
      * @return Option value or null if absent
      */
-    String getOption(String option);
+    public abstract String getOption(String option);
 
     /**
      * Fetch the value of the specified option, if available. If the option is
@@ -47,7 +47,7 @@ public interface IOptionProvider {
      * @param defaultValue Default value to return if the option is not present
      * @return Option value or default if absent
      */
-    String getOption(String option, String defaultValue);
+    public abstract String getOption(String option, String defaultValue);
 
     /**
      * Fetch the value of the specified option, if available. If the option is
@@ -57,7 +57,7 @@ public interface IOptionProvider {
      * @param defaultValue Default value to return if the option is not present
      * @return Option value or default if absent
      */
-    boolean getOption(String option, boolean defaultValue);
+    public abstract boolean getOption(String option, boolean defaultValue);
     
     /**
      * Fetch the values of the specified comma-separated option, if available
@@ -65,6 +65,6 @@ public interface IOptionProvider {
      * @param option Name of the option to fetch
      * @return Option value or null if absent
      */
-    List<String> getOptions(String option);
+    public abstract List<String> getOptions(String option);
 
 }

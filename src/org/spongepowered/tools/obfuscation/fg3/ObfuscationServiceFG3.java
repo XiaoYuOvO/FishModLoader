@@ -49,8 +49,9 @@ public class ObfuscationServiceFG3 implements IObfuscationService {
     
     @Override
     public Set<String> getSupportedOptions() {
-        return ImmutableSet.of(
+        return ImmutableSet.<String>of(
             ObfuscationServiceFG3.REOBF_TSRG_FILE,        
+            ObfuscationServiceFG3.REOBF_EXTRA_TSRG_FILES,
             ObfuscationServiceFG3.OUT_TSRG_SRG_FILE,        
             ObfuscationServiceFG3.TSRG_OUTPUT_BEHAVIOUR
         );
@@ -58,7 +59,7 @@ public class ObfuscationServiceFG3 implements IObfuscationService {
 
     @Override
     public Collection<ObfuscationTypeDescriptor> getObfuscationTypes(IMixinAnnotationProcessor ap) {
-        Builder<ObfuscationTypeDescriptor> list = ImmutableList.builder();
+        Builder<ObfuscationTypeDescriptor> list = ImmutableList.<ObfuscationTypeDescriptor>builder();
         if (ap.getOptions(SupportedOptions.MAPPING_TYPES).contains("tsrg")) {
             list.add(
               new ObfuscationTypeDescriptor(

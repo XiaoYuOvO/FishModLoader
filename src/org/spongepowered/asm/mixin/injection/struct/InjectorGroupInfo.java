@@ -24,11 +24,11 @@
  */
 package org.spongepowered.asm.mixin.injection.struct;
 
-import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.spongepowered.asm.mixin.injection.Group;
 import org.spongepowered.asm.mixin.injection.throwables.InjectionValidationException;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Annotations;
 
 import java.util.*;
@@ -39,90 +39,23 @@ import java.util.*;
 public class InjectorGroupInfo {
     
     /**
-     * Storage for injector groups
+     * Set the required minimum value for this group. Since this is normally
+     * done on the first {@link Group} annotation it is considered a
+     * warning-level event if a later annotation sets a different value. The
+     * highest value specified on all annotations is always used.
+     *
+     * @param min new value for min required
      */
-    public static final class Map extends HashMap<String, InjectorGroupInfo> {
-        
-        private static final long serialVersionUID = 1L;
-        
-        private static final InjectorGroupInfo NO_GROUP = new InjectorGroupInfo("NONE", true);
-        
-        @Override
-        public InjectorGroupInfo get(Object key) {
-            return this.forName(key.toString());
+    public void setMinRequired(int min) {
+        if (min < 1) {
+            throw new IllegalArgumentException("Cannot set zero or negative value for injector group min count. Attempted to set min="
+                    + min + " on " + this);
         }
-
-        /**
-         * Get group for the specified name, creates the group in this map if
-         * it does not already exist
-         * 
-         * @param name Name of group to fetch
-         * @return Existing group or new group if none was previously declared
-         */
-        public InjectorGroupInfo forName(String name) {
-            InjectorGroupInfo value = super.get(name);
-            if (value == null) {
-                value = new InjectorGroupInfo(name);
-                this.put(name, value);
-            }
-            return value;
+        if (this.minCallbackCount > 0 && this.minCallbackCount != min) {
+            MixinService.getService().getLogger("mixin").warn("Conflicting min value '{}' on @Group({}), previously specified {}", min, this.name,
+                    this.minCallbackCount);
         }
-        
-        /**
-         * Parse a group from the specified method, use the default group name
-         * if no group name is specified on the annotation
-         * 
-         * @param method (Possibly) annotated method
-         * @param defaultGroup Default group name to use
-         * @return Group or NO_GROUP if no group
-         */
-        public InjectorGroupInfo parseGroup(MethodNode method, String defaultGroup) {
-            return this.parseGroup(Annotations.getInvisible(method, Group.class), defaultGroup);
-        }
-        
-        /**
-         * Parse a group from the specified annotation, use the default group
-         * name if no group name is specified on the annotation
-         * 
-         * @param annotation Annotation or null
-         * @param defaultGroup Default group name to use
-         * @return Group or NO_GROUP if no group
-         */
-        public InjectorGroupInfo parseGroup(AnnotationNode annotation, String defaultGroup) {
-            if (annotation == null) {
-                return InjectorGroupInfo.Map.NO_GROUP;
-            }
-            
-            String name = Annotations.getValue(annotation, "name");
-            if (name == null || name.isEmpty()) {
-                name = defaultGroup;
-            }
-            InjectorGroupInfo groupInfo = this.forName(name);
-            
-            Integer min = Annotations.<Integer>getValue(annotation, "min");
-            if (min != null && min.intValue() != -1) {
-                groupInfo.setMinRequired(min.intValue());
-            }
-            
-            Integer max = Annotations.<Integer>getValue(annotation, "max");
-            if (max != null && max.intValue() != -1) {
-                groupInfo.setMaxAllowed(max.intValue());
-            }
-            
-            return groupInfo;
-        }
-        
-        /**
-         * Validate all groups in this collection
-         * 
-         * @throws InjectionValidationException if validation fails
-         */
-        public void validateAll() throws InjectionValidationException {
-            for (InjectorGroupInfo group : this.values()) {
-                group.validate();
-            }
-        }
-        
+        this.minCallbackCount = Math.max(this.minCallbackCount, min);
     }
 
     /**
@@ -194,27 +127,7 @@ public class InjectorGroupInfo {
      * done on the first {@link Group} annotation it is considered a
      * warning-level event if a later annotation sets a different value. The
      * highest value specified on all annotations is always used.
-     * 
-     * @param min new value for min required
-     */
-    public void setMinRequired(int min) {
-        if (min < 1) {
-            throw new IllegalArgumentException("Cannot set zero or negative value for injector group min count. Attempted to set min="
-                    + min + " on " + this);
-        }
-        if (this.minCallbackCount > 0 && this.minCallbackCount != min) {
-            LogManager.getLogger("mixin").warn("Conflicting min value '{}' on @Group({}), previously specified {}", min, this.name,
-                    this.minCallbackCount);
-        }
-        this.minCallbackCount = Math.max(this.minCallbackCount, min);
-    }
-    
-    /**
-     * Set the required minimum value for this group. Since this is normally
-     * done on the first {@link Group} annotation it is considered a
-     * warning-level event if a later annotation sets a different value. The
-     * highest value specified on all annotations is always used.
-     * 
+     *
      * @param max new value for max allowed
      */
     public void setMaxAllowed(int max) {
@@ -223,10 +136,39 @@ public class InjectorGroupInfo {
                     + max + " on " + this);
         }
         if (this.maxCallbackCount < Integer.MAX_VALUE && this.maxCallbackCount != max) {
-            LogManager.getLogger("mixin").warn("Conflicting max value '{}' on @Group({}), previously specified {}", max, this.name,
+            MixinService.getService().getLogger("mixin").warn("Conflicting max value '{}' on @Group({}), previously specified {}", max, this.name,
                     this.maxCallbackCount);
         }
         this.maxCallbackCount = Math.min(this.maxCallbackCount, max);
+    }
+    
+    /**
+     * Validate all members in this group
+     *
+     * @return fluent interface
+     * @throws InjectionValidationException if validation fails
+     */
+    public InjectorGroupInfo validate() throws InjectionValidationException {
+        if (this.members.size() == 0) {
+            // I have no idea how we got here, but it's not an error :/
+            return this;
+        }
+
+        int total = 0;
+        for (InjectionInfo member : this.members) {
+            total += member.getInjectedCallbackCount();
+        }
+
+        int min = this.getMinRequired();
+        int max = this.getMaxAllowed();
+        if (total < min) {
+            String only = total > 0 ? "only " : "";
+            throw new InjectionValidationException(this, String.format("expected %d invocation(s) but %s%d succeeded", min, only, total));
+        } else if (total > max) {
+            throw new InjectionValidationException(this, String.format("maximum of %d invocation(s) allowed but %d succeeded", max, total));
+        }
+
+        return this;
     }
     
     /**
@@ -241,30 +183,89 @@ public class InjectorGroupInfo {
     }
     
     /**
-     * Validate all members in this group
-     * 
-     * @return fluent interface
-     * @throws InjectionValidationException if validation fails
+     * Storage for injector groups
      */
-    public InjectorGroupInfo validate() throws InjectionValidationException {
-        if (this.members.size() == 0) {
-            // I have no idea how we got here, but it's not an error :/
-            return this;
+    public static final class Map extends HashMap<String, InjectorGroupInfo> {
+
+        private static final long serialVersionUID = 1L;
+
+        private static final InjectorGroupInfo NO_GROUP = new InjectorGroupInfo("NONE", true);
+
+        @Override
+        public InjectorGroupInfo get(Object key) {
+            return this.forName(key.toString());
         }
-        
-        int total = 0;
-        for (InjectionInfo member : this.members) {
-            total += member.getInjectedCallbackCount();
+
+        /**
+         * Get group for the specified name, creates the group in this map if
+         * it does not already exist
+         *
+         * @param name Name of group to fetch
+         * @return Existing group or new group if none was previously declared
+         */
+        public InjectorGroupInfo forName(String name) {
+            InjectorGroupInfo value = super.get(name);
+            if (value == null) {
+                value = new InjectorGroupInfo(name);
+                this.put(name, value);
+            }
+            return value;
         }
-        
-        int min = this.getMinRequired();
-        int max = this.getMaxAllowed();
-        if (total < min) {
-            throw new InjectionValidationException(this, String.format("expected %d invocation(s) but only %d succeeded", min, total));
-        } else if (total > max) {
-            throw new InjectionValidationException(this, String.format("maximum of %d invocation(s) allowed but %d succeeded", max, total));
+
+        /**
+         * Parse a group from the specified method, use the default group name
+         * if no group name is specified on the annotation
+         *
+         * @param method (Possibly) annotated method
+         * @param defaultGroup Default group name to use
+         * @return Group or NO_GROUP if no group
+         */
+        public InjectorGroupInfo parseGroup(MethodNode method, String defaultGroup) {
+            return this.parseGroup(Annotations.getInvisible(method, Group.class), defaultGroup);
         }
-        
-        return this;
+
+        /**
+         * Parse a group from the specified annotation, use the default group
+         * name if no group name is specified on the annotation
+         *
+         * @param annotation Annotation or null
+         * @param defaultGroup Default group name to use
+         * @return Group or NO_GROUP if no group
+         */
+        public InjectorGroupInfo parseGroup(AnnotationNode annotation, String defaultGroup) {
+            if (annotation == null) {
+                return InjectorGroupInfo.Map.NO_GROUP;
+            }
+
+            String name = Annotations.<String>getValue(annotation, "name");
+            if (name == null || name.isEmpty()) {
+                name = defaultGroup;
+            }
+            InjectorGroupInfo groupInfo = this.forName(name);
+
+            Integer min = Annotations.<Integer>getValue(annotation, "min");
+            if (min != null && min.intValue() != -1) {
+                groupInfo.setMinRequired(min.intValue());
+            }
+
+            Integer max = Annotations.<Integer>getValue(annotation, "max");
+            if (max != null && max.intValue() != -1) {
+                groupInfo.setMaxAllowed(max.intValue());
+            }
+
+            return groupInfo;
+        }
+
+        /**
+         * Validate all groups in this collection
+         *
+         * @throws InjectionValidationException if validation fails
+         */
+        public void validateAll() throws InjectionValidationException {
+            for (InjectorGroupInfo group : this.values()) {
+                group.validate();
+            }
+        }
+
     }
 }

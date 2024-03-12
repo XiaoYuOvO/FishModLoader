@@ -24,9 +24,8 @@
  */
 package org.spongepowered.asm.launch.platform;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.platform.container.IContainerHandle;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.MixinEnvironment.CompatibilityLevel;
 import org.spongepowered.asm.mixin.MixinEnvironment.Phase;
@@ -50,7 +49,7 @@ public class MixinPlatformManager {
     /**
      * Make with the logging already
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     /**
      * Bootstrap delegate 
@@ -107,10 +106,10 @@ public class MixinPlatformManager {
     public Collection<String> getPhaseProviderClasses() {
         Collection<String> phaseProviders = this.primaryContainer.getPhaseProviders();
         if (phaseProviders != null) {
-            return Collections.unmodifiableCollection(phaseProviders);
+            return Collections.<String>unmodifiableCollection(phaseProviders);
         }
         
-        return Collections.emptyList();
+        return Collections.<String>emptyList();
     }
 
     /**
@@ -291,7 +290,6 @@ public class MixinPlatformManager {
      */
     final void addConnector(String connectorClass) {
         this.connectors.addConnector(connectorClass);
-        
     }
 
 }

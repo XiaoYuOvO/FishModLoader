@@ -41,7 +41,7 @@ public interface IClassBytecodeProvider {
      * @throws ClassNotFoundException if class not found
      * @throws IOException propagated
      */
-    ClassNode getClassNode(String name) throws ClassNotFoundException, IOException;
+    public abstract ClassNode getClassNode(String name) throws ClassNotFoundException, IOException;
 
     /**
      * Retrieve transformed class as an ASM tree
@@ -52,6 +52,6 @@ public interface IClassBytecodeProvider {
      * @throws ClassNotFoundException if class not found
      * @throws IOException propagated
      */
-    ClassNode getClassNode(String name, boolean runTransformers) throws ClassNotFoundException, IOException;
+    public abstract ClassNode getClassNode(String name, boolean runTransformers) throws ClassNotFoundException, IOException;
 
 }

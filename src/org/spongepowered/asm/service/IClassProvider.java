@@ -38,7 +38,7 @@ public interface IClassProvider {
      *      available containers.  
      */
     @Deprecated
-    URL[] getClassPath();
+    public abstract URL[] getClassPath();
 
     /**
      * Find a class in the service classloader
@@ -47,7 +47,7 @@ public interface IClassProvider {
      * @return resultant class
      * @throws ClassNotFoundException if the class was not found
      */
-    Class<?> findClass(final String name) throws ClassNotFoundException;
+    public abstract Class<?> findClass(final String name) throws ClassNotFoundException;
     
     /**
      * Marshal a call to <tt>Class.forName</tt> for a regular class
@@ -56,7 +56,7 @@ public interface IClassProvider {
      * @param initialize init flag
      * @return Klass
      */
-    Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException;
+    public abstract Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException;
 
     /**
      * Marshal a call to <tt>Class.forName</tt> for an agent class
@@ -65,6 +65,6 @@ public interface IClassProvider {
      * @param initialize init flag
      * @return Klass
      */
-    Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException;
+    public abstract Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException;
 
 }

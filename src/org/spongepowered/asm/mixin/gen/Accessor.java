@@ -75,7 +75,7 @@ public @interface Accessor {
      * @return name for the target field, or empty string to inflect using the
      *      annotated method name
      */
-    String value() default "";
+    public String value() default "";
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -90,6 +90,6 @@ public @interface Accessor {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation
      */
-    boolean remap() default true;
+    public boolean remap() default true;
 
 }

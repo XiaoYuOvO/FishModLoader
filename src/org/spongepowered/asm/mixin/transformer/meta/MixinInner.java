@@ -39,11 +39,11 @@ public @interface MixinInner {
     /**
      * The mixin which owns the original inner class
      */
-    String mixin();
+    public String mixin();
     
     /**
      * The original name of the inner class
      */
-    String name();
+    public String name();
     
 }

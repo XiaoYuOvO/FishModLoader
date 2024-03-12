@@ -207,7 +207,7 @@ public class SourceMap {
     
     private int nextLineOffset = 1;
     
-    private final String defaultStratum = SourceMap.DEFAULT_STRATUM;
+    private String defaultStratum = SourceMap.DEFAULT_STRATUM;
 
     public SourceMap(String sourceFile) {
         this.sourceFile = sourceFile;

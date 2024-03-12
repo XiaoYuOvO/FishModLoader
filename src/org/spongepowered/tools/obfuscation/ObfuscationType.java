@@ -126,7 +126,7 @@ public final class ObfuscationType {
      * Get the input file names specified for this obfuscation type
      */
     public List<String> getInputFileNames() {
-        Builder<String> builder = ImmutableList.builder();
+        Builder<String> builder = ImmutableList.<String>builder();
         
         String inputFile = this.options.getOption(this.descriptor.getInputFileOption());
         if (inputFile != null) {

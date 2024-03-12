@@ -46,20 +46,20 @@ public @interface Group {
      * 
      * @return group name
      */
-    String name() default "";
+    public String name() default "";
     
     /**
      * Minimum required injections for this injector group
      * 
      * @return required min value 
      */
-    int min() default -1;
+    public int min() default -1;
     
     /**
      * Maximum allowed injections for this injector group
      * 
      * @return allowed max value 
      */
-    int max() default -1;
+    public int max() default -1;
     
 }

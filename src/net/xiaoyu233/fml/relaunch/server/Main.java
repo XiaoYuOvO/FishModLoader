@@ -1,14 +1,14 @@
 package net.xiaoyu233.fml.relaunch.server;
 
-import net.xiaoyu233.fml.FishModLoader;
-import net.xiaoyu233.fml.relaunch.Launch;
+import net.fabricmc.loader.impl.discovery.ModResolutionException;
+import net.xiaoyu233.fml.relaunch.LaunchDelegate;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class Main {
-   public static void main(String[] var0) throws IOException, ClassNotFoundException, NoSuchMethodException {
+   public static void main(String[] var0) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, ModResolutionException {
       System.setProperty("file.encoding", "UTF-8");
-      FishModLoader.setIsServer(true);
-      Launch.launch("net.minecraft.server.MinecraftServer", var0);
+      LaunchDelegate.delegateLaunch("net.minecraft.server.MinecraftServer", var0, true);
    }
 }

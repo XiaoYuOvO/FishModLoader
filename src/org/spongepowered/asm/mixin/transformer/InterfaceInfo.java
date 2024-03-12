@@ -42,7 +42,7 @@ import java.util.Set;
  * Information about an interface being runtime-patched onto a mixin target
  * class, see {@link org.spongepowered.asm.mixin.Implements Implements}
  */
-public final class InterfaceInfo {
+final class InterfaceInfo {
     
     /**
      * Parent mixin 
@@ -224,8 +224,8 @@ public final class InterfaceInfo {
      * @return parsed InterfaceInfo object
      */
     static InterfaceInfo fromAnnotation(MixinInfo mixin, AnnotationNode node) {
-        String prefix = Annotations.getValue(node, "prefix");
-        Type iface = Annotations.getValue(node, "iface");
+        String prefix = Annotations.<String>getValue(node, "prefix");
+        Type iface = Annotations.<Type>getValue(node, "iface");
         Boolean unique = Annotations.<Boolean>getValue(node, "unique");
         
         if (prefix == null || iface == null) {

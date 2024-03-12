@@ -34,16 +34,16 @@ public interface IMixinServiceBootstrap {
     /**
      * Get the friendly name for the underlying service
      */
-    String getName();
+    public abstract String getName();
     
     /**
      * Get the fully qualified class name of the underlying service
      */
-    String getServiceClassName();
+    public abstract String getServiceClassName();
     
     /**
      * Run bootstrap-time preparation for the underlying service 
      */
-    void bootstrap();
+    public abstract void bootstrap();
 
 }

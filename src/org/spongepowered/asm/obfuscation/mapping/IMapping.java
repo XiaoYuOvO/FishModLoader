@@ -32,102 +32,102 @@ package org.spongepowered.asm.obfuscation.mapping;
 public interface IMapping<TMapping> {
 
     /**
-     * Type of mapping
-     */
-    enum Type {
-        FIELD,
-        METHOD,
-        CLASS,
-        PACKAGE
-    }
-    
-    /**
      * Get the mapping type (field, method, class, package)
      */
-    Type getType();
+    public abstract Type getType();
     
     /**
      * Create a clone of this mapping with a new owner
-     * 
+     *
      * @param newOwner new owner
      * @return cloned mapping
      */
-    TMapping move(String newOwner);
-
+    public abstract TMapping move(String newOwner);
+    
     /**
      * Create a clone of this mapping with a new name
-     * 
+     *
      * @param newName new name
      * @return cloned mapping
      */
-    TMapping remap(String newName);
-    
+    public abstract TMapping remap(String newName);
+
     /**
      * Create a clone of this mapping with a new descriptor
-     * 
+     *
      * @param newDesc new descriptor
      * @return cloned mapping
      */
-    TMapping transform(String newDesc);
+    public abstract TMapping transform(String newDesc);
     
     /**
      * Create a clone of this mapping
-     * 
+     *
      * @return cloned mapping
      */
-    TMapping copy();
-
+    public abstract TMapping copy();
+    
     /**
      * Get the mapping name, for method mappings this includes the owner
-     * 
+     *
      * @return the mapping name, includes the owner for method mappings
      */
-    String getName();
+    public abstract String getName();
 
     /**
      * Get the base name of this member, for example the bare field, method or
      * class name
-     * 
+     *
      * @return the base name of this mapping
      */
-    String getSimpleName();
+    public abstract String getSimpleName();
 
     /**
      * Get the owner of this member, for fields and methods this is the class
      * name, for classes it is the package name, for packages it is undefined.
      * Can return null.
-     * 
+     *
      * @return the parent of this mapping
      */
-    String getOwner();
+    public abstract String getOwner();
 
     /**
      * Get the descriptor of this member, for example the method descriptor or
      * field type. For classes and packages this is undefined. Can return null
      * since not all mapping types support descriptors.
-     * 
+     *
      * @return the mapping descriptor
      */
-    String getDesc();
-    
+    public abstract String getDesc();
+
     /**
      * Get the next most immediate super-implementation of this mapping. For
      * example if the mapping is a method and the method overrides a method in
      * the immediate superclass, return that method. Can return null if no
      * superclass is available or if no superclass definition exists.
-     * 
+     *
      * @return the method immediately overridden by this method, or null if not
-     *      present or not resolvable 
+     *      present or not resolvable
      */
-    TMapping getSuper();
-
+    public abstract TMapping getSuper();
+    
     /**
      * Get a representation of this mapping for serialisation. Individual
      * writers are free to use their own mappings, this method is for
      * convenience only.
-     * 
+     *
      * @return string representation of this mapping
      */
-    String serialise();
+    public abstract String serialise();
+
+    /**
+     * Type of mapping
+     */
+    public enum Type {
+        FIELD,
+        METHOD,
+        CLASS,
+        PACKAGE
+    }
     
 }

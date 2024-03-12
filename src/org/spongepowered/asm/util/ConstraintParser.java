@@ -99,9 +99,9 @@ public final class ConstraintParser {
         
         private final String expr;
         
-        private final String token;
+        private String token;
         
-        private final String[] constraint;
+        private String[] constraint;
         
         private int min = Integer.MIN_VALUE;
         

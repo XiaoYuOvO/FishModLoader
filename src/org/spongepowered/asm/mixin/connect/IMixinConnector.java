@@ -36,6 +36,6 @@ public interface IMixinConnector {
     /**
      * Connect to Mixin
      */
-    void connect();
+    public abstract void connect();
     
 }

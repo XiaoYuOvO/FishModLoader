@@ -39,35 +39,35 @@ public interface IMixinInfo {
      * 
      * @return the mixin config
      */
-    IMixinConfig getConfig();
+    public IMixinConfig getConfig();
     
     /**
      * Get the simple name of the mixin
      * 
      * @return the simple name (mixin tail minus the package)
      */
-    String getName();
+    public abstract String getName();
 
     /**
      * Get the name of the mixin class
      * 
      * @return mixin class name
      */
-    String getClassName();
+    public abstract String getClassName();
 
    /**
     * Get the ref (internal name) of the mixin class
     * 
     * @return mixin class ref (internal name)
     */
-   String getClassRef();
+    public abstract String getClassRef();
 
     /**
      * Get the class bytecode
      * 
      * @return mixin bytecode (raw bytecode after transformers)
      */
-    byte[] getClassBytes();
+    public abstract byte[] getClassBytes();
 
     /**
      * True if the superclass of the mixin is <b>not</b> the direct superclass
@@ -75,7 +75,7 @@ public interface IMixinInfo {
      * 
      * @return true if the mixin has a detached superclass
      */
-    boolean isDetachedSuper();
+    public abstract boolean isDetachedSuper();
 
     /**
      * Get a new tree for the class bytecode
@@ -83,27 +83,27 @@ public interface IMixinInfo {
      * @param flags Flags to pass to the ClassReader
      * @return get a new ClassNode representing the mixin's bytecode
      */
-    ClassNode getClassNode(int flags);
+    public abstract ClassNode getClassNode(int flags);
 
     /**
      * Get the target classes for this mixin
      * 
      * @return list of target classes
      */
-    List<String> getTargetClasses();
+    public abstract List<String> getTargetClasses();
 
     /**
      * Get the mixin priority
      * 
      * @return the priority
      */
-    int getPriority();
+    public abstract int getPriority();
 
     /**
      * Get the mixin phase
      * 
      * @return the phase
      */
-    Phase getPhase();
+    public abstract Phase getPhase();
     
 }

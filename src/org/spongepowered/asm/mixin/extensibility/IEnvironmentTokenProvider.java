@@ -34,13 +34,13 @@ public interface IEnvironmentTokenProvider {
     /**
      * Default token provider priority 
      */
-    int DEFAULT_PRIORITY = 1000;
+    public static final int DEFAULT_PRIORITY = 1000;
     
     /**
      * Get the priority for this provider, should return a priority relative to
      * {@link #DEFAULT_PRIORITY}.
      */
-    int getPriority();
+    public abstract int getPriority();
 
     /**
      * Get the value of the specified token in this environment, or return null
@@ -51,6 +51,6 @@ public interface IEnvironmentTokenProvider {
      * @param env Current environment
      * @return The token value, or null if this provider does not have the token
      */
-    Integer getToken(String token, MixinEnvironment env);
+    public abstract Integer getToken(String token, MixinEnvironment env);
     
 }

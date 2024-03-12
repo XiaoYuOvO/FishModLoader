@@ -37,7 +37,7 @@ public interface IRemapper {
      * @param desc descriptor of the method.
      * @return new name of the method
      */
-    String mapMethodName(String owner, String name, String desc);
+    public abstract String mapMethodName(String owner, String name, String desc);
 
     /**
      * Map field name to the new name. Subclasses can override.
@@ -47,7 +47,7 @@ public interface IRemapper {
      * @param desc descriptor of the field
      * @return new name of the field.
      */
-    String mapFieldName(String owner, String name, String desc);
+    public abstract String mapFieldName(String owner, String name, String desc);
 
     /**
      * Map type name to the new name. Subclasses can override.
@@ -55,7 +55,7 @@ public interface IRemapper {
      * @param typeName Class name to convert 
      * @return new name for the class
      */
-    String map(String typeName);
+    public abstract String map(String typeName);
 
     /**
      * Convert a mapped type name back to the original obfuscated name
@@ -63,7 +63,7 @@ public interface IRemapper {
      * @param typeName Class name to convert
      * @return old name for the class
      */
-    String unmap(String typeName);
+    public abstract String unmap(String typeName);
     
     /**
      * Convert a descriptor to remapped form
@@ -71,7 +71,7 @@ public interface IRemapper {
      * @param desc descriptor to convert
      * @return new descriptor
      */
-    String mapDesc(String desc);
+    public abstract String mapDesc(String desc);
 
     /**
      * Convert a descriptor back to the original obfuscated form
@@ -79,6 +79,6 @@ public interface IRemapper {
      * @param desc descriptor to convert
      * @return old descriptor
      */
-    String unmapDesc(String desc);
+    public abstract String unmapDesc(String desc);
     
 }

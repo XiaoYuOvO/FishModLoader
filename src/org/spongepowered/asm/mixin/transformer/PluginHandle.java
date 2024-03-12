@@ -25,13 +25,13 @@
 package org.spongepowered.asm.mixin.transformer;
 
 import com.google.common.base.Strings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.mixin.throwables.CompanionPluginError;
 import org.spongepowered.asm.service.IMixinService;
+import org.spongepowered.asm.service.MixinService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -65,7 +65,7 @@ class PluginHandle {
     
     }
     
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * Parent config which owns this plugin handle
@@ -93,7 +93,7 @@ class PluginHandle {
         if (!Strings.isNullOrEmpty(pluginClassName)) {
             try {
                 Class<?> pluginClass = service.getClassProvider().findClass(pluginClassName, true);
-                plugin = (IMixinConfigPlugin)pluginClass.newInstance();
+                plugin = (IMixinConfigPlugin)pluginClass.getDeclaredConstructor().newInstance();
             } catch (Throwable th) {
                 PluginHandle.logger.error("Error loading companion plugin class [{}] for mixin config [{}]. The plugin may be out of date: {}:{}",
                         pluginClassName, parent, th.getClass().getSimpleName(), th.getMessage(), th);
@@ -134,7 +134,7 @@ class PluginHandle {
     /**
      * Called immediately before the mixin is applied to targetClass
      */
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, MixinInfo mixinInfo) {
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, MixinInfo mixinInfo) throws Exception {
         if (this.plugin == null) {
             return;
         }
@@ -165,7 +165,7 @@ class PluginHandle {
     /**
      * Called immediately after the mixin is applied to targetClass
      */
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, MixinInfo mixinInfo) {
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, MixinInfo mixinInfo) throws Exception {
         if (this.plugin == null) {
             return;
         }

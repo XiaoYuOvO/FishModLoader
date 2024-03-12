@@ -24,11 +24,12 @@
  */
 package org.spongepowered.tools.obfuscation.mapping.common;
 
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 import org.spongepowered.tools.obfuscation.mapping.IMappingWriter;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
-import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.File;
@@ -61,13 +62,21 @@ public abstract class MappingWriter implements IMappingWriter {
         if (fileName.matches("^.*[\\\\/:].*$")) {
             File outFile = new File(fileName);
             outFile.getParentFile().mkdirs();
-            this.messager.printMessage(Kind.NOTE, "Writing " + description + " to " + outFile.getAbsolutePath());
+            this.printMessage(MessageType.INFO, "Writing " + description + " to " + outFile.getAbsolutePath());
             return new PrintWriter(outFile);
         }
         
         FileObject outResource = this.filer.createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
-        this.messager.printMessage(Kind.NOTE, "Writing " + description + " to " + new File(outResource.toUri()).getAbsolutePath());
+        this.printMessage(MessageType.INFO, "Writing " + description + " to " + new File(outResource.toUri()).getAbsolutePath());
         return new PrintWriter(outResource.openWriter());
+    }
+
+    protected void printMessage(MessageType type, CharSequence msg) {
+        if (this.messager instanceof IMessagerEx) {
+            ((IMessagerEx)this.messager).printMessage(type, msg);
+        } else if (type.isEnabled()) {
+            this.messager.printMessage(type.getKind(), type.decorate(msg));
+        }
     }
 
 }

@@ -93,7 +93,7 @@ public @interface Dynamic {
      * 
      * @return description of the member
      */
-    String value() default "";
+    public String value() default "";
 
     /**
      * If the target member is added by an upstream mixin, and the mixin in
@@ -102,6 +102,6 @@ public @interface Dynamic {
      * 
      * @return upstream mixin reference
      */
-    Class<?> mixin() default void.class;
+    public Class<?> mixin() default void.class;
 
 }

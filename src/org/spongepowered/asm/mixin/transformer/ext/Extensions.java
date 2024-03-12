@@ -57,7 +57,7 @@ public final class Extensions implements IExtensionRegistry {
     /**
      * Read-only view of available generators
      */
-    private final List<IClassGenerator> generatorsView = Collections.unmodifiableList(this.generators);
+    private final List<IClassGenerator> generatorsView = Collections.<IClassGenerator>unmodifiableList(this.generators);
     
     /**
      * Map of generator class types to generator instances, used to fetch
@@ -71,7 +71,7 @@ public final class Extensions implements IExtensionRegistry {
     /**
      * Active transformer extensions
      */
-    private List<IExtension> activeExtensions = Collections.emptyList();
+    private List<IExtension> activeExtensions = Collections.<IExtension>emptyList();
     
     public Extensions(ISyntheticClassRegistry syntheticClassRegistry) {
         this.syntheticClassRegistry = syntheticClassRegistry;
@@ -93,7 +93,7 @@ public final class Extensions implements IExtensionRegistry {
      */
     @Override
     public List<IExtension> getExtensions() {
-        return Collections.unmodifiableList(this.extensions);
+        return Collections.<IExtension>unmodifiableList(this.extensions);
     }
     
     /* (non-Javadoc)
@@ -112,7 +112,7 @@ public final class Extensions implements IExtensionRegistry {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends IExtension> T getExtension(Class<? extends IExtension> extensionClass) {
-        return (T)Extensions.lookup(extensionClass, this.extensionMap, this.extensions);
+        return (T)Extensions.<IExtension>lookup(extensionClass, this.extensionMap, this.extensions);
     }
     
     /* (non-Javadoc)
@@ -130,7 +130,7 @@ public final class Extensions implements IExtensionRegistry {
      * @param environment current environment
      */
     public void select(MixinEnvironment environment) {
-        Builder<IExtension> activeExtensions = ImmutableList.builder();
+        Builder<IExtension> activeExtensions = ImmutableList.<IExtension>builder();
 
         for (IExtension extension : this.extensions) {
             if (extension.checkActive(environment)) {
@@ -202,7 +202,7 @@ public final class Extensions implements IExtensionRegistry {
      */
     @SuppressWarnings("unchecked")
     public <T extends IClassGenerator> T getGenerator(Class<? extends IClassGenerator> generatorClass) {
-        return (T)Extensions.lookup(generatorClass, this.generatorMap, this.generators);
+        return (T)Extensions.<IClassGenerator>lookup(generatorClass, this.generatorMap, this.generators);
     } 
 
     private static <T> T lookup(Class<? extends T> extensionClass, Map<Class<? extends T>, T> map, List<T> list) {

@@ -84,7 +84,7 @@ public @interface Shadow {
      * 
      * @return the shadow prefix
      */
-    String prefix() default "shadow$";
+    public String prefix() default "shadow$";
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -101,7 +101,7 @@ public @interface Shadow {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * Supplies possible aliases for this shadow member. This should <b>only</b>
@@ -122,6 +122,6 @@ public @interface Shadow {
      * 
      * @return Aliases for this member
      */
-    String[] aliases() default { };
+    public String[] aliases() default { }; 
 
 }

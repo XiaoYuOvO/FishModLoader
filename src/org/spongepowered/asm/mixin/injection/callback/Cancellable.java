@@ -34,14 +34,14 @@ public interface Cancellable {
      * 
      * @return whether this is actually cancellable
      */
-    boolean isCancellable();
+    public abstract boolean isCancellable();
     
     /**
      * Get whether this is cancelled
      * 
      * @return whether this is cancelled
      */
-    boolean isCancelled();
+    public abstract boolean isCancelled();
     
     /**
      * If the object is cancellable, cancels the object, implementors may throw
@@ -51,5 +51,5 @@ public interface Cancellable {
      *      not actually cancellable. Contractually, this object may not throw
      *      the exception if isCancellable() returns true.
      */
-    void cancel() throws CancellationException;
+    public abstract void cancel() throws CancellationException;
 }

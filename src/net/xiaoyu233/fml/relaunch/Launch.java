@@ -1,135 +1,146 @@
 package net.xiaoyu233.fml.relaunch;
 
-import com.google.common.collect.Lists;
-import net.xiaoyu233.fml.AbstractMod;
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+import net.fabricmc.accesswidener.AccessWidener;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import net.fabricmc.loader.impl.FormattedException;
+import net.fabricmc.loader.impl.discovery.ModResolutionException;
+import net.fabricmc.loader.impl.util.Arguments;
+import net.fabricmc.tinyremapper.IMappingProvider;
+import net.fabricmc.tinyremapper.TinyUtils;
 import net.xiaoyu233.fml.FishModLoader;
-import net.xiaoyu233.fml.asm.MixinTransformerProxy;
-import net.xiaoyu233.fml.classloading.LaunchClassLoader;
-import net.xiaoyu233.fml.classloading.ModsWalker;
-import net.xiaoyu233.fml.config.InjectionConfig;
+import net.xiaoyu233.fml.classloading.KnotClassLoaderInterface;
 import net.xiaoyu233.fml.mapping.CachedMappedJar;
-import net.xiaoyu233.fml.mixin.service.ClassProvider;
 import net.xiaoyu233.fml.util.LogProxy;
-import net.xiaoyu233.fml.util.ModInfo;
-import net.xiaoyu233.fml.util.ReflectHelper;
-import net.xiaoyu233.fml.util.UIUtils;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.platform.MixinPlatformManager;
 import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
-import org.spongepowered.asm.mixin.transformer.MixinTransformer;
-import org.spongepowered.asm.service.MixinService;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-@SuppressWarnings("DanglingJavadoc")
 public class Launch {
-   public static String mainClass;
    public static Map<String, Object> blackboard = new HashMap<>();
-   public static LaunchClassLoader transformClassLoader;
+   private static final Map<String, String> unmapClassMap = new HashMap<>();
    public static String minecraftHome;
-   public static void launch(String mainClass, String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException {
-      FishModLoader.loadConfig();
-      URLClassLoader nativeClassLoader = (URLClassLoader) Launch.class.getClassLoader();
-      Class<?> nativeMainClass = nativeClassLoader.loadClass(mainClass);
-      URL minecraftSourceJar = nativeMainClass.getProtectionDomain().getCodeSource().getLocation();
-      transformClassLoader = new LaunchClassLoader(Arrays.stream(Objects.requireNonNull(ClassProvider.getSystemClassPathURLs())).filter(url -> !url.getPath().equals(minecraftSourceJar.getPath())).collect(Collectors.toList()).toArray(new URL[]{}));
+   public static KnotClassLoaderInterface knotLoader;
+   public static Arguments arguments;
+
+   //All these things are happened in AppClassLoader, REMEMBER THIS!
+   public static void launch(KnotClassLoaderInterface knotInterface, String mainClass, String[] args, boolean server, Path gameJarPath) throws IOException, ClassNotFoundException, NoSuchMethodException, ModResolutionException {
+      knotLoader = knotInterface;
+      arguments = new Arguments();
+      arguments.parse(args);
       seekGameDir(args);
-      MixinBootstrap.init();
-      onEnvironmentChanged();
-//      transformClassLoader.registerTransformer(new Renamer(loadRemapping()));
-      transformClassLoader.registerTransformer(new MixinTransformerProxy(new MixinTransformer()));
-      LogProxy.proxySysout();
-      LogProxy.proxySyserr();
-      FishModLoader.registerModloaderMixin(transformClassLoader);
-      ModsWalker modsWalker = new ModsWalker(FishModLoader.MOD_DIR, nativeClassLoader);
-      for (InjectionConfig loadMod : modsWalker.loadMods(modsWalker.findMods(jarFile -> addModToLoader(nativeClassLoader, jarFile)), Launch::modRegister)) {
-         Mixins.registerConfiguration(loadMod.toConfig(Launch.transformClassLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment()));
+      //Use parent to prevent preloading
+//      Set<InterfaceInjection> injections = Sets.newHashSet(BuiltinInjection.getModLoaderInjection());
+      try {
+         IMappingProvider tinyMappingProvider = TinyUtils.createTinyMappingProvider(new BufferedReader(new InputStreamReader(Objects.requireNonNull(Launch.class.getResourceAsStream("/mappings.tiny")))), "official", "named");
+         tinyMappingProvider.load(createAcceptor());
+         tinyMappingProvider = TinyUtils.createTinyMappingProvider(new BufferedReader(new InputStreamReader(Objects.requireNonNull(Launch.class.getResourceAsStream("/mappings.tiny")))), "official", "named");
+         CachedMappedJar cachedMappedJar = new CachedMappedJar(gameJarPath, tinyMappingProvider, new File(minecraftHome)
+//                 ,injections
+         );
+         knotInterface.addCodeSource(cachedMappedJar.ensureJarMapped());
+      }catch (Exception e){
+         throw new RuntimeException("Cannot remap minecraft jar", e);
       }
 
+      ClassLoader knotLoader = knotInterface.getClassLoader();
+      Thread.currentThread().setContextClassLoader(knotLoader);
+      FishModLoader.setup();
+      onEnvironmentChanged();
+
+//      ModsWalker modsWalker = new ModsWalker(FishModLoader.MOD_DIR, knotLoader);
+//      for (InjectionConfig loadMod : modsWalker.loadMods(modsWalker.findMods(jarFile -> addModToLoader(knotInterface, jarFile)), (abstractMod, dists) -> {
+//         abstractMod.getInterfaceInjections().ifPresent(injections::add);
+//         modRegister(abstractMod, dists);
+//      })) {
+//         Mixins.registerConfiguration(loadMod.toConfig(knotLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment()));
+//      }
+      FishModLoader.freeze();
+      FishModLoader.loadAccessWideners();
+      FishModLoader.initModMixin();
+      LogProxy.proxySysout();
       try {
          MixinPlatformManager platform = MixinBootstrap.getPlatform();
          platform.init();
-//         Launch.transformClassLoader.loadClass(mainClass);
-         //Remap minecraft jars
-         CachedMappedJar cachedMappedJar = new CachedMappedJar(minecraftSourceJar, new BufferedReader(new InputStreamReader(Objects.requireNonNull(Launch.class.getResourceAsStream("/mappings.tiny")))), new File(minecraftHome));
-         Launch.transformClassLoader.addURL(cachedMappedJar.ensureJarMapped());
-
-         //Finish remap minecraft jars
          FishModLoader.LOGGER.info("Starting Minecraft");
          platform.inject();
+         knotInterface.initializeTransformers();
+         MixinExtrasBootstrap.init();
          onEnvironmentChanged();
-         Class<?> modInfo = ReflectHelper.reloadClassWithLoader(ModInfo.class,Launch.transformClassLoader);
-         Class<?> absModInfo = ReflectHelper.reloadClassWithLoader(AbstractMod.class,Launch.transformClassLoader);
-         Class<?> fmlClass = ReflectHelper.reloadClassWithLoader(FishModLoader.class, Launch.transformClassLoader);
-         Method addModInfo = fmlClass.getDeclaredMethod("addModInfo", modInfo);
-         for (ModInfo value : FishModLoader.getModsMap().values()) {
-            Class<?> aClass = Launch.transformClassLoader.loadClass(value.getMod().getClass().getName());
-            try {
-               Constructor<?> declaredConstructor = aClass.getDeclaredConstructor();
-               declaredConstructor.setAccessible(true);
-               Object o = declaredConstructor.newInstance();
-               /**
-                * @see AbstractMod#postInit()
-                * */
-               aClass.getMethod("postInit").invoke(o);
-               /**
-                * @see FishModLoader#reloadAllConfigs()
-                * */
-               fmlClass.getMethod("reloadAllConfigs").invoke(null);
-               try {
-                  /**
-                   * @see FishModLoader#addModInfo(ModInfo)
-                   * */
-                  addModInfo.invoke(null, modInfo.getConstructor(absModInfo, List.class).newInstance(o, value.getDists()));
-               } catch (Exception e) {
-                  FishModLoader.LOGGER.error("Cannot add mod info " + value.getModid() + "-" + value.getModVerStr() + " quitting!", e);
-                  System.exit(-1);
-               }
-            }catch (Exception e){
-               FishModLoader.LOGGER.error("Cannot run post init for " + value.getModid(),e);
-            }
+         try {
+            FishModLoader.invokeEntrypoints("preLaunch", PreLaunchEntrypoint.class, preLaunchEntrypoint -> {
+               preLaunchEntrypoint.onPreLaunch();
+               preLaunchEntrypoint.createConfig().ifPresent(FishModLoader::addConfigRegistry);
+            });
+         } catch (RuntimeException e) {
+            throw FormattedException.ofLocalized("exception.initializerFailure", e);
          }
-         transformClassLoader.loadClass(mainClass).getMethod("main", String[].class).invoke(null, (Object) args);
-      } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException var11) {
-         var11.printStackTrace();
-      } catch (NoSuchAlgorithmException e) {
-         throw new RuntimeException(e);
+         FishModLoader.reloadAllConfigs();
+//         knotInterface.unlockBlocking();
+         knotLoader.loadClass(mainClass).getMethod("main", String[].class).invoke(null, (Object) args);
+      } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+         FishModLoader.LOGGER.error("Cannot launch minecraft", e);
       }
 
    }
 
-   private static void addModToLoader(URLClassLoader nativeClassLoader, File jarFile) {
+
+
+
+   private static IMappingProvider.MappingAcceptor createAcceptor(){
+      return new IMappingProvider.MappingAcceptor() {
+         @Override
+         public void acceptClass(String srcName, String dstName) {
+            unmapClassMap.put(dstName, srcName);
+         }
+
+         @Override
+         public void acceptMethod(IMappingProvider.Member method, String dstName) {
+
+         }
+
+         @Override
+         public void acceptMethodArg(IMappingProvider.Member method, int lvIndex, String dstName) {
+
+         }
+
+         @Override
+         public void acceptMethodVar(IMappingProvider.Member method, int lvIndex, int startOpIdx, int asmIndex, String dstName) {
+
+         }
+
+         @Override
+         public void acceptField(IMappingProvider.Member field, String dstName) {
+
+         }
+      };
+   }
+
+   private static void addModToLoader(KnotClassLoaderInterface nativeClassLoader, File jarFile) {
       try {
-         URL url = jarFile.toURL();
-         Launch.transformClassLoader.addURL(url);
-         ReflectHelper.addLoaderURL(nativeClassLoader,url);
-         FishModLoader.LOGGER.info("Found mod jar:" + url.toString());
-      } catch (MalformedURLException | IllegalAccessException | InvocationTargetException e) {
-         e.printStackTrace();
+         URL url = jarFile.toURI().toURL();
+         nativeClassLoader.addCodeSource(jarFile.toPath());
+         FishModLoader.LOGGER.info("Found mod jar:" + url);
+      } catch (MalformedURLException e) {
+         FishModLoader.LOGGER.error("Failed to add mod file to loader", e);
       }
    }
 
-//   private static Remapping loadRemapping(){
-//      Remapping remapping = new Remapping();
-//      remapping.addMappingFromStream(Launch.class.getResourceAsStream("/class.mapping"), Remapping.MappingType.CLASS);
-//      remapping.addMappingFromStream(Launch.class.getResourceAsStream("/method.mapping"), Remapping.MappingType.METHOD);
-//      remapping.addMappingFromStream(Launch.class.getResourceAsStream("/field.mapping"), Remapping.MappingType.FIELD);
-//      MixinEnvironment.getCurrentEnvironment().getRemappers().add(remapping);
-//      return remapping;
-//   }
+   public static String unmapClassName(String mappedName){
+      return unmapClassMap.get(mappedName);
+   }
 
    public static void onEnvironmentChanged(){
       MixinEnvironment currentEnvironment = MixinEnvironment.getCurrentEnvironment();
@@ -152,16 +163,20 @@ public class Launch {
       }
    }
 
-   private static void modRegister(AbstractMod abstractMod, MixinEnvironment.Side[] dists) {
-      if (!FishModLoader.hasMod(abstractMod.modId())) {
-         abstractMod.preInit();
-         FishModLoader.addModInfo(new ModInfo(abstractMod, Lists.newArrayList(dists)));
-      } else {
-         if (!FishModLoader.isServer()) {
-            UIUtils.showErrorDialog("错误,模组重复!游戏即将退出\n" + abstractMod.modId() + "-" + abstractMod.modVerStr());
-            System.exit(1);
-         }
-         throw new IllegalArgumentException("Duplicated mods! (重复的模组)" + abstractMod.modId() + "-" + abstractMod.modVerStr());
-      }
+   public static AccessWidener getAccessWidener() {
+      return null;
    }
+
+//   private static void modRegister(AbstractMod abstractMod, MixinEnvironment.Side[] dists) {
+//      if (!FishModLoader.hasMod(abstractMod.modId())) {
+//         abstractMod.preInit();
+//         FishModLoader.addModInfo(new ModInfo(abstractMod, Lists.newArrayList(dists)));
+//      } else {
+//         if (!FishModLoader.isServer()) {
+//            UIUtils.showErrorDialog("错误,模组重复!游戏即将退出\n" + abstractMod.modId() + "-" + abstractMod.modVerStr());
+//            System.exit(1);
+//         }
+//         throw new IllegalArgumentException("Duplicated mods! (重复的模组)" + abstractMod.modId() + "-" + abstractMod.modVerStr());
+//      }
+//   }
 }

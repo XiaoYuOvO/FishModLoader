@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="GROUP_BY_SEVERITY" value="true" />
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -22,60 +26,743 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update version">
-      <change afterPath="$PROJECT_DIR$/logs/2024-03-02-1.log.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/2024-03-02-2.log.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/2024-03-02-3.log.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/latest.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mappings.tiny" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/migrate.tiny" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/CachedMappedJar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/RemapperAdaptorFish.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/network/FMLClientProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/StringTranslateAccessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/SkinFixTransform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ModRemapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="3.0.0 preview">
+      <change afterPath="$PROJECT_DIR$/qodana.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/CasualStreamHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/CorrectedMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/CorrectedMethods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/EnumExtender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/EnumSubclasser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/Extension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/Plugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/UnremovableMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/api/ClassTinkerers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/chocohead/mm/api/EnumAdder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/MixinExtrasBootstrap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/ap/MixinExtrasAP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/ap/StdoutMessager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/LateApplyingInjectorInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/LateInjectionApplicatorExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/MixinExtrasInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/MixinExtrasLateInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyExpressionValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyExpressionValueInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyExpressionValueInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReceiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReceiverInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReceiverInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReturnValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReturnValueInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/ModifyReturnValueInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/StackExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/WrapWithCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/WrapWithConditionInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/WrapWithConditionV1InjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/v2/WrapWithCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/v2/WrapWithConditionInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/IncorrectArgumentCountException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/Operation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/WrapOperation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/WrapOperationInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/WrapOperationInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/injector/wrapoperation/WrapOperationRuntime.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/service/MixinExtrasService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/service/MixinExtrasServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/service/MixinExtrasVersion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/service/ServiceInitializationExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/service/Versioned.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/Local.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/Share.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/SugarBridge.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/LocalSugarApplicator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/ShareSugarApplicator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SingleIterationList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarApplicationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarApplicator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarMixinTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarParameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarPostProcessingExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarWrapperImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/SugarWrapperInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/handlers/HandlerInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/handlers/HandlerTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/handlers/LocalHandlerTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/ref/LocalRefClassGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/ref/LocalRefRuntime.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/ref/LocalRefUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/impl/ref/generated/GeneratedImplDummy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalBooleanRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalByteRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalCharRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalDoubleRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalFloatRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalIntRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalLongRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/sugar/ref/LocalShortRef.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/transformer/MixinTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/transformer/MixinTransformerExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ASMUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/Blackboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ClassGenUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/CompatibilityHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/Decorations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/GenericParamParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/InjectorUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/InternalConstructor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/InternalField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/InternalMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/MixinExtrasLogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/MixinInternals.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ProxyUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/TargetDecorations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/UniquenessHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/InjectorWrapperImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/WrapperInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/factory/FactoryRedirectWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/factory/FactoryRedirectWrapperImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/factory/FactoryRedirectWrapperInjectionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/wrapper/factory/FactoryRedirectWrapperMixinTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fishmodloader.accesswidener" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fishmodloader.mixin.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/ClientModInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/DedicatedServerModInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/EnvType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/Environment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/EnvironmentInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/EnvironmentInterfaces.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/api/ModInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/DependencyException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/ModContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/EntrypointException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/LanguageAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/LanguageAdapterException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/MappingResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/ModContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/ObjectShare.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/SemanticVersion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/Version.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/VersionParsingException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/entrypoint/EntrypointContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/entrypoint/PreLaunchEntrypoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/ContactInformation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/CustomValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/ModDependency.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/ModEnvironment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/ModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/ModOrigin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/version/VersionComparisonOperator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/version/VersionInterval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/metadata/version/VersionPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/FormattedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/LazyMappingResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/ModContainerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/ObjectShareImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ArgumentModCandidateFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/BuiltinMetadataWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ClasspathModCandidateFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/DirectoryModCandidateFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/DomainObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/Explanation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidateFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModLoadCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModPrioSorter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModResolutionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModSolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ResultAnalyzer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/entrypoint/EntrypointContainerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/entrypoint/EntrypointStorage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricGuiEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricMainWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricStatusTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/lib/gson/JsonReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/lib/gson/JsonScope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/lib/gson/JsonToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/lib/gson/MalformedJsonException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/AbstractModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/BuiltinModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ContactInfoBackedPerson.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ContactInformationImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/CustomValueImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/DependencyOverrides.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/EntrypointMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/LoaderModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/MetadataVerifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ModDependencyImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ModMetadataParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ModOriginImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/NestedJarEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ParseMetadataException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/ParseWarning.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/SimplePerson.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/V0ModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/V0ModMetadataParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/V1ModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/V1ModMetadataParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/metadata/VersionOverrides.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/transformer/ClassStripper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/transformer/EnvironmentStrippingData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/transformer/PackageAccessFixer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/Arguments.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/DefaultLanguageAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/ExceptionUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/FileSystemUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/LoaderUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/Localization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/ManifestUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/SimpleClassPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/StringUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/SystemProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/UrlConversionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/UrlUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/BuiltinLogHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/ConsoleLogHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/Log.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/LogCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/LogHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/log/LogLevel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/version/SemanticVersionImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/version/StringVersion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/version/VersionIntervalImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/version/VersionParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/util/version/VersionPredicateParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/language/JavaLanguageAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/language/LanguageAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/language/LanguageAdapterException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/metadata/EntrypointMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/metadata/LoaderModMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/metadata/MapBackedContactInformation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/DefaultLanguageAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/UrlConversionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/UrlUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/version/SemanticVersionImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/version/SemanticVersionPredicateParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/util/version/VersionParsingException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/block/AnvilBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/block/IBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/block/StrongBoxBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/AxeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/BattleAxeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/DaggerItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/IItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/IngotItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/ModItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/NuggetItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/PickaxeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/ShovelItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/SwordItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/WarHammerItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/recipe/RecipesArgs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjectionExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/DummyClassLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/FMLClassTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/KnotClassDelegate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/KnotClassLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/KnotClassLoaderInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LibClassifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LoaderLibrary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/McLibrary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/MixinLogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchClassBlocker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/AchievementRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/BlockRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EnchantmentRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRegisterEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeModifyEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/SmeltRecipeRegistryEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/recipe/RecipeModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/recipe/RecipeType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/recipe/RemoveRecipeModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/recipe/ShapedRecipeModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/recipe/ShapelessRecipeModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ClientEntrypointMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ServerEntrypointMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumChatFormattingMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BipedRendererMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkRegionLoaderMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkSectionMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EntityItemMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/MinecraftMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/NetClientHandlerMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PacketMultiBlockChangeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PlayerRendererMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/RecipeHelperMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ReferenceFileWriterMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/SnowManRendererMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/StatisticMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WitchRendererMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WorldMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EnchantmentRegisterMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRegistryMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/BlockAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/BlockMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/CraftingManagerInvoker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/ItemMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/WorldAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumConstructor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/FileSystemUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/LoaderUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Log.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ManifestUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/SystemProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/UrlConversionException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/UrlUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/ILogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/Level.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/LoggerAdapterAbstract.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/LoggerAdapterConsole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/LoggerAdapterDefault.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/LoggerAdapterJava.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/logging/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/connect/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IActivityContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/throwables/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Desc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Descriptors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/InsnListReadOnly.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/util/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ElementNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ISelectorContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorDynamic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/InvalidSelector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/MemberMatcher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/dynamic/DescriptorResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/dynamic/DynamicSelectorDesc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/dynamic/IResolvedDescriptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/dynamic/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/throwables/SelectorConstraintException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/throwables/SelectorException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/throwables/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionPointAnnotationContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/SelectorAnnotationContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/IMixinTransformerFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessorAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessorPassthrough.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessorSyntheticInner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinCoprocessors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/common/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/fg3/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/mcp/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinInternal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/MixinClassReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Files.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Handles.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/LanguageFeatures.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Quantifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/ClassNodeAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/IAnnotatedElement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/IAnnotationHandle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/logging/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/perf/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMessagerEx.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/FieldHandleASM.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/MethodHandleASM.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeHandleASM.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/package-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/class.mapping" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/field.mapping" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/method.mapping" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mappings.tiny" beforeDir="false" afterPath="$PROJECT_DIR$/src/mappings.tiny" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LaunchClassLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/Remapping.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/Renamer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/MixinTransformerProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/MixinTransformerProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/CachedMappedJar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/CachedMappedJar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mapping/RemapperAdaptorFish.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/Blackboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/Blackboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/ClassProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/ClassProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/MixinService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/MixinService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/TransformerWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/TransformerWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/network/FMLClientProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/network/FMLClientProtocol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/HandleChatCommandEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/HandleChatCommandEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/CommandHandlerTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LanguageLoaderTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LanguageLoaderTrans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/client/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/PacketRegisterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/PacketRegisterEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LocaleLanguageTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/LocaleLanguageTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftServerTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/ClientPlayerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/ClientPlayerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/AllowedCharFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/AllowedCharFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/ChatFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/ChatFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/EnchantmentPiercingTranslationFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/EnchantmentPiercingTranslationFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixAnvilStackCrash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixAnvilStackCrash.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixCrash2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixCrash2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixMinecart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FixMinecart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimit2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimit2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimited.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimited.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/RedstoneTorchFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WeaponDamageTranslationFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WeaponDamageTranslationFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/BicAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/ThreadDownloadImageDataAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/skin/BicTransform.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/WorldTrans.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/Packet2ClientProtocolTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/Packet2ClientProtocolTrans.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/DebugAttackTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/DebugAttackTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/LogTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/LogTransform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/MojangAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/MojangAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/SkinDownloadThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/SkinDownloadThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/VersionCheckThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/VersionCheckThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/LogProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/LogProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ReflectHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ReflectHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/RemoteModInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/RemoteModInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/bridge/RemapperAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/bridge/RemapperAdapterFML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/GlobalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/GlobalProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/MixinBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/MixinBootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/MixinInitialisationError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/MixinInitialisationError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/CommandLineOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/CommandLineOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/IMixinPlatformAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/IMixinPlatformAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/IMixinPlatformServiceAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/IMixinPlatformServiceAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MainAttributes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MainAttributes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinConnectorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinConnectorManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformAgentAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformAgentAbstract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformAgentDefault.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformAgentDefault.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/MixinPlatformManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/ContainerHandleURI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/ContainerHandleURI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/ContainerHandleVirtual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/ContainerHandleVirtual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/IContainerHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/launch/platform/container/IContainerHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/AnnotationVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/AnnotationVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/Attribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/Attribute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/ClassVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/ClassVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/FieldVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/FieldVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/MethodVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/MethodVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/TypePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/TypePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/tree/ClassNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/lib/tree/ClassNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Debug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Debug.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Dynamic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Dynamic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Final.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Final.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Implements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Implements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Interface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Interface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Intrinsic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Intrinsic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/MixinEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/MixinEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mixins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mixins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mutable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Mutable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Overwrite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Overwrite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Pseudo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Pseudo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Shadow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Shadow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/SoftOverride.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/SoftOverride.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Unique.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/Unique.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/connect/IMixinConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/connect/IMixinConnector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IEnvironmentTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IEnvironmentTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinConfigPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinConfigPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IMixinInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IRemapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/extensibility/IRemapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/Accessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/Accessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorFieldGetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorFieldGetter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorFieldSetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorFieldSetter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorMethodProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorMethodProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorGeneratorObjectFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/AccessorInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/Invoker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/InvokerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/InvokerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/throwables/InvalidAccessorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/gen/throwables/InvalidAccessorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/At.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/At.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Coerce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Coerce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/IInjectionPointContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/IInjectionPointContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Inject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Inject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/InjectionPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/InjectionPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyArg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyArg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyArgs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyArgs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/ModifyVariable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Redirect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Redirect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Slice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Slice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Surrogate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/Surrogate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CallbackInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/Cancellable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/Cancellable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CancellationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/CancellationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/LocalCapture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/callback/LocalCapture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/ISliceContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/ISliceContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/Injector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/InjectorTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/InjectorTarget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/MethodSlice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/MethodSlice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/MethodSlices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/MethodSlices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/code/ReadOnlyInsnList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/InvokeInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/InvokeInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyArgInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyArgInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyArgsInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyArgsInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyConstantInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/ModifyConstantInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/RedirectInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/RedirectInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/Args.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/Args.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgsClassGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgsClassGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgumentCountException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgumentCountException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgumentIndexOutOfBoundsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/arg/ArgumentIndexOutOfBoundsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/util/InsnFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/invoke/util/InsnFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/AfterStoreLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/AfterStoreLocal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/BeforeLoadLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/BeforeLoadLocal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/InvalidImplicitDiscriminatorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/InvalidImplicitDiscriminatorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/LocalVariableDiscriminator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/LocalVariableDiscriminator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/ModifyVariableInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/ModifyVariableInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/AfterInvoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/AfterInvoke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeFieldAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeFieldAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeFinalReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeFinalReturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeInvoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeInvoke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeReturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeStringInvoke.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/BeforeStringInvoke.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/JumpInsnPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/JumpInsnPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/MethodHead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/points/MethodHead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorByName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorByName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorConstructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorConstructor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorRemappable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/ITargetSelectorRemappable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/InvalidSelectorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/InvalidSelectorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/MatchResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/MatchResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/TargetSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/selectors/TargetSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/CallbackInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/CallbackInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionNodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionNodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionPointData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionPointData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectorGroupInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectorGroupInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InvalidMemberDescriptorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InvalidMemberDescriptorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/MemberInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/MemberInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyArgInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyArgInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyArgsInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyArgsInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyConstantInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyConstantInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyVariableInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/ModifyVariableInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/RedirectInjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/RedirectInjectionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/Target.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/TargetNotSupportedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/TargetNotSupportedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InjectionError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InjectionError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InjectionValidationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InjectionValidationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidInjectionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidInjectionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidInjectionPointException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidInjectionPointException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidSliceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/throwables/InvalidSliceException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/IMixinContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/IMixinContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/IReferenceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/IReferenceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/ReferenceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/ReferenceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/RemappingReferenceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/refmap/RemappingReferenceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/AnnotatedMethodInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/AnnotatedMethodInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/MemberRef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/MemberRef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/SourceMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/SourceMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/SpecialMethodInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/struct/SpecialMethodInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/ClassAlreadyLoadedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/ClassAlreadyLoadedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/ClassMetadataNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/ClassMetadataNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/CompanionPluginError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/CompanionPluginError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinApplyError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinApplyError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinPrepareError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/throwables/MixinPrepareError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ActivityStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ActivityStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ClassContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ClassContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ClassInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ClassInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/DefaultExtensions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/DefaultExtensions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/IMixinTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/IMixinTransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/InnerClassGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/InnerClassGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/InterfaceInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/InterfaceInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MethodMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MethodMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinClassGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinClassGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPostProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorStandard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinPreProcessorStandard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinTargetContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinTargetContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinTransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/PluginHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/PluginHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/SyntheticClassInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/SyntheticClassInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/SyntheticClassRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/SyntheticClassRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/TargetClassContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/TargetClassContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/debug/RuntimeDecompiler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/debug/RuntimeDecompilerAsync.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/Extensions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/Extensions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IClassGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IClassGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IDecompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IDecompiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IExtension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IExtension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IExtensionRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IExtensionRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IHotSwap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/IHotSwap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/ITargetClassContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/ITargetClassContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionCheckClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionCheckClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionCheckInterfaces.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionCheckInterfaces.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionClassExporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/ext/extensions/ExtensionClassExporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinInner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinInner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinMerged.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinMerged.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinRenamed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/meta/MixinRenamed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/IllegalClassLoadError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/IllegalClassLoadError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/InvalidInterfaceMixinException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/InvalidInterfaceMixinException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/InvalidMixinException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/InvalidMixinException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinApplicatorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinApplicatorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinPreProcessorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinPreProcessorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinReloadException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinReloadException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinTargetAlreadyLoadedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinTargetAlreadyLoadedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinTransformerError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/MixinTransformerError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/ReEntrantTransformerError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/throwables/ReEntrantTransformerError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/RemapperChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/RemapperChain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/IMapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/IMapping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/common/MappingField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/common/MappingField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/common/MappingMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/common/MappingMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/mcp/MappingFieldSrg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/obfuscation/mapping/mcp/MappingFieldSrg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassBytecodeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassBytecodeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IClassTracker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IGlobalPropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IGlobalPropertyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ILegacyClassTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ILegacyClassTransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinAuditTrail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinAuditTrail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinServiceBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IMixinServiceBootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IPropertyKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/IPropertyKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ISyntheticClassInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ISyntheticClassInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ISyntheticClassRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ISyntheticClassRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITransformerProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITransformerProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITreeClassTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ITreeClassTransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinServiceAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinServiceAbstract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceInitialisationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceInitialisationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceNotAvailableError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceNotAvailableError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceVersionError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/ServiceVersionError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/MixinClassWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/MixinClassWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/TreeTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/transformers/TreeTransformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Annotations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Annotations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Bytecode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Bytecode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ClassSignature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ClassSignature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ConstraintParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ConstraintParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/IConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/IConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/IMessageSink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/IMessageSink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ITokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ITokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/JavaVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/JavaVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Locals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Locals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ObfuscationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ObfuscationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/PrettyPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/PrettyPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ReEntranceLock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/ReEntranceLock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/SignaturePrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/SignaturePrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/VersionNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/VersionNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/ASM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/ASM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/ElementNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MethodNodeEx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MethodNodeEx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MethodVisitorEx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MethodVisitorEx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MixinVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/asm/MixinVerifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/logging/MessageRouter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/logging/MessageRouter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/perf/Profiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/perf/Profiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/ConstraintViolationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/ConstraintViolationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/InvalidConstraintException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/InvalidConstraintException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/LVTGeneratorError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/LVTGeneratorError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/SyntheticBridgeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/throwables/SyntheticBridgeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/agent/MixinAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/agent/MixinAgentClassLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerOverwrite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerOverwrite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerShadow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerShadow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerSoftImplements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixinElementHandlerSoftImplements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/AnnotatedMixins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/Mappings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/Mappings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessorInjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessorInjection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessorTargets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinObfuscationProcessorTargets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/MixinValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationDataProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationDataProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ObfuscationType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ReferenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ReferenceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/SupportedOptions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/SupportedOptions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/SuppressedBy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/SuppressedBy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/TargetMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/TargetMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ext/SpecialPackages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/ext/SpecialPackages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/fg3/ObfuscationEnvironmentFG3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/fg3/ObfuscationEnvironmentFG3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/fg3/ObfuscationServiceFG3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/fg3/ObfuscationServiceFG3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IJavadocProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IJavadocProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMessagerSuppressible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMessagerSuppressible.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMixinAnnotationProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMixinAnnotationProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMixinValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IMixinValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationDataProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationDataProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IObfuscationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IOptionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IOptionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IReferenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/IReferenceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/ITypeHandleProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/interfaces/ITypeHandleProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/IMappingWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/common/MappingProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/common/MappingProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/common/MappingWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/common/MappingWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingMethodLazy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingMethodLazy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingProviderTSrg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingProviderTSrg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingWriterTSrg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/fg3/MappingWriterTSrg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/mcp/MappingProviderSrg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/mcp/MappingProviderSrg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/mcp/MappingWriterSrg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mapping/mcp/MappingWriterSrg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mcp/ObfuscationEnvironmentMCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mcp/ObfuscationEnvironmentMCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mcp/ObfuscationServiceMCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mcp/ObfuscationServiceMCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/AnnotationHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/AnnotationHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/FieldHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/FieldHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/MemberHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/MemberHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/MethodHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/MethodHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeHandleSimulated.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeHandleSimulated.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeReference.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeReference.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/TypeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/Visibility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/mapping/MappingMethodResolvable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/mirror/mapping/MappingMethodResolvable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/IObfuscationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/IObfuscationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/ObfuscationServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/ObfuscationServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/ObfuscationTypeDescriptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/service/ObfuscationTypeDescriptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/struct/InjectorRemap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/struct/InjectorRemap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/struct/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/struct/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/validation/ParentValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/validation/ParentValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/validation/TargetValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/tools/obfuscation/validation/TargetValidator.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +784,7 @@
       <list>
         <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -139,7 +827,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -155,10 +843,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Client.executor": "Debug",
+    "Application.ModRemapper.executor": "Run",
+    "Downloaded.Files.Path": "H:\\IDEAProjects\\FishModLoader\\libs",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "H:/IDEAProjects/FishModLoader/src",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "H:/IDEAProjects/fabric-loader",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -166,8 +864,15 @@
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.1515625",
-    "project.structure.side.proportion": "0.2",
+    "project.structure.side.proportion": "0.15668203",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JAVA"
+    ]
   }
 }]]></component>
   <component name="ReaderModeSettings">
@@ -177,24 +882,47 @@
     <selection>jr</selection>
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="net.xiaoyu233.fml.util" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\IDEAProjects\FishModLoader\src" />
-      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\reload" />
-      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\config" />
-      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml" />
-      <recent name="I:\Projects\IDEAProjects\FishModLoader\libs" />
+      <recent name="H:\IDEAProjects\FishModLoader\libs" />
+      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\classloading" />
+      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\api" />
+      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\util\version" />
+      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\api\metadata" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="H:\IDEAProjects\FishModLoader" />
     </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="net.xiaoyu233.fml.reload.event.recipe.ShapedRecipeModifier" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="net.xiaoyu233.fml.reload.transform.network" />
     </key>
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="net.xiaoyu233.fml.reload.event.recipe" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.xiaoyu233.fml.classloading" />
+      <recent name="net.xiaoyu233.fml.metadata" />
+      <recent name="net.xiaoyu233.fml.api" />
+      <recent name="net.xiaoyu233.fml.mixin.service" />
       <recent name="net.xiaoyu233.fml.util" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Client">
+    <configuration name="Client (1.4.2)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
+      <module name="FishModLoader" />
+      <option name="PROGRAM_PARAMETERS" value="--username liuRT --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d8c754e649c42bd4e --width 854 --height 480" />
+      <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.4.2\\fishmodloader-v1.4.2.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
+      <option name="WORKING_DIRECTORY" value="F:/MITE Plus R5/.minecraft" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
@@ -248,13 +976,23 @@
     <configuration name="ModRemapper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.util.ModRemapper" />
       <module name="FishModLoader" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;F:\MITE Plus R5\.minecraft\MITE-ITEPlugin-v1.1.0-pre14-remap.jar&quot; &quot;F:\MITE Plus R5\.minecraft\MITE-ITEPlugin-v1.1.0-pre14-migrate2.jar&quot; H:\IDEAProjects\MITEClasses\old_cls" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;F:\MITE Plus R5\.minecraft\MITE-ITEPlugin-v1.1.0-pre14-remap.jar&quot; &quot;F:\MITE Plus R5\.minecraft\MITE-ITEPlugin-v1.1.0-pre14-migrate3.jar&quot; H:\IDEAProjects\MITEClasses\old_cls" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="net.xiaoyu233.fml.util.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server (1.4.2)" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.server.Main" />
+      <module name="FishModLoader" />
+      <option name="PROGRAM_PARAMETERS" value="--nogui" />
+      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\IDEAProjects\FishModLoader\libs\guava-28.0-jre.jar;H:\IDEAProjects\FishModLoader\libs\lwjgl-2.9.0.jar;H:\IDEAProjects\FishModLoader\libs\log4j-core-2.11.2.jar;H:\IDEAProjects\FishModLoader\libs\log4j-api-2.11.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.4.2\\fishmodloader-v1.4.2.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\1.6.4-MITE-HDS-R196.jar&quot;" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -287,19 +1025,32 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
     </configuration>
+    <configuration name="Scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Scratch" />
+      <module name="FishModLoader" />
+      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_4.java" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Client (1.4.2)" />
       <item itemvalue="Application.Server" />
+      <item itemvalue="Application.Server (1.4.2)" />
       <item itemvalue="Application.Test" />
       <item itemvalue="Application.MapConnector" />
       <item itemvalue="Application.MappingConvertor" />
       <item itemvalue="Application.MappingGenerator" />
       <item itemvalue="Application.ModRemapper" />
       <item itemvalue="JAR Application.Unnamed" />
+      <item itemvalue="Java Scratch.Scratch" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ModRemapper" />
+        <item itemvalue="Java Scratch.Scratch" />
         <item itemvalue="Application.MappingGenerator" />
         <item itemvalue="Application.MappingConvertor" />
         <item itemvalue="Application.MapConnector" />
@@ -351,7 +1102,15 @@
       <workItem from="1709284528093" duration="4985000" />
       <workItem from="1709289776741" duration="11984000" />
       <workItem from="1709309615746" duration="3424000" />
-      <workItem from="1709355187585" duration="23419000" />
+      <workItem from="1709355187585" duration="25083000" />
+      <workItem from="1709440884845" duration="27926000" />
+      <workItem from="1709525439140" duration="3331000" />
+      <workItem from="1709619181686" duration="4572000" />
+      <workItem from="1709692930884" duration="3864000" />
+      <workItem from="1709828173108" duration="1374000" />
+      <workItem from="1709967302834" duration="18667000" />
+      <workItem from="1710050783621" duration="28306000" />
+      <workItem from="1710235134317" duration="11662000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -551,7 +1310,31 @@
       <option name="project" value="LOCAL" />
       <updated>1709300727331</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Update to v2.0.0">
+      <option name="closed" value="true" />
+      <created>1709386175663</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1709386175663</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Remove logs">
+      <option name="closed" value="true" />
+      <created>1709386233680</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1709386233680</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Update readme">
+      <option name="closed" value="true" />
+      <created>1709386485874</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1709386485874</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -581,10 +1364,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="idea" />
-    <MESSAGE value="README.md" />
-    <MESSAGE value="1" />
-    <MESSAGE value="UpdateVersionCheck" />
     <MESSAGE value="UpdateVersion" />
     <MESSAGE value="Fix Crash" />
     <MESSAGE value="Fix Crash again" />
@@ -606,7 +1385,11 @@
     <MESSAGE value="Update to v1.4.2" />
     <MESSAGE value="Update to v1.5.0" />
     <MESSAGE value="Update version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update version" />
+    <MESSAGE value="Update to v2.0.0" />
+    <MESSAGE value="Remove logs" />
+    <MESSAGE value="Update readme" />
+    <MESSAGE value="3.0.0 preview" />
+    <option name="LAST_COMMIT_MESSAGE" value="3.0.0 preview" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -663,7 +1446,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java</url>
-          <line>27</line>
+          <line>34</line>
           <properties class="net.xiaoyu233.fml.reload.transform.network.PendingConnectionTransform" method="handleClientProtocol">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -681,7 +1464,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java</url>
-          <line>15</line>
+          <line>17</line>
           <properties class="net.xiaoyu233.fml.reload.transform.client.SimpleResourceManagerMixin" method="enhanceGetAllResources">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -690,7 +1473,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java</url>
-          <line>24</line>
+          <line>20</line>
           <properties class="net.xiaoyu233.fml.reload.transform.client.DefaultResourcePackMixin" method="redirectFixLanguageLoad">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -729,7 +1512,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinService.java</url>
-          <line>151</line>
+          <line>166</line>
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -739,7 +1522,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/TargetClassContext.java</url>
-          <line>337</line>
+          <line>375</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -760,7 +1543,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java</url>
-          <line>28</line>
+          <line>35</line>
           <option name="timeStamp" value="275" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -770,8 +1553,72 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java</url>
-          <line>25</line>
+          <line>21</line>
           <option name="timeStamp" value="287" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="296" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="307" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
+          <line>66</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="308" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModsWalker.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="309" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinServiceAbstract.java</url>
+          <line>236</line>
+          <option name="timeStamp" value="321" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinServiceAbstract.java</url>
+          <line>235</line>
+          <option name="timeStamp" value="322" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
+          <line>290</line>
+          <option name="timeStamp" value="327" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinInfo.java</url>
+          <line>854</line>
+          <option name="timeStamp" value="338" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="mixin.getName().contains(&quot;StringTranslateAccessor&quot;)" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="344" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java</url>
+          <line>179</line>
+          <option name="timeStamp" value="346" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java</url>
+          <line>364</line>
+          <option name="timeStamp" value="347" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="350" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />
@@ -788,6 +1635,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.spongepowered.asm.mixin.throwables.ClassMetadataNotFoundException" package="org.spongepowered.asm.mixin.throwables" />
           <option name="timeStamp" value="222" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ClassCastException" package="java.lang" />
+          <option name="timeStamp" value="343" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

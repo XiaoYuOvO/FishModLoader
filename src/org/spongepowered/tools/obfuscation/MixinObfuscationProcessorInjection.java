@@ -27,6 +27,7 @@ package org.spongepowered.tools.obfuscation;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 import org.spongepowered.tools.obfuscation.mirror.AnnotationHandle;
 import org.spongepowered.tools.obfuscation.mirror.TypeUtils;
 
@@ -35,7 +36,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic.Kind;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
@@ -105,7 +105,7 @@ public class MixinObfuscationProcessorInjection extends MixinObfuscationProcesso
             if (elem.getKind() == ElementKind.METHOD) {
                 this.mixins.registerInjector((TypeElement)parent, (ExecutableElement)elem, inject);
             } else {
-                this.mixins.printMessage(Kind.WARNING,
+                this.mixins.printMessage(MessageType.INJECTOR_ON_NON_METHOD_ELEMENT,
                         "Found an @" + injectorClass.getSimpleName() + " annotation on an element which is not a method: " + elem.toString());
             }
         }

@@ -36,6 +36,6 @@ public interface ITokenProvider {
      * @param token Token to fetch
      * @return token value or null if the token is not provided by this provider
      */
-    Integer getToken(String token);
+    public abstract Integer getToken(String token);
 
 }

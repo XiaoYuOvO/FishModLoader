@@ -24,8 +24,7 @@
  */
 package org.spongepowered.asm.launch.platform;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.connect.IMixinConnector;
 import org.spongepowered.asm.service.IClassProvider;
 import org.spongepowered.asm.service.MixinService;
@@ -43,7 +42,7 @@ public class MixinConnectorManager {
     /**
      * Logging to the max
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     private final Set<String> connectorClasses = new LinkedHashSet<String>();
 
@@ -80,11 +79,11 @@ public class MixinConnectorManager {
             }
             
             try {
-                IMixinConnector connector = connectorClass.newInstance();
+                IMixinConnector connector = connectorClass.getDeclaredConstructor().newInstance();
                 this.connectors.add(connector);
-                MixinConnectorManager.logger.info("Successfully loaded Mixin Connector [" + connectorClassName + "]");
+                MixinConnectorManager.logger.info("Successfully loaded Mixin Connector [{}]", connectorClassName);
             } catch (ReflectiveOperationException ex) {
-                MixinConnectorManager.logger.warn("Error loading Mixin Connector [" + connectorClassName + "]", ex);
+                MixinConnectorManager.logger.warn("Error loading Mixin Connector [{}]", connectorClassName, ex);
             }
         }
         this.connectorClasses.clear();

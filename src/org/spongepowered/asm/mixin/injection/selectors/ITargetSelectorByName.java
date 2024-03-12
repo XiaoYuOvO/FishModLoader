@@ -32,59 +32,22 @@ public interface ITargetSelectorByName extends ITargetSelector {
     /**
      * Get the member owner, can be null
      */
-    String getOwner();
+    public abstract String getOwner();
     
     /**
      * Get the member name, can be null
      */
-    String getName();
+    public abstract String getName();
     
     /**
      * Get the member descriptor, can be null
      */
-    String getDesc();
-
-    /**
-     * Get whether this reference is fully qualified
-     * 
-     * @return true if all components of this reference are non-null 
-     */
-    boolean isFullyQualified();
-
-    /**
-     * Get whether this target selector is definitely a field, the output of
-     * this method is undefined if {@link #isFullyQualified} returns false.
-     * 
-     * @return true if this is definitely a field
-     */
-    boolean isField();
-
-    /**
-     * Get whether this member represents a constructor
-     * 
-     * @return true if member name is <tt>&lt;init&gt;</tt>
-     */
-    boolean isConstructor();
-    
-    /**
-     * Get whether this selector represents a class initialiser
-     * 
-     * @return true if member name is <tt>&lt;clinit&gt;</tt>
-     */
-    boolean isClassInitialiser();
-    
-    /**
-     * Get whether this selector represents a constructor or class initialiser
-     * 
-     * @return true if member name is <tt>&lt;init&gt;</tt> or
-     *      <tt>&lt;clinit&gt;</tt>
-     */
-    boolean isInitialiser();
+    public abstract String getDesc();
 
     /**
      * Get a representation of this selector as a complete descriptor
      */
-    String toDescriptor();
+    public abstract String toDescriptor();
 
     /**
      * Test whether this selector matches the supplied values. Null values are
@@ -96,6 +59,6 @@ public interface ITargetSelectorByName extends ITargetSelector {
      * @return true if all non-null values in this reference match non-null
      *      arguments supplied to this method
      */
-    MatchResult matches(String owner, String name, String desc);
+    public abstract MatchResult matches(String owner, String name, String desc);
 
 }

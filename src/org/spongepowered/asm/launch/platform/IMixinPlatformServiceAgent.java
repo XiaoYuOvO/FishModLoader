@@ -41,7 +41,7 @@ public interface IMixinPlatformServiceAgent extends IMixinPlatformAgent {
     /**
      * Perform initialisation-stage logic for this agent 
      */
-    void init();
+    public abstract void init();
     
     /**
      * Attempt to determine the side name from the current environment. Return
@@ -49,12 +49,12 @@ public interface IMixinPlatformServiceAgent extends IMixinPlatformAgent {
      * side name or {@link Constants#SIDE_UNKNOWN} if the agent is able to
      * determine the side.
      */
-    String getSideName();
+    public abstract String getSideName();
 
     /**
      * Get environment-specific mixin containers
      */
-    Collection<IContainerHandle> getMixinContainers();
+    public abstract Collection<IContainerHandle> getMixinContainers();
     
     /**
      * Temp wiring
@@ -64,13 +64,13 @@ public interface IMixinPlatformServiceAgent extends IMixinPlatformAgent {
      * @deprecated temporary
      */
     @Deprecated
-    void wire(Phase phase, IConsumer<Phase> phaseConsumer);
+    public abstract void wire(Phase phase, IConsumer<Phase> phaseConsumer);
     
     /**
      * Temp wiring - Called when the DEFAULT phase is started
      * @deprecated temporary 
      */
     @Deprecated
-    void unwire();
+    public abstract void unwire();
     
 }

@@ -1,4 +1,4 @@
-tiny	2	0	left	right
+tiny	2	0	official	named
 c	AABBIntercept	net/minecraft/AABBIntercept
 c	Axis	net/minecraft/Axis
 c	BiomeGenUnderworld	net/minecraft/BiomeGenUnderworld
@@ -308,7 +308,6 @@ c	WorldProviderUnderworld	net/minecraft/WorldProviderUnderworld
 c	a	net/minecraft/EnumChatFormatting
 	f	Z	A	field_96303_A
 	f	Ljava/lang/String;	B	field_96304_B
-	f	net/minecraft/EnumChatFormatting/field_96305_C	C	field_96305_C
 	f	La;	a	BLACK
 	f	La;	b	DARK_BLUE
 	f	La;	c	DARK_GREEN
@@ -359,7 +358,6 @@ c	aaa	net/minecraft/RecipesFood
 c	aab	net/minecraft/FurnaceRecipes
 	f	Laab;	a	smeltingBase
 	f	Ljava/util/Map;	b	smeltingList
-	f	net/minecraft/FurnaceRecipes/field_77605_c	c	experienceList
 	m	(ILye;F)V	a	addSmelting
 	m	()Laab;	a	smelting
 	m	(I)Lye;	b	getSmeltingResult
@@ -416,12 +414,8 @@ c	aaj	net/minecraft/ShapelessRecipes
 c	aak	net/minecraft/RecipesCrafting
 	m	(Laaf;)V	a	addRecipes
 c	aal	net/minecraft/RecipesTools
-	f	net/minecraft/RecipesTools/field_77588_a	a	recipePatterns
-	f	net/minecraft/RecipesTools/field_77587_b	b	recipeItems
 	m	(Laaf;)V	a	addRecipes
 c	aam	net/minecraft/RecipesWeapons
-	f	net/minecraft/RecipesWeapons/field_77585_a	a	recipePatterns
-	f	net/minecraft/RecipesWeapons/field_77584_b	b	recipeItems
 	m	(Laaf;)V	a	addRecipes
 c	aan	net/minecraft/EnchantmentArrowDamage
 	m	(I)I	a	getMinEnchantability
@@ -440,11 +434,6 @@ c	aaq	net/minecraft/EnchantmentArrowKnockback
 	m	()I	b	getMaxLevel
 	m	(I)I	b	getMaxEnchantability
 c	aar	net/minecraft/EnchantmentDamage
-	f	net/minecraft/EnchantmentDamage/field_77359_A	C	protectionName
-	f	net/minecraft/EnchantmentDamage/field_77360_B	D	baseEnchantability
-	f	net/minecraft/EnchantmentDamage/field_77362_C	E	levelEnchantability
-	f	net/minecraft/EnchantmentDamage/field_77358_D	F	thresholdEnchantability
-	f	net/minecraft/EnchantmentDamage/field_77361_a	a	damageType
 	m	(Laau;)Z	a	canApplyTogether
 	m	()Ljava/lang/String;	a	getName
 	m	(I)I	a	getMinEnchantability
@@ -464,8 +453,6 @@ c	aat	net/minecraft/EnchantmentDigging
 	m	()I	b	getMaxLevel
 	m	(I)I	b	getMaxEnchantability
 c	aau	net/minecraft/Enchantment
-	f	net/minecraft/Enchantment/field_77351_y	A	type
-	f	net/minecraft/Enchantment/field_77350_z	B	name
 	f	I	a	weight
 	f	[Laau;	b	enchantmentsList
 	f	[Laau;	c	enchantmentsBookList
@@ -490,7 +477,6 @@ c	aau	net/minecraft/Enchantment
 	f	Laau;	v	power
 	f	Laau;	w	punch
 	f	Laau;	x	flame
-	f	net/minecraft/Enchantment/field_77342_w	y	infinity
 	f	I	z	effectId
 	m	(ILnb;)I	a	calcModifierDamage
 	m	(Laau;)Z	a	canApplyTogether
@@ -520,8 +506,6 @@ c	aav	net/minecraft/EnumEnchantmentType
 	m	()[Laav;	values	values
 c	aaw	net/minecraft/EnchantmentHelper
 	f	Ljava/util/Random;	a	enchantmentRand
-	f	net/minecraft/EnchantmentHelper/field_77520_b	b	enchantmentModifierDamage
-	f	net/minecraft/EnchantmentHelper/field_77521_c	c	enchantmentModifierLiving
 	m	(Laay;Lye;)V	a	applyEnchantmentModifier
 	m	(I[Lye;)I	a	getMaxEnchantmentLevel
 	m	(ILye;)I	a	getEnchantmentLevel
@@ -584,11 +568,6 @@ c	abf	net/minecraft/EnchantmentOxygen
 	m	()I	b	getMaxLevel
 	m	(I)I	b	getMaxEnchantability
 c	abg	net/minecraft/EnchantmentProtection
-	f	net/minecraft/EnchantmentProtection/field_77354_A	C	protectionName
-	f	net/minecraft/EnchantmentProtection/field_77355_B	D	baseEnchantability
-	f	net/minecraft/EnchantmentProtection/field_77357_C	E	levelEnchantability
-	f	net/minecraft/EnchantmentProtection/field_77353_D	F	thresholdEnchantability
-	f	net/minecraft/EnchantmentProtection/field_77356_a	a	protectionType
 	m	(ILnb;)I	a	calcModifierDamage
 	m	(Laau;)Z	a	canApplyTogether
 	m	(Lnn;I)I	a	getFireTimeForEntity
@@ -700,7 +679,6 @@ c	abr	net/minecraft/Explosion
 	f	D	d	explosionY
 	f	D	e	explosionZ
 	f	Lnn;	f	exploder
-	f	net/minecraft/Explosion/field_77280_f	g	explosionSize
 	f	Ljava/util/List;	h	affectedBlockPositions
 	f	I	i	field_77289_h
 	f	Ljava/util/Random;	j	explosionRNG
@@ -1212,8 +1190,6 @@ c	acq	net/minecraft/BiomeGenBase
 	f	Lacq;	m	frozenRiver
 	f	Lacq;	n	icePlains
 	f	Lacq;	o	iceMountains
-	f	net/minecraft/BiomeGenBase/field_76789_p	p	mushroomIsland
-	f	net/minecraft/BiomeGenBase/field_76788_q	q	mushroomIslandShore
 	f	Lacq;	r	beach
 	f	Lacq;	s	desertHills
 	f	Lacq;	t	forestHills
@@ -1274,7 +1250,6 @@ c	acu	net/minecraft/BiomeDecorator
 	f	I	A	flowersPerChunk
 	f	I	B	grassPerChunk
 	f	I	C	deadBushPerChunk
-	f	net/minecraft/BiomeDecorator/field_76798_D	D	mushroomsPerChunk
 	f	I	E	reedsPerChunk
 	f	I	F	cactiPerChunk
 	f	I	G	sandPerChunk
@@ -1332,7 +1307,6 @@ c	acv	net/minecraft/WorldChunkManager
 c	acw	net/minecraft/BiomeGenDesert
 	m	(Labw;Ljava/util/Random;II)V	a	decorate
 c	acx	net/minecraft/BiomeGenHills
-	f	net/minecraft/BiomeGenHills/field_82915_S	S	theWorldGenerator
 	m	(Labw;Ljava/util/Random;II)V	a	decorate
 c	acy	net/minecraft/WorldChunkManagerHell
 	f	Lacq;	d	biomeToUse
@@ -1393,8 +1367,6 @@ c	ado	net/minecraft/IChunkProvider
 	m	()I	f	getLoadedChunkCount
 c	adp	net/minecraft/NibbleArray
 	f	[B	a	data
-	f	net/minecraft/NibbleArray/field_76583_b	b	depthBits
-	f	net/minecraft/NibbleArray/field_76584_c	c	depthBitsPlusFour
 	m	(IIII)V	a	set
 	m	(III)I	a	get
 c	adq	net/minecraft/EmptyChunk
@@ -1440,10 +1412,8 @@ c	adr	net/minecraft/Chunk
 	f	[Ljava/util/List;	j	entityLists
 	f	Z	k	isTerrainPopulated
 	f	Z	l	isModified
-	f	net/minecraft/Chunk/field_76644_m	m	hasEntities
 	f	J	n	lastSaveTime
 	f	Z	o	sendUpdates
-	f	net/minecraft/Chunk/field_82912_p	p	heightMapMinimum
 	f	J	q	inhabitedTime
 	f	[Lads;	r	storageArrays
 	f	[B	s	blockBiomeArray
@@ -1945,7 +1915,7 @@ c	afv	net/minecraft/WorldGenSpikes
 	f	I	a	replaceID
 	m	(Labw;Ljava/util/Random;III)Z	a	generate
 c	afw	net/minecraft/WorldGenLiquids
-	f	net/minecraft/WorldGenLiquids/field_76537_a	a	liquidBlockId
+	f	I	a	liquidBlockId
 	m	(Labw;Ljava/util/Random;III)Z	a	generate
 c	afx	net/minecraft/WorldGenTaiga2
 	m	(Labw;Ljava/util/Random;III)Z	a	generate
@@ -2654,23 +2624,13 @@ c	akc	net/minecraft/Material
 	f	Lakc;	E	cake
 	f	Lakc;	F	web
 	f	Lakc;	G	piston
-	f	net/minecraft/Material/field_76234_F	H	materialMapColor
-	f	net/minecraft/Material/field_76235_G	I	canBurn
-	f	net/minecraft/Material/field_76239_H	J	replaceable
-	f	net/minecraft/Material/field_76240_I	K	isTranslucent
-	f	net/minecraft/Material/field_76241_J	L	requiresNoTool
-	f	net/minecraft/Material/field_76242_K	M	mobilityFlag
-	f	net/minecraft/Material/field_85159_M	N	isAdventureModeExempt
 	f	Lakc;	a	air
 	f	Lakc;	b	grass
-	f	net/minecraft/Material/field_76248_c	c	ground
 	f	Lakc;	d	wood
-	f	net/minecraft/Material/field_76246_e	e	rock
 	f	Lakc;	f	iron
 	f	Lakc;	g	anvil
 	f	Lakc;	h	water
 	f	Lakc;	i	lava
-	f	net/minecraft/Material/field_76257_i	j	leaves
 	f	Lakc;	k	plants
 	f	Lakc;	l	vine
 	f	Lakc;	m	sponge
@@ -2842,9 +2802,7 @@ c	alg	net/minecraft/PathFinder
 	f	Lald;	b	path
 	f	Llm;	c	pointMap
 	f	[Lale;	d	pathOptions
-	f	net/minecraft/PathFinder/field_75865_e	e	isWoddenDoorAllowed
 	f	Z	f	isMovementBlockAllowed
-	f	net/minecraft/PathFinder/field_75863_g	g	isPathingInWater
 	f	Z	h	canEntityDrown
 	m	(III)Lale;	a	openPoint
 	m	(Lnn;IIILale;ZZZ)I	a	func_82565_a
@@ -2991,30 +2949,6 @@ c	alr	net/minecraft/SaveFormatOld
 	m	(Ljava/lang/String;)Z	e	deleteWorldDirectory
 	m	(Ljava/lang/String;)Z	f	canLoadWorld
 c	als	net/minecraft/WorldInfo
-	f	net/minecraft/WorldInfo/field_76100_a	a	randomSeed
-	f	net/minecraft/WorldInfo/field_76098_b	b	terrainType
-	f	net/minecraft/WorldInfo/field_82576_c	c	generatorOptions
-	f	net/minecraft/WorldInfo/field_76099_c	d	spawnX
-	f	net/minecraft/WorldInfo/field_76096_d	e	spawnY
-	f	net/minecraft/WorldInfo/field_76097_e	f	spawnZ
-	f	net/minecraft/WorldInfo/field_82575_g	g	totalTime
-	f	net/minecraft/WorldInfo/field_76094_f	h	worldTime
-	f	net/minecraft/WorldInfo/field_76095_g	i	lastTimePlayed
-	f	net/minecraft/WorldInfo/field_76107_h	j	sizeOnDisk
-	f	net/minecraft/WorldInfo/field_76108_i	k	playerTag
-	f	net/minecraft/WorldInfo/field_76105_j	l	dimension
-	f	net/minecraft/WorldInfo/field_76106_k	m	levelName
-	f	net/minecraft/WorldInfo/field_76103_l	n	saveVersion
-	f	net/minecraft/WorldInfo/field_76104_m	o	raining
-	f	net/minecraft/WorldInfo/field_76101_n	p	rainTime
-	f	net/minecraft/WorldInfo/field_76102_o	q	thundering
-	f	net/minecraft/WorldInfo/field_76114_p	r	thunderTime
-	f	net/minecraft/WorldInfo/field_76113_q	s	theGameType
-	f	net/minecraft/WorldInfo/field_76112_r	t	mapFeaturesEnabled
-	f	net/minecraft/WorldInfo/field_76111_s	u	hardcore
-	f	net/minecraft/WorldInfo/field_76110_t	v	allowCommands
-	f	net/minecraft/WorldInfo/field_76109_u	w	initialized
-	f	net/minecraft/WorldInfo/field_82577_x	x	theGameRules
 	m	(III)V	a	setSpawnPosition
 	m	(Z)V	a	setThundering
 	m	(Lby;)Lby;	a	cloneNBTCompound
@@ -3186,8 +3120,6 @@ c	amr	net/minecraft/MapStorage
 c	ams	net/minecraft/ThreadedFileIOBase
 	f	Lams;	a	threadedIOInstance
 	f	Ljava/util/List;	b	threadedIOQueue
-	f	net/minecraft/ThreadedFileIOBase/field_75740_c	c	writeQueuedCounter
-	f	net/minecraft/ThreadedFileIOBase/field_75737_d	d	savedIOCounter
 	f	Z	e	isThreadWaiting
 	m	(Lamt;)V	a	queueIO
 	m	()V	a	waitForFinish
@@ -3417,7 +3349,6 @@ c	anh	net/minecraft/BlockCake
 	m	(Labw;III)Z	f	canBlockStay
 	m	()V	g	setBlockBoundsForItemRender
 c	ani	net/minecraft/BlockCarrot
-	f	net/minecraft/BlockCarrot/field_94364_a	a	iconArray
 	m	(II)Lms;	a	getIcon
 	m	(Lmt;)V	a	registerIcons
 	m	()I	j	getSeedItem
@@ -3442,7 +3373,6 @@ c	anj	net/minecraft/BlockCauldron
 	m	(I)I	h_	func_111045_h_
 	m	()Z	q_	hasComparatorInputOverride
 c	ank	net/minecraft/BlockChest
-	f	net/minecraft/BlockChest/field_94443_a	a	chestType
 	f	Ljava/util/Random;	b	random
 	m	(Lmt;)V	a	registerIcons
 	m	(Labw;IIII)V	a	onNeighborBlockChange
@@ -3715,8 +3645,6 @@ c	aod	net/minecraft/BlockEnderChest
 c	aoe	net/minecraft/ITileEntityProvider
 	m	(Labw;)Lasp;	b	createNewTileEntity
 c	aof	net/minecraft/BlockFarmland
-	f	net/minecraft/BlockFarmland/field_94441_a	a	field_94441_a
-	f	net/minecraft/BlockFarmland/field_94440_b	b	field_94440_b
 	m	(II)Lms;	a	getIcon
 	m	(Labw;IIII)V	a	onNeighborBlockChange
 	m	(Labw;IIILjava/util/Random;)V	a	updateTick
@@ -3870,7 +3798,6 @@ c	aor	net/minecraft/BlockHay
 	m	(I)Lms;	c	getSideIcon
 	m	()I	d	getRenderType
 c	aos	net/minecraft/BlockSand
-	f	net/minecraft/BlockSand/field_72192_a	c	fallInstantly
 	m	(Lsr;)V	a	onStartFalling
 	m	(Labw;IIII)V	a	onNeighborBlockChange
 	m	(Labw;)I	a	tickRate
@@ -4155,7 +4082,6 @@ c	aps	net/minecraft/BlockPortal
 	m	()I	n	getRenderBlockPass
 	m	(Labw;III)Z	o_	tryToCreatePortal
 c	apt	net/minecraft/BlockPotato
-	f	net/minecraft/BlockPotato/field_94365_a	a	iconArray
 	m	(II)Lms;	a	getIcon
 	m	(Labw;IIIIFI)V	a	dropBlockAsItemWithChance
 	m	(Lmt;)V	a	registerIcons
@@ -4382,8 +4308,6 @@ c	aqp	net/minecraft/BlockStairs
 	f	[[I	a	field_72159_a
 	f	Laqz;	b	modelBlock
 	f	I	c	modelBlockMetadata
-	f	net/minecraft/BlockStairs/field_72156_cr	d	field_72156_cr
-	f	net/minecraft/BlockStairs/field_72160_cs	e	field_72160_cs
 	m	(Labw;IIILnn;Latc;)V	a	velocityToAddToEntity
 	m	(Labw;IIIIFFFI)I	a	onBlockPlaced
 	m	(Labw;)I	a	tickRate
@@ -4643,7 +4567,6 @@ c	aqz	net/minecraft/Block
 	f	Laqz;	bl	cake
 	f	Laqf;	bm	redstoneRepeaterIdle
 	f	Laqf;	bn	redstoneRepeaterActive
-	f	net/minecraft/Block/field_72004_bj	bo	lockedChest
 	f	Laqz;	bp	trapdoor
 	f	Laqs;	bq	silverfish
 	f	Laqz;	br	stoneBrick
@@ -4662,11 +4585,9 @@ c	aqz	net/minecraft/Block
 	f	Laqz;	cE	coalBlock
 	f	I	cF	blockID
 	f	F	cG	blockHardness
-	f	net/minecraft/Block/field_72029_cc	cH	blockResistance
 	f	Z	cI	blockConstructorCalled
 	f	Z	cJ	enableStats
 	f	Z	cK	needsRandomTick
-	f	net/minecraft/Block/field_72025_cg	cL	isBlockContainer
 	f	[D	cM	minX
 	f	[D	cN	minY
 	f	[D	cO	minZ
@@ -4720,7 +4641,6 @@ c	aqz	net/minecraft/Block
 	f	[Laqz;	s	blocksList
 	f	[Z	t	opaqueCubeLookup
 	f	[I	u	lightOpacity
-	f	net/minecraft/Block/field_71985_p	v	canBlockGrass
 	f	[I	w	lightValue
 	f	[Z	x	useNeighborBrightness
 	f	Laqz;	y	stone
@@ -4926,9 +4846,6 @@ c	ari	net/minecraft/BlockTrapDoor
 	m	()V	g	setBlockBoundsForItemRender
 	m	(I)Z	g	isValidSupportBlock
 c	arj	net/minecraft/BlockLog
-	f	net/minecraft/BlockLog/field_72142_a	b	woodType
-	f	net/minecraft/BlockLog/field_111052_c	c	field_111052_c
-	f	net/minecraft/BlockLog/field_94388_cO	d	tree_top
 	m	(Labw;IIIII)V	a	breakBlock
 	m	(ILww;Ljava/util/List;)V	a	getSubBlocks
 	m	(Ljava/util/Random;)I	a	quantityDropped
@@ -5044,8 +4961,6 @@ c	ars	net/minecraft/BlockWoodSlab
 	m	(I)Ljava/lang/String;	c	getFullSlabName
 	m	(I)Lye;	d_	createStackedBlock
 c	art	net/minecraft/BlockWood
-	f	net/minecraft/BlockWood/field_72152_a	a	woodType
-	f	net/minecraft/BlockWood/field_94387_c	b	iconArray
 	m	(II)Lms;	a	getIcon
 	m	(ILww;Ljava/util/List;)V	a	getSubBlocks
 	m	(I)I	a	damageDropped
@@ -5068,7 +4983,6 @@ c	aru	net/minecraft/BlockCarpet
 	m	(Labw;III)Z	k	func_111046_k
 c	arv	net/minecraft/BlockWorkbench
 	f	Lms;	a	workbenchIconTop
-	f	net/minecraft/BlockWorkbench/field_94384_b	b	workbenchIconFront
 	m	(II)Lms;	a	getIcon
 	m	(Lmt;)V	a	registerIcons
 	m	(Labw;IIILuf;IFFF)Z	a	onBlockActivated
@@ -5081,7 +4995,6 @@ c	arw	net/minecraft/TileEntityBeacon
 	f	I	f	primaryEffect
 	f	I	g	secondaryEffect
 	f	Lye;	h	payment
-	f	net/minecraft/TileEntityBeacon/field_94048_i	i	field_94048_i
 	m	(Ljava/lang/String;)V	a	func_94047_a
 	m	(I)Lye;	a	getStackInSlot
 	m	(II)Lye;	a	decrStackSize
@@ -5116,7 +5029,6 @@ c	arx	net/minecraft/TileEntityBrewingStand
 	f	I	d	brewTime
 	f	I	e	filledSlots
 	f	I	f	ingredientID
-	f	net/minecraft/TileEntityBrewingStand/field_94132_e	g	field_94132_e
 	m	(Ljava/lang/String;)V	a	func_94131_a
 	m	(I)Lye;	a	getStackInSlot
 	m	(II)Lye;	a	decrStackSize
@@ -5153,8 +5065,6 @@ c	ary	net/minecraft/TileEntityChest
 	f	I	h	numUsingPlayers
 	f	[Lye;	i	chestContents
 	f	I	j	ticksSinceSync
-	f	net/minecraft/TileEntityChest/field_94046_i	r	cachedChestType
-	f	net/minecraft/TileEntityChest/field_94045_s	s	customName
 	m	(Ljava/lang/String;)V	a	setChestGuiName
 	m	(I)Lye;	a	getStackInSlot
 	m	(Luf;)Z	a	isUseableByPlayer
@@ -5215,7 +5125,6 @@ c	asa	net/minecraft/TileEntityComparator
 c	asb	net/minecraft/TileEntityDaylightDetector
 	m	()V	h	updateEntity
 c	asc	net/minecraft/TileEntityDispenser
-	f	net/minecraft/TileEntityDispenser/field_94050_c	a	customName
 	f	[Lye;	b	dispenserContents
 	f	Ljava/util/Random;	c	dispenserRandom
 	m	(Ljava/lang/String;)V	a	setCustomName
@@ -5275,7 +5184,6 @@ c	asg	net/minecraft/TileEntityFurnace
 	f	[I	e	slots_bottom
 	f	[I	f	slots_sides
 	f	[Lye;	g	furnaceItemStacks
-	f	net/minecraft/TileEntityFurnace/field_94130_e	h	field_94130_e
 	m	(Ljava/lang/String;)V	a	setGuiDisplayName
 	m	(I)Lye;	a	getStackInSlot
 	m	(Lye;)I	a	getItemBurnTime
@@ -5309,7 +5217,6 @@ c	ash	net/minecraft/Hopper
 	m	()Labw;	az	getWorldObj
 c	asi	net/minecraft/TileEntityHopper
 	f	[Lye;	a	hopperItemStacks
-	f	net/minecraft/TileEntityHopper/field_94123_d	b	inventoryName
 	f	I	c	transferCooldown
 	m	(Ljava/lang/String;)V	a	setInventoryName
 	m	(I)Lye;	a	getStackInSlot
@@ -5587,13 +5494,10 @@ c	at	net/minecraft/CommandSpreadPlayersPosition
 	m	(Lat;)V	b	func_111094_b
 	m	()F	b	func_111096_b
 c	ata	net/minecraft/MovingObjectPosition
-	f	net/minecraft/MovingObjectPosition/field_72313_a	a	typeOfHit
 	f	I	b	blockX
 	f	I	c	blockY
 	f	I	d	blockZ
 	f	I	e	sideHit
-	f	net/minecraft/MovingObjectPosition/field_72307_f	f	hitVec
-	f	net/minecraft/MovingObjectPosition/field_72308_g	g	entityHit
 c	atb	net/minecraft/EnumMovingObjectType
 	f	Latb;	a	TILE
 	f	Latb;	b	ENTITY
@@ -5856,7 +5760,6 @@ c	atv	net/minecraft/Minecraft
 	f	Ljava/net/Proxy;	ac	proxy
 	f	Lamf;	ad	saveLoader
 	f	I	ae	debugFPS
-	f	net/minecraft/Minecraft/field_71467_ac	af	rightClickDelayTimer
 	f	Z	ag	refreshTexturePacksScheduled
 	f	Ljava/lang/String;	ah	serverName
 	f	I	ai	serverPort
@@ -6050,7 +5953,6 @@ c	aul	net/minecraft/GameSettings
 	f	[Lats;	W	keyBindings
 	f	Latv;	X	mc
 	f	I	Y	difficulty
-	f	net/minecraft/GameSettings/field_74319_N	Z	hideGUI
 	f	F	a	musicVolume
 	f	I	aa	thirdPersonView
 	f	Z	ab	showDebugInfo
@@ -6483,7 +6385,6 @@ c	avi	net/minecraft/FontRenderer
 	f	[Lbjo;	c	unicodePageLocations
 	f	[I	d	charWidth
 	f	[B	e	glyphWidth
-	f	net/minecraft/FontRenderer/field_78285_g	f	colorCode
 	f	Lbjo;	g	locationFontTexture
 	f	Lbim;	h	renderEngine
 	f	F	i	posX
@@ -8877,7 +8778,6 @@ c	bdq	net/minecraft/EntityCrit2FX
 	f	Lnn;	a	theEntity
 	f	I	aB	currentLife
 	f	I	aC	maximumLife
-	f	net/minecraft/EntityCrit2FX/field_70558_as	aD	particleName
 	m	(Lbfq;FFFFFF)V	a	renderParticle
 	m	()I	b	getFXLayer
 	m	()V	l_	onUpdate
@@ -9226,7 +9126,6 @@ c	bfa	net/minecraft/WorldRenderer
 	f	Z	w	isChunkLit
 	f	Ljava/util/List;	x	tileEntityRenderers
 	f	I	y	glRenderList
-	f	net/minecraft/WorldRenderer/field_78941_z	z	tessellator
 	m	()V	a	updateRenderer
 	m	(I)I	a	getGLCallListForPass
 	m	(Lbft;)V	a	updateInFrustum
@@ -9735,7 +9634,6 @@ c	bfw	net/minecraft/ClippingHelper
 	f	[F	d	clippingMatrix
 	m	(DDDDDD)Z	b	isBoxInFrustum
 c	bfz	net/minecraft/RenderArrow
-	f	net/minecraft/RenderArrow/field_110780_a	a	arrowTextures
 	m	(Luh;DDDFF)V	a	renderArrow
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Luh;)Lbjo;	a	getArrowTextures
@@ -9755,7 +9653,6 @@ c	bg	net/minecraft/BlockSourceImpl
 	m	()Lasp;	j	getBlockTileEntity
 	m	()Labw;	k	getWorld
 c	bga	net/minecraft/RenderBat
-	f	net/minecraft/RenderBat/field_110835_a	a	batTextures
 	f	I	f	renderedBatSize
 	m	(Lro;DDD)V	a	func_82445_a
 	m	(Log;DDDFF)V	a	doRenderLiving
@@ -9770,7 +9667,6 @@ c	bga	net/minecraft/RenderBat
 	m	(Lof;DDD)V	a	renderLivingAt
 	m	(Lro;FFF)V	a	func_82444_a
 c	bgb	net/minecraft/RenderBlaze
-	f	net/minecraft/RenderBlaze/field_110837_a	a	blazeTextures
 	f	I	f	field_77068_a
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
@@ -9786,14 +9682,12 @@ c	bgc	net/minecraft/RenderBoat
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lsq;DDDFF)V	a	renderBoat
 c	bgd	net/minecraft/RenderCaveSpider
-	f	net/minecraft/RenderCaveSpider/field_110893_a	a	caveSpiderTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lte;)Lbjo;	a	getCaveSpiderTextures
 	m	(Ltt;)Lbjo;	a	getSpiderTextures
 	m	(Lof;F)V	a	preRenderCallback
 	m	(Lte;F)V	a	scaleSpider
 c	bge	net/minecraft/RenderChicken
-	f	net/minecraft/RenderChicken/field_110920_a	a	chickenTextures
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lrq;DDDFF)V	a	renderChicken
 	m	(Lnn;DDDFF)V	a	doRender
@@ -9803,12 +9697,9 @@ c	bge	net/minecraft/RenderChicken
 	m	(Lrq;F)F	a	getWingRotation
 	m	(Lof;F)F	b	handleRotationFloat
 c	bgf	net/minecraft/RenderCow
-	f	net/minecraft/RenderCow/field_110833_a	a	cowTextures
 	m	(Lrr;)Lbjo;	a	getCowTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 c	bgg	net/minecraft/RenderCreeper
-	f	net/minecraft/RenderCreeper/field_110831_a	a	armoredCreeperTextures
-	f	net/minecraft/RenderCreeper/field_110830_f	f	creeperTextures
 	f	Lbbo;	g	creeperModel
 	m	(Ltf;IF)I	a	renderCreeperPassModel
 	m	(Lnn;)Lbjo;	a	getEntityTexture
@@ -9832,10 +9723,6 @@ c	bgi	net/minecraft/RenderEnderCrystal
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 c	bgj	net/minecraft/RenderDragon
 	f	Lbcn;	a	modelDragon
-	f	net/minecraft/RenderDragon/field_110842_f	f	enderDragonExplodingTextures
-	f	net/minecraft/RenderDragon/field_110843_g	g	enderDragonCrystalBeamTextures
-	f	net/minecraft/RenderDragon/field_110845_h	h	enderDragonEyesTextures
-	f	net/minecraft/RenderDragon/field_110844_k	k	enderDragonTextures
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Lsk;FFFFFF)V	a	renderDragonModel
 	m	(Lsk;F)V	a	renderDragonDying
@@ -9851,8 +9738,6 @@ c	bgj	net/minecraft/RenderDragon
 	m	(Lof;IF)I	a	shouldRenderPass
 	m	(Lof;F)V	c	renderEquippedItems
 c	bgk	net/minecraft/RenderEnderman
-	f	net/minecraft/RenderEnderman/field_110840_a	a	endermanEyesTexture
-	f	net/minecraft/RenderEnderman/field_110839_f	f	endermanTextures
 	f	Lbbh;	g	endermanModel
 	f	Ljava/util/Random;	h	rnd
 	m	(Ltg;F)V	a	renderCarrying
@@ -9939,14 +9824,11 @@ c	bgq	net/minecraft/RenderFish
 	m	(Lul;)Lbjo;	a	func_110791_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 c	bgr	net/minecraft/RenderGhast
-	f	net/minecraft/RenderGhast/field_110869_a	a	ghastTextures
-	f	net/minecraft/RenderGhast/field_110868_f	f	ghastShootingTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Ltj;F)V	a	preRenderGhast
 	m	(Ltj;)Lbjo;	a	func_110867_a
 	m	(Lof;F)V	a	preRenderCallback
 c	bgs	net/minecraft/RenderGiantZombie
-	f	net/minecraft/RenderGiantZombie/field_110871_a	a	zombieTextures
 	f	F	f	scale
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Ltk;)Lbjo;	a	getZombieTextures
@@ -9954,11 +9836,6 @@ c	bgs	net/minecraft/RenderGiantZombie
 	m	(Lof;F)V	a	preRenderCallback
 c	bgt	net/minecraft/RenderHorse
 	f	Ljava/util/Map;	a	field_110852_a
-	f	net/minecraft/RenderHorse/field_110850_f	f	whiteHorseTextures
-	f	net/minecraft/RenderHorse/field_110851_g	g	muleTextures
-	f	net/minecraft/RenderHorse/field_110855_h	h	donkeyTextures
-	f	net/minecraft/RenderHorse/field_110854_k	k	zombieHorseTextures
-	f	net/minecraft/RenderHorse/field_110853_l	l	skeletonHorseTextures
 	m	(Lrs;)Lbjo;	a	func_110849_a
 	m	(Lrs;F)V	a	func_110847_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
@@ -9972,7 +9849,6 @@ c	bgu	net/minecraft/RenderBiped
 	f	Lbbj;	g	field_82423_g
 	f	Lbbj;	h	field_82425_h
 	f	Ljava/util/Map;	k	field_110859_k
-	f	net/minecraft/RenderBiped/field_82424_k	l	bipedArmorFilenamePrefix
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Lwh;I)Lbjo;	a	func_110857_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
@@ -10026,7 +9902,6 @@ c	bgx	net/minecraft/RenderSnowball
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lbfq;Lms;)V	a	func_77026_a
 c	bgy	net/minecraft/RenderMagmaCube
-	f	net/minecraft/RenderMagmaCube/field_110873_a	a	magmaCubeTextures
 	m	(Ltl;F)V	a	scaleMagmaCube
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Ltl;)Lbjo;	a	getMagmaCubeTextures
@@ -10096,7 +9971,6 @@ c	bhe	net/minecraft/RenderLiving
 	m	(Log;)Z	b	func_130007_b
 	m	(Lof;)Z	b	func_110813_b
 c	bhf	net/minecraft/RenderMooshroom
-	f	net/minecraft/RenderMooshroom/field_110880_a	a	mooshroomTextures
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Lrw;F)V	a	renderMooshroomEquippedItems
@@ -10106,10 +9980,6 @@ c	bhf	net/minecraft/RenderMooshroom
 	m	(Lof;DDDFF)V	a	doRenderLiving
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhg	net/minecraft/RenderOcelot
-	f	net/minecraft/RenderOcelot/field_110877_a	a	blackOcelotTextures
-	f	net/minecraft/RenderOcelot/field_110875_f	f	ocelotTextures
-	f	net/minecraft/RenderOcelot/field_110876_g	g	redOcelotTextures
-	f	net/minecraft/RenderOcelot/field_110878_h	h	siameseOcelotTextures
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Lrx;)Lbjo;	a	func_110874_a
@@ -10127,8 +9997,6 @@ c	bhh	net/minecraft/RenderPainting
 	m	(Lol;IIII)V	a	func_77010_a
 	m	(Lol;FF)V	a	func_77008_a
 c	bhi	net/minecraft/RenderPig
-	f	net/minecraft/RenderPig/field_110888_a	a	saddledPigTextures
-	f	net/minecraft/RenderPig/field_110887_f	f	pigTextures
 	m	(Lry;)Lbjo;	a	getPigTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lry;IF)I	a	renderSaddledPig
@@ -10159,14 +10027,11 @@ c	bhj	net/minecraft/RenderPlayer
 	m	(Lof;IF)V	c	func_82408_c
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhk	net/minecraft/RenderSheep
-	f	net/minecraft/RenderSheep/field_110885_a	a	sheepTextures
-	f	net/minecraft/RenderSheep/field_110884_f	f	shearedSheepTextures
 	m	(Lrz;)Lbjo;	a	func_110883_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lof;IF)I	a	shouldRenderPass
 	m	(Lrz;IF)I	a	setWoolColorAndRender
 c	bhl	net/minecraft/RenderSilverfish
-	f	net/minecraft/RenderSilverfish/field_110882_a	a	silverfishTextures
 	m	(Ltq;IF)I	a	shouldSilverfishRenderPass
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
@@ -10178,8 +10043,6 @@ c	bhl	net/minecraft/RenderSilverfish
 	m	(Lof;IF)I	a	shouldRenderPass
 	m	(Ltq;)Lbjo;	b	getSilverfishTextures
 c	bhm	net/minecraft/RenderSkeleton
-	f	net/minecraft/RenderSkeleton/field_110862_k	k	skeletonTextures
-	f	net/minecraft/RenderSkeleton/field_110861_l	l	witherSkeletonTextures
 	m	(Ltr;F)V	a	scaleSkeleton
 	m	(Log;)Lbjo;	a	func_110856_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
@@ -10196,15 +10059,12 @@ c	bhn	net/minecraft/RenderSlime
 	m	(Lof;F)V	a	preRenderCallback
 	m	(Lof;IF)I	a	shouldRenderPass
 c	bho	net/minecraft/RenderSnowMan
-	f	net/minecraft/RenderSnowMan/field_110895_a	a	snowManTextures
 	f	Lbcc;	f	snowmanModel
 	m	(Lsb;)Lbjo;	a	getSnowManTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lsb;F)V	a	renderSnowmanPumpkin
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhp	net/minecraft/RenderSpider
-	f	net/minecraft/RenderSpider/field_110891_a	a	spiderEyesTextures
-	f	net/minecraft/RenderSpider/field_110890_f	f	spiderTextures
 	m	(Ltt;IF)I	a	setSpiderEyeBrightness
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Ltt;)Lbjo;	a	getSpiderTextures
@@ -10212,7 +10072,6 @@ c	bhp	net/minecraft/RenderSpider
 	m	(Lof;IF)I	a	shouldRenderPass
 	m	(Ltt;)F	b	setSpiderDeathMaxRotation
 c	bhq	net/minecraft/RenderSquid
-	f	net/minecraft/RenderSquid/field_110901_a	a	squidTextures
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
 	m	(Lsc;)Lbjo;	a	getSquidTextures
@@ -10233,7 +10092,6 @@ c	bhs	net/minecraft/RenderTNTPrimed
 	m	(Ltc;DDDFF)V	a	renderPrimedTNT
 	m	(Ltc;)Lbjo;	a	func_110808_a
 c	bht	net/minecraft/RenderIronGolem
-	f	net/minecraft/RenderIronGolem/field_110899_a	a	ironGolemTextures
 	f	Lbcg;	f	ironGolemModel
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
@@ -10247,12 +10105,6 @@ c	bht	net/minecraft/RenderIronGolem
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhu	net/minecraft/RenderVillager
 	f	Lbch;	a	villagerModel
-	f	net/minecraft/RenderVillager/field_110903_f	f	villagerTextures
-	f	net/minecraft/RenderVillager/field_110904_g	g	farmerVillagerTextures
-	f	net/minecraft/RenderVillager/field_110908_h	h	librarianVillagerTextures
-	f	net/minecraft/RenderVillager/field_110907_k	k	priestVillagerTextures
-	f	net/minecraft/RenderVillager/field_110905_l	l	smithVillagerTextures
-	f	net/minecraft/RenderVillager/field_110906_m	m	butcherVillagerTextures
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lub;IF)I	a	shouldVillagerRenderPass
 	m	(Lnn;DDDFF)V	a	doRender
@@ -10266,7 +10118,6 @@ c	bhu	net/minecraft/RenderVillager
 	m	(Lub;F)V	b	preRenderVillager
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhv	net/minecraft/RenderWitch
-	f	net/minecraft/RenderWitch/field_110910_a	a	witchTextures
 	f	Lbcj;	f	witchModel
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Ltv;)Lbjo;	a	getWitchTextures
@@ -10280,8 +10131,6 @@ c	bhv	net/minecraft/RenderWitch
 	m	()V	b	func_82410_b
 	m	(Lof;F)V	c	renderEquippedItems
 c	bhw	net/minecraft/RenderWither
-	f	net/minecraft/RenderWither/field_110913_a	a	invulnerableWitherTextures
-	f	net/minecraft/RenderWither/field_110912_f	f	witherTextures
 	f	I	g	field_82419_a
 	m	(Log;DDDFF)V	a	doRenderLiving
 	m	(Lnn;DDDFF)V	a	doRender
@@ -10305,10 +10154,6 @@ c	bhx	net/minecraft/RenderWitherSkull
 	m	(FFF)F	a	func_82400_a
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 c	bhy	net/minecraft/RenderWolf
-	f	net/minecraft/RenderWolf/field_110917_a	a	wolfTextures
-	f	net/minecraft/RenderWolf/field_110915_f	f	tamedWolfTextures
-	f	net/minecraft/RenderWolf/field_110916_g	g	anrgyWolfTextures
-	f	net/minecraft/RenderWolf/field_110918_h	h	wolfCollarTextures
 	m	(Lnn;)Lbjo;	a	getEntityTexture
 	m	(Lsf;)Lbjo;	a	func_110914_a
 	m	(Lsf;IF)I	a	func_82447_a
@@ -10320,9 +10165,6 @@ c	bhz	net/minecraft/RenderZombie
 	f	Lbbj;	l	field_82435_l
 	f	Lbbj;	m	field_82436_m
 	f	Lbbj;	n	field_82433_n
-	f	net/minecraft/RenderZombie/field_110866_o	o	zombiePigmanTextures
-	f	net/minecraft/RenderZombie/field_110865_p	p	zombieTextures
-	f	net/minecraft/RenderZombie/field_110864_q	q	zombieVillagerTextures
 	f	Lbbj;	r	field_82434_o
 	f	Lbci;	s	zombieVillagerModel
 	f	I	t	field_82431_q
@@ -11622,14 +11464,6 @@ c	d	net/minecraft/CallableOSInfo
 	m	()Ljava/lang/Object;	call	call
 c	dd	net/minecraft/Packet23VehicleSpawn
 	f	I	a	entityId
-	f	net/minecraft/Packet23VehicleSpawn/field_73524_b	b	xPosition
-	f	net/minecraft/Packet23VehicleSpawn/field_73525_c	c	yPosition
-	f	net/minecraft/Packet23VehicleSpawn/field_73522_d	d	zPosition
-	f	net/minecraft/Packet23VehicleSpawn/field_73523_e	e	speedX
-	f	net/minecraft/Packet23VehicleSpawn/field_73520_f	f	speedY
-	f	net/minecraft/Packet23VehicleSpawn/field_73521_g	g	speedZ
-	f	net/minecraft/Packet23VehicleSpawn/field_92077_h	h	pitch
-	f	net/minecraft/Packet23VehicleSpawn/field_92078_i	i	yaw
 	f	I	j	type
 	f	I	k	throwerEntityId
 	m	(Ljava/io/DataInput;)V	a	readPacketData
@@ -11637,37 +11471,19 @@ c	dd	net/minecraft/Packet23VehicleSpawn
 	m	(Lez;)V	a	processPacket
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	de	net/minecraft/Packet26EntityExpOrb
-	f	net/minecraft/Packet26EntityExpOrb/field_73533_a	a	entityId
-	f	net/minecraft/Packet26EntityExpOrb/field_73531_b	b	posX
-	f	net/minecraft/Packet26EntityExpOrb/field_73532_c	c	posY
-	f	net/minecraft/Packet26EntityExpOrb/field_73529_d	d	posZ
-	f	net/minecraft/Packet26EntityExpOrb/field_73530_e	e	xpValue
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
 	m	(Lez;)V	a	processPacket
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	df	net/minecraft/Packet71Weather
 	f	I	a	entityID
-	f	net/minecraft/Packet71Weather/field_73536_b	b	posX
-	f	net/minecraft/Packet71Weather/field_73537_c	c	posY
-	f	net/minecraft/Packet71Weather/field_73534_d	d	posZ
 	f	I	e	isLightningBolt
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
 	m	(Lez;)V	a	processPacket
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	dg	net/minecraft/Packet24MobSpawn
-	f	net/minecraft/Packet24MobSpawn/field_73496_a	a	entityId
 	f	I	b	type
-	f	net/minecraft/Packet24MobSpawn/field_73495_c	c	xPosition
-	f	net/minecraft/Packet24MobSpawn/field_73492_d	d	yPosition
-	f	net/minecraft/Packet24MobSpawn/field_73493_e	e	zPosition
-	f	net/minecraft/Packet24MobSpawn/field_73490_f	f	velocityX
-	f	net/minecraft/Packet24MobSpawn/field_73491_g	g	velocityY
-	f	net/minecraft/Packet24MobSpawn/field_73499_h	h	velocityZ
-	f	net/minecraft/Packet24MobSpawn/field_73500_i	i	yaw
-	f	net/minecraft/Packet24MobSpawn/field_73497_j	j	pitch
-	f	net/minecraft/Packet24MobSpawn/field_73498_k	k	headYaw
 	f	Loo;	t	metaData
 	f	Ljava/util/List;	u	metadata
 	m	(Ljava/io/DataInput;)V	a	readPacketData
@@ -11689,11 +11505,6 @@ c	dh	net/minecraft/Packet25EntityPainting
 c	di	net/minecraft/Packet20NamedEntitySpawn
 	f	I	a	entityId
 	f	Ljava/lang/String;	b	name
-	f	net/minecraft/Packet20NamedEntitySpawn/field_73515_c	c	xPosition
-	f	net/minecraft/Packet20NamedEntitySpawn/field_73512_d	d	yPosition
-	f	net/minecraft/Packet20NamedEntitySpawn/field_73513_e	e	zPosition
-	f	net/minecraft/Packet20NamedEntitySpawn/field_73510_f	f	rotation
-	f	net/minecraft/Packet20NamedEntitySpawn/field_73511_g	g	pitch
 	f	I	h	currentItem
 	f	Loo;	i	metadata
 	f	Ljava/util/List;	j	metadataWatchableObjects
@@ -11886,7 +11697,6 @@ c	ec	net/minecraft/Packet17Sleep
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	ed	net/minecraft/Packet38EntityStatus
 	f	I	a	entityId
-	f	net/minecraft/Packet38EntityStatus/field_73626_b	b	entityStatus
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
 	m	(Lez;)V	a	processPacket
@@ -11895,7 +11705,6 @@ c	ee	net/minecraft/Packet60Explosion
 	f	D	a	explosionX
 	f	D	b	explosionY
 	f	D	c	explosionZ
-	f	net/minecraft/Packet60Explosion/field_73612_d	d	explosionSize
 	f	Ljava/util/List;	e	chunkPositionRecords
 	f	F	f	playerVelocityX
 	f	F	g	playerVelocityY
@@ -11948,9 +11757,6 @@ c	ej	net/minecraft/Packet51MapChunk
 	f	I	c	yChMin
 	f	I	d	yChMax
 	f	Z	e	includeInitialize
-	f	net/minecraft/Packet51MapChunk/field_73595_f	f	chunkData
-	f	net/minecraft/Packet51MapChunk/field_73596_g	g	compressedChunkData
-	f	net/minecraft/Packet51MapChunk/field_73602_h	h	tempLength
 	f	[B	i	temp
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
@@ -11959,7 +11765,6 @@ c	ej	net/minecraft/Packet51MapChunk
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 	m	()[B	d	getCompressedChunkData
 c	ek	net/minecraft/Packet51MapChunkData
-	f	net/minecraft/Packet51MapChunkData/field_74582_a	a	compressedData
 	f	I	b	chunkExistFlag
 	f	I	c	chunkHasAddSectionFlag
 c	el	net/minecraft/Packet56MapChunks
@@ -11967,11 +11772,8 @@ c	el	net/minecraft/Packet56MapChunks
 	f	[I	b	field_73588_b
 	f	[I	c	chunkPostX
 	f	[I	d	chunkPosZ
-	f	net/minecraft/Packet56MapChunks/field_73587_e	e	chunkDataBuffer
 	f	[[B	f	field_73584_f
-	f	net/minecraft/Packet56MapChunks/field_73585_g	g	dataLength
 	f	Z	h	skyLightSent
-	f	net/minecraft/Packet56MapChunks/field_73591_h	i	chunkDataNotCompressed
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	(I)I	a	getChunkPosX
 	m	()I	a	getPacketSize
@@ -12271,10 +12073,6 @@ c	fd	net/minecraft/Packet201PlayerInfo
 	m	(Lez;)V	a	processPacket
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	fe	net/minecraft/Packet27PlayerInput
-	f	net/minecraft/Packet27PlayerInput/field_111017_a	a	field_111017_a
-	f	net/minecraft/Packet27PlayerInput/field_111015_b	b	field_111015_b
-	f	net/minecraft/Packet27PlayerInput/field_111016_c	c	field_111016_c
-	f	net/minecraft/Packet27PlayerInput/field_111014_d	d	field_111014_d
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
 	m	(Lez;)V	a	processPacket
@@ -12391,8 +12189,6 @@ c	fq	net/minecraft/Packet5PlayerInventory
 	m	()Z	e	isRealPacket
 c	fr	net/minecraft/Packet43Experience
 	f	I	a	experience
-	f	net/minecraft/Packet43Experience/field_73394_b	b	experienceTotal
-	f	net/minecraft/Packet43Experience/field_73395_c	c	experienceLevel
 	m	(Ley;)Z	a	containsSameEntityIDAs
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
@@ -12401,8 +12197,6 @@ c	fr	net/minecraft/Packet43Experience
 	m	()Z	e	isRealPacket
 c	fs	net/minecraft/Packet8UpdateHealth
 	f	F	a	healthMP
-	f	net/minecraft/Packet8UpdateHealth/field_73638_b	b	food
-	f	net/minecraft/Packet8UpdateHealth/field_73639_c	c	foodSaturation
 	m	(Ley;)Z	a	containsSameEntityIDAs
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
@@ -12450,8 +12244,6 @@ c	fw	net/minecraft/Packet6SpawnPosition
 	m	()Z	a_	canProcessAsync
 	m	()Z	e	isRealPacket
 c	fx	net/minecraft/Packet4UpdateTime
-	f	net/minecraft/Packet4UpdateTime/field_82562_a	a	worldAge
-	f	net/minecraft/Packet4UpdateTime/field_73301_a	b	time
 	m	(Ley;)Z	a	containsSameEntityIDAs
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
@@ -12491,12 +12283,6 @@ c	ga	net/minecraft/Packet22Collect
 	m	(Lez;)V	a	processPacket
 	m	(Ljava/io/DataOutput;)V	a	writePacketData
 c	gb	net/minecraft/Packet34EntityTeleport
-	f	net/minecraft/Packet34EntityTeleport/field_73319_a	a	entityId
-	f	net/minecraft/Packet34EntityTeleport/field_73317_b	b	xPosition
-	f	net/minecraft/Packet34EntityTeleport/field_73318_c	c	yPosition
-	f	net/minecraft/Packet34EntityTeleport/field_73315_d	d	zPosition
-	f	net/minecraft/Packet34EntityTeleport/field_73316_e	e	yaw
-	f	net/minecraft/Packet34EntityTeleport/field_73314_f	f	pitch
 	m	(Ley;)Z	a	containsSameEntityIDAs
 	m	(Ljava/io/DataInput;)V	a	readPacketData
 	m	()I	a	getPacketSize
@@ -12593,7 +12379,6 @@ c	gk	net/minecraft/Packet15Place
 	f	I	a	xPosition
 	f	I	b	yPosition
 	f	I	c	zPosition
-	f	net/minecraft/Packet15Place/field_73411_d	d	direction
 	f	Lye;	e	itemStack
 	f	F	f	xOffset
 	f	F	g	yOffset
@@ -12712,7 +12497,6 @@ c	hg	net/minecraft/ConvertingProgressUpdate
 	m	(I)V	a	setLoadingProgress
 	m	(Ljava/lang/String;)V	c	resetProgresAndWorkingMessage
 c	hh	net/minecraft/ThreadDedicatedServer
-	f	net/minecraft/ThreadDedicatedServer/field_96244_a	a	connectedDedicatedServer
 	m	()V	run	run
 c	hi	net/minecraft/ThreadMinecraftServer
 	f	Lnet/minecraft/server/MinecraftServer;	a	theServer
@@ -13136,8 +12920,6 @@ c	iy	net/minecraft/ServerListenThread
 	m	()I	d	getMyPort
 	m	()V	run	run
 c	iz	net/minecraft/MinecraftServerGui
-	f	net/minecraft/MinecraftServerGui/field_120022_a	a	field_120022_a
-	f	net/minecraft/MinecraftServerGui/field_120021_b	b	field_120021_b
 	m	(Liz;)Lis;	a	func_120017_a
 	m	(Lis;)V	a	func_120016_a
 	m	()Ljavax/swing/JComponent;	b	func_120019_b
@@ -13148,42 +12930,25 @@ c	j	net/minecraft/CallableSuspiciousClasses
 	m	()Ljava/lang/String;	a	callSuspiciousClasses
 	m	()Ljava/lang/Object;	call	call
 c	ja	net/minecraft/MinecraftServerGuiINNER1
-	f	net/minecraft/MinecraftServerGuiINNER1/field_120023_a	a	field_120023_a
 	m	(Ljava/awt/event/WindowEvent;)V	windowClosing	windowClosing
 c	jb	net/minecraft/MinecraftServerGuiINNER2
-	f	net/minecraft/MinecraftServerGuiINNER2/field_120025_a	a	field_120025_a
-	f	net/minecraft/MinecraftServerGuiINNER2/field_120024_b	b	field_120024_b
 	m	(Ljava/awt/event/ActionEvent;)V	actionPerformed	actionPerformed
 c	jc	net/minecraft/MinecraftServerGuiINNER3
-	f	net/minecraft/MinecraftServerGuiINNER3/field_120032_a	a	field_120032_a
 	m	(Ljava/awt/event/FocusEvent;)V	focusGained	focusGained
 c	jd	net/minecraft/PlayerListComponent
-	f	net/minecraft/PlayerListComponent/field_120015_a	a	field_120015_a
-	f	net/minecraft/PlayerListComponent/field_120014_b	b	field_120014_b
 	m	()V	a	update
 c	je	net/minecraft/StatsComponent
-	f	net/minecraft/StatsComponent/field_120040_a	a	field_120040_a
-	f	net/minecraft/StatsComponent/field_120038_b	b	field_120038_b
-	f	net/minecraft/StatsComponent/field_120039_c	c	field_120039_c
-	f	net/minecraft/StatsComponent/field_120036_d	d	field_120036_d
-	f	net/minecraft/StatsComponent/field_120037_e	e	field_120037_e
 	m	([J)D	a	func_120035_a
 	m	()V	a	func_120034_a
 	m	(Lje;)V	a	func_120033_a
 	m	(Ljava/awt/Graphics;)V	paint	paint
 c	jf	net/minecraft/StatsComponentINNER1
-	f	net/minecraft/StatsComponentINNER1/field_120030_a	a	field_120030_a
 	m	(Ljava/awt/event/ActionEvent;)V	actionPerformed	actionPerformed
 c	jg	net/minecraft/TextAreaLogHandler
-	f	net/minecraft/TextAreaLogHandler/field_120029_a	a	field_120029_a
-	f	net/minecraft/TextAreaLogHandler/field_120027_b	b	field_120027_b
-	f	net/minecraft/TextAreaLogHandler/field_120028_c	c	field_120028_c
-	f	net/minecraft/TextAreaLogHandler/field_120026_d	d	field_120026_d
 	m	()V	close	close
 	m	()V	flush	flush
 	m	(Ljava/util/logging/LogRecord;)V	publish	publish
 c	jh	net/minecraft/TextAreaLogHandlerINNER1
-	f	net/minecraft/TextAreaLogHandlerINNER1/field_120031_a	a	field_120031_a
 	m	(Ljava/util/logging/LogRecord;)Ljava/lang/String;	format	format
 c	ji	net/minecraft/DestroyBlockProgress
 	f	I	a	miningPlayerEntId
@@ -13324,7 +13089,6 @@ c	js	net/minecraft/WorldServer
 	f	Ljp;	K	thePlayerManager
 	f	Ljava/util/Set;	L	pendingTickListEntriesHashSet
 	f	Ljava/util/TreeSet;	M	pendingTickListEntriesTreeSet
-	f	net/minecraft/WorldServer/field_73068_P	N	allPlayersSleeping
 	f	I	O	updateEntityTick
 	f	Lacj;	P	worldTeleporter
 	f	Laci;	Q	animalSpawner
@@ -13386,9 +13150,6 @@ c	jv	net/minecraft/ServerPlayer
 	f	Ljava/lang/String;	bN	translator
 	f	F	bO	field_130068_bO
 	f	F	bP	lastHealth
-	f	net/minecraft/ServerPlayer/field_71146_ci	bQ	lastFoodLevel
-	f	net/minecraft/ServerPlayer/field_71147_cj	bR	wasHungry
-	f	net/minecraft/ServerPlayer/field_71144_ck	bS	lastExperience
 	f	I	bT	initialInvulnerability
 	f	I	bU	renderDistance
 	f	I	bV	chatVisibility
@@ -13472,18 +13233,6 @@ c	jw	net/minecraft/ItemInWorldManager
 	f	Labw;	a	theWorld
 	f	Ljv;	b	thisPlayerMP
 	f	Lace;	c	gameType
-	f	net/minecraft/ItemInWorldManager/field_73088_d	d	isDestroyingBlock
-	f	net/minecraft/ItemInWorldManager/field_73089_e	e	initialDamage
-	f	net/minecraft/ItemInWorldManager/field_73086_f	f	partiallyDestroyedBlockX
-	f	net/minecraft/ItemInWorldManager/field_73087_g	g	partiallyDestroyedBlockY
-	f	net/minecraft/ItemInWorldManager/field_73099_h	h	partiallyDestroyedBlockZ
-	f	net/minecraft/ItemInWorldManager/field_73100_i	i	curblockDamage
-	f	net/minecraft/ItemInWorldManager/field_73097_j	j	receivedFinishDiggingPacket
-	f	net/minecraft/ItemInWorldManager/field_73098_k	k	posX
-	f	net/minecraft/ItemInWorldManager/field_73095_l	l	posY
-	f	net/minecraft/ItemInWorldManager/field_73096_m	m	posZ
-	f	net/minecraft/ItemInWorldManager/field_73093_n	n	field_73093_n
-	f	net/minecraft/ItemInWorldManager/field_73094_o	o	durabilityRemainingOnBlock
 	m	(III)V	a	uncheckedTryHarvestBlock
 	m	(Luf;Labw;Lye;IIIIFFF)Z	a	activateBlockOrUseItem
 	m	(IIII)V	a	onBlockClicked
@@ -13518,7 +13267,6 @@ c	jx	net/minecraft/EntityTrackerEntry
 	f	D	r	posZ
 	f	Z	s	isDataInitialized
 	f	Z	t	sendVelocityUpdates
-	f	net/minecraft/EntityTrackerEntry/field_73142_u	u	ticksSinceLastForcedTeleport
 	f	Lnn;	v	field_85178_v
 	f	Z	w	ridingEntity
 	m	(Ljava/util/List;)V	a	sendLocationToAllClients
@@ -13794,7 +13542,6 @@ c	kp	net/minecraft/AchievementList
 	f	Lko;	o	buildBetterPickaxe
 	f	Lko;	p	cookFish
 	f	Lko;	q	onARail
-	f	net/minecraft/AchievementList/field_76024_r	r	buildSword
 	f	Lko;	s	killEnemy
 	f	Lko;	t	killCow
 	f	Lko;	u	flyPig
@@ -14118,8 +13865,6 @@ c	mj	net/minecraft/WeightedRandomItem
 	f	I	a	itemWeight
 c	mk	net/minecraft/WeightedRandomChestContent
 	f	Lye;	b	theItemId
-	f	net/minecraft/WeightedRandomChestContent/field_76295_d	c	theMinimumChanceToGenerateItem
-	f	net/minecraft/WeightedRandomChestContent/field_76296_e	d	theMaximumChanceToGenerateItem
 	m	([Lmk;[Lmk;)[Lmk;	a	func_92080_a
 	m	(Ljava/util/Random;[Lmk;Lmo;I)V	a	generateChestContents
 	m	(Ljava/util/Random;[Lmk;Lasc;I)V	a	generateDispenserContents
@@ -14289,13 +14034,9 @@ c	nb	net/minecraft/DamageSource
 	f	Lnb;	m	anvil
 	f	Lnb;	n	fallingBlock
 	f	Ljava/lang/String;	o	damageType
-	f	net/minecraft/DamageSource/field_76374_o	p	isUnblockable
 	f	Z	q	isDamageAllowedInCreativeMode
 	f	F	r	hungerDamage
 	f	Z	s	fireDamage
-	f	net/minecraft/DamageSource/field_76382_s	t	projectile
-	f	net/minecraft/DamageSource/field_76381_t	u	difficultyScaled
-	f	net/minecraft/DamageSource/field_82730_x	v	magicDamage
 	f	Z	w	explosion
 	m	(Labr;)Lnb;	a	setExplosionSource
 	m	(Lof;)Lnb;	a	causeMobDamage
@@ -14325,7 +14066,6 @@ c	nb	net/minecraft/DamageSource
 	m	()Z	q	isMagicDamage
 	m	()Lnb;	r	setMagicDamage
 c	nc	net/minecraft/EntityDamageSource
-	f	net/minecraft/EntityDamageSource/field_76386_o	p	damageSourceEntity
 	m	(Lof;)Lcv;	b	getDeathMessage
 	m	()Lnn;	i	getEntity
 	m	()Z	p	isDifficultyScaled
@@ -14647,15 +14387,9 @@ c	nn	net/minecraft/Entity
 	f	F	aa	entityCollisionReduction
 	f	Ljava/util/Random;	ab	rand
 	f	I	ac	ticksExisted
-	f	net/minecraft/Entity/field_70174_ab	ad	fireResistance
 	f	Z	ae	inWater
 	f	I	af	hurtResistantTime
-	f	net/minecraft/Entity/field_70178_ae	ag	isImmuneToFire
 	f	Loo;	ah	dataWatcher
-	f	net/minecraft/Entity/field_70175_ag	ai	addedToChunk
-	f	net/minecraft/Entity/field_70176_ah	aj	chunkCoordX
-	f	net/minecraft/Entity/field_70162_ai	ak	chunkCoordY
-	f	net/minecraft/Entity/field_70164_aj	al	chunkCoordZ
 	f	Z	am	ignoreFrustumCheck
 	f	Z	an	isAirBorne
 	f	I	ao	timeUntilPortal
@@ -14665,10 +14399,7 @@ c	nn	net/minecraft/Entity
 	f	I	as	teleportDirection
 	f	Lnr;	at	myEntitySize
 	f	I	b	nextEntityID
-	f	net/minecraft/Entity/field_70118_ct	bZ	serverPosX
 	f	I	c	nextStepDistance
-	f	net/minecraft/Entity/field_70117_cu	ca	serverPosY
-	f	net/minecraft/Entity/field_70116_cv	cb	serverPosZ
 	f	I	d	fire
 	f	Z	e	firstUpdate
 	f	D	f	entityRiderPitchDelta
@@ -14974,12 +14705,6 @@ c	of	net/minecraft/EntityLivingBase
 	f	F	aR	jumpMovementFactor
 	f	Luf;	aS	attackingPlayer
 	f	I	aT	recentlyHit
-	f	net/minecraft/EntityLivingBase/field_70729_aU	aU	dead
-	f	net/minecraft/EntityLivingBase/field_70708_bq	aV	entityAge
-	f	net/minecraft/EntityLivingBase/field_70768_au	aW	field_70768_au
-	f	net/minecraft/EntityLivingBase/field_110154_aX	aX	field_110154_aX
-	f	net/minecraft/EntityLivingBase/field_70764_aw	aY	field_70764_aw
-	f	net/minecraft/EntityLivingBase/field_70763_ax	aZ	field_70763_ax
 	f	Z	au	isSwingInProgress
 	f	I	av	swingProgressInt
 	f	I	aw	arrowHitTimer
@@ -14987,7 +14712,6 @@ c	of	net/minecraft/EntityLivingBase
 	f	I	ay	hurtTime
 	f	I	az	maxHurtTime
 	f	Ljava/util/UUID;	b	sprintingSpeedBoostModifierUUID
-	f	net/minecraft/EntityLivingBase/field_70741_aB	ba	field_70741_aB
 	f	I	bb	scoreValue
 	f	F	bc	lastDamage
 	f	Z	bd	isJumping
@@ -15000,8 +14724,6 @@ c	of	net/minecraft/EntityLivingBase
 	f	D	bk	newPosZ
 	f	D	bl	newRotationYaw
 	f	D	bm	newRotationPitch
-	f	net/minecraft/EntityLivingBase/field_110150_bn	bn	lastAttacker
-	f	net/minecraft/EntityLivingBase/field_142016_bo	bo	lastAttackerTime
 	f	F	bp	landMovementFactor
 	f	I	bq	jumpTicks
 	f	F	br	field_110151_bq
@@ -15132,7 +14854,6 @@ c	of	net/minecraft/EntityLivingBase
 	m	()V	y	onEntityUpdate
 c	og	net/minecraft/EntityLiving
 	f	I	a_	livingSoundTime
-	f	net/minecraft/EntityLiving/field_70728_aV	b	experienceValue
 	f	Lpb;	bn	bodyHelper
 	f	Lrf;	bo	navigator
 	f	Lof;	bp	attackTarget
@@ -15225,14 +14946,10 @@ c	og	net/minecraft/EntityLiving
 	m	()V	y	onEntityUpdate
 c	oh	net/minecraft/EnumCreatureType
 	f	Loh;	a	monster
-	f	net/minecraft/EnumCreatureType/creature	b	creature
 	f	Loh;	c	ambient
-	f	net/minecraft/EnumCreatureType/waterCreature	d	waterCreature
 	f	Ljava/lang/Class;	e	creatureClass
 	f	I	f	maxNumberOfCreature
 	f	Lakc;	g	creatureMaterial
-	f	net/minecraft/EnumCreatureType/field_75604_g	h	isPeacefulCreature
-	f	net/minecraft/EnumCreatureType/field_82707_i	i	isAnimal
 	f	[Loh;	j	$VALUES
 	m	()Ljava/lang/Class;	a	getCreatureClass
 	m	()I	b	getMaxNumberOfCreature
@@ -16041,8 +15758,6 @@ c	rf	net/minecraft/PathNavigate
 	m	()V	n	removeSunnyPath
 c	rg	net/minecraft/EntitySenses
 	f	Log;	a	entityObj
-	f	net/minecraft/EntitySenses/field_75524_b	b	seenEntities
-	f	net/minecraft/EntitySenses/field_75525_c	c	unseenEntities
 	m	()V	a	clearSensingCache
 	m	(Lnn;)Z	a	canSee
 c	rh	net/minecraft/RandomPositionGenerator
@@ -16211,7 +15926,6 @@ c	rq	net/minecraft/EntityChicken
 	f	F	br	field_70884_g
 	f	F	bs	field_70888_h
 	f	F	bt	field_70889_i
-	f	net/minecraft/EntityChicken/field_70887_j	bu	timeUntilNextEgg
 	m	(Lnk;)Lnk;	a	createChild
 	m	(IIII)V	a	playStepSound
 	m	()Ljava/lang/String;	aO	getHurtSound
@@ -16266,7 +15980,6 @@ c	rs	net/minecraft/EntityHorse
 	f	Lor;	bv	horseJumpStrength
 	f	[Ljava/lang/String;	bw	horseArmorTextures
 	f	[Ljava/lang/String;	bx	field_110273_bx
-	f	net/minecraft/EntityHorse/field_110272_by	by	armorValues
 	f	[Ljava/lang/String;	bz	horseTextures
 	m	()Z	M	canBePushed
 	m	()V	W	updateRiderPosition
@@ -17228,10 +16941,6 @@ c	tr	net/minecraft/EntitySkeleton
 	m	()Ljava/lang/String;	r	getLivingSound
 	m	()I	s	getDropItemId
 c	ts	net/minecraft/EntitySlime
-	f	net/minecraft/EntitySlime/field_70810_d	bn	slimeJumpDelay
-	f	net/minecraft/EntitySlime/field_70813_a	h	squishAmount
-	f	net/minecraft/EntitySlime/field_70811_b	i	squishFactor
-	f	net/minecraft/EntitySlime/field_70812_c	j	prevSquishFactor
 	m	(I)V	a	setSlimeSize
 	m	(Lby;)V	a	readEntityFromNBT
 	m	()V	a	entityInit
@@ -17298,8 +17007,6 @@ c	tv	net/minecraft/EntityWitch
 	m	()Ljava/lang/String;	r	getLivingSound
 c	tw	net/minecraft/EntityZombie
 	f	Lor;	bp	field_110186_bp
-	f	net/minecraft/EntityZombie/field_110187_bq	bq	babySpeedBoostUUID
-	f	net/minecraft/EntityZombie/field_110188_br	br	babySpeedBoostModifier
 	f	I	bs	conversionTime
 	m	(Z)V	a	setChild
 	m	(Loi;)Loi;	a	onSpawnWithEgg
@@ -17477,16 +17184,11 @@ c	ue	net/minecraft/CallableItemName
 	m	()Ljava/lang/Object;	call	call
 c	uf	net/minecraft/EntityPlayer
 	f	Lwb;	a	theInventoryEnderChest
-	f	net/minecraft/EntityPlayer/field_71076_b	b	sleepTimer
 	f	D	bA	field_71095_bQ
 	f	D	bB	field_71085_bR
-	f	net/minecraft/EntityPlayer/field_71083_bS	bC	sleeping
-	f	net/minecraft/EntityPlayer/field_71081_bT	bD	playerLocation
 	f	F	bE	field_71079_bU
 	f	F	bF	field_71089_bV
 	f	Luc;	bG	capabilities
-	f	net/minecraft/EntityPlayer/field_71068_ca	bH	experienceLevel
-	f	net/minecraft/EntityPlayer/field_71067_cb	bI	experienceTotal
 	f	I	bJ	experience
 	f	F	bK	speedOnGround
 	f	F	bL	speedInAir
@@ -17815,7 +17517,6 @@ c	ut	net/minecraft/EntityExpBottle
 	m	()F	d	func_70183_g
 	m	()F	e	getGravityVelocity
 c	uu	net/minecraft/EntityPotion
-	f	net/minecraft/EntityPotion/field_70197_d	c	potionDamage
 	m	(Lata;)V	a	onImpact
 	m	(Lby;)V	a	readEntityFromNBT
 	m	(I)V	a	setPotionDamage
@@ -17835,11 +17536,6 @@ c	uv	net/minecraft/EntityWitherSkull
 	m	()F	c	getMotionFactor
 	m	()Z	d	isInvulnerable
 c	ux	net/minecraft/FoodStats
-	f	net/minecraft/FoodStats/field_75127_a	a	foodLevel
-	f	net/minecraft/FoodStats/field_75125_b	b	foodSaturationLevel
-	f	net/minecraft/FoodStats/field_75126_c	c	foodExhaustionLevel
-	f	net/minecraft/FoodStats/field_75123_d	d	foodTimer
-	f	net/minecraft/FoodStats/field_75124_e	e	prevFoodLevel
 	m	(Lby;)V	a	readNBT
 	m	(I)V	a	setFoodLevel
 	m	(F)V	a	addExhaustion
@@ -17901,16 +17597,13 @@ c	v	net/minecraft/ChatAllowedCharacters
 	m	()Ljava/lang/String;	a	getAllowedCharacters
 	m	(Ljava/lang/String;)Ljava/lang/String;	a	filerAllowedCharacters
 c	va	net/minecraft/ContainerRepair
-	f	net/minecraft/ContainerRepair/field_82854_e	a	maximumCost
 	f	Lmo;	f	outputSlot
 	f	Lmo;	g	inputSlots
-	f	net/minecraft/ContainerRepair/field_82860_h	h	theWorld
 	f	I	i	field_82861_i
 	f	I	j	field_82858_j
 	f	I	k	field_82859_k
 	f	I	l	stackSizeToBeUsedInRepair
 	f	Ljava/lang/String;	m	repairedItemName
-	f	net/minecraft/ContainerRepair/field_82855_n	n	thePlayer
 	m	(Ljava/lang/String;)V	a	updateItemName
 	m	(Lva;)Lmo;	a	getRepairInputInventory
 	m	(Lvi;)V	a	addCraftingToCrafters
@@ -17998,12 +17691,6 @@ c	vk	net/minecraft/InventoryCrafting
 	m	()I	j_	getSizeInventory
 	m	()V	k_	openChest
 c	vl	net/minecraft/ContainerWorkbench
-	f	net/minecraft/ContainerWorkbench/field_75162_e	a	craftMatrix
-	f	net/minecraft/ContainerWorkbench/field_75160_f	f	craftResult
-	f	net/minecraft/ContainerWorkbench/field_75161_g	g	worldObj
-	f	net/minecraft/ContainerWorkbench/field_75164_h	h	posX
-	f	net/minecraft/ContainerWorkbench/field_75165_i	i	posY
-	f	net/minecraft/ContainerWorkbench/field_75163_j	j	posZ
 	m	(Lye;Lwe;)Z	a	func_94530_a
 	m	(Luf;)Z	a	canInteractWith
 	m	(Lmo;)V	a	onCraftMatrixChanged
@@ -18013,7 +17700,6 @@ c	vm	net/minecraft/ContainerEnchantment
 	f	Lmo;	a	tableInventory
 	f	J	f	nameSeed
 	f	[I	g	enchantLevels
-	f	net/minecraft/ContainerEnchantment/field_75172_h	h	worldPointer
 	f	I	i	posX
 	f	I	j	posY
 	f	I	k	posZ
@@ -18045,8 +17731,6 @@ c	vp	net/minecraft/ContainerFurnace
 	m	(Luf;I)Lye;	b	transferStackInSlot
 	m	()V	b	detectAndSendChanges
 c	vq	net/minecraft/SlotFurnace
-	f	net/minecraft/SlotFurnace/field_75229_a	a	thePlayer
-	f	net/minecraft/SlotFurnace/field_75228_b	b	field_75228_b
 	m	(Lye;I)V	a	onCrafting
 	m	(Lye;)Z	a	isItemValid
 	m	(I)Lye;	a	decrStackSize
@@ -18072,10 +17756,6 @@ c	vu	net/minecraft/ContainerHorseInventorySlotArmor
 	m	(Lye;)Z	a	isItemValid
 	m	()Z	b	func_111238_b
 c	vv	net/minecraft/ContainerPlayer
-	f	net/minecraft/ContainerPlayer/field_75181_e	a	craftMatrix
-	f	net/minecraft/ContainerPlayer/field_75179_f	f	craftResult
-	f	net/minecraft/ContainerPlayer/field_75180_g	g	isLocalWorld
-	f	net/minecraft/ContainerPlayer/field_82862_h	h	thePlayer
 	m	(Lye;Lwe;)Z	a	func_94530_a
 	m	(Luf;)Z	a	canInteractWith
 	m	(Lmo;)V	a	onCraftMatrixChanged
@@ -18113,7 +17793,6 @@ c	vy	net/minecraft/InventoryMerchant
 c	vz	net/minecraft/ContainerMerchant
 	f	Labk;	a	theMerchant
 	f	Lvy;	f	merchantInventory
-	f	net/minecraft/ContainerMerchant/field_75177_g	g	theWorld
 	m	(Lvi;)V	a	addCraftingToCrafters
 	m	(Luf;)Z	a	canInteractWith
 	m	(Lmo;)V	a	onCraftMatrixChanged
@@ -18199,14 +17878,10 @@ c	wg	net/minecraft/ItemAnvilBlock
 c	wh	net/minecraft/ItemArmor
 	f	[Ljava/lang/String;	a	field_94603_a
 	f	I	b	armorType
-	f	net/minecraft/ItemArmor/field_77879_b	c	damageReduceAmount
-	f	net/minecraft/ItemArmor/field_77882_bY	cB	maxDamageArray
 	f	[Ljava/lang/String;	cC	field_94606_cu
 	f	Lbj;	cD	field_96605_cw
-	f	net/minecraft/ItemArmor/field_77878_bZ	cE	material
 	f	Lms;	cF	field_94605_cw
 	f	Lms;	cG	field_94604_cx
-	f	net/minecraft/ItemArmor/field_77880_c	d	renderIndex
 	m	(Lye;I)I	a	getColorFromItemStack
 	m	(Lye;)Z	a	hasColor
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
@@ -18240,7 +17915,6 @@ c	wj	net/minecraft/EnumArmorMaterial
 	m	(Ljava/lang/String;)Lwj;	valueOf	valueOf
 	m	()[Lwj;	values	values
 c	wk	net/minecraft/ItemBlockWithMetadata
-	f	net/minecraft/ItemBlockWithMetadata/field_96601_a	a	theBlock
 	m	(I)I	a	getMetadata
 	m	(I)Lms;	b_	getIconFromDamage
 c	wl	net/minecraft/ItemBed
@@ -18255,7 +17929,6 @@ c	wo	net/minecraft/ItemGlassBottle
 	m	(Lmt;)V	a	registerIcons
 	m	(I)Lms;	b_	getIconFromDamage
 c	wp	net/minecraft/ItemBow
-	f	net/minecraft/ItemBow/field_94601_a	a	bowPullIconNameArray
 	f	[Lms;	b	iconArray
 	m	(Lye;Labw;Luf;I)V	a	onPlayerStoppedUsing
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
@@ -18268,7 +17941,6 @@ c	wp	net/minecraft/ItemBow
 c	wq	net/minecraft/ItemSoup
 	m	(Lye;Labw;Luf;)Lye;	b	onEaten
 c	wr	net/minecraft/ItemBucket
-	f	net/minecraft/ItemBucket/field_77876_a	a	isFull
 	m	(Labw;III)Z	a	tryPlaceContainedLiquid
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
 c	ws	net/minecraft/ItemCarrotOnAStick
@@ -18282,7 +17954,6 @@ c	wt	net/minecraft/ItemCoal
 	m	(I)Lms;	b_	getIconFromDamage
 	m	(Lye;)Ljava/lang/String;	d	getUnlocalizedName
 c	wu	net/minecraft/ItemColored
-	f	net/minecraft/ItemColored/field_77896_a	a	blockRef
 	f	[Ljava/lang/String;	b	blockNames
 	m	(Lye;I)I	a	getColorFromItemStack
 	m	(I)I	a	getMetadata
@@ -18311,7 +17982,6 @@ c	ww	net/minecraft/CreativeTabs
 	f	Ljava/lang/String;	p	backgroundImageName
 	f	Z	q	hasScrollbar
 	f	Z	r	drawTitle
-	f	net/minecraft/CreativeTabs/field_111230_s	s	field_111230_s
 	m	(Ljava/lang/String;)Lww;	a	setBackgroundImageName
 	m	(Ljava/util/List;)V	a	displayAllReleventItems
 	m	([Laav;)Lww;	a	func_111229_a
@@ -18363,9 +18033,6 @@ c	xh	net/minecraft/CreativeTabFood
 c	xi	net/minecraft/CreativeTabTools
 	m	()I	e	getTabIconItemIndex
 c	xj	net/minecraft/ItemTool
-	f	net/minecraft/ItemTool/field_77864_a	a	efficiencyOnProperMaterial
-	f	net/minecraft/ItemTool/field_77862_b	b	toolMaterial
-	f	net/minecraft/ItemTool/field_77863_c	c	blocksEffectiveAgainst
 	f	F	d	damageVsEntity
 	m	(Lye;Labw;IIIILof;)Z	a	onBlockDestroyed
 	m	(Lye;Lof;Lof;)Z	a	hitEntity
@@ -18376,7 +18043,6 @@ c	xj	net/minecraft/ItemTool
 	m	()Lcom/google/common/collect/Multimap;	h	getItemAttributeModifiers
 	m	()Z	n_	isFull3D
 c	xk	net/minecraft/ItemDoor
-	f	net/minecraft/ItemDoor/field_77870_a	a	doorMaterial
 	m	(Lye;Luf;Labw;IIIIFFF)Z	a	onItemUse
 	m	(Labw;IIIILaqz;)V	a	placeDoorBlock
 c	xl	net/minecraft/ItemDye
@@ -18430,7 +18096,6 @@ c	xu	net/minecraft/ItemFirework
 	m	(Lye;Luf;Labw;IIIIFFF)Z	a	onItemUse
 	m	(Lye;Luf;Ljava/util/List;Z)V	a	addInformation
 c	xv	net/minecraft/ItemFishingRod
-	f	net/minecraft/ItemFishingRod/field_94598_a	a	theIcon
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
 	m	(Lmt;)V	a	registerIcons
 	m	()Lms;	g	func_94597_g
@@ -18440,14 +18105,10 @@ c	xw	net/minecraft/ItemFlintAndSteel
 	m	(Lye;Luf;Labw;IIIIFFF)Z	a	onItemUse
 c	xx	net/minecraft/ItemFood
 	f	I	a	itemUseDuration
-	f	net/minecraft/ItemFood/field_77853_b	b	healAmount
-	f	net/minecraft/ItemFood/field_77854_c	c	saturationModifier
-	f	net/minecraft/ItemFood/field_77852_bZ	cB	alwaysEdible
 	f	I	cC	potionId
 	f	I	cD	potionDuration
 	f	I	cE	potionAmplifier
 	f	F	cF	potionEffectProbability
-	f	net/minecraft/ItemFood/field_77856_bY	d	isWolfsFavoriteMeat
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
 	m	(IIIF)Lxx;	a	setPotionEffect
 	m	(Lye;Labw;Luf;)Lye;	b	onEaten
@@ -18470,22 +18131,14 @@ c	xz	net/minecraft/ItemHangingEntity
 c	y	net/minecraft/IAdminCommand
 	m	(Lad;ILjava/lang/String;[Ljava/lang/Object;)V	a	notifyAdmins
 c	ya	net/minecraft/ItemAxe
-	f	net/minecraft/ItemAxe/field_77868_c	c	blocksEffectiveAgainst
 	m	(Lye;Laqz;)F	a	getStrVsBlock
 c	yb	net/minecraft/ItemHoe
-	f	net/minecraft/ItemHoe/field_77843_a	a	theToolMaterial
 	m	(Lye;Luf;Labw;IIIIFFF)Z	a	onItemUse
 	m	()Ljava/lang/String;	g	getMaterialName
 	m	()Z	n_	isFull3D
 c	yc	net/minecraft/Item
-	f	net/minecraft/Item/field_77719_y	A	axeStone
-	f	net/minecraft/Item/field_77718_z	B	swordDiamond
-	f	net/minecraft/Item/field_77673_A	C	shovelDiamond
-	f	net/minecraft/Item/field_77674_B	D	pickaxeDiamond
-	f	net/minecraft/Item/field_77675_C	E	axeDiamond
 	f	Lyc;	F	stick
 	f	LItemBowl;	G	bowlEmpty
-	f	net/minecraft/Item/field_77671_F	H	bowlSoup
 	f	Lyc;	I	swordGold
 	f	Lyc;	J	shovelGold
 	f	Lyc;	K	pickaxeGold
@@ -18493,10 +18146,7 @@ c	yc	net/minecraft/Item
 	f	Lyc;	M	silk
 	f	Lyc;	N	feather
 	f	Lyc;	O	gunpowder
-	f	net/minecraft/Item/field_77678_N	P	hoeWood
-	f	net/minecraft/Item/field_77679_O	Q	hoeStone
 	f	Lyc;	R	hoeIron
-	f	net/minecraft/Item/field_77688_Q	S	hoeDiamond
 	f	Lyc;	T	hoeGold
 	f	Lyc;	U	seeds
 	f	Lyc;	V	wheat
@@ -18505,7 +18155,6 @@ c	yc	net/minecraft/Item
 	f	LItemCuirass;	Y	plateLeather
 	f	LItemLeggings;	Z	legsLeather
 	f	Lww;	a	tabToDisplayOn
-	f	net/minecraft/Item/field_77775_ay	aA	bucketLava
 	f	Lyc;	aB	minecartEmpty
 	f	Lyc;	aC	saddle
 	f	Lyc;	aD	doorIron
@@ -18513,7 +18162,6 @@ c	yc	net/minecraft/Item
 	f	Lyc;	aF	snowball
 	f	Lyc;	aG	boat
 	f	Lyc;	aH	leather
-	f	net/minecraft/Item/field_77771_aG	aI	bucketMilk
 	f	Lyc;	aJ	brick
 	f	Lyc;	aK	clay
 	f	Lyc;	aL	reed
@@ -18524,7 +18172,6 @@ c	yc	net/minecraft/Item
 	f	Lyc;	aQ	minecartPowered
 	f	Lyc;	aR	egg
 	f	Lyc;	aS	compass
-	f	net/minecraft/Item/field_77749_aR	aT	fishingRod
 	f	Lyc;	aU	pocketSundial
 	f	Lyc;	aV	glowstone
 	f	LItemMeat;	aW	fishRaw
@@ -18532,18 +18179,10 @@ c	yc	net/minecraft/Item
 	f	Lyc;	aY	dyePowder
 	f	Lyc;	aZ	bone
 	f	LItemBoots;	aa	bootsLeather
-	f	net/minecraft/Item/field_77694_Z	ab	helmetChain
-	f	net/minecraft/Item/field_77814_aa	ac	plateChain
-	f	net/minecraft/Item/field_77816_ab	ad	legsChain
-	f	net/minecraft/Item/field_77810_ac	ae	bootsChain
 	f	LItemHelmet;	af	helmetIron
 	f	LItemCuirass;	ag	plateIron
 	f	LItemLeggings;	ah	legsIron
 	f	LItemBoots;	ai	bootsIron
-	f	net/minecraft/Item/field_77820_ah	aj	helmetDiamond
-	f	net/minecraft/Item/field_77798_ai	ak	plateDiamond
-	f	net/minecraft/Item/field_77800_aj	al	legsDiamond
-	f	net/minecraft/Item/field_77794_ak	am	bootsDiamond
 	f	LItemHelmet;	an	helmetGold
 	f	LItemCuirass;	ao	plateGold
 	f	LItemLeggings;	ap	legsGold
@@ -18555,8 +18194,6 @@ c	yc	net/minecraft/Item
 	f	Lyc;	av	appleGold
 	f	Lyc;	aw	sign
 	f	Lyc;	ax	doorWood
-	f	net/minecraft/Item/field_77788_aw	ay	bucketEmpty
-	f	net/minecraft/Item/field_77786_ax	az	bucketWater
 	f	I	b	maxDamage
 	f	Lyc;	bA	brewingStand
 	f	Lyc;	bB	cauldron
@@ -18577,7 +18214,6 @@ c	yc	net/minecraft/Item
 	f	Lxn;	bQ	emptyMap
 	f	Lyc;	bR	goldenCarrot
 	f	Lyc;	bS	skull
-	f	net/minecraft/Item/field_82793_bR	bT	carrotOnAStick
 	f	Lyc;	bU	netherStar
 	f	Lyc;	bV	pumpkinPie
 	f	Lyc;	bW	firework
@@ -18619,7 +18255,6 @@ c	yc	net/minecraft/Item
 	f	Lyc;	cd	minecartHopper
 	f	LItemHorseArmor;	ce	horseArmorIron
 	f	LItemHorseArmor;	cf	horseArmorGold
-	f	net/minecraft/Item/field_111213_cg	cg	horseArmorDiamond
 	f	Lyc;	ch	leash
 	f	Lyc;	ci	nameTag
 	f	Lyc;	cj	record13
@@ -18637,7 +18272,6 @@ c	yc	net/minecraft/Item
 	f	I	cv	itemID
 	f	I	cw	maxStackSize
 	f	Z	cx	bFull3D
-	f	net/minecraft/Item/field_77787_bX	cy	hasSubtypes
 	f	Lms;	cz	itemIcon
 	f	Ljava/lang/String;	d	potionEffect
 	f	Ljava/util/UUID;	e	field_111210_e
@@ -18649,19 +18283,12 @@ c	yc	net/minecraft/Item
 	f	Lyc;	k	flintAndSteel
 	f	Lyc;	l	appleRed
 	f	Lwp;	m	bow
-	f	net/minecraft/Item/field_77704_l	n	arrow
 	f	Lyc;	o	coal
 	f	Lyc;	p	diamond
 	f	Lyc;	q	ingotIron
 	f	Lyc;	r	ingotGold
 	f	Lzl;	s	swordIron
-	f	net/minecraft/Item/field_77715_r	t	swordWood
 	f	Lyc;	u	shovelWood
-	f	net/minecraft/Item/field_77713_t	v	pickaxeWood
-	f	net/minecraft/Item/field_77712_u	w	axeWood
-	f	net/minecraft/Item/field_77711_v	x	swordStone
-	f	net/minecraft/Item/field_77710_w	y	shovelStone
-	f	net/minecraft/Item/field_77720_x	z	pickaxeStone
 	m	()Ljava/lang/String;	A	getIconString
 	m	(Lye;Labw;Luf;I)V	a	onPlayerStoppedUsing
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
@@ -18749,7 +18376,6 @@ c	ye	net/minecraft/ItemStack
 	f	I	c	animationsToGo
 	f	I	d	itemID
 	f	Lby;	e	stackTagCompound
-	f	net/minecraft/ItemStack/field_77991_e	f	itemDamage
 	f	Lod;	g	itemFrame
 	m	()Z	A	isOnItemFrame
 	m	()Lod;	B	getItemFrame
@@ -18842,7 +18468,6 @@ c	yk	net/minecraft/BehaviorDispenseMinecart
 	m	(Lbf;)V	a	playDispenseSound
 	m	(Lbf;Lye;)Lye;	b	dispenseStack
 c	yl	net/minecraft/ItemMultiTextureTile
-	f	net/minecraft/ItemMultiTextureTile/field_82805_a	a	theBlock
 	f	[Ljava/lang/String;	b	field_82804_b
 	m	(I)I	a	getMetadata
 	m	(I)Lms;	b_	getIconFromDamage
@@ -18850,7 +18475,6 @@ c	yl	net/minecraft/ItemMultiTextureTile
 c	ym	net/minecraft/ItemNameTag
 	m	(Lye;Luf;Lof;)Z	a	itemInteractionForEntity
 c	yn	net/minecraft/ItemPickaxe
-	f	net/minecraft/ItemPickaxe/field_77867_c	c	blocksEffectiveAgainst
 	m	(Lye;Laqz;)F	a	getStrVsBlock
 	m	(Laqz;)Z	a	canHarvestBlock
 c	yo	net/minecraft/ItemPiston
@@ -19021,8 +18645,6 @@ c	zk	net/minecraft/ItemLilyPad
 	m	(Lye;I)I	a	getColorFromItemStack
 	m	(Lye;Labw;Luf;)Lye;	a	onItemRightClick
 c	zl	net/minecraft/ItemSword
-	f	net/minecraft/ItemSword/field_77827_a	a	weaponDamage
-	f	net/minecraft/ItemSword/field_77826_b	b	toolMaterial
 	m	(Lye;Labw;IIIILof;)Z	a	onBlockDestroyed
 	m	(Lye;Laqz;)F	a	getStrVsBlock
 	m	(Laqz;)Z	a	canHarvestBlock
@@ -19089,8 +18711,6 @@ c	zw	net/minecraft/RecipesArmorDyes
 	m	()I	a	getRecipeSize
 	m	()Lye;	b	getRecipeOutput
 c	zx	net/minecraft/RecipesArmor
-	f	net/minecraft/RecipesArmor/field_77611_a	a	recipePatterns
-	f	net/minecraft/RecipesArmor/field_77610_b	b	recipeItems
 	m	(Laaf;)V	a	addRecipes
 c	zy	net/minecraft/RecipesDyes
 	m	(Laaf;)V	a	addRecipes

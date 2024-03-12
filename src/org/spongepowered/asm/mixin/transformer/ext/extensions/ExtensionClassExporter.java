@@ -27,17 +27,18 @@ package org.spongepowered.asm.mixin.transformer.ext.extensions;
 import com.google.common.io.Files;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.transformer.ext.IDecompiler;
 import org.spongepowered.asm.mixin.transformer.ext.IExtension;
 import org.spongepowered.asm.mixin.transformer.ext.ITargetClassContext;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.transformers.MixinClassWriter;
 import org.spongepowered.asm.util.Constants;
+import org.spongepowered.asm.util.perf.Profiler;
 import org.spongepowered.asm.util.perf.Profiler.Section;
 
 import java.io.File;
@@ -58,7 +59,7 @@ public class ExtensionClassExporter implements IExtension {
     /**
      * Logger
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * Directory to export classes to when debug.export is enabled
@@ -97,8 +98,8 @@ public class ExtensionClassExporter implements IExtension {
             Class<? extends IDecompiler> clazz = (Class<? extends IDecompiler>)Class.forName(className);
             Constructor<? extends IDecompiler> ctor = clazz.getDeclaredConstructor(File.class);
             IDecompiler decompiler = ctor.newInstance(outputPath);
-            ExtensionClassExporter.logger.info("Fernflower decompiler was successfully initialised, exported classes will be decompiled{}",
-                    as ? " in a separate thread" : "");
+            ExtensionClassExporter.logger.info("Fernflower decompiler was successfully initialised from {}, exported classes will be decompiled{}",
+                    decompiler, as ? " in a separate thread" : "");
             return decompiler;
         } catch (Throwable th) {
             ExtensionClassExporter.logger.info("Fernflower could not be loaded, exported classes will not be decompiled. {}: {}",
@@ -135,7 +136,7 @@ public class ExtensionClassExporter implements IExtension {
         if (force || env.getOption(Option.DEBUG_EXPORT)) {
             String filter = env.getOptionValue(Option.DEBUG_EXPORT_FILTER);
             if (force || filter == null || this.applyFilter(filter, name)) {
-                Section exportTimer = MixinEnvironment.getProfiler().begin("debug.export");
+                Section exportTimer = Profiler.getProfiler("export").begin("debug.export");
                 
                 File outputFile = this.dumpClass(name.replace('.', '/'), classNode);
                 if (this.decompiler != null) {

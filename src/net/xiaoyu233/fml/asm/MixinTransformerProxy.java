@@ -1,6 +1,7 @@
 package net.xiaoyu233.fml.asm;
 
 import org.apache.logging.log4j.LogManager;
+import org.spongepowered.asm.mixin.transformer.MixinTransformer;
 import org.spongepowered.asm.service.ILegacyClassTransformer;
 
 import java.util.ArrayList;
@@ -12,12 +13,12 @@ public class MixinTransformerProxy implements IClassTransformer, ILegacyClassTra
    private final ILegacyClassTransformer transformer;
    private boolean isActive = true;
 
-   public MixinTransformerProxy(ILegacyClassTransformer transformer) {
+   public MixinTransformerProxy() {
       MixinTransformerProxy proxy;
       for(Iterator<MixinTransformerProxy> var1 = proxies.iterator(); var1.hasNext(); proxy.isActive = false) {
          proxy = var1.next();
       }
-      this.transformer = transformer;
+      this.transformer = new MixinTransformer();
 
       proxies.add(this);
       LogManager.getLogger("mixin").debug("Adding new mixin transformer proxy #{}", proxies.size());

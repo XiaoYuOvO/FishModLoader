@@ -2,6 +2,7 @@ package net.xiaoyu233.fml.reload.utils;
 
 import net.minecraft.Minecraft;
 import net.minecraft.ThreadDownloadImageData;
+import net.xiaoyu233.fml.relaunch.Launch;
 import net.xiaoyu233.fml.reload.transform.fix.skin.ThreadDownloadImageDataAccessor;
 
 import javax.imageio.ImageIO;
@@ -13,6 +14,7 @@ public class SkinDownloadThread extends Thread {
    final ThreadDownloadImageData texture;
 
    public SkinDownloadThread(ThreadDownloadImageData texture) {
+      this.setContextClassLoader(Launch.knotLoader.getClassLoader());
       this.texture = texture;
    }
 

@@ -29,12 +29,13 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.spongepowered.asm.mixin.transformer.throwables.MixinTransformerError;
 import org.spongepowered.asm.util.Bytecode;
+import org.spongepowered.asm.util.Handles;
 
 /**
  * Reference to a field or method that also includes invocation instructions.
  *
- * <p>To instances are defined to be equal if they both refer to the same method
- * and have the same invocation instructions.</p>
+ * <p>Two instances are defined to be equal if they both refer to the same
+ * member and have the same invocation instructions.</p>
  */
 public abstract class MemberRef {
 
@@ -180,117 +181,11 @@ public abstract class MemberRef {
         }
     }
 
-    /**
-     * A reference to a field or method backed by a method handle
-     */
-    public static final class Handle extends MemberRef {
-
-        private org.objectweb.asm.Handle handle;
-
-        /**
-         * Creates a member reference initially referring to the member referred
-         * to by the method handle and the invocation instruction of the method
-         * handle.
-         *
-         * @param handle Initial method handle.
-         */
-        public Handle(org.objectweb.asm.Handle handle) {
-            this.handle = handle;
-        }
-
-        /**
-         * Gets a method handle for the member this is object is referring to.
-         *
-         * @return Method handle representing this object
-         */
-        public org.objectweb.asm.Handle getMethodHandle() {
-            return this.handle;
-        }
-
-        @Override
-        public boolean isField() {
-            switch (this.handle.getTag()) {
-                case Opcodes.H_INVOKEVIRTUAL:
-                case Opcodes.H_INVOKESTATIC:
-                case Opcodes.H_INVOKEINTERFACE:
-                case Opcodes.H_INVOKESPECIAL:
-                case Opcodes.H_NEWINVOKESPECIAL:
-                    return false;
-                case Opcodes.H_GETFIELD:
-                case Opcodes.H_GETSTATIC:
-                case Opcodes.H_PUTFIELD:
-                case Opcodes.H_PUTSTATIC:
-                    return true;
-                default:
-                    throw new MixinTransformerError("Invalid tag " + this.handle.getTag() + " for method handle " + this.handle + ".");
-            }
-        }
-
-        @Override
-        public int getOpcode() {
-            int opcode = MemberRef.opcodeFromTag(this.handle.getTag());
-            if (opcode == 0) {
-                throw new MixinTransformerError("Invalid tag " + this.handle.getTag() + " for method handle " + this.handle + ".");
-            }
-            return opcode;
-        }
-        
-        @Override
-        public void setOpcode(int opcode) {
-            int tag = MemberRef.tagFromOpcode(opcode);
-            if (tag == 0) {
-                throw new MixinTransformerError("Invalid opcode " + Bytecode.getOpcodeName(opcode) + " for method handle " + this.handle + ".");
-            }
-            boolean itf = tag == Opcodes.H_INVOKEINTERFACE;
-            this.handle = new org.objectweb.asm.Handle(tag, this.handle.getOwner(), this.handle.getName(), this.handle.getDesc(), itf);
-        }
-
-        @Override
-        public String getOwner() {
-            return this.handle.getOwner();
-        }
-
-        @Override
-        public void setOwner(String owner) {
-            boolean itf = this.handle.getTag() == Opcodes.H_INVOKEINTERFACE;
-            this.handle = new org.objectweb.asm.Handle(this.handle.getTag(), owner, this.handle.getName(), this.handle.getDesc(), itf);
-        }
-
-        @Override
-        public String getName() {
-            return this.handle.getName();
-        }
-
-        @Override
-        public void setName(String name) {
-            boolean itf = this.handle.getTag() == Opcodes.H_INVOKEINTERFACE;
-            this.handle = new org.objectweb.asm.Handle(this.handle.getTag(), this.handle.getOwner(), name, this.handle.getDesc(), itf);
-        }
-
-        @Override
-        public String getDesc() {
-            return this.handle.getDesc();
-        }
-
-        @Override
-        public void setDesc(String desc) {
-            boolean itf = this.handle.getTag() == Opcodes.H_INVOKEINTERFACE;
-            this.handle = new org.objectweb.asm.Handle(this.handle.getTag(), this.handle.getOwner(), this.handle.getName(), desc, itf);
-        }
+    @Override
+    public String toString() {
+        return String.format("%s for %s.%s%s%s", Bytecode.getOpcodeName(this.getOpcode()), this.getOwner(), this.getName(), this.isField() ? ":" : "",
+                this.getDesc());
     }
-    
-    private static final int[] H_OPCODES = {
-        0,                          // invalid
-        Opcodes.GETFIELD,           // H_GETFIELD
-        Opcodes.GETSTATIC,          // H_GETSTATIC
-        Opcodes.PUTFIELD,           // H_PUTFIELD
-        Opcodes.PUTSTATIC,          // H_PUTSTATIC
-        Opcodes.INVOKEVIRTUAL,      // H_INVOKEVIRTUAL
-        Opcodes.INVOKESTATIC,       // H_INVOKESTATIC
-        Opcodes.INVOKESPECIAL,      // H_INVOKESPECIAL
-        Opcodes.INVOKESPECIAL,      // H_NEWINVOKESPECIAL
-        Opcodes.INVOKEINTERFACE     // H_INVOKEINTERFACE
-    };
 
     /**
      * Whether this member is a field.
@@ -355,10 +250,90 @@ public abstract class MemberRef {
      */
     public abstract void setDesc(String desc);
 
-    @Override
-    public String toString() {
-        String name = Bytecode.getOpcodeName(this.getOpcode());
-        return String.format("%s for %s.%s%s%s", name, this.getOwner(), this.getName(), this.isField() ? ":" : "", this.getDesc());
+    /**
+     * A reference to a field or method backed by a method handle
+     */
+    public static final class Handle extends MemberRef {
+
+        private org.objectweb.asm.Handle handle;
+
+        /**
+         * Creates a member reference initially referring to the member referred
+         * to by the method handle and the invocation instruction of the method
+         * handle.
+         *
+         * @param handle Initial method handle.
+         */
+        public Handle(org.objectweb.asm.Handle handle) {
+            this.handle = handle;
+        }
+
+        /**
+         * Gets a method handle for the member this is object is referring to.
+         *
+         * @return Method handle representing this object
+         */
+        public org.objectweb.asm.Handle getMethodHandle() {
+            return this.handle;
+        }
+
+        @Override
+        public boolean isField() {
+            return Handles.isField(this.handle);
+        }
+
+        @Override
+        public int getOpcode() {
+            int opcode = Handles.opcodeFromTag(this.handle.getTag());
+            if (opcode == 0) {
+                throw new MixinTransformerError("Invalid tag " + this.handle.getTag() + " for method handle " + this.handle + ".");
+            }
+            return opcode;
+        }
+
+        @Override
+        public void setOpcode(int opcode) {
+            int tag = Handles.tagFromOpcode(opcode);
+            if (tag == 0) {
+                throw new MixinTransformerError("Invalid opcode " + Bytecode.getOpcodeName(opcode) + " for method handle " + this.handle + ".");
+            }
+            this.setHandle(tag, this.handle.getOwner(), this.handle.getName(), this.handle.getDesc(), this.handle.isInterface());
+        }
+
+        @Override
+        public String getOwner() {
+            return this.handle.getOwner();
+        }
+
+        @Override
+        public void setOwner(String owner) {
+            this.setHandle(this.handle.getTag(), owner, this.handle.getName(), this.handle.getDesc(), this.handle.isInterface());
+        }
+
+        @Override
+        public String getName() {
+            return this.handle.getName();
+        }
+
+        @Override
+        public void setName(String name) {
+            this.setHandle(this.handle.getTag(), this.handle.getOwner(), name, this.handle.getDesc(), this.handle.isInterface());
+        }
+
+        @Override
+        public String getDesc() {
+            return this.handle.getDesc();
+        }
+
+        @Override
+        public void setDesc(String desc) {
+            this.setHandle(this.handle.getTag(), this.handle.getOwner(), this.handle.getName(), desc, this.handle.isInterface());
+        }
+
+        public void setHandle(int tag, String owner, String name, String desc, boolean isInterface) {
+            this.handle = new org.objectweb.asm.Handle(tag, owner, name, desc, isInterface);
+        }
+
     }
 
     @Override
@@ -377,19 +352,6 @@ public abstract class MemberRef {
     @Override
     public int hashCode() {
         return this.toString().hashCode();
-    }
-    
-    static int opcodeFromTag(int tag) {
-        return (tag >= 0 && tag < MemberRef.H_OPCODES.length) ? MemberRef.H_OPCODES[tag] : 0;
-    }
-    
-    static int tagFromOpcode(int opcode) {
-        for (int tag = 1; tag < MemberRef.H_OPCODES.length; tag++) {
-            if (MemberRef.H_OPCODES[tag] == opcode) {
-                return tag;
-            }
-        }
-        return 0;
     }
     
 }

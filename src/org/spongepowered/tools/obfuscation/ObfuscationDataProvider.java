@@ -70,7 +70,7 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
         ObfuscationData<T> obfData = this.getObfEntry(targetMember);
         try {
             if (obfData.isEmpty()) {
-                obfData = this.getObfEntryRecursive(targetMember, new HashSet<String>());
+                obfData = this.<T>getObfEntryRecursive(targetMember, new HashSet<String>());
             }
             
             if (!obfData.isEmpty()) {
@@ -108,7 +108,8 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
         ObfuscationData<T> obfData;
         TypeHandle superClass = targetType.getSuperclass();
         for (TypeHandle iface : targetType.getInterfaces()) {
-            obfData = this.getObfEntryUsing(targetMember, iface);
+            
+            obfData = this.<T>getObfEntryUsing(targetMember, iface);
             if (!obfData.isEmpty()) {
                 return obfData;
             }
@@ -120,12 +121,11 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
         }
         
         if (superClass != null) {
-            obfData = this.getObfEntryUsing(targetMember, superClass);
+            obfData = this.<T>getObfEntryUsing(targetMember, superClass);
             if (!obfData.isEmpty()) {
                 return obfData;
             }
             
-            this.getObfEntryRecursive(targetMember.move(superClass.getName()), visited);
             return this.getObfEntryRecursive(targetMember.move(superClass.getName()), visited);
         }
         
@@ -143,7 +143,7 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
      * @return obfuscation data for the relocated member
      */
     private <T> ObfuscationData<T> getObfEntryUsing(ITargetSelectorRemappable targetMember, TypeHandle targetClass) {
-        return targetClass == null ? new ObfuscationData<T>() : this.getObfEntry(targetMember.move(targetClass.getName()));
+        return targetClass == null ? new ObfuscationData<T>() : this.<T>getObfEntry(targetMember.move(targetClass.getName()));
     }
 
     /* (non-Javadoc)
@@ -181,7 +181,7 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
      */
     @Override
     public ObfuscationData<MappingMethod> getObfMethodRecursive(ITargetSelectorRemappable targetMember) {
-        return this.getObfEntryRecursive(targetMember);
+        return this.<MappingMethod>getObfEntryRecursive(targetMember);
     }
 
     /* (non-Javadoc)
@@ -273,7 +273,7 @@ public class ObfuscationDataProvider implements IObfuscationDataProvider {
      */
     @Override
     public ObfuscationData<MappingField> getObfFieldRecursive(ITargetSelectorRemappable targetMember) {
-        return this.getObfEntryRecursive(targetMember);
+        return this.<MappingField>getObfEntryRecursive(targetMember);
     }
 
     /* (non-Javadoc)

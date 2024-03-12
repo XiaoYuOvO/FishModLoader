@@ -24,13 +24,13 @@
  */
 package org.spongepowered.asm.mixin;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.GlobalProperties;
 import org.spongepowered.asm.launch.GlobalProperties.Keys;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.mixin.transformer.ClassInfo;
 import org.spongepowered.asm.mixin.transformer.Config;
+import org.spongepowered.asm.service.MixinService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -47,7 +47,7 @@ public final class Mixins {
     /**
      * Logger 
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * GlobalProperties key storing mixin configs which are pending
@@ -153,7 +153,7 @@ public final class Mixins {
      * consumed are present in this set
      */
     public static Set<Config> getConfigs() {
-        Set<Config> mixinConfigs = GlobalProperties.get(Mixins.CONFIGS_KEY);
+        Set<Config> mixinConfigs = GlobalProperties.<Set<Config>>get(Mixins.CONFIGS_KEY);
         if (mixinConfigs == null) {
             mixinConfigs = new LinkedHashSet<Config>();
             GlobalProperties.put(Mixins.CONFIGS_KEY, mixinConfigs);
@@ -173,7 +173,7 @@ public final class Mixins {
         if (classInfo != null) {
             return classInfo.getAppliedMixins();
         }
-        return Collections.emptySet();
+        return Collections.<IMixinInfo>emptySet();
     }
 
     /**
@@ -191,7 +191,7 @@ public final class Mixins {
      * Get current error handlers
      */
     public static Set<String> getErrorHandlerClasses() {
-        return Collections.unmodifiableSet(Mixins.errorHandlers);
+        return Collections.<String>unmodifiableSet(Mixins.errorHandlers);
     }
 
 }

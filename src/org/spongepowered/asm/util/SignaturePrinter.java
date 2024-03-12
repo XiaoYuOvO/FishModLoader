@@ -124,10 +124,6 @@ public class SignaturePrinter {
         this.returnType = returnType;
         this.argTypes = argTypes;
         this.argNames = argNames;
-        if (this.argTypes.length > this.argNames.length) {
-            throw new IllegalArgumentException(String.format("Types array length must not exceed names array length! (names=%d, types=%d)",
-                    this.argNames.length, this.argTypes.length));
-        }
     }
     
     /**
@@ -212,40 +208,47 @@ public class SignaturePrinter {
         return args.append(SignaturePrinter.getTypeName(this.returnType, false, this.fullyQualified)).toString();
     }
     
-    private StringBuilder appendArgs(StringBuilder sb, boolean typesOnly, boolean pretty) {
-        sb.append('(');
-        for (int var = 0; var < this.argTypes.length; var++) {
-            if (this.argTypes[var] == null) {
-                continue;
-            } else if (var > 0) {
-                sb.append(',');
-                if (pretty) {
-                    sb.append(' ');
-                }
-            }
-            try {
-                String name = typesOnly ? null : Strings.isNullOrEmpty(this.argNames[var]) ? "unnamed" + var : this.argNames[var];
-                this.appendType(sb, this.argTypes[var], name);
-            } catch (Exception ex) {
-//                System.err.printf("\n\n>>> argTypes=%d, argNames=%d\n\n", this.argTypes.length, this.argNames.length);
-                throw new RuntimeException(ex);
-            }
+    /**
+     * Get the source code name for the specified type
+     *
+     * @param type Type to generate a friendly name for
+     * @param box True to return the equivalent boxing type for primitives
+     * @param fullyQualified fully-qualify class names
+     * @return String representation of the specified type, eg "int" for an
+     *         integer primitive or "String" for java.lang.String
+     */
+    public static String getTypeName(Type type, boolean box, boolean fullyQualified) {
+        if (type == null) {
+            return "{null?}";
         }
-        return sb.append(")");
+        switch (type.getSort()) {
+            case Type.VOID:    return box ? "Void"      : "void";
+            case Type.BOOLEAN: return box ? "Boolean"   : "boolean";
+            case Type.CHAR:    return box ? "Character" : "char";
+            case Type.BYTE:    return box ? "Byte"      : "byte";
+            case Type.SHORT:   return box ? "Short"     : "short";
+            case Type.INT:     return box ? "Integer"   : "int";
+            case Type.FLOAT:   return box ? "Float"     : "float";
+            case Type.LONG:    return box ? "Long"      : "long";
+            case Type.DOUBLE:  return box ? "Double"    : "double";
+            case Type.ARRAY:
+                return SignaturePrinter.getTypeName(SignaturePrinter.getElementType(type), box, fullyQualified) + SignaturePrinter.arraySuffix(type);
+            case Type.OBJECT:
+                String typeName = SignaturePrinter.getClassName(type);
+                if (!fullyQualified) {
+                    typeName = typeName.substring(typeName.lastIndexOf('.') + 1);
+                }
+                return typeName;
+            default:
+                return "Object";
+        }
     }
     
-    private StringBuilder appendType(StringBuilder sb, Type type, String name) {
-        switch (type.getSort()) {
-            case Type.ARRAY:
-                return SignaturePrinter.appendArraySuffix(this.appendType(sb, type.getElementType(), name), type);
-            case Type.OBJECT:
-                return this.appendType(sb, type.getClassName(), name);
-            default:
-                sb.append(SignaturePrinter.getTypeName(type, false, this.fullyQualified));
-                if (name != null) {
-                    sb.append(' ').append(name);
-                }
-                return sb;
+    private static Type getElementType(Type type) {
+        try {
+            return type.getElementType();
+        } catch (Exception ex) {
+            return Type.getObjectType("InvalidType");
         }
     }
 
@@ -262,7 +265,7 @@ public class SignaturePrinter {
         }
         return sb;
     }
-    
+
     /**
      * Get the source code name for the specified type
      * 
@@ -286,45 +289,55 @@ public class SignaturePrinter {
         return SignaturePrinter.getTypeName(type, box, false);
     }
 
-    /**
-     * Get the source code name for the specified type
-     * 
-     * @param type Type to generate a friendly name for
-     * @param box True to return the equivalent boxing type for primitives
-     * @param fullyQualified fully-qualify class names 
-     * @return String representation of the specified type, eg "int" for an
-     *         integer primitive or "String" for java.lang.String
-     */
-    public static String getTypeName(Type type, boolean box, boolean fullyQualified) {
-        if (type == null) {
-            return "{null?}";
+    private static String getClassName(Type type) {
+        try {
+            return type.getClassName();
+        } catch (Exception ex) {
+            return "InvalidType";
         }
-        switch (type.getSort()) {
-            case Type.VOID:    return box ? "Void"      : "void";
-            case Type.BOOLEAN: return box ? "Boolean"   : "boolean";
-            case Type.CHAR:    return box ? "Character" : "char";
-            case Type.BYTE:    return box ? "Byte"      : "byte";
-            case Type.SHORT:   return box ? "Short"     : "short";
-            case Type.INT:     return box ? "Integer"   : "int";
-            case Type.FLOAT:   return box ? "Float"     : "float";
-            case Type.LONG:    return box ? "Long"      : "long";
-            case Type.DOUBLE:  return box ? "Double"    : "double";
-            case Type.ARRAY:   return SignaturePrinter.getTypeName(type.getElementType(), box, fullyQualified) + SignaturePrinter.arraySuffix(type);
-            case Type.OBJECT:
-                String typeName = type.getClassName();
-                if (!fullyQualified) {
-                    typeName = typeName.substring(typeName.lastIndexOf('.') + 1);
+    }
+    
+    private StringBuilder appendArgs(StringBuilder sb, boolean typesOnly, boolean pretty) {
+        sb.append('(');
+        for (int var = 0; var < this.argTypes.length; var++) {
+            if (this.argTypes[var] == null) {
+                continue;
+            } else if (var > 0) {
+                sb.append(',');
+                if (pretty) {
+                    sb.append(' ');
                 }
-                return typeName;
+            }
+            try {
+                String name = typesOnly ? null : var < this.argNames.length && !Strings.isNullOrEmpty(this.argNames[var])
+                        ? this.argNames[var] : "unnamed" + var;
+                this.appendType(sb, this.argTypes[var], name);
+            } catch (Exception ex) {
+//                System.err.printf("\n\n>>> argTypes=%d, argNames=%d\n\n", this.argTypes.length, this.argNames.length);
+                throw new RuntimeException(ex);
+            }
+        }
+        return sb.append(")");
+    }
+
+    private StringBuilder appendType(StringBuilder sb, Type type, String name) {
+        switch (type.getSort()) {
+            case Type.ARRAY:
+                return SignaturePrinter.appendArraySuffix(this.appendType(sb, SignaturePrinter.getElementType(type), name), type);
+            case Type.OBJECT:
+                return this.appendType(sb, SignaturePrinter.getClassName(type), name);
             default:
-                return "Object";
+                sb.append(SignaturePrinter.getTypeName(type, false, this.fullyQualified));
+                if (name != null) {
+                    sb.append(' ').append(name);
+                }
+                return sb;
         }
     }
     
     private static String arraySuffix(Type type) {
         return Strings.repeat("[]", type.getDimensions());
     }
-    
     
     private static StringBuilder appendArraySuffix(StringBuilder sb, Type type) {
         for (int i = 0; i < type.getDimensions(); i++) {

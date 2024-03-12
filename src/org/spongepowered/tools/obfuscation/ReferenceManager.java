@@ -29,10 +29,10 @@ import org.spongepowered.asm.mixin.injection.struct.MemberInfo;
 import org.spongepowered.asm.mixin.refmap.ReferenceMapper;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingField;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingMethod;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 import org.spongepowered.tools.obfuscation.interfaces.IMixinAnnotationProcessor;
 import org.spongepowered.tools.obfuscation.interfaces.IReferenceManager;
 
-import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.File;
@@ -149,12 +149,12 @@ public class ReferenceManager implements IReferenceManager {
         if (fileName.matches("^.*[\\\\/:].*$")) {
             File outFile = new File(fileName);
             outFile.getParentFile().mkdirs();
-            this.ap.printMessage(Kind.NOTE, "Writing " + description + " to " + outFile.getAbsolutePath());
+            this.ap.printMessage(MessageType.INFO, "Writing " + description + " to " + outFile.getAbsolutePath());
             return new PrintWriter(outFile);
         }
         
         FileObject outResource = this.ap.getProcessingEnvironment().getFiler().createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
-        this.ap.printMessage(Kind.NOTE, "Writing " + description + " to " + new File(outResource.toUri()).getAbsolutePath());
+        this.ap.printMessage(MessageType.INFO, "Writing " + description + " to " + new File(outResource.toUri()).getAbsolutePath());
         return new PrintWriter(outResource.openWriter());
     }
 

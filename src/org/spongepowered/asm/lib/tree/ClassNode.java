@@ -74,7 +74,7 @@ public class ClassNode extends ClassVisitor {
         this.signature = classNode.signature;
 
         this.superName = classNode.superName;
-        this.interfaces = Collections.unmodifiableList(classNode.interfaces);
+        this.interfaces = Collections.<String>unmodifiableList(classNode.interfaces);
 
         this.sourceFile = classNode.sourceFile;
         this.sourceDebug = classNode.sourceDebug;

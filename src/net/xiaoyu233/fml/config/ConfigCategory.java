@@ -2,9 +2,9 @@ package net.xiaoyu233.fml.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.istack.internal.NotNull;
 import net.xiaoyu233.fml.FishModLoader;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class ConfigCategory extends Config {
         return comment;
     }
 
+    @Nonnull
     @Override
-    @NotNull
     public ReadResult read(JsonElement json) {
         try {
             if (json.isJsonObject()){

@@ -35,7 +35,7 @@ public interface ITransformer {
      * 
      * @return transformer's identifying name
      */
-    String getName();
+    public abstract String getName();
     
     /**
      * Get whether this transformer is excluded from delegation. Some
@@ -46,6 +46,6 @@ public interface ITransformer {
      * @return true if this transformer should be <em>excluded</em> from the
      *      transformer delegation list
      */
-    boolean isDelegationExcluded();
+    public abstract boolean isDelegationExcluded();
 
 }

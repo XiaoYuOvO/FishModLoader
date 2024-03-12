@@ -39,6 +39,6 @@ public interface ILegacyClassTransformer extends ITransformer {
      * @param basicClass class byte array
      * @return transformed bytes
      */
-    byte[] transformClassBytes(String name, String transformedName, byte[] basicClass);
+    public abstract byte[] transformClassBytes(String name, String transformedName, byte[] basicClass);
 
 }

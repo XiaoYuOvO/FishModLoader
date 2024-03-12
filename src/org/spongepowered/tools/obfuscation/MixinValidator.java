@@ -24,18 +24,16 @@
  */
 package org.spongepowered.tools.obfuscation;
 
+import org.spongepowered.asm.util.asm.IAnnotationHandle;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerSuppressible;
 import org.spongepowered.tools.obfuscation.interfaces.IMixinAnnotationProcessor;
 import org.spongepowered.tools.obfuscation.interfaces.IMixinValidator;
 import org.spongepowered.tools.obfuscation.interfaces.IOptionProvider;
-import org.spongepowered.tools.obfuscation.mirror.AnnotationHandle;
 import org.spongepowered.tools.obfuscation.mirror.TypeHandle;
 
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic.Kind;
 import java.util.Collection;
 
 /**
@@ -52,7 +50,7 @@ public abstract class MixinValidator implements IMixinValidator {
     /**
      * Messager to use to output errors and warnings
      */
-    protected final Messager messager;
+    protected final IMessagerSuppressible messager;
     
     /**
      * Option provider 
@@ -85,7 +83,7 @@ public abstract class MixinValidator implements IMixinValidator {
      *      java.util.Collection)
      */
     @Override
-    public final boolean validate(ValidationPass pass, TypeElement mixin, AnnotationHandle annotation, Collection<TypeHandle> targets) {
+    public final boolean validate(ValidationPass pass, TypeElement mixin, IAnnotationHandle annotation, Collection<TypeHandle> targets) {
         if (pass != this.pass) {
             return true;
         }
@@ -93,38 +91,7 @@ public abstract class MixinValidator implements IMixinValidator {
         return this.validate(mixin, annotation, targets);
     }
 
-    protected abstract boolean validate(TypeElement mixin, AnnotationHandle annotation, Collection<TypeHandle> targets);
-    
-    /**
-     * Output a compiler note
-     * 
-     * @param note Message
-     * @param element Element to attach the note to
-     */
-    protected final void note(String note, Element element) {
-        this.messager.printMessage(Kind.NOTE, note, element);
-    }
-    
-    /**
-     * Output a compiler note
-     * 
-     * @param warning Message
-     * @param element Element to attach the warning to
-     * @param suppressedBy {@link SuppressWarnings} value to support
-     */
-    protected final void warning(String warning, Element element, String suppressedBy) {
-        this.messager.printMessage(Kind.WARNING, warning, element);
-    }
-    
-    /**
-     * Output a compiler note
-     * 
-     * @param error Message
-     * @param element Element to attach the error to
-     */
-    protected final void error(String error, Element element) {
-        this.messager.printMessage(Kind.ERROR, error, element);
-    }
+    protected abstract boolean validate(TypeElement mixin, IAnnotationHandle annotation, Collection<TypeHandle> targets);
 
     protected final Collection<TypeMirror> getMixinsTargeting(TypeMirror targetType) {
         return AnnotatedMixins.getMixinsForEnvironment(this.processingEnv).getMixinsTargeting(targetType);

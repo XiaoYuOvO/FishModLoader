@@ -43,12 +43,12 @@ public interface IMappingProvider {
      * Clear this mapping provider, used to ensure the internal data is cleared
      * before beginning a {@link #read}
      */
-    void clear();
+    public abstract void clear();
 
     /**
      * Returns true if this mapping provider contains no mappings
      */
-    boolean isEmpty();
+    public abstract boolean isEmpty();
 
     /**
      * Called multiple times by the environment. This method will be called for
@@ -58,7 +58,7 @@ public interface IMappingProvider {
      * @throws IOException if an error occurs reading the input file or the file
      *      does not exist or cannot be opened
      */
-    void read(File input) throws IOException;
+    public abstract void read(File input) throws IOException;
 
     /**
      * Retrieve a method mapping from this provider. This method should return
@@ -67,7 +67,7 @@ public interface IMappingProvider {
      * @param method method to find a mapping for
      * @return mapped method or <tt>null</tt> if not found
      */
-    MappingMethod getMethodMapping(MappingMethod method);
+    public abstract MappingMethod getMethodMapping(MappingMethod method);
 
     /**
      * Retrieve a field mapping from this provider. This method should return
@@ -76,7 +76,7 @@ public interface IMappingProvider {
      * @param field field to find a mapping for
      * @return mapped field or <tt>null</tt> if not found
      */
-    MappingField getFieldMapping(MappingField field);
+    public abstract MappingField getFieldMapping(MappingField field);
 
     /**
      * Retrieve a class mapping from this provider. This method should return
@@ -85,7 +85,7 @@ public interface IMappingProvider {
      * @param className name of the class to find a mapping for
      * @return mapped class name or <tt>null</tt> if not found
      */
-    String getClassMapping(String className);
+    public abstract String getClassMapping(String className);
 
     /**
      * Retrieve a package mapping from this provider. This method should return
@@ -94,6 +94,6 @@ public interface IMappingProvider {
      * @param packageName name of the package to find a mapping for
      * @return mapped package name or <tt>null</tt> if not found
      */
-    String getPackageMapping(String packageName);
+    public abstract String getPackageMapping(String packageName);
     
 }

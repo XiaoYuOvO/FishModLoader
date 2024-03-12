@@ -36,11 +36,11 @@ public interface ITargetClassContext {
     /**
      * Get the target class metadata
      */
-    ClassInfo getClassInfo();
+    public abstract ClassInfo getClassInfo();
 
     /**
      * Get the class tree
      */
-    ClassNode getClassNode();
+    public abstract ClassNode getClassNode();
 
 }

@@ -36,14 +36,14 @@ public interface IReferenceMapper {
      * 
      * @return true if this mapper is a defaulted mapper
      */
-    boolean isDefault();
+    public abstract boolean isDefault();
     
     /**
      * Get the resource name this refmap was loaded from (if available).
      * 
      * @return name of the resource
      */
-    String getResourceName();
+    public abstract String getResourceName();
     
     /**
      * Get a user-readable "status" string for this refmap for use in error 
@@ -51,21 +51,21 @@ public interface IReferenceMapper {
      * 
      * @return status message
      */
-    String getStatus();
+    public abstract String getStatus();
     
     /**
      * Get the current context
      * 
      * @return current context key, can be null
      */
-    String getContext();
+    public abstract String getContext();
     
     /**
      * Set the current remap context, can be null
      * 
      * @param context remap context
      */
-    void setContext(String context);
+    public abstract void setContext(String context);
     
     /**
      * Remap a reference for the specified owning class in the current context
@@ -74,7 +74,7 @@ public interface IReferenceMapper {
      * @param reference Reference to remap
      * @return remapped reference, returns original reference if not remapped
      */
-    String remap(String className, String reference);
+    public abstract String remap(String className, String reference);
     
     /**
      * Remap a reference for the specified owning class in the specified context
@@ -84,6 +84,6 @@ public interface IReferenceMapper {
      * @param reference Reference to remap
      * @return remapped reference, returns original reference if not remapped
      */
-    String remapWithContext(String context, String className, String reference);
+    public abstract String remapWithContext(String context, String className, String reference);
 
 }

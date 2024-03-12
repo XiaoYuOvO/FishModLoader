@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfig;
 import org.spongepowered.asm.mixin.transformer.MixinConfig;
 import org.spongepowered.asm.service.IMixinService;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class InjectionConfig {
@@ -22,10 +23,12 @@ public class InjectionConfig {
     private final String minMixinVersion;
     private final String name;
     private final boolean required;
+    @Nonnull
+    private final String pluginClassName;
     private final MixinEnvironment.Phase targetPhase;
     private final Package transformPackage;
 
-    public InjectionConfig(Package transformPackage, MixinEnvironment.CompatibilityLevel compatibleLevel, int mixinPriority, MixinEnvironment.Phase targetPhase, String minMixinVersion, int defaultRequiredInjection, boolean required, String name) {
+    public InjectionConfig(Package transformPackage, MixinEnvironment.CompatibilityLevel compatibleLevel, int mixinPriority, MixinEnvironment.Phase targetPhase, String minMixinVersion, int defaultRequiredInjection, boolean required, String name, @Nonnull String pluginClassName) {
         this.transformPackage = transformPackage;
         this.compatibleLevel = compatibleLevel;
         this.mixinPriority = mixinPriority;
@@ -34,6 +37,7 @@ public class InjectionConfig {
         this.defaultRequiredInjection = defaultRequiredInjection;
         this.required = required;
         this.name = name;
+        this.pluginClassName = pluginClassName;
     }
 
     public MixinEnvironment.CompatibilityLevel getCompatibleLevel() {
@@ -81,6 +85,9 @@ public class InjectionConfig {
         }
         mixinObject.addProperty("mixinPriority",this.mixinPriority);
         mixinObject.add("mixins",mixins);
+        if (!this.pluginClassName.isEmpty()){
+            mixinObject.addProperty("plugin", this.pluginClassName);
+        }
         JsonObject injectors = new JsonObject();
         injectors.addProperty("defaultRequire",this.defaultRequiredInjection);
         mixinObject.add("injectors",injectors);
@@ -93,11 +100,12 @@ public class InjectionConfig {
         private final String name;
         private final MixinEnvironment.Phase targetPhase;
         private final Package transformPackage;
-        private  MixinEnvironment.CompatibilityLevel compatibleLevel = MixinEnvironment.CompatibilityLevel.JAVA_8;
+        private  MixinEnvironment.CompatibilityLevel compatibleLevel = MixinEnvironment.CompatibilityLevel.JAVA_17;
         private  int defaultRequiredInjection = 0;
         private  String minMixinVersion = MixinEnvironment.getDefaultEnvironment().getVersion();
         private  boolean required = false;
         private int mixinPriority = IMixinConfig.DEFAULT_PRIORITY;
+        private String pluginClassName = "";
         private Builder(String name, Package transformPackage, MixinEnvironment.Phase targetPhase) {
             this.name = name;
             this.transformPackage = transformPackage;
@@ -109,7 +117,7 @@ public class InjectionConfig {
         }
 
         public InjectionConfig build(){
-            return new InjectionConfig(this.transformPackage,this.compatibleLevel, this.mixinPriority, this.targetPhase,this.minMixinVersion,this.defaultRequiredInjection,this.required, name);
+            return new InjectionConfig(this.transformPackage,this.compatibleLevel, this.mixinPriority, this.targetPhase,this.minMixinVersion,this.defaultRequiredInjection,this.required, name, pluginClassName);
         }
 
         public Builder setCompatibleLevel(MixinEnvironment.CompatibilityLevel compatibleLevel) {
@@ -129,6 +137,11 @@ public class InjectionConfig {
 
         public Builder setMixinPriority(int priority){
             this.mixinPriority = priority;
+            return this;
+        }
+
+        public Builder plugin(String pluginClassName){
+            this.pluginClassName = pluginClassName;
             return this;
         }
 

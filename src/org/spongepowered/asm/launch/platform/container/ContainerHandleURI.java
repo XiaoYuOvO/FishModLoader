@@ -25,6 +25,7 @@
 package org.spongepowered.asm.launch.platform.container;
 
 import org.spongepowered.asm.launch.platform.MainAttributes;
+import org.spongepowered.asm.util.Files;
 
 import java.io.File;
 import java.net.URI;
@@ -43,18 +44,12 @@ public class ContainerHandleURI implements IContainerHandle {
     private final URI uri;
 
     /**
-     * File containing this tweaker
-     */
-    private final File file;
-    
-    /**
      * "Main" manifest attributes from the container
      */
     private final MainAttributes attributes;
 
     public ContainerHandleURI(URI uri) {
         this.uri = uri;
-        this.file = this.uri != null ? new File(this.uri) : null;
         this.attributes = MainAttributes.of(uri);
     }
     
@@ -68,8 +63,9 @@ public class ContainerHandleURI implements IContainerHandle {
     /**
      * Get the container file
      */
+    @Deprecated
     public File getFile() {
-        return this.file;
+        return this.uri != null && "file".equals(this.uri.getScheme()) ? Files.toFile(this.uri) : null;
     }
 
     /* (non-Javadoc)
@@ -87,7 +83,7 @@ public class ContainerHandleURI implements IContainerHandle {
      */
     @Override
     public Collection<IContainerHandle> getNestedContainers() {
-        return Collections.emptyList();
+        return Collections.<IContainerHandle>emptyList();
     }
     
     /* (non-Javadoc)

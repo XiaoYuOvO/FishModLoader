@@ -1,236 +1,215 @@
 package net.xiaoyu233.fml.mixin.service;
 
-import com.google.common.collect.Lists;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
-import net.xiaoyu233.fml.asm.IClassNameTransformer;
-import net.xiaoyu233.fml.asm.IClassTransformer;
+import net.fabricmc.loader.impl.util.UrlUtil;
+import net.xiaoyu233.fml.FishModLoader;
 import net.xiaoyu233.fml.relaunch.Launch;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-import org.spongepowered.asm.launch.platform.IMixinPlatformServiceAgent;
+import org.spongepowered.asm.launch.platform.container.ContainerHandleURI;
 import org.spongepowered.asm.launch.platform.container.IContainerHandle;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.MixinEnvironment.CompatibilityLevel;
-import org.spongepowered.asm.mixin.transformer.MixinTransformer;
+import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
+import org.spongepowered.asm.mixin.transformer.IMixinTransformerFactory;
 import org.spongepowered.asm.service.*;
-import org.spongepowered.asm.util.perf.Profiler;
-import org.spongepowered.asm.util.perf.Profiler.Section;
+import org.spongepowered.asm.util.ReEntranceLock;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
-public class MixinService extends MixinServiceAbstract implements IClassBytecodeProvider, ITransformerProvider {
-   private IClassProvider classProvider;
-   private ClassTracker classTracker;
-   private ContainerHandle containerHandle;
-   private IMixinAuditTrail auditTrail;
-   private List<ILegacyClassTransformer> legacyTransformers;
-   private IMixinPlatformServiceAgent platformServiceAgent;
+public class MixinService implements IMixinService, IClassProvider, IClassBytecodeProvider, ITransformerProvider, IClassTracker {
+   static IMixinTransformer transformer;
 
-   public MixinService(){
+   private final ReEntranceLock lock;
+
+   public MixinService() {
+      lock = new ReEntranceLock(1);
    }
 
-   private byte[] applyTransformers(String name, String transformedName, byte[] basicClass, Profiler profiler) {
-      if (!this.classTracker.isClassExcluded(name, transformedName)) {
-
-         for (ILegacyClassTransformer transformer : this.getDelegatedLegacyTransformers()) {
-            if (transformer == null) continue;
-            this.lock.clear();
-            int pos = transformer.getName().lastIndexOf(46);
-            String simpleName = transformer.getName().substring(pos + 1);
-            Section transformTime = profiler.begin(2, simpleName.toLowerCase(Locale.ROOT));
-            transformTime.setInfo(transformer.getName());
-            basicClass = transformer.transformClassBytes(name, transformedName, basicClass);
-            transformTime.end();
-            if (this.lock.isSet()) {
-//               this.addTransformerExclusion(transformer.getName());
-               this.lock.clear();
-               MixinServiceAbstract.logger.info("A re-entrant transformer '{}' was detected and will no longer process meta class data", transformer
-                       .getName());
-            }
-         }
-
-      }
-      return basicClass;
+   public static IMixinTransformer getTransformer() {
+      return transformer;
    }
 
-   public Collection<ITransformer> getDelegatedTransformers() {
-      return Collections.unmodifiableList(this.getDelegatedLegacyTransformers());
+   public byte[] getClassBytes(String name, String transformedName) throws IOException {
+      return Launch.knotLoader.getRawClassBytes(name);
    }
 
-   private void checkContainer(){
-      if (this.containerHandle == null) {
-         this.containerHandle = new ContainerHandle("FML");
+   public byte[] getClassBytes(String name, boolean runTransformers) throws ClassNotFoundException {
+      byte[] classBytes = Launch.knotLoader.getPreMixinClassBytes(name);
+
+      if (classBytes != null) {
+         return classBytes;
+      } else {
+         throw new ClassNotFoundException(name);
       }
    }
 
-   public void addTransformerExclusion(String name) {
+   @Override
+   public ClassNode getClassNode(String name) throws ClassNotFoundException, IOException {
+      return getClassNode(name, true);
    }
 
+   @Override
+   public ClassNode getClassNode(String name, boolean runTransformers) throws ClassNotFoundException, IOException {
+      ClassReader reader = new ClassReader(getClassBytes(name, runTransformers));
+      ClassNode node = new ClassNode();
+      reader.accept(node, 0);
+      return node;
+   }
+
+   @Override
+   public URL[] getClassPath() {
+      // Mixin 0.7.x only uses getClassPath() to find itself; we implement CodeSource correctly,
+      // so this is unnecessary.
+      return new URL[0];
+   }
+
+   @Override
+   public Class<?> findClass(String name) throws ClassNotFoundException {
+      return Launch.knotLoader.loadIntoTarget(name);
+   }
+
+   @Override
+   public Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException {
+      return Class.forName(name, initialize, Launch.knotLoader.getClassLoader());
+   }
+
+   @Override
+   public Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException {
+      return Class.forName(name, initialize, Launch.knotLoader.getClassLoader());
+   }
+
+   @Override
    public String getName() {
-      return "FishModLoaderService";
+      return "Knot/FishModLoader";
    }
 
-   public CompatibilityLevel getMinCompatibilityLevel() {
-      return CompatibilityLevel.JAVA_8;
-   }
-
+   @Override
    public boolean isValid() {
       return true;
    }
 
-   public IClassProvider getClassProvider() {
-      if (this.classProvider == null) {
-         this.classProvider = new ClassProvider();
-      }
+   @Override
+   public void prepare() { }
 
-      return this.classProvider;
+   @Override
+   public MixinEnvironment.Phase getInitialPhase() {
+      return MixinEnvironment.Phase.PREINIT;
    }
 
+   @Override
+   public void offer(IMixinInternal internal) {
+      if (internal instanceof IMixinTransformerFactory) {
+         transformer = ((IMixinTransformerFactory) internal).createTransformer();
+      }
+   }
+
+   @Override
+   public void init() {
+   }
+
+   @Override
+   public void beginPhase() { }
+
+   @Override
+   public void checkEnv(Object bootSource) { }
+
+   @Override
+   public ReEntranceLock getReEntranceLock() {
+      return lock;
+   }
+
+   @Override
+   public IClassProvider getClassProvider() {
+      return this;
+   }
+
+   @Override
    public IClassBytecodeProvider getBytecodeProvider() {
       return this;
    }
 
+   @Override
    public ITransformerProvider getTransformerProvider() {
       return this;
    }
 
+   @Override
    public IClassTracker getClassTracker() {
-      if (this.classTracker == null) {
-         this.classTracker = new ClassTracker();
-      }
-
-      return this.classTracker;
+      return this;
    }
 
+   @Override
    public IMixinAuditTrail getAuditTrail() {
-      if (this.auditTrail == null) {
-         this.auditTrail = new MixinAuditTrail();
-      }
-
-      return this.auditTrail;
+      return null;
    }
 
-   public byte[] getClassBytes(String name, String transformedName) throws IOException {
-      byte[] classBytes = Launch.transformClassLoader.getClassBytes(name);
-      if (classBytes != null) {
-         return classBytes;
-      } else {
-         URLClassLoader appClassLoader;
-         if (Launch.class.getClassLoader() instanceof URLClassLoader) {
-            appClassLoader = (URLClassLoader)Launch.class.getClassLoader();
-         } else {
-            appClassLoader = new URLClassLoader(new URL[0], Launch.class.getClassLoader());
-         }
-
-         InputStream classStream = null;
-
-         try {
-            String resourcePath = transformedName.replace('.', '/').concat(".class");
-            classStream = appClassLoader.getResourceAsStream(resourcePath);
-            return ByteStreams.toByteArray(classStream);
-         } catch (Exception ignored) {
-         } finally {
-            Closeables.closeQuietly(classStream);
-         }
-
-         return null;
-      }
+   @Override
+   public Collection<String> getPlatformAgents() {
+      return Collections.singletonList("org.spongepowered.asm.launch.platform.MixinPlatformAgentDefault");
    }
 
-   public List<ILegacyClassTransformer> getDelegatedLegacyTransformers() {
-      return Lists.newArrayList(Launch.transformClassLoader.getRenameTransformer());
+   @Override
+   public IContainerHandle getPrimaryContainer() {
+      return new ContainerHandleURI(UrlUtil.LOADER_CODE_SOURCE.toUri());
    }
 
    @Override
    public Collection<IContainerHandle> getMixinContainers() {
-      this.checkContainer();
-      return Collections.singleton(this.containerHandle);
+      return Collections.emptyList();
    }
 
+   @Override
    public InputStream getResourceAsStream(String name) {
-      return Launch.class.getResourceAsStream(name);
+      return Launch.knotLoader.getClassLoader().getResourceAsStream(name);
    }
 
-   public ClassNode getClassNode(String className) throws ClassNotFoundException, IOException {
-      return this.getClassNode(this.getClassBytes(className, true), 8);
+   @Override
+   public void registerInvalidClass(String className) { }
+
+   @Override
+   public boolean isClassLoaded(String className) {
+      return Launch.knotLoader.isClassLoaded(className);
    }
 
-   public ClassNode getClassNode(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
-      return this.getClassNode(this.getClassBytes(className, true), 8);
+   @Override
+   public String getClassRestrictions(String className) {
+      return "";
    }
 
-   private ClassNode getClassNode(byte[] classBytes, int flags) {
-      ClassNode classNode = new ClassNode();
-      ClassReader classReader = new ClassReader(classBytes);
-      classReader.accept(classNode, flags);
-      return classNode;
-   }
-
-   public byte[] getClassBytes(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
-      String name = Launch.transformClassLoader.untransformName(className);
-      Profiler profiler = MixinEnvironment.getProfiler();
-      Section loadTime = profiler.begin(1, "class.load");
-      byte[] classBytes = this.getClassBytes(className, className);
-      if (name != null) {
-         classBytes = this.getClassBytes(name, className);
-      }
-
-      loadTime.end();
-      if (runTransformers) {
-         Section transformTime = profiler.begin(1, "class.transform");
-         classBytes = this.applyTransformers(name, className, classBytes, profiler);
-         transformTime.end();
-      }
-
-      if (classBytes == null) {
-         throw new ClassNotFoundException(String.format("The specified class '%s' was not found", className));
-      } else {
-         return classBytes;
-      }
-   }
-
-   public Collection<String> getPlatformAgents() {
-      if (this.platformServiceAgent == null) {
-         this.platformServiceAgent = new PlatformAgent();
-      }
-
-      return Lists.newArrayList(this.platformServiceAgent.getClass().getName());
-   }
-
-   public IContainerHandle getPrimaryContainer() {
-      this.checkContainer();
-
-      return this.containerHandle;
-   }
-
+   @Override
    public Collection<ITransformer> getTransformers() {
-      List<IClassTransformer> transformers = Launch.transformClassLoader.getTransformers();
-      List<ITransformer> wrapped = new ArrayList<>(transformers.size());
-      MixinTransformer activeTransformer = (MixinTransformer)MixinEnvironment.getCurrentEnvironment().getActiveTransformer();
-      MixinTransformer mixin;
-      if (activeTransformer == null) {
-         mixin = new MixinTransformer();
-      } else{
-         mixin = activeTransformer;
-      }
-      wrapped.add(mixin);
-      for (IClassTransformer transformer : transformers) {
-         if (transformer instanceof ITransformer) {
-            wrapped.add((ITransformer) transformer);
-         } else {
-            wrapped.add(new TransformerWrapper(transformer));
-         }
+      return Collections.emptyList();
+   }
 
-         if (transformer instanceof IClassNameTransformer) {
-            MixinServiceAbstract.logger.debug("Found name transformer: {}", transformer.getClass().getName());
-         }
-      }
+   @Override
+   public Collection<ITransformer> getDelegatedTransformers() {
+      return Collections.emptyList();
+   }
 
-      return wrapped;
+   @Override
+   public void addTransformerExclusion(String name) { }
+
+   @Override
+   public String getSideName() {
+      return FishModLoader.getEnvironmentType().name();
+   }
+
+   @Override
+   public MixinEnvironment.CompatibilityLevel getMinCompatibilityLevel() {
+      return MixinEnvironment.CompatibilityLevel.JAVA_8;
+   }
+
+   @Override
+   public MixinEnvironment.CompatibilityLevel getMaxCompatibilityLevel() {
+      return MixinEnvironment.CompatibilityLevel.JAVA_17;
+   }
+
+   @Override
+   public ILogger getLogger(String name) {
+      return MixinLogger.get(name);
    }
 }

@@ -36,10 +36,10 @@ import java.util.List;
  */
 public class MixinVerifier extends SimpleVerifier {
 
-    private final Type currentClass;
-    private final Type currentSuperClass;
-    private final List<Type> currentClassInterfaces;
-    private final boolean isInterface;
+    private Type currentClass;
+    private Type currentSuperClass;
+    private List<Type> currentClassInterfaces;
+    private boolean isInterface;
 
     public MixinVerifier(int api, Type currentClass, Type currentSuperClass, List<Type> currentClassInterfaces, boolean isInterface) {
         super(api, currentClass, currentSuperClass, currentClassInterfaces, isInterface);

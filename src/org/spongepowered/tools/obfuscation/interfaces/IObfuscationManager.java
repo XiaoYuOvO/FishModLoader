@@ -37,36 +37,36 @@ public interface IObfuscationManager {
     /**
      * Initialise the obfuscation environments
      */
-    void init();
+    public abstract void init();
 
     /**
      * Get the obfuscation mapping source
      */
-    IObfuscationDataProvider getDataProvider();
+    public abstract IObfuscationDataProvider getDataProvider();
     
     /**
      * Get the reference manager
      */
-    IReferenceManager getReferenceManager();
+    public abstract IReferenceManager getReferenceManager();
 
     /**
      * Create a new mapping consumer
      */
-    IMappingConsumer createMappingConsumer();
+    public abstract IMappingConsumer createMappingConsumer();
 
     /**
      * Get available obfuscation environments within this manager
      */
-    List<ObfuscationEnvironment> getEnvironments();
+    public abstract List<ObfuscationEnvironment> getEnvironments();
 
     /**
      * Write out generated mappings to the target environments
      */
-    void writeMappings();
+    public abstract void writeMappings();
 
     /**
      * Write out generated refmap 
      */
-    void writeReferences();
+    public abstract void writeReferences();
     
 }

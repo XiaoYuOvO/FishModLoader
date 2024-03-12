@@ -40,7 +40,7 @@ public abstract class ObfuscationUtil {
          * @param typeName Class name to convert 
          * @return new name for the class
          */
-        String map(String typeName);
+        public abstract String map(String typeName);
 
         /**
          * Convert a mapped type name back to the original obfuscated name
@@ -48,7 +48,7 @@ public abstract class ObfuscationUtil {
          * @param typeName Class name to convert
          * @return old name for the class
          */
-        String unmap(String typeName);
+        public abstract String unmap(String typeName);
         
     }
     

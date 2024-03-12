@@ -25,11 +25,11 @@
 package org.spongepowered.tools.obfuscation;
 
 import org.spongepowered.asm.mixin.injection.selectors.ITargetSelectorRemappable;
-import org.spongepowered.asm.mixin.injection.struct.MemberInfo;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingField;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingMethod;
 import org.spongepowered.asm.util.ObfuscationUtil;
 import org.spongepowered.asm.util.ObfuscationUtil.IClassRemapper;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 import org.spongepowered.tools.obfuscation.interfaces.IMixinAnnotationProcessor;
 import org.spongepowered.tools.obfuscation.interfaces.IObfuscationEnvironment;
 import org.spongepowered.tools.obfuscation.mapping.IMappingConsumer;
@@ -153,7 +153,7 @@ public abstract class ObfuscationEnvironment implements IObfuscationEnvironment 
                 File inputFile = new File(inputFileName);
                 try {
                     if (inputFile.isFile()) {
-                        this.ap.printMessage(Kind.NOTE, "Loading " + this.type + " mappings from " + inputFile.getAbsolutePath());
+                        this.ap.printMessage(MessageType.INFO, "Loading " + this.type + " mappings from " + inputFile.getAbsolutePath());
                         this.mappingProvider.read(inputFile);
                         successCount++;
                     }
@@ -280,7 +280,7 @@ public abstract class ObfuscationEnvironment implements IObfuscationEnvironment 
             }
         }
         
-        return transformed ? new MemberInfo(method.getName(), owner, desc, method.getMatchCount() > 1) : null; 
+        return transformed ? method.move(owner).transform(desc) : null; 
     }
     
     /**

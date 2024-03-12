@@ -67,7 +67,15 @@ public @interface ModifyConstant {
      * 
      * @return target method(s) for this injector
      */
-    String[] method();
+    public String[] method() default {};
+    
+    /**
+     * Literal representation of one or more {@link Desc &#064;Desc} annotations
+     * which identify the target methods.
+     * 
+     * @return target method(s) for this injector as descriptors
+     */
+    public Desc[] target() default {};
     
     /**
      * Array of {@link Slice} annotations which describe the method bisections
@@ -75,7 +83,7 @@ public @interface ModifyConstant {
      * 
      * @return slices
      */
-    Slice[] slice() default {};
+    public Slice[] slice() default {};
 
     /**
      * Discriminator for the constant(s) to match (injection points), if not
@@ -84,7 +92,7 @@ public @interface ModifyConstant {
      * 
      * @return the constant discriminator
      */
-    Constant[] constant() default {};
+    public Constant[] constant() default {};
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -101,7 +109,7 @@ public @interface ModifyConstant {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * In general, injectors are intended to "fail soft" in that a failure to
@@ -123,7 +131,7 @@ public @interface ModifyConstant {
      * @return Minimum required number of injected callbacks, default specified
      *      by the containing config
      */
-    int require() default -1;
+    public int require() default -1;
     
     /**
      * Like {@link #require()} but only enabled if the
@@ -135,7 +143,7 @@ public @interface ModifyConstant {
      * 
      * @return Minimum number of <em>expected</em> callbacks, default 1
      */
-    int expect() default 1;
+    public int expect() default 1;
     
     /**
      * Injection points are in general expected to match every candidate
@@ -161,7 +169,7 @@ public @interface ModifyConstant {
      * 
      * @return Maximum allowed number of injections for this 
      */
-    int allow() default -1;
+    public int allow() default -1;
     
     /**
      * Returns constraints which must be validated for this injector to
@@ -169,6 +177,6 @@ public @interface ModifyConstant {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
 
 }

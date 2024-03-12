@@ -24,6 +24,7 @@
  */
 package org.spongepowered.tools.obfuscation.mirror;
 
+import org.spongepowered.asm.util.Bytecode.Visibility;
 import org.spongepowered.asm.util.Constants;
 import org.spongepowered.asm.util.SignaturePrinter;
 
@@ -234,6 +235,9 @@ public abstract class TypeUtils {
      * @return java signature
      */
     public static String getJavaSignature(Element element) {
+        if (element == null) {
+            return "";
+        }
         if (element instanceof ExecutableElement) {
             ExecutableElement method = (ExecutableElement)element;
             StringBuilder desc = new StringBuilder().append("(");

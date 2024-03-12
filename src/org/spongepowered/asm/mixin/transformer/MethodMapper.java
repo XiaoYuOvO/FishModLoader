@@ -25,14 +25,14 @@
 package org.spongepowered.asm.mixin.transformer;
 
 import com.google.common.base.Strings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Method;
 import org.spongepowered.asm.mixin.transformer.MixinInfo.MixinMethodNode;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Counter;
 
 import java.util.ArrayList;
@@ -43,12 +43,12 @@ import java.util.Map;
 /**
  * Maintains method remaps for a target class
  */
-public class MethodMapper {
+class MethodMapper {
 
     /**
      * Logger
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     private static final List<String> classes = new ArrayList<String>();
     

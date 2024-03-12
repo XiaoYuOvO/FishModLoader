@@ -25,24 +25,23 @@
 package org.spongepowered.asm.mixin.transformer;
 
 import com.google.common.collect.ImmutableList;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 import org.objectweb.asm.tree.*;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Intrinsic;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.extensibility.IActivityContext.IActivity;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.throwables.MixinError;
-import org.spongepowered.asm.mixin.transformer.ActivityStack.Activity;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Field;
 import org.spongepowered.asm.mixin.transformer.ext.extensions.ExtensionClassExporter;
 import org.spongepowered.asm.mixin.transformer.meta.MixinMerged;
@@ -74,7 +73,7 @@ class MixinApplicatorStandard {
     /**
      * Annotations which can have constraints
      */
-    protected static final List<Class<? extends Annotation>> CONSTRAINED_ANNOTATIONS = ImmutableList.of(
+    protected static final List<Class<? extends Annotation>> CONSTRAINED_ANNOTATIONS = ImmutableList.<Class<? extends Annotation>>of(
         Overwrite.class,
         Inject.class,
         ModifyArg.class,
@@ -83,113 +82,18 @@ class MixinApplicatorStandard {
         ModifyVariable.class,
         ModifyConstant.class
     );
-    
     /**
-     * Passes the mixin applicator applies to each mixin
+     * Log more things
      */
-    enum ApplicatorPass {
-        /**
-         * Main pass, mix in methods, fields, interfaces etc
-         */
-        MAIN,
-        
-        /**
-         * Enumerate injectors and scan for injection points 
-         */
-        PREINJECT,
-        
-        /**
-         * Apply injectors from previous pass 
-         */
-        INJECT
-    }
-    
+    protected final ILogger logger = MixinService.getService().getLogger("mixin");
     /**
-     * Strategy for injecting initialiser insns
+     * Profiler
      */
-    enum InitialiserInjectionMode {
-        /**
-         * Default mode, attempts to place initialisers after all other
-         * competing initialisers in the target ctor
-         */
-        DEFAULT,
-        
-        /**
-         * Safe mode, only injects initialiser directly after the super-ctor
-         * invocation 
-         */
-        SAFE
-    }
-    
+    protected final Profiler profiler = Profiler.getProfiler("mixin");
     /**
-     * Internal struct for representing a range
+     * Target class context
      */
-    class Range {
-        /**
-         * Start of the range
-         */
-        final int start;
-        
-        /**
-         * End of the range 
-         */
-        final int end;
-        
-        /**
-         * Range marker
-         */
-        final int marker;
-
-        /**
-         * Create a range with the specified values.
-         * 
-         * @param start Start of the range
-         * @param end End of the range
-         * @param marker Arbitrary marker value
-         */
-        Range(int start, int end, int marker) {
-            this.start = start;
-            this.end = end;
-            this.marker = marker;
-        }
-        
-        /**
-         * Range is valid if both start and end are nonzero and end is after or
-         * at start
-         * 
-         * @return true if valid
-         */
-        boolean isValid() {
-            return (this.start != 0 && this.end != 0 && this.end >= this.start);
-        }
-        
-        /**
-         * Returns true if the supplied value is between or equal to start and
-         * end
-         * 
-         * @param value true if the range contains value
-         */
-        boolean contains(int value) {
-            return value >= this.start && value <= this.end;
-        }
-        
-        /**
-         * Returns true if the supplied value is outside the range
-         * 
-         * @param value true if the range does not contain value
-         */
-        boolean excludes(int value) {
-            return value < this.start || value > this.end;
-        }
-        
-        /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
-        @Override
-        public String toString() {
-            return String.format("Range[%d-%d,%d,valid=%s)", this.start, this.end, this.marker, this.isValid());
-        }
-    }
+    protected final TargetClassContext context;
     
     /**
      * List of opcodes which must not appear in a class initialiser, mainly a
@@ -206,47 +110,26 @@ class MixinApplicatorStandard {
         Opcodes.ASTORE, Opcodes.IASTORE, Opcodes.LASTORE, Opcodes.FASTORE, Opcodes.DASTORE, Opcodes.AASTORE, Opcodes.BASTORE, Opcodes.CASTORE,
         Opcodes.SASTORE
     };
-
-    /**
-     * Log more things
-     */
-    protected final Logger logger = LogManager.getLogger("mixin");
-    
-    /**
-     * Target class context 
-     */
-    protected final TargetClassContext context;
-    
     /**
      * Target class name
      */
     protected final String targetName;
-    
     /**
-     * Target class tree 
+     * Target class tree
      */
     protected final ClassNode targetClass;
-    
     /**
-     * Target class info 
+     * Target class info
      */
     protected final ClassInfo targetClassInfo;
-    
     /**
-     * Profiler 
-     */
-    protected final Profiler profiler = MixinEnvironment.getProfiler();
-    
-    /**
-     * Audit trail (if available); 
+     * Audit trail (if available);
      */
     protected final IMixinAuditTrail auditTrail;
-
     /**
      * Activity tracker
      */
     protected final ActivityStack activities = new ActivityStack();
-
     /**
      * Flag to track whether signatures from applied mixins should be merged
      * into target classes. This is only true when the runtime decompiler is
@@ -260,20 +143,20 @@ class MixinApplicatorStandard {
         this.targetName = context.getClassName();
         this.targetClass = context.getClassNode();
         this.targetClassInfo = context.getClassInfo();
-        
-        ExtensionClassExporter exporter = context.getExtensions().getExtension(ExtensionClassExporter.class);
+
+        ExtensionClassExporter exporter = context.getExtensions().<ExtensionClassExporter>getExtension(ExtensionClassExporter.class);
         this.mergeSignatures = exporter.isDecompilerActive()
                 && MixinEnvironment.getCurrentEnvironment().getOption(Option.DEBUG_EXPORT_DECOMPILE_MERGESIGNATURES);
-        
+
         this.auditTrail = MixinService.getService().getAuditTrail();
     }
-    
+
     /**
      * Apply supplied mixins to the target class
      */
     final void apply(SortedSet<MixinInfo> mixins) {
         List<MixinTargetContext> mixinContexts = new ArrayList<MixinTargetContext>();
-        
+
         for (Iterator<MixinInfo> iter = mixins.iterator(); iter.hasNext();) {
             MixinInfo mixin = iter.next();
             try {
@@ -290,23 +173,23 @@ class MixinApplicatorStandard {
                 iter.remove(); // Do not process this mixin further
             }
         }
-        
+
         MixinTargetContext current = null;
-        
+
         this.activities.clear();
         try {
-            Activity activity = this.activities.begin("PreApply Phase");
-            Activity preApplyActivity = this.activities.begin("Mixin");
+            IActivity activity = this.activities.begin("PreApply Phase");
+            IActivity preApplyActivity = this.activities.begin("Mixin");
             for (MixinTargetContext context : mixinContexts) {
                 preApplyActivity.next(context.toString());
                 (current = context).preApply(this.targetName, this.targetClass);
             }
             preApplyActivity.end();
-            
+
             for (ApplicatorPass pass : ApplicatorPass.values()) {
                 activity.next("%s Applicator Phase", pass);
                 Section timer = this.profiler.begin("pass", pass.name().toLowerCase(Locale.ROOT));
-                Activity applyActivity = this.activities.begin("Mixin");
+                IActivity applyActivity = this.activities.begin("Mixin");
                 for (Iterator<MixinTargetContext> iter = mixinContexts.iterator(); iter.hasNext();) {
                     current = iter.next();
                     applyActivity.next(current.toString());
@@ -323,9 +206,9 @@ class MixinApplicatorStandard {
                 applyActivity.end();
                 timer.end();
             }
-            
+
             activity.next("PostApply Phase");
-            Activity postApplyActivity = this.activities.begin("Mixin");
+            IActivity postApplyActivity = this.activities.begin("Mixin");
             for (Iterator<MixinTargetContext> iter = mixinContexts.iterator(); iter.hasNext();) {
                 current = iter.next();
                 postApplyActivity.next(current.toString());
@@ -354,11 +237,11 @@ class MixinApplicatorStandard {
 
     /**
      * Apply the mixin described by mixin to the supplied ClassNode
-     * 
+     *
      * @param mixin Mixin to apply
      */
     protected final void applyMixin(MixinTargetContext mixin, ApplicatorPass pass) {
-        Activity activity = this.activities.begin("Apply");
+        IActivity activity = this.activities.begin("Apply");
         switch (pass) {
             case MAIN:
                 activity.next("Apply Signature");
@@ -376,24 +259,75 @@ class MixinApplicatorStandard {
                 activity.next("Apply Initialisers");
                 this.applyInitialisers(mixin);
                 break;
-                
+
             case PREINJECT:
                 activity.next("Prepare Injections");
                 this.prepareInjections(mixin);
                 break;
-                
+
             case INJECT:
                 activity.next("Apply Accessors");
                 this.applyAccessors(mixin);
                 activity.next("Apply Injections");
                 this.applyInjections(mixin);
                 break;
-                
+
             default:
                 // wat?
                 throw new IllegalStateException("Invalid pass specified " + pass);
         }
         activity.end();
+    }
+    
+    /**
+     * Mixin misc attributes from mixin class onto the target class
+     *
+     * @param mixin mixin target context
+     */
+    protected void applyAttributes(MixinTargetContext mixin) {
+        if (mixin.shouldSetSourceFile()) {
+            this.targetClass.sourceFile = mixin.getSourceFile();
+        }
+
+        int requiredVersion = mixin.getMinRequiredClassVersion();
+        if ((requiredVersion & 0xFFFF) > (this.targetClass.version & 0xFFFF)) {
+            this.targetClass.version = requiredVersion;
+        }
+    }
+    
+    /**
+     * Mixin methods from the mixin class into the target class
+     *
+     * @param mixin mixin target context
+     */
+    protected void applyMethods(MixinTargetContext mixin) {
+        IActivity activity = this.activities.begin("?");
+        for (MethodNode shadow : mixin.getShadowMethods()) {
+            activity.next("@Shadow %s:%s", shadow.desc, shadow.name);
+            this.applyShadowMethod(mixin, shadow);
+        }
+
+        for (MethodNode mixinMethod : mixin.getMethods()) {
+            activity.next("%s:%s", mixinMethod.desc, mixinMethod.name);
+            this.applyNormalMethod(mixin, mixinMethod);
+        }
+        activity.end();
+    }
+
+    protected void applyNormalMethod(MixinTargetContext mixin, MethodNode mixinMethod) {
+        // Reparent all mixin methods into the target class
+        mixin.transformMethod(mixinMethod);
+
+        if (!mixinMethod.name.startsWith("<")) {
+            this.checkMethodVisibility(mixin, mixinMethod);
+            this.checkMethodConstraints(mixin, mixinMethod);
+            this.mergeMethod(mixin, mixinMethod);
+        } else if (Constants.CLINIT.equals(mixinMethod.name)) {
+            // Class initialiser insns get appended
+            IActivity activity = this.activities.begin("Merge CLINIT insns");
+            this.appendInsns(mixin, mixinMethod);
+            activity.end();
+        }
     }
 
     protected void applySignature(MixinTargetContext mixin) {
@@ -417,15 +351,73 @@ class MixinApplicatorStandard {
     }
 
     /**
-     * Mixin misc attributes from mixin class onto the target class
-     * 
-     * @param mixin mixin target context
+     * Check whether this method was already merged into the target, returns
+     * false if the method was <b>not</b> already merged or if the incoming
+     * method has a higher priority than the already merged method.
+     *
+     * @param mixin Mixin context
+     * @param method Method being merged
+     * @param isOverwrite True if the incoming method is tagged with Override
+     * @param target target method being checked
+     * @return true if the target was already merged and should be skipped
      */
-    protected void applyAttributes(MixinTargetContext mixin) {
-        if (mixin.shouldSetSourceFile()) {
-            this.targetClass.sourceFile = mixin.getSourceFile();
+    @SuppressWarnings("unchecked")
+    protected boolean isAlreadyMerged(MixinTargetContext mixin, MethodNode method, boolean isOverwrite, MethodNode target) {
+        AnnotationNode merged = Annotations.getVisible(target, MixinMerged.class);
+        if (merged == null) {
+            if (Annotations.getVisible(target, Final.class) != null) {
+                this.logger.warn("Overwrite prohibited for @Final method {} in {}. Skipping method.", method.name, mixin);
+                return true;
+            }
+            return false;
         }
-        this.targetClass.version = Math.max(this.targetClass.version, mixin.getMinRequiredClassVersion());
+
+        String sessionId = Annotations.<String>getValue(merged, "sessionId");
+
+        if (!this.context.getSessionId().equals(sessionId)) {
+            throw new ClassFormatError("Invalid @MixinMerged annotation found in" + mixin + " at " + method.name + " in " + this.targetClass.name);
+        }
+
+        if (Bytecode.hasFlag(target, Opcodes.ACC_SYNTHETIC | Opcodes.ACC_BRIDGE)
+                && Bytecode.hasFlag(method, Opcodes.ACC_SYNTHETIC | Opcodes.ACC_BRIDGE)) {
+            if (mixin.getEnvironment().getOption(Option.DEBUG_VERBOSE)) {
+                this.logger.warn("Synthetic bridge method clash for {} in {}", method.name, mixin);
+            }
+            return true;
+        }
+
+        String owner = Annotations.<String>getValue(merged, "mixin");
+        int priority = Annotations.<Integer>getValue(merged, "priority");
+
+        AnnotationNode accMethod = Annotations.getSingleVisible(method, Accessor.class, Invoker.class);
+        if (accMethod != null) {
+            AnnotationNode accTarget = Annotations.getSingleVisible(target, Accessor.class, Invoker.class);
+            if (accTarget != null) {
+                String myTarget = Annotations.<String>getValue(accMethod, "target");
+                String trTarget = Annotations.<String>getValue(accTarget, "target");
+                if (myTarget == null) {
+                    throw new MixinError("Encountered undecorated Accessor method in " + mixin + " applying to " + this.targetName);
+                }
+                if (myTarget.equals(trTarget)) {
+                    // This is fine, the accessors overlap
+                    return true;
+                }
+                throw new InvalidMixinException(mixin, String.format("Incompatible @%s %s (for %s) in %s previously written by %s (for %s)",
+                        Annotations.getSimpleName(accMethod), method.name, myTarget, mixin, owner, trTarget));
+            }
+        }
+
+        if (priority >= mixin.getPriority() && !owner.equals(mixin.getClassName())) {
+            this.logger.warn("Method overwrite conflict for {} in {}, previously written by {}. Skipping method.", method.name, mixin, owner);
+            return true;
+        }
+
+        if (Annotations.getVisible(target, Final.class) != null) {
+            this.logger.warn("Method overwrite conflict for @Final method {} in {} declared by {}. Skipping method.", method.name, mixin, owner);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -487,22 +479,26 @@ class MixinApplicatorStandard {
     }
 
     /**
-     * Mixin methods from the mixin class into the target class
-     * 
-     * @param mixin mixin target context
+     * Finds a suitable ctor for reading the instance initialiser bytecode
+     *
+     * @param mixin mixin to search
+     * @return appropriate ctor or null if none found
      */
-    protected void applyMethods(MixinTargetContext mixin) {
-        Activity activity = this.activities.begin("?");
-        for (MethodNode shadow : mixin.getShadowMethods()) {
-            activity.next("@Shadow %s:%s", shadow.desc, shadow.name);
-            this.applyShadowMethod(mixin, shadow);
-        }
-        
+    protected MethodNode getConstructor(MixinTargetContext mixin) {
+        MethodNode ctor = null;
+
         for (MethodNode mixinMethod : mixin.getMethods()) {
-            activity.next("%s:%s", mixinMethod.desc, mixinMethod.name);
-            this.applyNormalMethod(mixin, mixinMethod);
+            if (Constants.CTOR.equals(mixinMethod.name) && Bytecode.methodHasLineNumbers(mixinMethod)) {
+                if (ctor == null) {
+                    ctor = mixinMethod;
+                } else {
+                    // Not an error condition, just weird
+                    this.logger.warn("Mixin {} has multiple constructors, {} was selected\n", mixin, ctor.desc);
+                }
+            }
         }
-        activity.end();
+
+        return ctor;
     }
 
     protected void applyShadowMethod(MixinTargetContext mixin, MethodNode shadow) {
@@ -512,20 +508,20 @@ class MixinApplicatorStandard {
         }
     }
 
-    protected void applyNormalMethod(MixinTargetContext mixin, MethodNode mixinMethod) {
-        // Reparent all mixin methods into the target class
-        mixin.transformMethod(mixinMethod);
-
-        if (!mixinMethod.name.startsWith("<")) {
-            this.checkMethodVisibility(mixin, mixinMethod);
-            this.checkMethodConstraints(mixin, mixinMethod);
-            this.mergeMethod(mixin, mixinMethod);
-        } else if (Constants.CLINIT.equals(mixinMethod.name)) {
-            // Class initialiser insns get appended
-            Activity activity = this.activities.begin("Merge CLINIT insns");
-            this.appendInsns(mixin, mixinMethod);
-            activity.end();
+    /**
+     * Finds a field in the target class
+     * @param searchFor
+     *
+     * @return Target field matching searchFor, or null if not found
+     */
+    protected final FieldNode findTargetField(FieldNode searchFor) {
+        for (FieldNode target : this.targetClass.fields) {
+            if (target.name.equals(searchFor.name) && target.desc.equals(searchFor.desc)) {
+                return target;
+            }
         }
+
+        return null;
     }
 
     /**
@@ -578,73 +574,25 @@ class MixinApplicatorStandard {
     }
 
     /**
-     * Check whether this method was already merged into the target, returns
-     * false if the method was <b>not</b> already merged or if the incoming
-     * method has a higher priority than the already merged method.
-     * 
-     * @param mixin Mixin context
-     * @param method Method being merged
-     * @param isOverwrite True if the incoming method is tagged with Override
-     * @param target target method being checked
-     * @return true if the target was already merged and should be skipped
+     * Passes the mixin applicator applies to each mixin
      */
-    @SuppressWarnings("unchecked")
-    protected boolean isAlreadyMerged(MixinTargetContext mixin, MethodNode method, boolean isOverwrite, MethodNode target) {
-        AnnotationNode merged = Annotations.getVisible(target, MixinMerged.class);
-        if (merged == null) {
-            if (Annotations.getVisible(target, Final.class) != null) {
-                this.logger.warn("Overwrite prohibited for @Final method {} in {}. Skipping method.", method.name, mixin);
-                return true;
-            }
-            return false;
-        }
-    
-        String sessionId = Annotations.getValue(merged, "sessionId");
-        
-        if (!this.context.getSessionId().equals(sessionId)) {
-            throw new ClassFormatError("Invalid @MixinMerged annotation found in" + mixin + " at " + method.name + " in " + this.targetClass.name);
-        }
-        
-        if (Bytecode.hasFlag(target, Opcodes.ACC_SYNTHETIC | Opcodes.ACC_BRIDGE)
-                && Bytecode.hasFlag(method, Opcodes.ACC_SYNTHETIC | Opcodes.ACC_BRIDGE)) {
-            if (mixin.getEnvironment().getOption(Option.DEBUG_VERBOSE)) {
-                this.logger.warn("Synthetic bridge method clash for {} in {}", method.name, mixin);
-            }
-            return true;
-        }
-        
-        String owner = Annotations.getValue(merged, "mixin");
-        int priority = Annotations.<Integer>getValue(merged, "priority");
-        
-        AnnotationNode accMethod = Annotations.getSingleVisible(method, Accessor.class, Invoker.class);
-        if (accMethod != null) {
-            AnnotationNode accTarget = Annotations.getSingleVisible(target, Accessor.class, Invoker.class);
-            if (accTarget != null) {
-                String myTarget = Annotations.getValue(accMethod, "target");
-                String trTarget = Annotations.getValue(accTarget, "target");
-                if (myTarget == null) {
-                    throw new MixinError("Encountered undecorated Accessor method in " + mixin + " applying to " + this.targetName);
-                }
-                if (myTarget.equals(trTarget)) {
-                    // This is fine, the accessors overlap
-                    return true;
-                }
-                throw new InvalidMixinException(mixin, String.format("Incompatible @%s %s (for %s) in %s previously written by %s (for %s)",
-                        Bytecode.getSimpleName(accMethod), method.name, myTarget, mixin, owner, trTarget));
-            }
-        }
+    enum ApplicatorPass {
 
-        if (priority >= mixin.getPriority() && !owner.equals(mixin.getClassName())) {
-            this.logger.warn("Method overwrite conflict for {} in {}, previously written by {}. Skipping method.", method.name, mixin, owner);
-            return true;
-        }
-        
-        if (Annotations.getVisible(target, Final.class) != null) {
-            this.logger.warn("Method overwrite conflict for @Final method {} in {} declared by {}. Skipping method.", method.name, mixin, owner);
-            return true;
-        }
+        /**
+         * Main pass, mix in methods, fields, interfaces etc
+         */
+        MAIN,
 
-        return false;
+        /**
+         * Enumerate injectors and scan for injection points
+         */
+        PREINJECT,
+
+        /**
+         * Apply injectors from previous pass
+         */
+        INJECT
+
     }
 
     /**
@@ -785,26 +733,22 @@ class MixinApplicatorStandard {
     }
     
     /**
-     * Finds a suitable ctor for reading the instance initialiser bytecode
-     * 
-     * @param mixin mixin to search
-     * @return appropriate ctor or null if none found
+     * Strategy for injecting initialiser insns
      */
-    protected MethodNode getConstructor(MixinTargetContext mixin) {
-        MethodNode ctor = null;
-        
-        for (MethodNode mixinMethod : mixin.getMethods()) {
-            if (Constants.CTOR.equals(mixinMethod.name) && Bytecode.methodHasLineNumbers(mixinMethod)) {
-                if (ctor == null) {
-                    ctor = mixinMethod;
-                } else {
-                    // Not an error condition, just weird
-                    this.logger.warn(String.format("Mixin %s has multiple constructors, %s was selected\n", mixin, ctor.desc));
-                }
-            }
-        }
-        
-        return ctor;
+    enum InitialiserInjectionMode {
+
+        /**
+         * Default mode, attempts to place initialisers after all other
+         * competing initialisers in the target ctor
+         */
+        DEFAULT,
+
+        /**
+         * Safe mode, only injects initialiser directly after the super-ctor
+         * invocation
+         */
+        SAFE
+
     }
 
     /**
@@ -1127,19 +1071,75 @@ class MixinApplicatorStandard {
     }
 
     /**
-     * Finds a field in the target class
-     * @param searchFor
-     * 
-     * @return Target field matching searchFor, or null if not found
+     * Internal struct for representing a range
      */
-    protected final FieldNode findTargetField(FieldNode searchFor) {
-        for (FieldNode target : this.targetClass.fields) {
-            if (target.name.equals(searchFor.name)) {
-                return target;
-            }
+    class Range {
+
+        /**
+         * Start of the range
+         */
+        final int start;
+
+        /**
+         * End of the range
+         */
+        final int end;
+
+        /**
+         * Range marker
+         */
+        final int marker;
+
+        /**
+         * Create a range with the specified values.
+         *
+         * @param start Start of the range
+         * @param end End of the range
+         * @param marker Arbitrary marker value
+         */
+        Range(int start, int end, int marker) {
+            this.start = start;
+            this.end = end;
+            this.marker = marker;
         }
 
-        return null;
+        /**
+         * Range is valid if both start and end are nonzero and end is after or
+         * at start
+         *
+         * @return true if valid
+         */
+        boolean isValid() {
+            return (this.start != 0 && this.end != 0 && this.end >= this.start);
+        }
+
+        /**
+         * Returns true if the supplied value is between or equal to start and
+         * end
+         *
+         * @param value true if the range contains value
+         */
+        boolean contains(int value) {
+            return value >= this.start && value <= this.end;
+        }
+
+        /**
+         * Returns true if the supplied value is outside the range
+         *
+         * @param value true if the range does not contain value
+         */
+        boolean excludes(int value) {
+            return value < this.start || value > this.end;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
+        @Override
+        public String toString() {
+            return String.format("Range[%d-%d,%d,valid=%s)", this.start, this.end, this.marker, this.isValid());
+        }
+
     }
     
 }

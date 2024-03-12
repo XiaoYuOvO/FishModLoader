@@ -49,7 +49,8 @@ import java.lang.annotation.Target;
  * <p>This injector works by creating an <em>argument bundle</em> in the form of
  * {@link Args} which is passed to your handler method. You can manipulate the
  * method arguments via the bundle in your handler method. The bundle is then
- * unpacked and the original method is called with the modified arguments.</p>
+ * unpacked and the original subject method is called with the modified
+ * arguments.</p>
  * 
  * <p>Since the argument bundle is created for every invocation of the target
  * method, and primitive types must undergo boxing and unboxing, this injector
@@ -66,7 +67,7 @@ import java.lang.annotation.Target;
  * </ul>
  * 
  * <p>Methods decorated with this injector should return <tt>void</tt> and
- * return either:</p>
+ * consume either:</p>
  * 
  * <ul>
  *   <li>A single argument of type {@link Args}</li>
@@ -85,7 +86,15 @@ public @interface ModifyArgs {
      * 
      * @return target method(s) for this injector
      */
-    String[] method();
+    public String[] method() default {};
+    
+    /**
+     * Literal representation of one or more {@link Desc &#064;Desc} annotations
+     * which identify the target methods.
+     * 
+     * @return target method(s) for this injector as descriptors
+     */
+    public Desc[] target() default {};
     
     /**
      * A {@link Slice} annotation which describes the method bisection used in
@@ -93,7 +102,7 @@ public @interface ModifyArgs {
      * 
      * @return slice
      */
-    Slice slice() default @Slice;
+    public Slice slice() default @Slice;
 
     /**
      * An {@link At} annotation which describes the {@link InjectionPoint} in
@@ -103,7 +112,7 @@ public @interface ModifyArgs {
      * 
      * @return {@link At} which identifies the target method invocation
      */
-    At at();
+    public At at();
     
     /**
      * By default, the annotation processor will attempt to locate an
@@ -120,7 +129,7 @@ public @interface ModifyArgs {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * In general, injectors are intended to "fail soft" in that a failure to
@@ -142,7 +151,7 @@ public @interface ModifyArgs {
      * @return Minimum required number of injected callbacks, default specified
      *      by the containing config
      */
-    int require() default -1;
+    public int require() default -1;
     
     /**
      * Like {@link #require()} but only enabled if the
@@ -154,7 +163,7 @@ public @interface ModifyArgs {
      * 
      * @return Minimum number of <em>expected</em> callbacks, default 1
      */
-    int expect() default 1;
+    public int expect() default 1;
     
     /**
      * Injection points are in general expected to match every candidate
@@ -180,7 +189,7 @@ public @interface ModifyArgs {
      * 
      * @return Maximum allowed number of injections for this 
      */
-    int allow() default -1;
+    public int allow() default -1;
 
     /**
      * Returns constraints which must be validated for this injector to
@@ -188,6 +197,6 @@ public @interface ModifyArgs {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
 
 }

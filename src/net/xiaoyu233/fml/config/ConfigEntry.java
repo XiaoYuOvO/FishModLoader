@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import net.xiaoyu233.fml.FishModLoader;
 import net.xiaoyu233.fml.util.FieldReference;
 
+import javax.annotation.Nonnull;
+
 public class ConfigEntry<T> extends Config {
     private final Codec<T> codec;
     private final FieldReference<T> configRef;
@@ -54,6 +56,7 @@ public class ConfigEntry<T> extends Config {
         return defaultValue;
     }
 
+    @Nonnull
     @Override
     public Config.ReadResult read(JsonElement json) {
         try {

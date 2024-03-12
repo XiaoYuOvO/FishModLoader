@@ -59,7 +59,7 @@ public @interface Overwrite {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
     
     /**
      * Supplies possible aliases for this method. This should <b>only</b>
@@ -75,7 +75,7 @@ public @interface Overwrite {
      * 
      * @return Aliases for this member
      */
-    String[] aliases() default { };
+    public String[] aliases() default { }; 
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -91,6 +91,6 @@ public @interface Overwrite {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this method 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
 
 }

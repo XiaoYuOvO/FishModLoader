@@ -36,12 +36,12 @@ public interface IExtensionRegistry {
     /**
      * Get all extensions
      */
-    List<IExtension> getExtensions();
+    public abstract List<IExtension> getExtensions();
 
     /**
      * Get all active extensions
      */
-    List<IExtension> getActiveExtensions();
+    public abstract List<IExtension> getActiveExtensions();
 
     /**
      * Get a specific extension
@@ -50,11 +50,11 @@ public interface IExtensionRegistry {
      * @param <T> extension type
      * @return extension instance or null
      */
-    <T extends IExtension> T getExtension(Class<? extends IExtension> extensionClass);
+    public abstract <T extends IExtension> T getExtension(Class<? extends IExtension> extensionClass);
 
     /**
      * Get the synthetic class registry
      */
-    ISyntheticClassRegistry getSyntheticClassRegistry();
+    public abstract ISyntheticClassRegistry getSyntheticClassRegistry();
 
 }

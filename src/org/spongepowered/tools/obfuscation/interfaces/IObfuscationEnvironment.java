@@ -45,7 +45,7 @@ public interface IObfuscationEnvironment {
      * @param method method to locate a mapping for
      * @return remapped method or null if no mapping exists
      */
-    MappingMethod getObfMethod(ITargetSelectorRemappable method);
+    public abstract MappingMethod getObfMethod(ITargetSelectorRemappable method);
 
     /**
      * Get an obfuscation mapping for a method, returns null if no mapping
@@ -54,7 +54,7 @@ public interface IObfuscationEnvironment {
      * @param method method to locate a mapping for
      * @return remapped method or null if no mapping exists
      */
-    MappingMethod getObfMethod(MappingMethod method);
+    public abstract MappingMethod getObfMethod(MappingMethod method);
 
     /**
      * Get an obfuscation mapping for a method, returns null if no mapping
@@ -69,7 +69,7 @@ public interface IObfuscationEnvironment {
      *      mapping is located
      * @return remapped method or null if no mapping exists
      */
-    MappingMethod getObfMethod(MappingMethod method, boolean lazyRemap);
+    public abstract MappingMethod getObfMethod(MappingMethod method, boolean lazyRemap);
 
     /**
      * Get an obfuscation mapping for a field, returns null if no mapping
@@ -78,7 +78,7 @@ public interface IObfuscationEnvironment {
      * @param field field to locate a mapping for
      * @return remapped field or null if no mapping exists
      */
-    MappingField getObfField(ITargetSelectorRemappable field);
+    public abstract MappingField getObfField(ITargetSelectorRemappable field);
 
     /**
      * Get an obfuscation mapping for a field, returns null if no mapping
@@ -87,7 +87,7 @@ public interface IObfuscationEnvironment {
      * @param field field to locate a mapping for
      * @return remapped field or null if no mapping exists
      */
-    MappingField getObfField(MappingField field);
+    public abstract MappingField getObfField(MappingField field);
 
     /**
      * Get an obfuscation mapping for a field, returns null if no mapping
@@ -102,7 +102,7 @@ public interface IObfuscationEnvironment {
      *      mapping is located
      * @return remapped field or null if no mapping exists
      */
-    MappingField getObfField(MappingField field, boolean lazyRemap);
+    public abstract MappingField getObfField(MappingField field, boolean lazyRemap);
 
     /**
      * Get an obfuscation mapping for a class, returns null if no mapping exists
@@ -111,7 +111,7 @@ public interface IObfuscationEnvironment {
      * @param className Name of the class to remap (binary format)
      * @return remapped class name
      */
-    String getObfClass(String className);
+    public abstract String getObfClass(String className);
 
     /**
      * Remap only the owner and descriptor of the specified method
@@ -119,7 +119,7 @@ public interface IObfuscationEnvironment {
      * @param method method to remap
      * @return remapped method or null if no remapping occurred
      */
-    ITargetSelectorRemappable remapDescriptor(ITargetSelectorRemappable method);
+    public abstract ITargetSelectorRemappable remapDescriptor(ITargetSelectorRemappable method);
 
     /**
      * Remap a single descriptor in the context of this environment
@@ -128,13 +128,13 @@ public interface IObfuscationEnvironment {
      * @return remapped descriptor, may return the original descriptor if no
      *      remapping occurred
      */
-    String remapDescriptor(String desc);
+    public abstract String remapDescriptor(String desc);
 
     /**
      * Write out accumulated mappings
      * 
      * @param consumers all consumers accumulated during the AP pass
      */
-    void writeMappings(Collection<IMappingConsumer> consumers);
+    public abstract void writeMappings(Collection<IMappingConsumer> consumers);
 
 }

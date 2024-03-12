@@ -37,6 +37,6 @@ public interface IJavadocProvider {
      * @param element Element to fetch javadoc for
      * @return javadoc
      */
-    String getJavadoc(Element element);
+    public abstract String getJavadoc(Element element);
 
 }

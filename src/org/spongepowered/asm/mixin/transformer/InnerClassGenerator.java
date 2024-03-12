@@ -24,13 +24,14 @@
  */
 package org.spongepowered.asm.mixin.transformer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.commons.ClassRemapper;
 import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Method;
 import org.spongepowered.asm.mixin.transformer.ext.IClassGenerator;
@@ -52,66 +53,202 @@ import java.util.UUID;
 final class InnerClassGenerator implements IClassGenerator {
     
     /**
+     * Logger
+     */
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
+    /**
+     * Coprocessor which handles merging nest members into nest hosts which may
+     * or may not be mixin targets themselves
+     */
+    private final MixinCoprocessorNestHost nestHostCoprocessor;
+    /**
+     * Synthetic class registry
+     */
+    private final IConsumer<ISyntheticClassInfo> registry;
+    /**
+     * Mapping of target class context ids to generated inner class names, used
+     * so we don't accidentally conform the same class twice.
+     */
+    private final Map<String, String> innerClassNames = new HashMap<String, String>();
+    /**
+     * Mapping of generated class names to the respective inner class info
+     */
+    private final Map<String, InnerClassInfo> innerClasses = new HashMap<String, InnerClassInfo>();
+
+    /**
+     * Ctor
+     *
+     * @param registry sythetic class registry
+     */
+    public InnerClassGenerator(IConsumer<ISyntheticClassInfo> registry, MixinCoprocessorNestHost nestHostCoprocessor) {
+        this.registry = registry;
+        this.nestHostCoprocessor = nestHostCoprocessor;
+    }
+    
+    /**
+     * To avoid accidental clashes with existing target classes, or classes from
+     * multiple mixins, each remapped class gets a unique name.
+     *
+     * @param originalName Original inner class name
+     * @param targetClass Target class
+     * @return unique class name
+     */
+    private static String getUniqueReference(String originalName, ClassInfo targetClass) {
+        String name = originalName.substring(originalName.lastIndexOf('$') + 1);
+        if (name.matches("^[0-9]+$")) {
+            name = "Anonymous";
+        }
+        return String.format("%s$%s$%s", targetClass, name, UUID.randomUUID().toString().replace("-", ""));
+    }
+
+    /**
+     * Register a mixin inner class against the specified target
+     *
+     * @param owner Mixin which owns the original inner class
+     * @param targetClass Target class name
+     * @param innerClassName Original inner class name
+     */
+    void registerInnerClass(MixinInfo owner, ClassInfo targetClass, String innerClassName) {
+        String coordinate = String.format("%s:%s:%s", owner, innerClassName, targetClass.getName());
+        String uniqueName = this.innerClassNames.get(coordinate);
+        if (uniqueName != null) {
+            return;
+        }
+        uniqueName = InnerClassGenerator.getUniqueReference(innerClassName, targetClass);
+        ClassInfo nestHost = targetClass.resolveNestHost();
+        InnerClassInfo info = new InnerClassInfo(owner, targetClass, nestHost, innerClassName, uniqueName, owner);
+        this.innerClassNames.put(coordinate, uniqueName);
+        this.innerClasses.put(uniqueName, info);
+        this.registry.accept(info);
+        InnerClassGenerator.logger.debug("Inner class {} in {} on {} gets unique name {}",
+                innerClassName, owner.getClassRef(), targetClass, uniqueName);
+        this.nestHostCoprocessor.registerNestMember(nestHost.getClassName(), uniqueName);
+    }
+    
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.mixin.transformer.ext.IClassGenerator
+     *      #getName()
+     */
+    @Override
+    public String getName() {
+        return "inner";
+    }
+
+    /**
+     * Get a BiMap of inner classes for the specified mixin+target combination
+     * so that references to the inner class can be remapped during application
+     *
+     * @param owner Mixin which owns the original inner class
+     * @param targetName Target class name
+     * @return BiMap of original (mixin) inner class names to conformed class
+     *      names
+     */
+    BiMap<String, String> getInnerClasses(MixinInfo owner, String targetName) {
+        BiMap<String, String> innerClasses = HashBiMap.<String, String>create();
+        for (InnerClassInfo innerClass : this.innerClasses.values()) {
+            if (innerClass.getMixin() == owner && targetName.equals(innerClass.getTargetName())) {
+                innerClasses.put(innerClass.getOriginalName(), innerClass.getName());
+            }
+        }
+        return innerClasses;
+    }
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.mixin.transformer.ext.IClassGenerator
+     *      #generate(java.lang.String, org.objectweb.asm.tree.ClassNode)
+     */
+    @Override
+    public boolean generate(String name, ClassNode classNode) {
+        String ref = name.replace('.', '/');
+        InnerClassInfo info = this.innerClasses.get(ref);
+        if (info == null) {
+            return false;
+        }
+        return this.generate(info, classNode);
+    }
+
+    /**
+     * Generates a specialised inner class by taking the original class bytecode
+     * and remapping it against the target class.
+     *
+     * @param info inner class info to process
+     * @return true if class was generated successfully
+     */
+    private boolean generate(InnerClassInfo info, ClassNode classNode) {
+        try {
+            InnerClassGenerator.logger.debug("Generating mapped inner class {} (originally {})", info.getName(), info.getOriginalName());
+            info.accept(new InnerClassAdapter(classNode, info));
+            return true;
+        } catch (InvalidMixinException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            InnerClassGenerator.logger.catching(ex);
+        }
+
+        return false;
+    }
+    
+    /**
      * Information about an inner class instance. Implements {@link Remapper} so
      * that it can participate in the remapping process.
      */
     static class InnerClassInfo extends Remapper implements ISyntheticClassInfo {
-        
+
         /**
          * Mixin which provides this class
          */
         private final IMixinInfo mixin;
-        
+
         /**
-         * Class name (internal name)
+         * Target class info
          */
-        private final String name;
-        
+        private final ClassInfo targetClassInfo;
+
         /**
          * Original class name
          */
         private final String originalName;
-        
+
+        /**
+         * Class name (internal name)
+         */
+        private final String name;
+
         /**
          * Mixin which owns this inner class
          */
         private final MixinInfo owner;
-        
-        /**
-         * Mixin target context
-         */
-        private final MixinTargetContext target;
-        
+
         /**
          * Name of the owner mixin (class ref)
          */
         private final String ownerName;
-        
+
         /**
-         * Name of the target class (class ref) 
+         * Name of the new nest host based on the target class
          */
-        private final String targetName;
-        
+        private final String nestHostName;
+
         /**
          *  Number of times this inner class has been generated
          */
         private int loadCounter;
 
-        InnerClassInfo(IMixinInfo mixin, String name, String originalName, MixinInfo owner, MixinTargetContext target) {
+        InnerClassInfo(IMixinInfo mixin, ClassInfo targetClass, ClassInfo nestHost, String originalName, String name, MixinInfo owner) {
             this.mixin = mixin;
-            this.name = name;
+            this.targetClassInfo = targetClass;
             this.originalName = originalName;
+            this.name = name;
             this.owner = owner;
             this.ownerName = owner.getClassRef();
-            this.target = target;
-            this.targetName = target.getTargetClassRef();
+            this.nestHostName = nestHost.getName();
         }
-        
+
         @Override
         public IMixinInfo getMixin() {
             return this.mixin;
         }
-        
+
         @Override
         public boolean isLoaded() {
             return this.loadCounter > 0;
@@ -121,38 +258,42 @@ final class InnerClassGenerator implements IClassGenerator {
         public String getName() {
             return this.name;
         }
-        
+
         @Override
         public String getClassName() {
             return this.name.replace('/', '.');
         }
-        
+
         String getOriginalName() {
             return this.originalName;
         }
-        
+
         MixinInfo getOwner() {
             return this.owner;
         }
-        
-        MixinTargetContext getTarget() {
-            return this.target;
-        }
-        
+
         String getOwnerName() {
             return this.ownerName;
         }
-        
+
         String getTargetName() {
-            return this.targetName;
+            return this.targetClassInfo.getName();
         }
-        
+
+        ClassInfo getTargetClass() {
+            return this.targetClassInfo;
+        }
+
+        String getNestHostName() {
+            return this.nestHostName;
+        }
+
         void accept(final ClassVisitor classVisitor) throws ClassNotFoundException, IOException {
             ClassNode classNode = MixinService.getService().getBytecodeProvider().getClassNode(this.originalName);
             classNode.accept(classVisitor);
             this.loadCounter++;
         }
-        
+
         /**
          * Used to remap synthetic accessor methods which have been renamed when
          * being applied to the target class.
@@ -176,11 +317,11 @@ final class InnerClassGenerator implements IClassGenerator {
             if (this.originalName.equals(key)) {
                 return this.name;
             } else if (this.ownerName.equals(key)) {
-                return this.targetName;
+                return this.targetClassInfo.getName();
             }
             return key;
         }
-        
+
         /* (non-Javadoc)
          * @see java.lang.Object#toString()
          */
@@ -188,22 +329,33 @@ final class InnerClassGenerator implements IClassGenerator {
         public String toString() {
             return this.name;
         }
-        
+
     }
-    
+
     /**
      * Just a basic remapping adapter, but we also decorate the transformed
      * class with a meta annotation describing the original class.
      */
     static class InnerClassAdapter extends ClassRemapper {
-        
+
         private final InnerClassInfo info;
-        
-        public InnerClassAdapter(ClassVisitor cv, InnerClassInfo info) {
+
+        InnerClassAdapter(ClassVisitor cv, InnerClassInfo info) {
             super(ASM.API_VERSION, cv, info);
             this.info = info;
         }
-        
+
+        /* (non-Javadoc)
+         * @see org.objectweb.asm.commons.ClassRemapper
+         *      #visitNestHost(java.lang.String)
+         */
+        @Override
+        public void visitNestHost(String nestHost) {
+            // Discard the original nest host and use the resolved nest host
+            // from the target class
+            this.cv.visitNestHost(this.info.getNestHostName());
+        }
+
         /* (non-Javadoc)
          * @see org.objectweb.asm.ClassVisitor
          *      #visitSource(java.lang.String, java.lang.String)
@@ -216,7 +368,7 @@ final class InnerClassGenerator implements IClassGenerator {
             av.visit("name", this.info.getOriginalName().substring(this.info.getOriginalName().lastIndexOf('/') + 1));
             av.visitEnd();
         }
-        
+
         /* (non-Javadoc)
          * @see org.objectweb.asm.commons.RemappingClassAdapter
          *      #visitInnerClass(java.lang.String, java.lang.String,
@@ -228,121 +380,10 @@ final class InnerClassGenerator implements IClassGenerator {
                 throw new InvalidMixinException(this.info.getOwner(), "Found unsupported nested inner class " + name + " in "
                         + this.info.getOriginalName());
             }
-            
+
             super.visitInnerClass(name, outerName, innerName, access);
         }
-        
-    }
-    
-    /**
-     * Logger
-     */
-    private static final Logger logger = LogManager.getLogger("mixin");
-    
-    /**
-     * Synthetic class registry 
-     */
-    private final IConsumer<ISyntheticClassInfo> registry;
-    
-    /**
-     * Mapping of target class context ids to generated inner class names, used
-     * so we don't accidentally conform the same class twice.
-     */
-    private final Map<String, String> innerClassNames = new HashMap<String, String>();
 
-    /**
-     * Mapping of generated class names to the respective inner class info
-     */
-    private final Map<String, InnerClassInfo> innerClasses = new HashMap<String, InnerClassInfo>();
-
-    /**
-     * Ctor
-     * 
-     * @param registry sythetic class registry
-     */
-    public InnerClassGenerator(IConsumer<ISyntheticClassInfo> registry) {
-        this.registry = registry;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.spongepowered.asm.mixin.transformer.ext.IClassGenerator
-     *      #getName()
-     */
-    @Override
-    public String getName() {
-        return "inner";
-    }
-
-    /**
-     * @param owner Mixin which owns the original inner class
-     * @param originalName Original inner class name
-     * @param context Target class
-     * @return new name
-     */
-    public String registerInnerClass(MixinInfo owner, String originalName, MixinTargetContext context) {
-        String id = String.format("%s%s", originalName, context);
-        String ref = this.innerClassNames.get(id);
-        if (ref == null) {
-            ref = InnerClassGenerator.getUniqueReference(originalName, context);
-            InnerClassInfo info = new InnerClassInfo(owner, ref, originalName, owner, context);
-            this.innerClassNames.put(id, ref);
-            this.innerClasses.put(ref, info);
-            this.registry.accept(info);
-            InnerClassGenerator.logger.debug("Inner class {} in {} on {} gets unique name {}", originalName, owner.getClassRef(),
-                    context.getTargetClassRef(), ref);
-        }
-        return ref;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.spongepowered.asm.mixin.transformer.ext.IClassGenerator
-     *      #generate(java.lang.String, org.objectweb.asm.tree.ClassNode)
-     */
-    @Override
-    public boolean generate(String name, ClassNode classNode) {
-        String ref = name.replace('.', '/');
-        InnerClassInfo info = this.innerClasses.get(ref);
-        if (info == null) {
-            return false;
-        }
-        return this.generate(info, classNode);
-    }
-    
-    /**
-     * Generates a specialised inner class by taking the original class bytecode
-     * and remapping it against the target class.
-     * 
-     * @param info inner class info to process
-     * @return true if class was generated successfully
-     */
-    private boolean generate(InnerClassInfo info, ClassNode classNode) {
-        try {
-            InnerClassGenerator.logger.debug("Generating mapped inner class {} (originally {})", info.getName(), info.getOriginalName());
-            info.accept(new InnerClassAdapter(classNode, info));
-            return true;
-        } catch (InvalidMixinException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            InnerClassGenerator.logger.catching(ex);
-        }
-        
-        return false;
-    }
-
-    /**
-     * To avoid accidental clashes with existing target classes, or classes from
-     * multiple mixins, each remapped class gets a unique name.
-     * 
-     * @param originalName Original inner class name
-     * @param context Target context
-     * @return unique class name
-     */
-    private static String getUniqueReference(String originalName, MixinTargetContext context) {
-        String name = originalName.substring(originalName.lastIndexOf('$') + 1);
-        if (name.matches("^[0-9]+$")) {
-            name = "Anonymous";
-        }
-        return String.format("%s$%s$%s", context.getTargetClassRef(), name, UUID.randomUUID().toString().replace("-", ""));
     }
 
 }

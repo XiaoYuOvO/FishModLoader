@@ -24,7 +24,7 @@
  */
 package org.spongepowered.tools.obfuscation.interfaces;
 
-import org.spongepowered.tools.obfuscation.mirror.AnnotationHandle;
+import org.spongepowered.asm.util.asm.IAnnotationHandle;
 import org.spongepowered.tools.obfuscation.mirror.TypeHandle;
 
 import javax.lang.model.element.TypeElement;
@@ -37,23 +37,24 @@ import java.util.Collection;
 public interface IMixinValidator {
     
     /**
-     * Validation pass
-     */
-    enum ValidationPass {
-        EARLY,
-        LATE,
-        FINAL
-    }
-    
-    /**
      * Validate all the things, return false to halt processing of further
      * validators. Raise compiler errors/warnings directly.
      * @param pass current validation pass
      * @param mixin Mixin being validated
      * @param annotation Mixin annotation
      * @param targets Mixin targets
-     * 
+     *
      * @return False to halt processing of further validators
      */
-    boolean validate(ValidationPass pass, TypeElement mixin, AnnotationHandle annotation, Collection<TypeHandle> targets);
+    public abstract boolean validate(ValidationPass pass, TypeElement mixin, IAnnotationHandle annotation, Collection<TypeHandle> targets);
+    
+    /**
+     * Validation pass
+     */
+    public enum ValidationPass {
+        EARLY,
+        LATE,
+        FINAL
+    }
+
 }

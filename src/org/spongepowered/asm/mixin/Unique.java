@@ -79,6 +79,6 @@ public @interface Unique {
      * @return true to suppress warning message when a public method is
      *      discarded
      */
-    boolean silent() default false;
+    public boolean silent() default false;
 
 }

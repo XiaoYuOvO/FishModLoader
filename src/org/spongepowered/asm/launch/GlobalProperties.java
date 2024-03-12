@@ -114,7 +114,7 @@ public final class GlobalProperties {
      */
     public static <T> T get(Keys key) {
         IGlobalPropertyService service = GlobalProperties.getService();
-        return service.getProperty(key.resolve(service));
+        return service.<T>getProperty(key.resolve(service));
     }
 
     /**

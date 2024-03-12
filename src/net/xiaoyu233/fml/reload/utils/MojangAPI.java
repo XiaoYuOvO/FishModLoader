@@ -3,7 +3,6 @@ package net.xiaoyu233.fml.reload.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
@@ -216,11 +216,10 @@ public class MojangAPI {
          String json = readUrlGET("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
          Gson gson = new Gson();
          MojangAPI.MojangProfile res = gson.fromJson(json, MojangProfile.class);
-         byte[] decoded = DatatypeConverter.parseBase64Binary(res.properties[0].value);
+         byte[] decoded = Base64.getDecoder().decode(res.properties[0].value);
          String decodedJson = new String(decoded, StandardCharsets.UTF_8);
          res.properties[0].valueBase64 = gson.fromJson(decodedJson, PropertiesValueBase64.class);
-         HashMap var6 = cacheProfile;
-         synchronized(cacheProfile) {
+          synchronized(cacheProfile) {
             cacheProfile.put(uuid, res);
          }
 

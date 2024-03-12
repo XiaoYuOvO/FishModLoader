@@ -5,9 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sun.istack.internal.NotNull;
 import net.xiaoyu233.fml.FishModLoader;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
@@ -23,7 +23,7 @@ public abstract class Config {
         return name;
     }
 
-    @NotNull
+    @Nonnull
     public abstract ReadResult read(JsonElement json);
 
     public void readFromFile(File cfgFile){

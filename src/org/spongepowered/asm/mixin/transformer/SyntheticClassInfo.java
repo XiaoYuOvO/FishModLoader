@@ -48,7 +48,7 @@ public abstract class SyntheticClassInfo implements ISyntheticClassInfo {
         Preconditions.checkNotNull(name, "name");
         
         this.mixin = mixin;
-        this.name = name.replace('.', '/');
+        this.name = name.replace('.', '/');;
     }
 
     @Override

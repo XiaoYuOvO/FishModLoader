@@ -58,6 +58,13 @@ public class ContainerHandleVirtual implements IContainerHandle {
     }
     
     /**
+     * Get the name of this container
+     */
+    public String getName() {
+        return this.name;
+    }
+    
+    /**
      * Set a virtual attribute on this virtual container
      * 
      * @param key attribute key
@@ -95,7 +102,7 @@ public class ContainerHandleVirtual implements IContainerHandle {
      */
     @Override
     public Collection<IContainerHandle> getNestedContainers() {
-        return Collections.unmodifiableSet(this.nestedContainers);
+        return Collections.<IContainerHandle>unmodifiableSet(this.nestedContainers);
     }
     
     /* (non-Javadoc)

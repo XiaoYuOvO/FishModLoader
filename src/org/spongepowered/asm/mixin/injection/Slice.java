@@ -85,7 +85,7 @@ import java.lang.annotation.Target;
  *         thing.<b>processStuff</b>();
  *     }
  *     
- *     // A new call to processStuff, which now has the ordinal 1
+ *     <del>// A new call to processStuff, which now has the ordinal 1</del>
  *     bar.getActiveThing().<b>processStuff</b>();
  *     
  *     Thing specialThing = bar.getSpecialThing();
@@ -158,7 +158,7 @@ public @interface Slice {
      * 
      * @return The identifier for this slice
      */
-    String id() default "";
+    public String id() default "";
     
     /**
      * Injection point which specifies the <em>start</em> of the slice region.
@@ -177,7 +177,7 @@ public @interface Slice {
      * 
      * @return the start point of the slice
      */
-    At from() default @At("HEAD");
+    public At from() default @At("HEAD");
     
     /**
      * Injection point which specifies the <em>end</em> of the slice region.
@@ -196,6 +196,6 @@ public @interface Slice {
      * 
      * @return the start point of the slice
      */
-    At to() default @At("TAIL");
+    public At to() default @At("TAIL");
     
 }

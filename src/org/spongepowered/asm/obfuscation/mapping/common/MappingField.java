@@ -110,7 +110,7 @@ public class MappingField implements IMapping<MappingField> {
             return true;
         }
         if (obj instanceof MappingField) {
-            return Objects.equal(this.toString(), obj.toString());
+            return Objects.equal(this.toString(), ((MappingField)obj).toString());
         }
         return false;
     }

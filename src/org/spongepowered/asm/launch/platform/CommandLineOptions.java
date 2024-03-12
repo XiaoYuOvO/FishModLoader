@@ -34,13 +34,13 @@ import java.util.List;
  */
 public final class CommandLineOptions {
     
-    private final List<String> configs = new ArrayList<String>();
+    private List<String> configs = new ArrayList<String>();
     
     private CommandLineOptions() {
     }
     
     public List<String> getConfigs() {
-        return Collections.unmodifiableList(this.configs);
+        return Collections.<String>unmodifiableList(this.configs);
     }
 
     /**

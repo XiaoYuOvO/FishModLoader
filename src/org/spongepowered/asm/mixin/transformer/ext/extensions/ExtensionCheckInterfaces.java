@@ -28,9 +28,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.io.Files;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.MixinEnvironment.Option;
 import org.spongepowered.asm.mixin.transformer.ClassInfo;
@@ -39,6 +38,7 @@ import org.spongepowered.asm.mixin.transformer.ClassInfo.SearchType;
 import org.spongepowered.asm.mixin.transformer.ClassInfo.Traversal;
 import org.spongepowered.asm.mixin.transformer.ext.IExtension;
 import org.spongepowered.asm.mixin.transformer.ext.ITargetClassContext;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Constants;
 import org.spongepowered.asm.util.PrettyPrinter;
 import org.spongepowered.asm.util.SignaturePrinter;
@@ -63,7 +63,7 @@ public class ExtensionCheckInterfaces implements IExtension {
     private static final String IMPL_REPORT_CSV_FILENAME = ExtensionCheckInterfaces.IMPL_REPORT_FILENAME + ".csv";
     private static final String IMPL_REPORT_TXT_FILENAME = ExtensionCheckInterfaces.IMPL_REPORT_FILENAME + ".txt";
 
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * CSV Report file
@@ -85,13 +85,29 @@ public class ExtensionCheckInterfaces implements IExtension {
      * Strict mode 
      */
     private boolean strict;
+    
+    /**
+     * True once the output dir and csv have been created, not triggered until
+     * something is written
+     */
+    private boolean started = false;
 
     public ExtensionCheckInterfaces() {
         File debugOutputFolder = new File(Constants.DEBUG_OUTPUT_DIR, ExtensionCheckInterfaces.AUDIT_DIR);
-        debugOutputFolder.mkdirs();
         this.csv = new File(debugOutputFolder, ExtensionCheckInterfaces.IMPL_REPORT_CSV_FILENAME);
         this.report = new File(debugOutputFolder, ExtensionCheckInterfaces.IMPL_REPORT_TXT_FILENAME);
+    }
+    
+    /**
+     * Delayed creation of CSV so the dir doesn't get created when the extension
+     * is inactive
+     */
+    private void start() {
+        if (this.started) {
+            return;
+        }
         
+        this.started = true;
         this.csv.getParentFile().mkdirs();
 
         try {
@@ -136,6 +152,8 @@ public class ExtensionCheckInterfaces implements IExtension {
      */
     @Override
     public void postApply(ITargetClassContext context) {
+        this.start();
+
         ClassInfo targetClassInfo = context.getClassInfo();
         
         // If the target is abstract and strict mode is not enabled, skip this class

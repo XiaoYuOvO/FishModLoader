@@ -31,7 +31,13 @@ import java.lang.annotation.Target;
 
 /**
  * Pseudo-implements decorator for Mixins with conflicting methods in a
- * superclass to soft-implement an interface
+ * superclass to soft-implement an interface.
+ * 
+ * <p>See <a target="_top"
+ * href="https://github.com/SpongePowered/Mixin/wiki/Introduction-to-Mixins -
+ * Resolving-Method-Signature-Conflicts">Introduction to Mixins - Resolving
+ * Method Signature Conflicts</a> for details on soft implementation of
+ * interfaces.</p>
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
@@ -42,6 +48,6 @@ public @interface Implements {
      * 
      * @return list of interfaces to implement
      */
-    Interface[] value();
+    public Interface[] value();
 
 }

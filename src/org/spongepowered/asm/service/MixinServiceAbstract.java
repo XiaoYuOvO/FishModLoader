@@ -26,20 +26,18 @@ package org.spongepowered.asm.service;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.platform.IMixinPlatformAgent;
 import org.spongepowered.asm.launch.platform.IMixinPlatformServiceAgent;
 import org.spongepowered.asm.launch.platform.container.IContainerHandle;
+import org.spongepowered.asm.logging.ILogger;
+import org.spongepowered.asm.logging.LoggerAdapterDefault;
 import org.spongepowered.asm.mixin.MixinEnvironment.CompatibilityLevel;
 import org.spongepowered.asm.mixin.MixinEnvironment.Phase;
 import org.spongepowered.asm.util.Constants;
 import org.spongepowered.asm.util.IConsumer;
 import org.spongepowered.asm.util.ReEntranceLock;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Mixin Service base class
@@ -49,17 +47,26 @@ public abstract class MixinServiceAbstract implements IMixinService {
     // Consts
     protected static final String LAUNCH_PACKAGE = "org.spongepowered.asm.launch.";
     protected static final String MIXIN_PACKAGE = "org.spongepowered.asm.mixin.";
-
+    protected static final String SERVICE_PACKAGE = "org.spongepowered.asm.service.";
     /**
-     * Logger 
+     * Cached logger adapters
      */
-    protected static final Logger logger = LogManager.getLogger("mixin");
+    private static final Map<String, ILogger> loggers = new HashMap<String, ILogger>();
+    /**
+     * Logger adapter, replacement for log4j2 logger as services should use
+     * their own loggers now in order to avoid contamination
+     */
+    protected static ILogger logger;
 
     /**
      * Transformer re-entrance lock, shared between the mixin transformer and
      * the metadata service
      */
     protected final ReEntranceLock lock = new ReEntranceLock(1);
+    /**
+     * All internals offered to this service
+     */
+    private final Map<Class<IMixinInternal>, IMixinInternal> internals = new HashMap<Class<IMixinInternal>, IMixinInternal>();
     
     /**
      * Service agent instances 
@@ -70,6 +77,12 @@ public abstract class MixinServiceAbstract implements IMixinService {
      * Detected side name
      */
     private String sideName;
+    
+    protected MixinServiceAbstract() {
+        if (MixinServiceAbstract.logger == null) {
+            MixinServiceAbstract.logger = this.getLogger("mixin");
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#prepare()
@@ -103,6 +116,46 @@ public abstract class MixinServiceAbstract implements IMixinService {
     public CompatibilityLevel getMaxCompatibilityLevel() {
         return null;
     }
+    
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService
+     *      #offer(org.spongepowered.asm.service.IMixinInternal)
+     */
+    @Override
+    public void offer(IMixinInternal internal) {
+        this.registerInternal(internal, internal.getClass());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void registerInternal(IMixinInternal internal, Class<?> clazz) {
+        for (Class<?> iface : clazz.getInterfaces()) {
+            if (iface == IMixinInternal.class) {
+                this.internals.put((Class<IMixinInternal>)clazz, internal);
+            }
+            this.registerInternal(internal, iface);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected final <T extends IMixinInternal> T getInternal(Class<T> type) {
+        for (Class<IMixinInternal> internalType : this.internals.keySet()) {
+            if (type.isAssignableFrom(internalType)) {
+                return (T)this.internals.get(internalType);
+            }
+        }
+        
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#init()
+     */
+    @Override
+    public void init() {
+        for (IMixinPlatformServiceAgent agent : this.getServiceAgents()) {
+            agent.init();
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#beginPhase()
@@ -120,16 +173,6 @@ public abstract class MixinServiceAbstract implements IMixinService {
     }
 
     /* (non-Javadoc)
-     * @see org.spongepowered.asm.service.IMixinService#init()
-     */
-    @Override
-    public void init() {
-        for (IMixinPlatformServiceAgent agent : this.getServiceAgents()) {
-            agent.init();
-        }
-    }
-
-    /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#getReEntranceLock()
      */
     @Override
@@ -142,7 +185,7 @@ public abstract class MixinServiceAbstract implements IMixinService {
      */
     @Override
     public Collection<IContainerHandle> getMixinContainers() {
-        Builder<IContainerHandle> list = ImmutableList.builder();
+        Builder<IContainerHandle> list = ImmutableList.<IContainerHandle>builder();
         this.getContainersFromAgents(list);
         return list.build();
     }
@@ -186,12 +229,12 @@ public abstract class MixinServiceAbstract implements IMixinService {
         if (this.serviceAgents != null) {
             return this.serviceAgents;
         }
-        this.serviceAgents = new ArrayList<>();
+        this.serviceAgents = new ArrayList<IMixinPlatformServiceAgent>();
         for (String agentClassName : this.getPlatformAgents()) {
             try {
                 @SuppressWarnings("unchecked")
                 Class<IMixinPlatformAgent> agentClass = (Class<IMixinPlatformAgent>)this.getClassProvider().findClass(agentClassName, false);
-                IMixinPlatformAgent agent = agentClass.newInstance();
+                IMixinPlatformAgent agent = agentClass.getDeclaredConstructor().newInstance();
                 if (agent instanceof IMixinPlatformServiceAgent) {
                     this.serviceAgents.add((IMixinPlatformServiceAgent)agent);
                 }
@@ -201,6 +244,19 @@ public abstract class MixinServiceAbstract implements IMixinService {
             }
         }
         return this.serviceAgents;
+    }
+    
+    @Override
+    public synchronized ILogger getLogger(final String name) {
+        ILogger logger = MixinServiceAbstract.loggers.get(name);
+        if (logger == null) {
+            MixinServiceAbstract.loggers.put(name, logger = this.createLogger(name));
+        }
+        return logger;
+    }
+
+    protected ILogger createLogger(final String name) {
+        return new LoggerAdapterDefault(name);
     }
 
     // AMS - TEMP WIRING TO AVOID THE COMPLEXITY OF MERGING MULTIPHASE WITH 0.8

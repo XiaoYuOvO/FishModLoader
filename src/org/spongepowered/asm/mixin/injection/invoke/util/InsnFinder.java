@@ -24,11 +24,11 @@
  */
 package org.spongepowered.asm.mixin.injection.invoke.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.*;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.injection.struct.Target;
+import org.spongepowered.asm.service.MixinService;
 
 /**
  * Utility class for finding instructions using static analysis
@@ -36,23 +36,9 @@ import org.spongepowered.asm.mixin.injection.struct.Target;
 public class InsnFinder {
     
     /**
-     * Exception to be throw to quick-exit the analyser once result is found
+     * Log more things
      */
-    static class AnalysisResultException extends RuntimeException {
-
-        private static final long serialVersionUID = 1L;
-
-        private final AbstractInsnNode result;
-
-        public AnalysisResultException(AbstractInsnNode popNode) {
-            this.result = popNode;
-        }
-        
-        public AbstractInsnNode getResult() {
-            return this.result;
-        }
-        
-    }
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     /**
      * Current analyser state
@@ -142,9 +128,23 @@ public class InsnFinder {
     }
     
     /**
-     * Log more things
+     * Exception to be throw to quick-exit the analyser once result is found
      */
-    private static final Logger logger = LogManager.getLogger("mixin");
+    static class AnalysisResultException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+
+        private AbstractInsnNode result;
+
+        public AnalysisResultException(AbstractInsnNode popNode) {
+            this.result = popNode;
+        }
+
+        public AbstractInsnNode getResult() {
+            return this.result;
+        }
+
+    }
     
     /**
      * Find the instruction which pops the value pushed by the specified

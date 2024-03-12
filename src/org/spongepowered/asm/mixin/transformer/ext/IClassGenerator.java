@@ -34,7 +34,7 @@ public interface IClassGenerator {
     /**
      * Get the name of this generator for logging and auditing purposes
      */
-    String getName();
+    public abstract String getName();
 
     /**
      * Generate (if possible) the specified class name. The generator should
@@ -46,6 +46,6 @@ public interface IClassGenerator {
      * @param classNode Empty ClassNode to populate
      * @return True if the class was generated
      */
-    boolean generate(String name, ClassNode classNode);
+    public abstract boolean generate(String name, ClassNode classNode);
 
 }

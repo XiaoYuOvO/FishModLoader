@@ -40,6 +40,6 @@ public interface ISyntheticClassRegistry {
      *      <tt>null</tt> if no synthetic class is found matching the specified
      *      name
      */
-    ISyntheticClassInfo findSyntheticClass(String name);
+    public abstract ISyntheticClassInfo findSyntheticClass(String name);
 
 }

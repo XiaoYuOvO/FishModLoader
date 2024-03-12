@@ -26,22 +26,20 @@ package org.spongepowered.tools.obfuscation;
 
 import org.spongepowered.asm.mixin.Interface.Remap;
 import org.spongepowered.asm.obfuscation.mapping.common.MappingMethod;
+import org.spongepowered.asm.util.asm.IAnnotationHandle;
+import org.spongepowered.tools.obfuscation.interfaces.IMessagerEx.MessageType;
 import org.spongepowered.tools.obfuscation.interfaces.IMixinAnnotationProcessor;
 import org.spongepowered.tools.obfuscation.mirror.AnnotationHandle;
 import org.spongepowered.tools.obfuscation.mirror.MethodHandle;
 import org.spongepowered.tools.obfuscation.mirror.TypeHandle;
-import org.spongepowered.tools.obfuscation.mirror.TypeUtils;
 
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.DeclaredType;
-import javax.tools.Diagnostic.Kind;
 import java.util.List;
 
 /**
  * A module for {@link AnnotatedMixin} whic handles soft-implements clauses
  */
-public class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinElementHandler {
+class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinElementHandler {
     
     AnnotatedMixinElementHandlerSoftImplements(IMixinAnnotationProcessor ap, AnnotatedMixin mixin) {
         super(ap, mixin);
@@ -62,27 +60,28 @@ public class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinEl
             return;
         }
         
-        List<AnnotationHandle> interfaces = implementsAnnotation.getAnnotationList("value");
+        List<IAnnotationHandle> interfaces = implementsAnnotation.getAnnotationList("value");
         
         // Derp?
         if (interfaces.size() < 1) {
-            this.ap.printMessage(Kind.WARNING, "Empty @Implements annotation", this.mixin.getMixin(), implementsAnnotation.asMirror());
+            this.ap.printMessage(MessageType.SOFT_IMPLEMENTS_EMPTY, "Empty @Implements annotation", this.mixin.getMixinElement(),
+                    implementsAnnotation.asMirror());
             return;
         }
         
-        for (AnnotationHandle interfaceAnnotation : interfaces) {
-            Remap remap = interfaceAnnotation.getValue("remap", Remap.ALL);
+        for (IAnnotationHandle interfaceAnnotation : interfaces) {
+            Remap remap = interfaceAnnotation.<Remap>getValue("remap", Remap.ALL);
             if (remap == Remap.NONE) {
                 continue;
             }
             
             try {
                 TypeHandle iface = new TypeHandle(interfaceAnnotation.<DeclaredType>getValue("iface"));
-                String prefix = interfaceAnnotation.getValue("prefix");
+                String prefix = interfaceAnnotation.<String>getValue("prefix");
                 this.processSoftImplements(remap, iface, prefix);
             } catch (Exception ex) {
-                this.ap.printMessage(Kind.ERROR, "Unexpected error: " + ex.getClass().getName() + ": " + ex.getMessage(), this.mixin.getMixin(),
-                        interfaceAnnotation.asMirror());
+                this.ap.printMessage(MessageType.ERROR, "Unexpected error: " + ex.getClass().getName() + ": " + ex.getMessage(),
+                        this.mixin.getMixinElement(), ((AnnotationHandle)interfaceAnnotation).asMirror());
             }
         }
     }
@@ -96,7 +95,7 @@ public class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinEl
      * @param prefix Prefix declared in the soft-implements decoration
      */
     private void processSoftImplements(Remap remap, TypeHandle iface, String prefix) {
-        for (ExecutableElement method : iface.<ExecutableElement>getEnclosedElements(ElementKind.METHOD)) {
+        for (MethodHandle method : iface.getMethods()) {
             this.processMethod(remap, iface, prefix, method);
         }
         
@@ -115,10 +114,10 @@ public class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinEl
      * @param prefix Prefix declared in the soft-implements decoration
      * @param method Interface method to search for
      */
-    private void processMethod(Remap remap, TypeHandle iface, String prefix, ExecutableElement method) {
-        String name = method.getSimpleName().toString();
-        String sig = TypeUtils.getJavaSignature(method);
-        String desc = TypeUtils.getDescriptor(method);
+    private void processMethod(Remap remap, TypeHandle iface, String prefix, MethodHandle method) {
+        String name = method.getName();
+        String sig = method.getJavaSignature();
+        String desc = method.getDesc();
         
         if (remap != Remap.ONLY_PREFIXED) {
             MethodHandle mixinMethod = this.mixin.getHandle().findMethod(name, sig);
@@ -152,7 +151,8 @@ public class AnnotatedMixinElementHandlerSoftImplements extends AnnotatedMixinEl
         ObfuscationData<MappingMethod> obfData = this.obf.getDataProvider().getObfMethod(mapping);
         if (obfData.isEmpty()) {
             if (remap.forceRemap()) {
-                this.ap.printMessage(Kind.ERROR, "No obfuscation mapping for soft-implementing method", method.getElement());
+                this.ap.printMessage(MessageType.NO_OBFDATA_FOR_SOFT_IMPLEMENTS, "No obfuscation mapping for soft-implementing method",
+                        method.getElement());
             }
             return;
         }

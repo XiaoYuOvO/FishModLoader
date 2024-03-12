@@ -24,17 +24,13 @@
  */
 package org.spongepowered.asm.launch.platform;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.GlobalProperties;
 import org.spongepowered.asm.launch.platform.IMixinPlatformAgent.AcceptResult;
 import org.spongepowered.asm.launch.platform.container.IContainerHandle;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A collection of {@link IMixinPlatformAgent} platform agents) for a particular
@@ -52,7 +48,7 @@ public class MixinContainer {
         MixinContainer.agentClasses.add("org.spongepowered.asm.launch.platform.MixinPlatformAgentDefault");
     }
     
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
     
     private final IContainerHandle handle;
     
@@ -69,7 +65,7 @@ public class MixinContainer {
                 String simpleName = clazz.getSimpleName();
                 
                 MixinContainer.logger.debug("Instancing new {} for {}", simpleName, this.handle);
-                IMixinPlatformAgent agent = clazz.newInstance();
+                IMixinPlatformAgent agent = clazz.getDeclaredConstructor().newInstance();
                 
                 AcceptResult acceptAction = agent.accept(manager, this.handle);
                 if (acceptAction == AcceptResult.ACCEPTED) {
@@ -79,7 +75,7 @@ public class MixinContainer {
                     continue;
                 }
                 
-                MixinContainer.logger.debug("{} {} container {}", simpleName, acceptAction.name().toLowerCase(), this.handle);
+                MixinContainer.logger.debug("{} {} container {}", simpleName, acceptAction.name().toLowerCase(Locale.ROOT), this.handle);
             } catch (InstantiationException ex) {
                 Throwable cause = ex.getCause();
                 if (cause instanceof RuntimeException) {

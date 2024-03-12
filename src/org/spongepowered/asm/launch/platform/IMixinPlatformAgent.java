@@ -39,63 +39,63 @@ import org.spongepowered.asm.launch.platform.container.IContainerHandle;
 public interface IMixinPlatformAgent {
     
     /**
-     * Result type returned from {@link IMixinPlatformAgent#accept}
-     */
-    enum AcceptResult {
-        
-        /**
-         * The container was accepted
-         */
-        ACCEPTED,
-        
-        /**
-         * The container was rejected
-         */
-        REJECTED,
-        
-        /**
-         * The agent encountered an error and no further containers should be
-         * offered
-         */
-        INVALID
-
-    }
-    
-    /**
      * Accept and bind to a container handle. This method is called for agents
      * hosted by {@link MixinContainer} and the agent should react accordingly.
      * If the agent is <em>not</em> able to delegate for container handles of
      * the supplied type, this method should return <tt>false</tt> to indicate
      * that the agent should not be added for this container.
-     * 
+     *
      * @param manager platform manager instance
      * @param handle handle to container
      * @return AcceptResult representing this agent's acceptance of the supplied
      *      container
      */
-    AcceptResult accept(MixinPlatformManager manager, IContainerHandle handle);
-
+    public abstract AcceptResult accept(MixinPlatformManager manager, IContainerHandle handle);
+    
     /**
      * Get the phase provider for this agent
      */
-    String getPhaseProvider();
-    
+    public abstract String getPhaseProvider();
+
     /**
      * Called during pre-initialisation, after all tweakers and tweak containers
      * have been added to the environment.
      */
-    void prepare();
+    public abstract void prepare();
     
     /**
      * Called from <tt>inject</tt> in the parent tweaker but <b>only called on
      * the primary tweak container</b>. This is useful if the agent needs to
      * perform some environment-specific setup just once.
      */
-    void initPrimaryContainer();
+    public abstract void initPrimaryContainer();
     
     /**
      * Called from <tt>inject</tt> in the parent tweaker
      */
-    void inject();
+    public abstract void inject();
+    
+    /**
+     * Result type returned from {@link IMixinPlatformAgent#accept}
+     */
+    public enum AcceptResult {
+
+        /**
+         * The container was accepted
+         */
+        ACCEPTED,
+
+        /**
+         * The container was rejected
+         */
+        REJECTED,
+
+        /**
+         * The agent encountered an error and no further containers should be
+         * offered
+         */
+        INVALID;
+
+    }
 
 }

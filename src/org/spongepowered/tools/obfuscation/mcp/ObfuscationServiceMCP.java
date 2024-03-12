@@ -52,7 +52,7 @@ public class ObfuscationServiceMCP implements IObfuscationService {
     
     @Override
     public Set<String> getSupportedOptions() {
-        return ImmutableSet.of(
+        return ImmutableSet.<String>of(
             ObfuscationServiceMCP.REOBF_SRG_FILE,        
             ObfuscationServiceMCP.REOBF_EXTRA_SRG_FILES,        
             ObfuscationServiceMCP.REOBF_NOTCH_FILE,
@@ -64,7 +64,7 @@ public class ObfuscationServiceMCP implements IObfuscationService {
 
     @Override
     public Collection<ObfuscationTypeDescriptor> getObfuscationTypes(IMixinAnnotationProcessor ap) {
-        Builder<ObfuscationTypeDescriptor> list = ImmutableList.builder();
+        Builder<ObfuscationTypeDescriptor> list = ImmutableList.<ObfuscationTypeDescriptor>builder();
         if (!ap.getOptions(SupportedOptions.MAPPING_TYPES).contains("tsrg")) {
             list.add(
                 new ObfuscationTypeDescriptor(

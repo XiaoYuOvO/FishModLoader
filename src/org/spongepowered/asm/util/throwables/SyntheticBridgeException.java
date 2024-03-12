@@ -47,36 +47,19 @@ public class SyntheticBridgeException extends MixinException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Problem types for synthetic bridge comparisons
+     * @param context Incoming mixin
+     * @param mda Target method
+     * @param mdb Incoming method
      */
-    public enum Problem {
-        
-        BAD_INSN("Conflicting opcodes %4$s and %5$s at offset %3$d in synthetic bridge method %1$s%2$s"),
-        BAD_LOAD("Conflicting variable access at offset %3$d in synthetic bridge method %1$s%2$s"),
-        BAD_CAST("Conflicting type cast at offset %3$d in synthetic bridge method %1$s%2$s"),
-        BAD_INVOKE_NAME("Conflicting synthetic bridge target method name in synthetic bridge method %1$s%2$s Existing:%6$s Incoming:%7$s"),
-        BAD_INVOKE_DESC("Conflicting synthetic bridge target method descriptor in synthetic bridge method %1$s%2$s Existing:%8$s Incoming:%9$s"),
-        BAD_LENGTH("Mismatched bridge method length for synthetic bridge method %1$s%2$s unexpected extra opcode at offset %3$d");
-        
-        private final String message;
-
-        Problem(String message) {
-            this.message = message;
-        }
-        
-        String getMessage(String name, String desc, int index, AbstractInsnNode a, AbstractInsnNode b) {
-            return String.format(this.message, name, desc, index, Bytecode.getOpcodeName(a), Bytecode.getOpcodeName(a),
-                    Problem.getInsnName(a), Problem.getInsnName(b), Problem.getInsnDesc(a), Problem.getInsnDesc(b));
-        }
-
-        private static String getInsnName(AbstractInsnNode node) {
-            return node instanceof MethodInsnNode ? ((MethodInsnNode)node).name : "";
-        }
-
-        private static String getInsnDesc(AbstractInsnNode node) {
-            return node instanceof MethodInsnNode ? ((MethodInsnNode)node).desc : "";
-        }
-        
+    public void printAnalysis(IMixinContext context, MethodNode mda, MethodNode mdb) {
+        PrettyPrinter printer = new PrettyPrinter();
+        printer.addWrapped(100, this.getMessage()).hr();
+        printer.add().kv("Method", this.name + this.desc).kv("Problem Type", this.problem).add().hr();
+        String merged = Annotations.<String>getValue(Annotations.getVisible(mda, MixinMerged.class), "mixin");
+        String owner = merged != null ? merged : context.getTargetClassRef().replace('/', '.');
+        this.printMethod(printer.add("Existing method").add().kv("Owner", owner).add(), mda).hr();
+        this.printMethod(printer.add("Incoming method").add().kv("Owner", context.getClassRef().replace('/', '.')).add(), mdb).hr();
+        this.printProblem(printer, context, mda, mdb).print(System.err);
     }
     
     /**
@@ -111,19 +94,36 @@ public class SyntheticBridgeException extends MixinException {
     }
     
     /**
-     * @param context Incoming mixin
-     * @param mda Target method
-     * @param mdb Incoming method
+     * Problem types for synthetic bridge comparisons
      */
-    public void printAnalysis(IMixinContext context, MethodNode mda, MethodNode mdb) {
-        PrettyPrinter printer = new PrettyPrinter();
-        printer.addWrapped(100, this.getMessage()).hr();
-        printer.add().kv("Method", this.name + this.desc).kv("Problem Type", this.problem).add().hr();
-        String merged = Annotations.getValue(Annotations.getVisible(mda, MixinMerged.class), "mixin");
-        String owner = merged != null ? merged : context.getTargetClassRef().replace('/', '.');
-        this.printMethod(printer.add("Existing method").add().kv("Owner", owner).add(), mda).hr();
-        this.printMethod(printer.add("Incoming method").add().kv("Owner", context.getClassRef().replace('/', '.')).add(), mdb).hr();
-        this.printProblem(printer, context, mda, mdb).print(System.err);
+    public enum Problem {
+
+        BAD_INSN("Conflicting opcodes %4$s and %5$s at offset %3$d in synthetic bridge method %1$s%2$s"),
+        BAD_LOAD("Conflicting variable access at offset %3$d in synthetic bridge method %1$s%2$s"),
+        BAD_CAST("Conflicting type cast at offset %3$d in synthetic bridge method %1$s%2$s"),
+        BAD_INVOKE_NAME("Conflicting synthetic bridge target method name in synthetic bridge method %1$s%2$s Existing:%6$s Incoming:%7$s"),
+        BAD_INVOKE_DESC("Conflicting synthetic bridge target method descriptor in synthetic bridge method %1$s%2$s Existing:%8$s Incoming:%9$s"),
+        BAD_LENGTH("Mismatched bridge method length for synthetic bridge method %1$s%2$s unexpected extra opcode at offset %3$d");
+
+        private final String message;
+
+        private Problem(String message) {
+            this.message = message;
+        }
+
+        private static String getInsnName(AbstractInsnNode node) {
+            return node instanceof MethodInsnNode ? ((MethodInsnNode)node).name : "";
+        }
+
+        private static String getInsnDesc(AbstractInsnNode node) {
+            return node instanceof MethodInsnNode ? ((MethodInsnNode)node).desc : "";
+        }
+
+        String getMessage(String name, String desc, int index, AbstractInsnNode a, AbstractInsnNode b) {
+            return String.format(this.message, name, desc, index, Bytecode.getOpcodeName(a), Bytecode.getOpcodeName(a),
+                    Problem.getInsnName(a), Problem.getInsnName(b), Problem.getInsnDesc(a), Problem.getInsnDesc(b));
+        }
+
     }
 
     private PrettyPrinter printMethod(PrettyPrinter printer, MethodNode method) {

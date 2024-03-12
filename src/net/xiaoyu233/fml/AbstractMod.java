@@ -1,11 +1,18 @@
 package net.xiaoyu233.fml;
 
+import net.xiaoyu233.fml.asm.InterfaceInjection;
 import net.xiaoyu233.fml.config.ConfigRegistry;
 import net.xiaoyu233.fml.config.InjectionConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
+/**
+ * Old fashion mod declaration, deprecated
+ * Use fabric-style mod initializer instead
+ * */
+@Deprecated(forRemoval = true)
 public abstract class AbstractMod {
    /**
     * This method will be called when the mod loader loaded all the mods into the mod list
@@ -34,5 +41,9 @@ public abstract class AbstractMod {
    @Nullable
    public ConfigRegistry getConfigRegistry() {
        return null;
+   }
+
+   public Optional<InterfaceInjection> getInterfaceInjections(){
+      return Optional.empty();
    }
 }

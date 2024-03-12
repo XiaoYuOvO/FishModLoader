@@ -38,36 +38,51 @@ import java.lang.annotation.Target;
 /**
  * Specifies that this mixin method should inject an argument modifier to itself
  * in the target method(s) identified by {@link #method}. This type of injection
- * provides a lightweight mechanism for changing a single argument of a target
- * method invocation. To affect multiple arguments at once, use {@link
- * ModifyArgs} instead. 
+ * provides a lightweight mechanism for changing a single argument of a selected
+ * method invocation within the target method(s). To affect multiple arguments
+ * of an invocation all at once, use {@link ModifyArgs} instead.
  * 
- * <p>Consider the following method call:</p>
+ * <p>Use this injector when a (target) method contains an method invocation
+ * (the subject) and you wish to change a single value being <em>passed to</em>
+ * that subject method. If you need to alter an argument <em>received by</em> a
+ * target method, use {@link ModifyVariable} instead.</p>
  * 
- * <blockquote><pre>// x, y and z are of type float
- *someObject.setLocation(x, y, z, true);</pre></blockquote>
+ * <p>Consider the following method:</p>
  * 
- * <p>Let us assume that we wish to modify the <tt>y</tt> value in the method
- * call. We know that the arguments are <tt>float</tt>s and that the <tt>y</tt>
- * value is the <em>second</em> (index = 1) <tt>float</tt> argument. Thus our
- * injector requires the following signature:
+ * <blockquote><pre><code>private void targetMethod() {
+ *    Entity someEntity = this.obtainEntity();
+ *    float x = 1.0F, y = 3.0F, z = 0.1F;
+ *    someEntity.<ins>setLocation</ins>(x, <ins>y</ins>, z, true); // subject
+ *}</code></pre>
+ *</blockquote>
+ * 
+ * <p>Let us assume that we wish to modify the <ins><tt>y</tt></ins> value when
+ * calling the <ins><tt>setLocation</tt></ins> method. We know that the
+ * arguments are <tt>float</tt>s and that the <tt>y</tt> value is the <em>second
+ * </em> (index = 1) <tt>float</tt> argument. Thus our injector requires the
+ * following signature:
  *  
- * <blockquote><pre>&#064;ModifyArg(method = "...", at = ..., index = 1)
- *private float adjustYCoord(float y) {
- *    return y + 64.0F;
- *}</pre></blockquote>
+ * <blockquote><code>&#064;ModifyArg(method = "targetMethod", at = &#64;At(value
+ * = "INVOKE", target = "<ins>setLocation(FFFZ)V</ins>"), index = 1)<br />
+ * private float adjustYCoord(float y) {<br />
+ * &nbsp; &nbsp; return y + 64.0F;<br />
+ * }</code></blockquote>
  * 
  * <p>The callback consumes the original value of <tt>y</tt> and returns the
  * adjusted value.</p>
  * 
- * <p><tt>&#064;ModifyArg</tt> can also consume all of the target method's
+ * <p><tt>&#064;ModifyArg</tt> can also consume all of the subject method's
  * arguments if required, to provide additional context for the callback. In
  * this case the arguments of the callback should match the target method:</p> 
  *  
- * <blockquote><pre>&#064;ModifyArg(method = "...", at = ..., index = 1)
- *private float adjustYCoord(float x, float y, float z, boolean interpolate) {
- *    return (x == 0 && y == 0) ? 0 : y;
- *}</pre></blockquote>
+ * <blockquote><code>&#064;ModifyArg(method = "targetMethod", at = &#64;At(value
+ * = "INVOKE", target = "<ins>setLocation(FFFZ)V</ins>"), index = 1)<br />
+ * private float adjustYCoord(float x, float y, float z, boolean interpolate) {
+ * <br />&nbsp; &nbsp; return (x == 0 &amp;&amp; y == 0) ? 0 : y;<br />
+ * }</code></blockquote>
+ * 
+ * <p>Note that <tt>&#064;ModifyArg</tt> <em>cannot</em> capture the arguments
+ * of the <em>target</em> method like some other injectors can
  */
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
@@ -80,7 +95,15 @@ public @interface ModifyArg {
      * 
      * @return target method(s) for this injector
      */
-    String[] method();
+    public String[] method() default {};
+    
+    /**
+     * Literal representation of one or more {@link Desc &#064;Desc} annotations
+     * which identify the target methods.
+     * 
+     * @return target method(s) for this injector as descriptors
+     */
+    public Desc[] target() default {};
     
     /**
      * A {@link Slice} annotation which describes the method bisection used in
@@ -88,7 +111,7 @@ public @interface ModifyArg {
      * 
      * @return slice
      */
-    Slice slice() default @Slice;
+    public Slice slice() default @Slice;
 
     /**
      * An {@link At} annotation which describes the {@link InjectionPoint} in
@@ -98,7 +121,7 @@ public @interface ModifyArg {
      * 
      * @return {@link At} which identifies the target method invocation
      */
-    At at();
+    public At at();
     
     /**
      * <p>Gets the argument index on the target to set. It is not necessary to
@@ -112,7 +135,7 @@ public @interface ModifyArg {
      * 
      * @return argument index to modify or -1 for automatic
      */
-    int index() default -1;
+    public int index() default -1;
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -129,7 +152,7 @@ public @interface ModifyArg {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * In general, injectors are intended to "fail soft" in that a failure to
@@ -151,7 +174,7 @@ public @interface ModifyArg {
      * @return Minimum required number of injected callbacks, default specified
      *      by the containing config
      */
-    int require() default -1;
+    public int require() default -1;
     
     /**
      * Like {@link #require()} but only enabled if the
@@ -163,7 +186,7 @@ public @interface ModifyArg {
      * 
      * @return Minimum number of <em>expected</em> callbacks, default 1
      */
-    int expect() default 1;
+    public int expect() default 1;
     
     /**
      * Injection points are in general expected to match every candidate
@@ -189,7 +212,7 @@ public @interface ModifyArg {
      * 
      * @return Maximum allowed number of injections for this 
      */
-    int allow() default -1;
+    public int allow() default -1;
 
     /**
      * Returns constraints which must be validated for this injector to
@@ -197,6 +220,6 @@ public @interface ModifyArg {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
 
 }

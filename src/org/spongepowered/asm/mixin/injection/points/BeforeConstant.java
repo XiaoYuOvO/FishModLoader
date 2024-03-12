@@ -28,11 +28,10 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Constant.Condition;
@@ -41,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.InjectionPoint.AtCode;
 import org.spongepowered.asm.mixin.injection.struct.InjectionPointData;
 import org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException;
 import org.spongepowered.asm.mixin.refmap.IMixinContext;
+import org.spongepowered.asm.service.MixinService;
 import org.spongepowered.asm.util.Annotations;
 import org.spongepowered.asm.util.Bytecode;
 import org.spongepowered.asm.util.Constants;
@@ -60,41 +60,41 @@ import java.util.*;
  *   <dt>ordinal</dt>
  *   <dd>The ordinal position of the constant opcode to match. The default value
  *   is <b>-1</b> which supresses ordinal matching</dd>
- *   <dt><em>named argument</em> nullValue</dt>
+ *   <dt><i>named argument:</i> nullValue</dt>
  *   <dd>To match <tt>null</tt> literals in the method body, set this to
  *   <tt>true</tt></dd>
- *   <dt><em>named argument</em> intValue</dt>
+ *   <dt><i>named argument:</i> intValue</dt>
  *   <dd>To match <tt>int</tt> literals in the method body. See also the
  *   <em>expandZeroConditions</em> argument below for concerns when matching
  *   conditional zeroes.</dd>
- *   <dt><em>named argument</em> floatValue</dt>
+ *   <dt><i>named argument:</i> floatValue</dt>
  *   <dd>To match <tt>float</tt> literals in the method body.</dd>
- *   <dt><em>named argument</em> longValue</dt>
+ *   <dt><i>named argument:</i> longValue</dt>
  *   <dd>To match <tt>long</tt> literals in the method body.</dd>
- *   <dt><em>named argument</em> doubleValue</dt>
+ *   <dt><i>named argument:</i> doubleValue</dt>
  *   <dd>To match <tt>double</tt> literals in the method body.</dd>
- *   <dt><em>named argument</em> stringValue</dt>
+ *   <dt><i>named argument:</i> stringValue</dt>
  *   <dd>To match {@link String} literals in the method body.</dd>
- *   <dt><em>named argument</em> classValue</dt>
+ *   <dt><i>named argument:</i> classValue</dt>
  *   <dd>To match {@link Class} literals in the method body.</dd>
- *   <dt><em>named argument</em> log</dt>
+ *   <dt><i>named argument:</i> log</dt>
  *   <dd>Enable debug logging when searching for matching opcodes.</dd>
- *   <dt><em>named argument</em> expandZeroConditions</dt>
+ *   <dt><i>named argument:</i> expandZeroConditions</dt>
  *   <dd>See the {@link Constant#expandZeroConditions} option, this argument
  *   should be a list of {@link Condition} names</dd>
  * </dl>
  * 
  * <p>Examples:</p>
  * <blockquote><pre>
- *   // Find all integer constans with value 4
+ *   <del>// Find all integer constans with value 4</del>
  *   &#064;At(value = "CONSTANT", args = "intValue=4")</pre>
  * </blockquote> 
  * <blockquote><pre>
- *   // Find the String literal "foo"
+ *   <del>// Find the String literal "foo"</del>
  *   &#064;At(value = "CONSTANT", args = "stringValue=foo"</pre>
  * </blockquote> 
  * <blockquote><pre>
- *   // Find all integer constants with value 0 and expand conditionals
+ *   <del>// Find integer constants with value 0 and expand conditionals</del>
  *   &#064;At(
  *     value = "CONSTANT",
  *     args = {
@@ -113,7 +113,7 @@ import java.util.*;
 @AtCode("CONSTANT")
 public class BeforeConstant extends InjectionPoint {
     
-    private static final Logger logger = LogManager.getLogger("mixin");
+    private static final ILogger logger = MixinService.getService().getLogger("mixin");
 
     /**
      * Ordinal of the target insn
@@ -136,7 +136,7 @@ public class BeforeConstant extends InjectionPoint {
     private final boolean log;
 
     public BeforeConstant(IMixinContext context, AnnotationNode node, String returnType) {
-        super(Annotations.getValue(node, "slice", ""), Selector.DEFAULT, null);
+        super(Annotations.<String>getValue(node, "slice", ""), Selector.DEFAULT, null);
         
         Boolean empty = Annotations.<Boolean>getValue(node, "nullValue", (Boolean)null);
         this.ordinal = Annotations.<Integer>getValue(node, "ordinal", Integer.valueOf(-1));
@@ -145,11 +145,11 @@ public class BeforeConstant extends InjectionPoint {
         this.floatValue = Annotations.<Float>getValue(node, "floatValue", (Float)null);
         this.longValue = Annotations.<Long>getValue(node, "longValue", (Long)null);
         this.doubleValue = Annotations.<Double>getValue(node, "doubleValue", (Double)null);
-        this.stringValue = Annotations.getValue(node, "stringValue", (String)null);
-        this.typeValue = Annotations.getValue(node, "classValue", (Type)null);
+        this.stringValue = Annotations.<String>getValue(node, "stringValue", (String)null);
+        this.typeValue = Annotations.<Type>getValue(node, "classValue", (Type)null);
         
         this.matchByType = this.validateDiscriminator(context, returnType, empty, "on @Constant annotation");
-        this.expandOpcodes = this.parseExpandOpcodes(Annotations.getValue(node, "expandZeroConditions", true, Condition.class));
+        this.expandOpcodes = this.parseExpandOpcodes(Annotations.<Condition>getValue(node, "expandZeroConditions", true, Condition.class));
         this.expand = this.expandOpcodes.length > 0;
         
         this.log = Annotations.<Boolean>getValue(node, "log", Boolean.FALSE).booleanValue();
@@ -171,9 +171,9 @@ public class BeforeConstant extends InjectionPoint {
         String strClassValue = data.get("classValue", null);
         this.typeValue = strClassValue != null ? Type.getObjectType(strClassValue.replace('.', '/')) : null;
         
-        this.matchByType = this.validateDiscriminator(data.getContext(), "V", empty, "in @At(\"CONSTANT\") args");
+        this.matchByType = this.validateDiscriminator(data.getMixin(), "V", empty, "in @At(\"CONSTANT\") args");
         if ("V".equals(this.matchByType)) {
-            throw new InvalidInjectionException(data.getContext(), "No constant discriminator could be parsed in @At(\"CONSTANT\") args");
+            throw new InvalidInjectionException(data.getMixin(), "No constant discriminator could be parsed in @At(\"CONSTANT\") args");
         }
         
         List<Condition> conditions = new ArrayList<Condition>();
@@ -225,7 +225,7 @@ public class BeforeConstant extends InjectionPoint {
             if (matchesInsn) {
                 this.log("    BeforeConstant found a matching constant{} at ordinal {}", this.matchByType != null ? " TYPE" : " value", ordinal);
                 if (this.ordinal == -1 || this.ordinal == ordinal) {
-                    this.log("      BeforeConstant found {}", Bytecode.describeNode(insn).trim());
+                    this.log("      BeforeConstant found {}", Bytecode.describeNode(insn, false));
                     nodes.add(insn);
                     found = true;
                 }
@@ -269,7 +269,7 @@ public class BeforeConstant extends InjectionPoint {
         }
         
         Object value = Bytecode.getConstant(insn);
-        if (value == null) {
+        if (value == Type.VOID_TYPE) {
             this.log("  BeforeConstant found NULL constant: nullValue = {}", this.nullValue);
             return this.nullValue || Constants.OBJECT_DESC.equals(this.matchByType);
         } else if (value instanceof Integer) {

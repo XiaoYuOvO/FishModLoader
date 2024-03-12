@@ -113,7 +113,7 @@ public @interface Inject {
      * 
      * @return the injector id to use
      */
-    String id() default "";
+    public String id() default "";
     
     /**
      * String representation of one or more
@@ -122,7 +122,15 @@ public @interface Inject {
      * 
      * @return target method(s) for this injector
      */
-    String[] method();
+    public String[] method() default {};
+    
+    /**
+     * Literal representation of one or more {@link Desc &#064;Desc} annotations
+     * which identify the target methods.
+     * 
+     * @return target method(s) for this injector as descriptors
+     */
+    public Desc[] target() default {};
     
     /**
      * Array of {@link Slice} annotations which describe the method bisections
@@ -130,7 +138,7 @@ public @interface Inject {
      * 
      * @return slices
      */
-    Slice[] slice() default {};
+    public Slice[] slice() default {};
     
     /**
      * Array of {@link At} annotations which describe the
@@ -139,7 +147,7 @@ public @interface Inject {
      * 
      * @return injection point specifiers for this injector
      */
-    At[] at();
+    public At[] at();
     
     /**
      * Setting an injected callback to <em>cancellable</em> allows the injected
@@ -150,7 +158,7 @@ public @interface Inject {
      * @return true if this injector should inject appropriate RETURN opcodes
      *      which allow it to be cancelled
      */
-    boolean cancellable() default false;
+    public boolean cancellable() default false;
     
     /**
      * Specifies the local variable capture behaviour for this injector.
@@ -198,7 +206,7 @@ public @interface Inject {
      * 
      * @return the desired local capture behaviour for this injector
      */
-    LocalCapture locals() default LocalCapture.NO_CAPTURE;
+    public LocalCapture locals() default LocalCapture.NO_CAPTURE;
 
     /**
      * By default, the annotation processor will attempt to locate an
@@ -215,7 +223,7 @@ public @interface Inject {
      * @return True to instruct the annotation processor to search for
      *      obfuscation mappings for this annotation 
      */
-    boolean remap() default true;
+    public boolean remap() default true;
     
     /**
      * In general, injectors are intended to "fail soft" in that a failure to
@@ -237,7 +245,7 @@ public @interface Inject {
      * @return Minimum required number of injected callbacks, default specified
      *      by the containing config
      */
-    int require() default -1;
+    public int require() default -1;
     
     /**
      * Like {@link #require()} but only enabled if the
@@ -249,7 +257,7 @@ public @interface Inject {
      * 
      * @return Minimum number of <em>expected</em> callbacks, default 1
      */
-    int expect() default 1;
+    public int expect() default 1;
     
     /**
      * Injection points are in general expected to match every candidate
@@ -275,7 +283,7 @@ public @interface Inject {
      * 
      * @return Maximum allowed number of injections for this 
      */
-    int allow() default -1;
+    public int allow() default -1;
 
     /**
      * Returns constraints which must be validated for this injector to
@@ -283,6 +291,6 @@ public @interface Inject {
      * 
      * @return Constraints for this annotation
      */
-    String constraints() default "";
+    public String constraints() default "";
     
 }
