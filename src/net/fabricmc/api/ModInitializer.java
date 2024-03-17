@@ -16,6 +16,10 @@
 
 package net.fabricmc.api;
 
+import net.xiaoyu233.fml.config.ConfigRegistry;
+
+import java.util.Optional;
+
 /**
  * A mod initializer.
  *
@@ -31,4 +35,8 @@ public interface ModInitializer {
 	 * Runs the mod initializer.
 	 */
 	void onInitialize();
+
+	default Optional<ConfigRegistry> createConfig() {
+		return Optional.empty();
+	}
 }

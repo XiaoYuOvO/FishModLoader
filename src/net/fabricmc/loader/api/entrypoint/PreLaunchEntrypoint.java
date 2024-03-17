@@ -16,10 +16,6 @@
 
 package net.fabricmc.loader.api.entrypoint;
 
-import net.xiaoyu233.fml.config.ConfigRegistry;
-
-import java.util.Optional;
-
 /**
  * Entrypoint getting invoked just before launching the game.
  *
@@ -39,8 +35,4 @@ public interface PreLaunchEntrypoint {
 	 * Runs the entrypoint.
 	 */
 	void onPreLaunch();
-
-    default Optional<ConfigRegistry> createConfig() {
-        return Optional.empty();
-    }
 }

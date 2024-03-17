@@ -1,24 +1,9 @@
 package net.xiaoyu233.fml.util;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 
 public class ReflectHelper {
-
-
-   public static Class<?> reloadClassWithLoader(Class<?> className,ClassLoader classLoader) throws ClassNotFoundException {
-       return classLoader.loadClass(className.getName());
-   }
-
-   public static void updateFinalModifiers(Field field) throws NoSuchFieldException, IllegalAccessException {
-      field.setAccessible(true);
-      Field modifiersField = Field.class.getDeclaredField("modifiers");
-      modifiersField.setAccessible(true);
-      modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-   }
-
    public static <T> T dyCast(Object from) {
       return (T) from;
    }

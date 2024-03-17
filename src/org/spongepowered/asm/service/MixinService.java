@@ -35,30 +35,39 @@ import java.util.*;
  * Provides access to the service layer which connects the mixin transformer to
  * a particular host environment. Host environments are implemented as services
  * implementing {@link IMixinService} in order to decouple them from mixin's
- * core. This allows us to support LegacyLauncher 
+ * core. This allows us to support LegacyLauncher
  */
 public final class MixinService {
-    
-*
+
+    /**
      * Log buffer for messages generated during service startup but before the
-     * actual logger can be retrieved from  the service, flushed service
-     * once the
+     * actual logger can be retrieved from the service, flushed once the service
+     * is started
      */
-is started    private static LogBuffer logBuffer = new LogBuffer();
-    
+    private static LogBuffer logBuffer = new LogBuffer();
+    private final Set<String> bootedServices = new HashSet<String>();
+
     /**
      * Singleton
      */
     private static MixinService instance;
-    
-    private ServiceLoader<IMixinServiceBootstrap> bootstrapServiceLoader;
-    
-    private final Set<String> bootedServices = new HashSet<String>(); 
 
+    private ServiceLoader<IMixinServiceBootstrap> bootstrapServiceLoader;
     /**
-     * Service loader 
+     * Service loader
      */
     private ServiceLoader<IMixinService> serviceLoader;
+
+    /**
+     * Singleton pattern, get or create the instance
+     */
+    private static MixinService getInstance() {
+        if (MixinService.instance == null) {
+            MixinService.instance = new MixinService();
+        }
+
+        return MixinService.instance;
+    }
 
     /**
      * Service
@@ -77,54 +86,31 @@ is started    private static LogBuffer logBuffer = new LogBuffer();
         this.runBootServices();
     }
 
-    priv
-ate
-    /*     * Returns Object so that ILogger is not classloaded until after it doesn't
-     * matter any more
-     */
-    @SuppressWarnings("unchecked")
-    private static <T> T getDefaultLogger() {
-        return (T)new LoggerAdapterConsole("mixin").setDebugStream(System.err);
-    }
-
-    /**
-     * Singleton pattern, get or create the instance
-     */
-    private static MixinService getInstance() {
-        if (MixinService.instance == null) {
-            MixinService.instance = new MixinService();
-        }
-        
-        return MixinService.instance;
-    }
-    
     /**
      * Boot
      */
     public static void boot() {
         MixinService.getInstance();
     }
-    
+
     public static IMixinService getService() {
         return MixinService.getInstance().getServiceInstance();
     }
 
-void runBootServices() {
-        this.bootstrapServiceLoader = ServiceLoader.<IMixinServiceBootstrap>load(IMixinServiceBootstrap.class, this.getClass().getClassLoader());
-        Iterator<IMixinServiceBootstrap> iter = this.bootstrapServiceLoader.iterator();
-        while (iter.hasNext()) {
-            try {
-                IMixinServiceBootstrap bootService = iter.next();
-                bootService.bootstrap();
-                this.bootedServices.add(bootService.getServiceClassName());
-            } catch (ServiceInitialisationException ex) {
-                // Expected if service cannot start
-                MixinService.logBuffer.debug("Mixin bootstrap service {} is not available: {}", ex.getStackTrace()[0].getClassName(),
-                        ex.getMessage());
-            } catch (Throwable th) {
-                MixinService.logBuffer.debug("Catching {}:{} initialising service", th.getClass().getName(), th.getMessage(), th);
-            }
-        }
+    /**
+     * Blackboard
+     */
+    public static IGlobalPropertyService getGlobalPropertyService() {
+        return MixinService.getInstance().getGlobalPropertyServiceInstance();
+    }
+
+    /**
+     * Returns Object so that ILogger is not classloaded until after it doesn't
+     * matter any more
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> T getDefaultLogger() {
+        return (T)new LoggerAdapterConsole("mixin").setDebugStream(System.err);
     }
 
     private synchronized IMixinService getServiceInstance() {
@@ -141,25 +127,6 @@ void runBootServices() {
             }
         }
         return this.service;
-    }
-
-    /**
-     * Blackboard
-     */
-    public static IGlobalPropertyService getGlobalPropertyService() {
-        return MixinService.getInstance().getGlobalPropertyServiceInstance();
-    }
-
-    /**
-     * Retrieves the GlobalPropertyService Instance... FactoryProviderBean...
-     * Observer...InterfaceStream...Function...Broker... help me why won't it
-     * stop
-     */
-    private IGlobalPropertyService getGlobalPropertyServiceInstance() {
-        if (this.propertyService == null) {
-            this.propertyService = this.initPropertyService();
-        }
-        return this.propertyService;
     }
 
     private IMixinService initService() {
@@ -195,6 +162,36 @@ void runBootServices() {
         throw new ServiceNotAvailableError("No mixin host service is available. Services: " + Joiner.on(", ").join(badServices) + brokenServiceNote);
     }
 
+    private void runBootServices() {
+        this.bootstrapServiceLoader = ServiceLoader.<IMixinServiceBootstrap>load(IMixinServiceBootstrap.class, this.getClass().getClassLoader());
+        Iterator<IMixinServiceBootstrap> iter = this.bootstrapServiceLoader.iterator();
+        while (iter.hasNext()) {
+            try {
+                IMixinServiceBootstrap bootService = iter.next();
+                bootService.bootstrap();
+                this.bootedServices.add(bootService.getServiceClassName());
+            } catch (ServiceInitialisationException ex) {
+                // Expected if service cannot start
+                MixinService.logBuffer.debug("Mixin bootstrap service {} is not available: {}", ex.getStackTrace()[0].getClassName(),
+                        ex.getMessage());
+            } catch (Throwable th) {
+                MixinService.logBuffer.debug("Catching {}:{} initialising service", th.getClass().getName(), th.getMessage(), th);
+            }
+        }
+    }
+
+    /**
+     * Retrieves the GlobalPropertyService Instance... FactoryProviderBean...
+     * Observer...InterfaceStream...Function...Broker... help me why won't it
+     * stop
+     */
+    private IGlobalPropertyService getGlobalPropertyServiceInstance() {
+        if (this.propertyService == null) {
+            this.propertyService = this.initPropertyService();
+        }
+        return this.propertyService;
+    }
+
     private IGlobalPropertyService initPropertyService() {
         ServiceLoader<IGlobalPropertyService> serviceLoader = ServiceLoader.<IGlobalPropertyService>load(IGlobalPropertyService.class,
                 this.getClass().getClassLoader());
@@ -205,15 +202,13 @@ void runBootServices() {
                 IGlobalPropertyService service = iter.next();
                 return service;
             } catch (ServiceConfigurationError serviceError) {
-                serviceError.printStackTrace();
+//                serviceError.printStackTrace();
             } catch (Throwable th) {
-                th.printStackTrace();
+//                th.printStackTrace();
             }
         }
         throw new ServiceNotAvailableError("No mixin global property service is available");
     }
-
-    /**
 
     /**
      * Since we want to log things during startup but need the service itself to

@@ -23,7 +23,8 @@ public abstract class DefaultResourcePackMixin {
 //    }
     @Redirect(method = "getInputStream", at = @At(value = "INVOKE", target = "Lnet/minecraft/DefaultResourcePack;getResourceStream(Lnet/minecraft/ResourceLocation;)Ljava/io/InputStream;"))
     private InputStream redirectFixLanguageLoad(DefaultResourcePack t, ResourceLocation resourceLocation){
-        if (this.fileAssets.toString().contains("virtual\\legacy") && resourceLocation.getResourcePath().contains(".lang")){
+        String resourcePath = resourceLocation.getResourcePath();
+        if (this.fileAssets.toString().contains("\\legacy") && resourcePath.contains(".lang") && !resourcePath.contains("en_US")){
             return null;
         }else {
             return this.getResourceStream(resourceLocation);

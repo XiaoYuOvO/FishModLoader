@@ -47,18 +47,18 @@ import java.util.regex.Pattern;
  * Utility class for working with ASM annotations
  */
 public final class Annotations {
-    
-    private static Pattern mergeableAnnotationPattern = Annotations.getMergeableAnnotationPattern();
-    
+
     /**
      * Annotations which are eligible for merge via {@link #mergeAnnotations}
      */
     private static final Class<?>[] MERGEABLE_MIXIN_ANNOTATIONS = new Class<?>[] {
-        Overwrite.class,
-        Intrinsic.class,
-        Final.class,
-        Debug.class
+            Overwrite.class,
+            Intrinsic.class,
+            Final.class,
+            Debug.class
     };
+
+    private static Pattern mergeableAnnotationPattern = Annotations.getMergeableAnnotationPattern();
 
     /**
      * Get the supplied annotation object as an annotation handle

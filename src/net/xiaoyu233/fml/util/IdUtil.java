@@ -1,8 +1,8 @@
 package net.xiaoyu233.fml.util;
 
 public class IdUtil {
-    private static int nextItemID = 2024;
-    private static int nextBlockID = 160;
+    private static int nextItemID = 4000;
+    private static int nextBlockID = 512;
     private static int nextEnchantmentID = 96;
     private static int nextAchievementID = 136;
     private static int nextEntityID = 200;

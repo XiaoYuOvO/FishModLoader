@@ -1,12 +1,10 @@
 package net.xiaoyu233.fml;
 
-import net.xiaoyu233.fml.asm.InterfaceInjection;
 import net.xiaoyu233.fml.config.ConfigRegistry;
 import net.xiaoyu233.fml.config.InjectionConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 /**
  * Old fashion mod declaration, deprecated
@@ -43,7 +41,4 @@ public abstract class AbstractMod {
        return null;
    }
 
-   public Optional<InterfaceInjection> getInterfaceInjections(){
-      return Optional.empty();
-   }
 }

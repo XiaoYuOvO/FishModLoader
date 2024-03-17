@@ -285,7 +285,7 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 	}
 
 	Class<?> tryLoadClass(String name, boolean allowFromParent) throws ClassNotFoundException {
-		if ((whitelistClassPrefix.stream().noneMatch(name::startsWith)) && (name.startsWith("java.") || blockedClassPrefix.stream().anyMatch(name::startsWith))) {
+		if ((name.startsWith("java.") || ((blockedClassPrefix.stream().anyMatch(name::startsWith)) && (whitelistClassPrefix.stream().noneMatch(name::startsWith))))) {
 			return null;
 		}
 

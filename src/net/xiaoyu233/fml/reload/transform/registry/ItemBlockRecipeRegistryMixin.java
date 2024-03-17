@@ -16,9 +16,9 @@ import java.util.List;
 
 @Mixin(CraftingManager.class)
 public abstract class ItemBlockRecipeRegistryMixin {
-    @Shadow abstract ShapelessRecipes addShapelessRecipe(ItemStack par1ItemStack, boolean include_in_lowest_crafting_difficulty_determination, Object... par2ArrayOfObj);
+    @Shadow public abstract ShapelessRecipes addShapelessRecipe(ItemStack par1ItemStack, boolean include_in_lowest_crafting_difficulty_determination, Object... par2ArrayOfObj);
 
-    @Shadow abstract ShapedRecipes addRecipe(ItemStack par1ItemStack, boolean include_in_lowest_crafting_difficulty_determination, Object... par2ArrayOfObj);
+    @Shadow public abstract ShapedRecipes addRecipe(ItemStack par1ItemStack, boolean include_in_lowest_crafting_difficulty_determination, Object... par2ArrayOfObj);
 
     @Redirect(method = "<init>",
             at = @At(value = "INVOKE",target = "Lnet/minecraft/RecipesMITE;addCraftingRecipes(Lnet/minecraft/CraftingManager;)V"))
@@ -26,9 +26,9 @@ public abstract class ItemBlockRecipeRegistryMixin {
         MITEEvents.MITE_EVENT_BUS.post(new ItemRegistryEvent());
         MITEEvents.MITE_EVENT_BUS.post(new BlockRegistryEvent());
         MITEEvents.MITE_EVENT_BUS.post(new AchievementRegistryEvent());
-        RecipesMITE.addCraftingRecipes(crafters);
         RecipeRegistryEvent event = new RecipeRegistryEvent();
         MITEEvents.MITE_EVENT_BUS.post(event);
+        RecipesMITE.addCraftingRecipes(crafters);
         RecipesArgs recipesArgs;
         for (RecipesArgs shapedRecipe : event.getShapedRecipes()) {
             recipesArgs = shapedRecipe;

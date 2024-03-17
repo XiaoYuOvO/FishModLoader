@@ -77,7 +77,7 @@ public class InjectionConfig {
         mixinObject.addProperty("package", pkgName);
         mixinObject.addProperty("compatibilityLevel",this.compatibleLevel.toString());
         JsonArray mixins = new JsonArray();
-        List<String> classes = PackageLoader.getClasses(pkgName, classLoader,Mixin.class);
+        List<String> classes = PackageLoader.getClasses(pkgName, classLoader, Mixin.class);
         for (String aClass : classes) {
             String clName = aClass.replace(pkgName + ".", "");
             FishModLoader.LOGGER.info("Registering mixin class:" + clName + " for " + this.name);

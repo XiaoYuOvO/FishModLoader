@@ -16,6 +16,7 @@ import net.fabricmc.loader.impl.entrypoint.EntrypointStorage;
 import net.fabricmc.loader.impl.metadata.*;
 import net.fabricmc.loader.impl.util.DefaultLanguageAdapter;
 import net.fabricmc.loader.impl.util.ExceptionUtil;
+import net.fabricmc.loader.impl.util.SystemProperties;
 import net.fabricmc.loader.impl.util.log.Log;
 import net.fabricmc.loader.impl.util.log.LogCategory;
 import net.xiaoyu233.fml.config.ConfigRegistry;
@@ -34,8 +35,6 @@ import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.mixin.transformer.Config;
 import org.spongepowered.asm.service.MixinService;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,13 +46,13 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class FishModLoader extends AbstractMod{
+public class FishModLoader{
    public static final File CONFIG_DIR = new File("configs");
    public static final String VERSION = Constants.VERSION;
    private static final String MOD_ID = Constants.MOD_ID;
    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
    public static final File MOD_DIR = new File("mods");
-   private static final Map<String, ModContainerImpl> modsMapForLoginCheck;
+   private static final Map<String, ModContainerImpl> modsMapForLoginCheck  = new HashMap<>();
    private static final boolean allowsClientMods;
    private static final ArrayList<ModContainerImpl> mods = new ArrayList<>();
    private static final Map<String, ModContainerImpl> modsMap = new HashMap<>();
@@ -64,8 +63,9 @@ public class FishModLoader extends AbstractMod{
    private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Configs.CONFIG,Configs.CONFIG_FILE);
    private static final Map<String, LanguageAdapter> adapterMap = new HashMap<>();
    private static final EntrypointStorage entrypointStorage = new EntrypointStorage();
-   private static AccessWidener accessWidener = new AccessWidener();
+   private static final AccessWidener accessWidener = new AccessWidener();
    private static boolean frozen;
+   private static final boolean IS_DEVELOPMENT = Boolean.parseBoolean(System.getProperty(SystemProperties.DEVELOPMENT, "false"));
 
    static {
       try {
@@ -78,13 +78,8 @@ public class FishModLoader extends AbstractMod{
       } else {
          allowsClientMods = true;
       }
-
-      modsMapForLoginCheck = new HashMap<>();
    }
-
-   private FishModLoader(){
-
-   }
+   private static Path gameJarPath;
 
    public static void addConfigRegistry(ConfigRegistry configRegistry){
       if (!ALL_REGISTRIES.contains(configRegistry)){
@@ -106,41 +101,10 @@ public class FishModLoader extends AbstractMod{
       return isServer ? EnvType.SERVER : EnvType.CLIENT;
    }
 
+   private FishModLoader(){}
+
    public static Optional<ModContainer> getModContainer(String parentModId) {
-      return Optional.empty();
-   }
-
-   public static void setup() throws ModResolutionException {
-      FishModLoader.loadConfig();
-
-      //Start mod discovery
-      boolean remapRegularMods = FishModLoader.isDevelopmentEnvironment();
-      VersionOverrides versionOverrides = new VersionOverrides();
-      DependencyOverrides depOverrides = new DependencyOverrides(FishModLoader.CONFIG_DIR.toPath());
-
-      // discover mods
-
-      ModDiscoverer discoverer = new ModDiscoverer(versionOverrides, depOverrides);
-      discoverer.addCandidateFinder(new ClasspathModCandidateFinder());
-      discoverer.addCandidateFinder(new DirectoryModCandidateFinder(FishModLoader.MOD_DIR.toPath(), remapRegularMods));
-      discoverer.addCandidateFinder(new ArgumentModCandidateFinder(remapRegularMods));
-      HashMap<String, Set<ModCandidate>> envDisabledModsOut = new HashMap<>();
-      List<ModCandidate> modCandidates = discoverer.discoverMods(envDisabledModsOut);
-      modCandidates = ModResolver.resolve(modCandidates, FishModLoader.getEnvironmentType(), envDisabledModsOut);
-      dumpModList(modCandidates);
-      for (ModCandidate modCandidate : modCandidates) {
-         if (!modCandidate.hasPath() && !modCandidate.isBuiltin()) {
-            try {
-               modCandidate.setPaths(Collections.singletonList(modCandidate.copyToDir(MOD_DIR.toPath(), false)));
-            } catch (IOException e) {
-               throw new RuntimeException("Error extracting mod "+ modCandidate, e);
-            }
-         }
-
-         addMod(modCandidate);
-      }
-      //Finish mod discovery
-      MixinBootstrap.init();
+      return Optional.ofNullable(modsMap.get(parentModId));
    }
 
    public static void freeze() {
@@ -381,18 +345,6 @@ public class FishModLoader extends AbstractMod{
       return RemoteModInfo.writeToJson(mods.stream().map(ModContainerImpl::getMetadata).map(RemoteModInfo::new).collect(Collectors.toList()));
    }
 
-//   public static void extractOpenAL(){
-//      File file = new File(System.getProperty("java.library.path"));
-//      try {
-//         Utils.extractFileFromJar("/OpenAL64.dll",new File(file,"OpenAL64.dll"),true);
-//      } catch (IOException e) {
-//         e.printStackTrace();
-//      }
-//   }
-
-   public static int getFpsLimit() {
-      return Configs.Client.FPS_LIMIT.get();
-   }
 
    public static Map<String, ModContainerImpl> getModsMapForLoginCheck() {
       return new HashMap<>(modsMapForLoginCheck);
@@ -422,8 +374,42 @@ public class FishModLoader extends AbstractMod{
       Configs.loadConfig();
    }
 
+   public static void setup(Path gameJarPath) throws ModResolutionException {
+      FishModLoader.gameJarPath = gameJarPath;
+      FishModLoader.loadConfig();
+
+      //Start mod discovery
+      boolean remapRegularMods = FishModLoader.isDevelopmentEnvironment();
+      VersionOverrides versionOverrides = new VersionOverrides();
+      DependencyOverrides depOverrides = new DependencyOverrides(FishModLoader.CONFIG_DIR.toPath());
+
+      // discover mods
+
+      ModDiscoverer discoverer = new ModDiscoverer(versionOverrides, depOverrides);
+      discoverer.addCandidateFinder(new ClasspathModCandidateFinder());
+      discoverer.addCandidateFinder(new DirectoryModCandidateFinder(FishModLoader.MOD_DIR.toPath(), remapRegularMods));
+      discoverer.addCandidateFinder(new ArgumentModCandidateFinder(remapRegularMods));
+      HashMap<String, Set<ModCandidate>> envDisabledModsOut = new HashMap<>();
+      List<ModCandidate> modCandidates = discoverer.discoverMods(envDisabledModsOut);
+      modCandidates = ModResolver.resolve(modCandidates, FishModLoader.getEnvironmentType(), envDisabledModsOut);
+      dumpModList(modCandidates);
+      for (ModCandidate modCandidate : modCandidates) {
+         if (!modCandidate.hasPath() && !modCandidate.isBuiltin()) {
+            try {
+               modCandidate.setPaths(Collections.singletonList(modCandidate.copyToDir(MOD_DIR.toPath(), false)));
+            } catch (IOException e) {
+               throw new RuntimeException("Error extracting mod "+ modCandidate, e);
+            }
+         }
+
+         addMod(modCandidate);
+      }
+      //Finish mod discovery
+      MixinBootstrap.init();
+   }
+
    public static boolean isDevelopmentEnvironment() {
-      return false;
+      return IS_DEVELOPMENT;
    }
 
    public static void setIsServer(boolean isServer) {
@@ -436,42 +422,14 @@ public class FishModLoader extends AbstractMod{
 
    public static List<ModCandidate.BuiltinMod> getBuiltinMods() {
       return Lists.newArrayList(new ModCandidate.BuiltinMod(Collections.singletonList(UrlUtil.asPath(FishModLoader.class.getProtectionDomain()
-              .getCodeSource()
-              .getLocation())), new BuiltinModMetadata.Builder(MOD_ID, VERSION).setEnvironment(ModEnvironment.UNIVERSAL)
-              .setName(MOD_ID)
-              .accesswidener("fishmodloader.accesswidener")
-              .build()));
-   }
-
-    @Nullable
-   @Override
-   public ConfigRegistry getConfigRegistry() {
-      return CONFIG_REGISTRY;
-   }
-
-   @Nonnull
-   @Override
-   public InjectionConfig getInjectionConfig() {
-      return InjectionConfig.Builder.of(MOD_ID, MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.INIT).build();
-   }
-
-   @Override
-   public String modVerStr() {
-      return VERSION;
-   }
-
-   @Override
-   public String modId() {
-      return MOD_ID;
-   }
-
-   @Override
-   public int modVerNum() {
-      return 0;
-   }
-
-   @Override
-   public void preInit() {
-
+                      .getCodeSource()
+                      .getLocation())),
+                      new BuiltinModMetadata.Builder(MOD_ID, VERSION).setEnvironment(ModEnvironment.UNIVERSAL)
+                              .setName(MOD_ID)
+                              .accesswidener("fishmodloader.accesswidener")
+                              .build()),
+              new ModCandidate.BuiltinMod(Collections.singletonList(gameJarPath), new BuiltinModMetadata.Builder("mite", "1.6.4").setEnvironment(ModEnvironment.UNIVERSAL)
+                      .setName("1.6.4-MITE")
+                      .build()));
    }
 }

@@ -48,13 +48,5 @@ public class LaunchDelegate {
         LaunchClassBlocker.blockClass(modClassLoader);
         modClassLoader.setValidParentClassPath(new LibClassifier<>(McLibrary.class, server ? EnvType.SERVER : EnvType.CLIENT).getSystemLibraries());
         Launch.launch(modClassLoader, mainClass, args, server, gameJarPath);
-//        ClassLoader knotClassLoader = modClassLoader.getClassLoader();
-//        Arrays.stream(knotClassLoader.loadClass("net.xiaoyu233.fml.relaunch.Launch").getMethods()).filter(method -> method.getName().equals("launch")).forEach(method -> {
-//            try {
-//                method.invoke(null, modClassLoader, mainClass, args, server, gameJarPath);
-//            } catch (IllegalAccessException | InvocationTargetException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
     }
 }

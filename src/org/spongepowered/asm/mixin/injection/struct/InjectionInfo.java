@@ -26,6 +26,7 @@ package org.spongepowered.asm.mixin.injection.struct;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
@@ -75,34 +76,38 @@ import java.util.Map.Entry;
  * and allows the injection to be processed.
  */
 public abstract class InjectionInfo extends SpecialMethodInfo implements ISliceContext {
-    
 
-    
-
-
-
-    
-   *     /**
+    /**
+     * Default conform prefix for handler methods
+     */
+    public static final String DEFAULT_PREFIX = "handler";
+    /**
      * Registry of subclasses
      */
-    private static Map<String, InjectorEntry> registry = new LinkedHashMap<String, InjectorEntry>(); prefix for     /**
+    private static Map<String, InjectorEntry> registry = new LinkedHashMap<String, InjectorEntry>();
+    /**
+     * Registered annotations, baked and used to call
+     * Annotations::getSingleVisible efficiently
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private static Class<? extends Annotation>[] registeredAnnotations = new Class[0];
+    /**
+     * Annotated method is static
+     */
+    protected final boolean isStatic;
+    /**
      * Target selector(s)
      */
     protected final Set<ITargetSelector> selectors = new LinkedHashSet<ITargetSelector>();
-     */
-    public static final String DEFAULT_PREFIX = "handler";
     /**
      * Target method(s)
      */
     protected final List<SelectedTarget> targets = new ArrayList<SelectedTarget>();
-    
     /**
-     * Registered annotations, baked and used to call
-     * Annotations::getSingleVisible efficiently 
+     * Methods injected by injectors
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static Class<? extends Annotation>[] registeredAnnotations = new Class[0];
-    
+    private final List<MethodNode> injectedMethods = new ArrayList<MethodNode>(0);
+
     static {
         // Standard injectors
         InjectionInfo.register(CallbackInjectionInfo.class);        // @Inject
@@ -112,19 +117,24 @@ public abstract class InjectionInfo extends SpecialMethodInfo implements ISliceC
         InjectionInfo.register(ModifyVariableInjectionInfo.class);  // @ModifyVariable
         InjectionInfo.register(ModifyConstantInjectionInfo.class);  // @ModifyConstant
     }
-
     /**
-     * Annotated method is static 
+     * Number of target methods identified by the injection points
      */
-    protected final boolean isStatic;
-Default conform
-handler methods
-    
+    protected int targetCount = 0;
+    /**
+     * Number of callbacks we expect to inject into targets
+     */
+    private int expectedCallbackCount = 1;
+    /**
+     * Number of callbacks we require injected
+     */
+    private int requiredCallbackCount = 0;
+
     /**
      * Method slice descriptors parsed from the annotation
      */
     protected final MethodSlices slices;
-    
+
     /**
      * The key into the annotation which contains the injection points
      */
@@ -135,62 +145,29 @@ handler methods
      * {@link org.spongepowered.asm.mixin.injection.At} annotations
      */
     protected final List<InjectionPoint> injectionPoints = new ArrayList<InjectionPoint>();
-    
+
     /**
      * Map of lists of nodes enumerated by calling {@link #prepare}
      */
     protected final Map<Target, List<InjectionNode>> targetNodes = new LinkedHashMap<Target, List<InjectionNode>>();
-    
     /**
-     * Number of target methods identified by the injection points 
+     * Maximum number of callbacks allowed to be injected
      */
-    protected int targetCount = 0;
+    private int maxCallbackCount = Integer.MAX_VALUE;
 
     /**
      * Bytecode injector
      */
     protected Injector injector;
-    
+
     /**
      * Injection group
      */
     protected InjectorGroupInfo group;
-    
-    /**
-     * Methods injected by injectors 
-     */
-    private final List<MethodNode> injectedMethods = new ArrayList<MethodNode>(0);
-    
-    /**
-     * Number of callbacks we expect to inject into targets 
-     */
-    private int expectedCallbackCount = 1;
-    
-    /**
-     * Number of callbacks we require injected 
-     */
-    private int requiredCallbackCount = 0;
-    
-    /**
-     * Maximum number of callbacks allowed to be injected 
-     */
-    private int maxCallbackCount = Integer.MAX_VALUE;
 
     /**
-     * Actual number of injected callbacks
-     */
-    private int injectedCallbackCount = 0;
-    
-    /**
-     * Injection messages which are not severe enough to log when they occur,
-     * but may be of interest if a <tt>require</tt> clause fails in order to
-     * diagnose why no injections were performed.
-     */
-    private List<String> messages;
-    
-    /**
      * ctor
-     * 
+     *
      * @param mixin Mixin data
      * @param method Injector method
      * @param annotation Annotation to parse
@@ -198,201 +175,9 @@ handler methods
     protected InjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation) {
         this(mixin, method, annotation, "at");
     }
-    
-    protected InjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation, String atKey) {
-        super(mixin, method, annotation);
-        this.isStatic = Bytecode.isStatic(method);
-        this.slices = MethodSlices.parse(this);
-        this.atKey = atKey;
-        this.readAnnotation();
-    }
-et the
-    /**
-
-
-    protected Li
-conform prefix
-
-    protected void parseInjectionPoints(List<AnnotationNode> ats) {
-        this.injectionPoints.addAll(InjectionPoint.parse(this, ats));
-    }
-
-    protected void parseRequirements() {
-        this.group = this.mixin.getInjectorGroups().parseGroup(this.method, this.mixin.getDefaultInjectorGroup()).add(this);
-        
-        Integer expect = Annotations.<Integer>getValue(this.annotation, "expect");
-        if (expect != null) {
-            this.expectedCallbackCount = expect.intValue();
-        }
-
-        Integer require = Annotations.<Integer>getValue(this.annotation, "require");
-        if (require != null && require.intValue() > -1) {
-            this.requiredCallbackCount = require.intValue();
-        } else if (this.group.isDefault()) {
-            this.requiredCallbackCount = this.mixin.getDefaultRequiredInjections();
-        }
-        
-        Integer allow = Annotations.<Integer>getValue(this.annotation, "allow");
-        if (allow != null) {
-            this.maxCallbackCount = Math.max(Math.max(this.requiredCallbackCount, 1), allow);
-        }
-    }
-
-    // stub
-    protected abstract Injector parseInjector(AnnotationNode injectAnnotation);
-    
-    /**
-     * Get whether there is enough valid information in this info to actually
-     * perform an injection.
-     * 
-     * @return true if this InjectionInfo was successfully parsed
-     */
-    public boolean isValid() {
-        return this.targets.size() > 0 && this.injectionPoints.size() > 0;
-    }
-an injector
-    /**
-
 
     /**
-     * Perform injections
-     */
-    public void inject() {
-        for (Entry<Target, List<InjectionNode>> entry : this.targetNodes.entrySet()) {
-            this.injector.inject(entry.getKey(), entry.getValue());
-        }
-        this.targets.clear();
-    }
-    
-    /**
-     * Perform cleanup and post-injection tasks 
-     */
-    public void postInject() {
-        for (MethodNode method : this.injectedMethods) {
-            this.classNode.methods.add(method);
-        }
-        
-        String description = this.getDescription();
-        String refMapStatus = this.mixin.getReferenceMapper().getStatus();
-        String extraInfo = this.getDynamicInfo() + this.getMessages();
-        if ((this.mixin.getOption(Option.DEBUG_INJECTORS) && this.injectedCallbackCount < this.expectedCallbackCount)) {
-            throw new InvalidInjectionException(this,
-                    String.format("Injection validation failed: %s %s%s in %s expected %d invocation(s) but %d succeeded. Scanned %d target(s). %s%s",
-                            description, this.methodName, this.method.desc, this.mixin, this.expectedCallbackCount, this.injectedCallbackCount,
-                            this.targetCount, refMapStatus, extraInfo));
-        } else if (this.injectedCallbackCount < this.requiredCallbackCount) {
-            throw new InjectionError(
-                    String.format("Critical injection failure: %s %s%s in %s failed injection check, (%d/%d) succeeded. Scanned %d target(s). %s%s",
-                            description, this.methodName, this.method.desc, this.mixin, this.injectedCallbackCount, this.requiredCallbackCount,
-                            this.targetCount, refMapStatus, extraInfo));
-        } else if (this.injectedCallbackCount > this.maxCallbackCount) {
-            throw new InjectionError(
-                    String.format("Critical injection failure: %s %s%s in %s failed injection check, %d succeeded of %d allowed.%s",
-                    description, this.methodName, this.method.desc, this.mixin, this.injectedCallbackCount, this.maxCallbackCount, extraInfo));
-        }
-    }
-    
-    /**
-     * Callback from injector which notifies us that a callback was injected. No
-     * longer used.
-     * 
-     * @param target target into which the injector injected
-     */
-    public void notifyInjected(Target target) {
-//        this.targets.remove(target.method);
-    }
-
-    protected String getDescription() {
-        return "Callback method";
-    }
-
-    @Override
-    public String toString() {
-        return InjectionInfo.describeInjector(this.mixin, this.annotation, this.method);
-    }
-handler by
-
-    /**
-     * Get the slice descriptors
-     */
-    @Override
-    public MethodSlice getSlice(String id) {
-        return this.slices.get(this.getSliceId(id));
-    }
-    
-    /**
-     * Return the mapped slice id for the specified ID. Injectors which only
-     * support use of a single slice will always return the default id (an empty
-     * string)
-     * 
-     * @param id slice id
-     * @return mapped id
-     */
-    public String getSliceId(String id) {
-        return "";
-    }
-
-    /**
-     * Get the injected callback count
-     * 
-     * @return the injected callback count
-     */
-    public int getInjectedCallbackCount() {
-        return this.injectedCallbackCount;
-    }
-
-    /**
-     * Inject a method into the target class
-     * 
-     * @param access Method access flags, synthetic will be automatically added
-     * @param name Method name
-     * @param desc Method descriptor
-     * 
-     * @return new method
-     */
-    public MethodNode addMethod(int access, String name, String desc) {
-        MethodNode method = new MethodNode(ASM.API_VERSION, access | Opcodes.ACC_SYNTHETIC, name, desc, null, null);
-        this.injectedMethods.add(method);
-        return method;
-    }
-    
-    /**
-     * Notify method, called by injector when adding a callback into a target
-     * 
-     * @param handler callback handler being invoked
-     */
-    public void addCallbackInvocation(MethodNode handler) {
-        this.injectedCallbackCount++;
-    }
-    
-    /**
-     * Notify method, called by injector or injection point when a notable but
-     * non-fatal failures occur, for example allows injection points to add
-     * notes when they return no results.
-     * 
-     * @param format Message format
-     * @param args Format args
-     */
-    @Override
-    public void addMessage(String format, Object... args) {
-        super.addMessage(format, args);
-        if (this.messages == null) {
-            this.messages = new ArrayList<String>();
-        }
-        String message = String.format(format, args);
-        this.messages.add(message);
-    }
-    
-    protected String getMessages() {
-        return this.messages != null ? " Messages: { " + Joiner.on(" ").join(this.messages) + "}" : "";
-    }
-egister an /**
-     * G
-injector info
-The supplied
-
-    /**
-     *arse an injector from the specified method (if an injector annotation is
+     * Parse an injector from the specified method (if an injector annotation is
      * present). If no injector annotation is present then <tt>null</tt> is
      * returned.
      *
@@ -416,8 +201,32 @@ The supplied
         return null;
     }
 
-    protected    * G
+    /**
+     * Returns any injector annotation found on the specified method. If
+     * multiple matching annotations are found then an exception is thrown. If
+     * no annotations are present then <tt>null</tt> is returned.
+     *
+     * @param mixin context
+     * @param method mixin method
+     * @return annotation or null
+     */
+    public static AnnotationNode getInjectorAnnotation(IMixinInfo mixin, MethodNode method) {
+        AnnotationNode annotation = null;
+        try {
+            annotation = Annotations.getSingleVisible(method, InjectionInfo.registeredAnnotations);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidMixinException(mixin, String.format("Error parsing annotations on %s in %s: %s", method.name, mixin.getClassName(),
+                    ex.getMessage()));
+        }
+        return annotation;
+    }
 
+    /**
+     * Get the conform prefix for an injector handler by type
+     *
+     * @param annotation Annotation to inspect
+     * @return conform prefix
+     */
     public static String getInjectorPrefix(AnnotationNode annotation) {
         if (annotation == null) {
             return InjectionInfo.DEFAULT_PREFIX;
@@ -432,6 +241,59 @@ The supplied
         return InjectionInfo.DEFAULT_PREFIX;
     }
 
+    /**
+     * Actual number of injected callbacks
+     */
+    private int injectedCallbackCount = 0;
+
+    /**
+     * Injection messages which are not severe enough to log when they occur,
+     * but may be of interest if a <tt>require</tt> clause fails in order to
+     * diagnose why no injections were performed.
+     */
+    private List<String> messages;
+
+    static String describeInjector(IMixinContext mixin, AnnotationNode annotation, MethodNode method) {
+        return String.format("%s->@%s::%s%s", mixin.toString(), Annotations.getSimpleName(annotation), MethodNodeEx.getName(method), method.desc);
+    }
+
+    protected InjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation, String atKey) {
+        super(mixin, method, annotation);
+        this.isStatic = Bytecode.isStatic(method);
+        this.slices = MethodSlices.parse(this);
+        this.atKey = atKey;
+        this.readAnnotation();
+    }
+
+    /**
+     * Print the names of the specified members as a human-readable list
+     *
+     * @param selectors members to print
+     * @return human-readable list of member names
+     */
+    private static String namesOf(Collection<ITargetSelector> selectors) {
+        int index = 0, count = selectors.size();
+        StringBuilder sb = new StringBuilder();
+        for (ITargetSelector selector : selectors) {
+            if (index > 0) {
+                if (index == (count - 1)) {
+                    sb.append(" or ");
+                } else {
+                    sb.append(", ");
+                }
+            }
+            sb.append('\'').append(selector.toString()).append('\'');
+            index++;
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Register an injector info class. The supplied class must be decorated
+     * with an {@link AnnotationType} annotation for registration purposes.
+     *
+     * @param type injection info subclass to register
+     */
     public static void register(Class<? extends InjectionInfo> type) {
         AnnotationType annotationType = type.<AnnotationType>getAnnotation(AnnotationType.class);
         if (annotationType == null) {
@@ -462,9 +324,16 @@ The supplied
         InjectionInfo.registeredAnnotations = annotations.toArray(InjectionInfo.registeredAnnotations);
     }
 
+    public static Set<Class<? extends Annotation>> getRegisteredAnnotations() {
+        return ImmutableSet.<Class<? extends Annotation>>copyOf(InjectionInfo.registeredAnnotations);
+    }
+
+    protected void parseInjectionPoints(List<AnnotationNode> ats) {
+        this.injectionPoints.addAll(InjectionPoint.parse(this, ats));
+    }
+
     /**
-     * Pvo
-arse the info from the supplied annotation
+     * Parse the info from the supplied annotation
      */
     protected void readAnnotation() {
         if (this.annotation == null) {
@@ -479,28 +348,10 @@ arse the info from the supplied annotation
         this.injector = this.parseInjector(this.annotation);
     }
 
-    /**
-     * Returns any injector annotation found on the specified method. If
-     * multiple matching annotations are found then an exception is thrown. If
-     * no annotations are present then <tt>null</tt> is returned.
-     * 
-     * @param mixin context
-     * @param method mixin method
-     * @return annotation or null
-     */
-    public static AnnotationNode getInjectorAnnotation(IMixinInfo mixin, MethodNode method) {
-        AnnotationNode annotation = null;
-        try {
-            annotation = Annotations.getSingleVisible(method, InjectionInfo.registeredAnnotations);
-        } catch (IllegalArgumentException ex) {
-            throw new InvalidMixinException(mixin, String.format("Error parsing annotations on %s in %s: %s", method.name, mixin.getClassName(),
-                    ex.getMessage()));
-        }
-        return annotation;
-    }
+    // stub
+    protected abstract Injector parseInjector(AnnotationNode injectAnnotation);
 
-
-id parseSelectors() {
+    protected void parseSelectors() {
         Set<ITargetSelector> selectors = new LinkedHashSet<ITargetSelector>();
         TargetSelector.parse(Annotations.<String>getValue(this.annotation, "method", false), this, selectors);
         TargetSelector.parse(Annotations.<AnnotationNode>getValue(this.annotation, "target", false), this, selectors);
@@ -521,16 +372,16 @@ id parseSelectors() {
             } catch (TargetNotSupportedException ex) {
                 throw new InvalidInjectionException(this,
                         String.format("%s annotation on %s specifies a target class '%s', which is not supported",
-                        this.annotationType, this.methodName, ex.getMessage()));
+                                this.annotationType, this.methodName, ex.getMessage()));
             } catch (InvalidSelectorException ex) {
                 throw new InvalidInjectionException(this,
                         String.format("%s annotation on %s is decorated with an invalid selector: %s", this.annotationType, this.methodName,
-                        ex.getMessage()));
+                                ex.getMessage()));
             }
         }
-    }    /**
-     * D
-st<AnnotationNode> readInjectionPoints() {
+    }
+
+    protected List<AnnotationNode> readInjectionPoints() {
         List<AnnotationNode> ats = Annotations.<AnnotationNode>getValue(this.annotation, this.atKey, false);
         if (ats == null) {
             throw new InvalidInjectionException(this, String.format("%s annotation on %s is missing '%s' value(s)",
@@ -539,8 +390,49 @@ st<AnnotationNode> readInjectionPoints() {
         return ats;
     }
 
-    protected    * P
-iscover injection points
+    protected void parseRequirements() {
+        this.group = this.mixin.getInjectorGroups().parseGroup(this.method, this.mixin.getDefaultInjectorGroup()).add(this);
+
+        Integer expect = Annotations.<Integer>getValue(this.annotation, "expect");
+        if (expect != null) {
+            this.expectedCallbackCount = expect.intValue();
+        }
+
+        Integer require = Annotations.<Integer>getValue(this.annotation, "require");
+        if (require != null && require.intValue() > -1) {
+            this.requiredCallbackCount = require.intValue();
+        } else if (this.group.isDefault()) {
+            this.requiredCallbackCount = this.mixin.getDefaultRequiredInjections();
+        }
+
+        Integer allow = Annotations.<Integer>getValue(this.annotation, "allow");
+        if (allow != null) {
+            this.maxCallbackCount = Math.max(Math.max(this.requiredCallbackCount, 1), allow);
+        }
+    }
+
+    /**
+     * Perform injections
+     */
+    public void inject() {
+        for (Entry<Target, List<InjectionNode>> entry : this.targetNodes.entrySet()) {
+            this.injector.inject(entry.getKey(), entry.getValue());
+        }
+        this.targets.clear();
+    }
+
+    /**
+     * Get whether there is enough valid information in this info to actually
+     * perform an injection.
+     *
+     * @return true if this InjectionInfo was successfully parsed
+     */
+    public boolean isValid() {
+        return this.targets.size() > 0 && this.injectionPoints.size() > 0;
+    }
+
+    /**
+     * Discover injection points
      */
     public void prepare() {
         this.targetNodes.clear();
@@ -556,38 +448,159 @@ iscover injection points
                 injectorTarget.dispose();
             }
         }
-    }* G
-erform pre-injection checks and tasks
+    }
+
+    protected String getDescription() {
+        return "Callback method";
+    }
+
+    @Override
+    public String toString() {
+        return InjectionInfo.describeInjector(this.mixin, this.annotation, this.method);
+    }
+
+    /**
+     * Perform pre-injection checks and tasks
      */
     public void preInject() {
         for (Entry<Target, List<InjectionNode>> entry : this.targetNodes.entrySet()) {
             this.injector.preInject(entry.getKey(), entry.getValue());
         }
-    } for
+    }
+
     /**
-     * F
-et number of methods being injected into
+     * Get the slice descriptors
+     */
+    @Override
+    public MethodSlice getSlice(String id) {
+        return this.slices.get(this.getSliceId(id));
+    }
+
+    /**
+     * Perform cleanup and post-injection tasks
+     */
+    public void postInject() {
+        for (MethodNode method : this.injectedMethods) {
+            this.classNode.methods.add(method);
+        }
+
+        String description = this.getDescription();
+        String refMapStatus = this.mixin.getReferenceMapper().getStatus();
+        String extraInfo = this.getDynamicInfo() + this.getMessages();
+        if ((this.mixin.getOption(Option.DEBUG_INJECTORS) && this.injectedCallbackCount < this.expectedCallbackCount)) {
+            throw new InvalidInjectionException(this,
+                    String.format("Injection validation failed: %s %s%s in %s expected %d invocation(s) but %d succeeded. Scanned %d target(s). %s%s",
+                            description, this.methodName, this.method.desc, this.mixin, this.expectedCallbackCount, this.injectedCallbackCount,
+                            this.targetCount, refMapStatus, extraInfo));
+        } else if (this.injectedCallbackCount < this.requiredCallbackCount) {
+            throw new InjectionError(
+                    String.format("Critical injection failure: %s %s%s in %s failed injection check, (%d/%d) succeeded. Scanned %d target(s). %s%s",
+                            description, this.methodName, this.method.desc, this.mixin, this.injectedCallbackCount, this.requiredCallbackCount,
+                            this.targetCount, refMapStatus, extraInfo));
+        } else if (this.injectedCallbackCount > this.maxCallbackCount) {
+            throw new InjectionError(
+                    String.format("Critical injection failure: %s %s%s in %s failed injection check, %d succeeded of %d allowed.%s",
+                            description, this.methodName, this.method.desc, this.mixin, this.injectedCallbackCount, this.maxCallbackCount, extraInfo));
+        }
+    }
+
+    /**
+     * Callback from injector which notifies us that a callback was injected. No
+     * longer used.
+     *
+     * @param target target into which the injector injected
+     */
+    public void notifyInjected(Target target) {
+//        this.targets.remove(target.method);
+    }
+
+    /**
+     * Get number of methods being injected into
      *
      * @return count of methods being injected into
      */
     public int getTargetCount() {
         return this.targets.size();
-    }  E
-ind methods in the target class which match the parsed selectors
+    }
+
+    /**
+     * Return the mapped slice id for the specified ID. Injectors which only
+     * support use of a single slice will always return the default id (an empty
+     * string)
+     *
+     * @param id slice id
+     * @return mapped id
+     */
+    public String getSliceId(String id) {
+        return "";
+    }
+
+    /**
+     * Get the injected callback count
+     *
+     * @return the injected callback count
+     */
+    public int getInjectedCallbackCount() {
+        return this.injectedCallbackCount;
+    }
+
+    protected String getMessages() {
+        return this.messages != null ? " Messages: { " + Joiner.on(" ").join(this.messages) + "}" : "";
+    }
+
+    /**
+     * Inject a method into the target class
+     *
+     * @param access Method access flags, synthetic will be automatically added
+     * @param name Method name
+     * @param desc Method descriptor
+     *
+     * @return new method
+     */
+    public MethodNode addMethod(int access, String name, String desc) {
+        MethodNode method = new MethodNode(ASM.API_VERSION, access | Opcodes.ACC_SYNTHETIC, name, desc, null, null);
+        this.injectedMethods.add(method);
+        return method;
+    }
+
+    /**
+     * Notify method, called by injector when adding a callback into a target
+     *
+     * @param handler callback handler being invoked
+     */
+    public void addCallbackInvocation(MethodNode handler) {
+        this.injectedCallbackCount++;
+    }
+
+    /**
+     * Notify method, called by injector or injection point when a notable but
+     * non-fatal failures occur, for example allows injection points to add
+     * notes when they return no results.
+     *
+     * @param format Message format
+     * @param args Format args
+     */
+    @Override
+    public void addMessage(String format, Object... args) {
+        super.addMessage(format, args);
+        if (this.messages == null) {
+            this.messages = new ArrayList<String>();
+        }
+        String message = String.format(format, args);
+        this.messages.add(message);
+    }
+
+    /**
+     * Find methods in the target class which match the parsed selectors
      */
     protected void findTargets() {
         this.targets.clear();
         this.findRootTargets();
         this.validateTargets();
-    } type
-     * 
-     * @param annotation Annotation to inspect
-     * @return conform prefix
-     */
+    }
 
     /**
-     * P
-valuate the root selectors parsed from this injector, find the root
+     * Evaluate the root selectors parsed from this injector, find the root
      * targets and store them in the {@link #targets} collection.
      */
     private void findRootTargets() {
@@ -635,17 +648,8 @@ valuate the root selectors parsed from this injector, find the root
         }
     }
 
-    static Strin    /**
-     * Decoration for subclasses which specifies the prefix to use when
-     * conforming annotated handler methods
-     */
-    @Retention(RetentionPolicy.RUNTIME)
-    @java.lang.annotation.Target(ElementType.TYPE)
-
-
     /**
-     *vo
-ost-search validation that some targets were found, we can fail-fast if
+     * Post-search validation that some targets were found, we can fail-fast if
      * no targets were actually identified
      */
     protected void validateTargets() {
@@ -665,7 +669,9 @@ ost-search validation that some targets were found, we can fail-fast if
                             this.annotationType, this.methodName, InjectionInfo.namesOf(this.selectors), this.mixin.getTarget(),
                             this.mixin.getReferenceMapper().getStatus(), this.getDynamicInfo()));
         }
-    }id checkTarget(MethodNode target) {
+    }
+
+    protected void checkTarget(MethodNode target) {
         AnnotationNode merged = Annotations.getVisible(target, MixinMerged.class);
         if (merged == null) {
             return;
@@ -678,32 +684,7 @@ ost-search validation that some targets were found, we can fail-fast if
     }
 
     /**
-     * Print the names of the specified members as a human-readable list 
-     * 
-     * @param selectors members to print
-     * @return human-readable list of member names
-     */
-    private static String namesOf(Collection<ITargetSelector> selectors) {
-        int index = 0, count = selectors.size();
-        StringBuilder sb = new StringBuilder();
-        for (ITargetSelector selector : selectors) {
-            if (index > 0) {
-                if (index == (count - 1)) {
-                    sb.append(" or ");
-                } else {
-                    sb.append(", ");
-                }
-            }
-            sb.append('\'').append(selector.toString()).append('\'');
-            index++;
-        }
-        return sb.toString();
-    }
-
-
-    /**
-   P
-et info from a decorating {@link Dynamic} annotation. If the annotation
+     * Get info from a decorating {@link Dynamic} annotation. If the annotation
      * is present, a descriptive string suitable for inclusion in an error
      * message is returned. If the annotation is not present then an empty
      * string is returned.
@@ -716,9 +697,9 @@ et info from a decorating {@link Dynamic} annotation. If the annotation
             description = String.format("{%s} %s", upstream.getClassName(), description).trim();
         }
         return description.length() > 0 ? String.format(" Method is @Dynamic(%s).", description) : "";
-    }g describeInjector(IMixinContext mixin, AnnotationNode annotation, MethodNode method) {
-        return String.format("%s->@%s::%s%s", mixin.toString(), Annotations.getSimpleName(annotation), MethodNodeEx.getName(method), method.desc);
-    }   /**
+    }
+
+    /**
      * Decoration for subclasses which indicates the injector annotation that
      * the subclass handles
      */
@@ -731,7 +712,15 @@ et info from a decorating {@link Dynamic} annotation. If the annotation
          */
         public Class<? extends Annotation> value();
 
-    } class. public @interface HandlerPrefix {
+    }
+
+    /**
+     * Decoration for subclasses which specifies the prefix to use when
+     * conforming annotated handler methods
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @java.lang.annotation.Target(ElementType.TYPE)
+    public @interface HandlerPrefix {
 
         /**
          * String prefix for conforming handler methods
@@ -739,8 +728,7 @@ et info from a decorating {@link Dynamic} annotation. If the annotation
         public String value();
 
     }
-/**
-     * R
+
     /**
      * An injector registration entry
      */
@@ -781,10 +769,6 @@ et info from a decorating {@link Dynamic} annotation. If the annotation
             }
         }
     }
-     * with an {@link AnnotationType} annotation for registration purposes.
-     * 
-     * @param type injection info subclass to register
-     */
 
     /**
      * Selected target, paired with the selector which identified it
@@ -809,15 +793,6 @@ et info from a decorating {@link Dynamic} annotation. If the annotation
             return this.root != null ? this.root : this.selector;
         }
 
-    }
-    
-    public stati
-
-class must be decorated
-
-    /**
-  c Set<Class<? extends Annotation>> getRegisteredAnnotations() {
-        return ImmutableSet.<Class<? extends Annotation>>copyOf(InjectionInfo.registeredAnnotations);
     }
 
 }

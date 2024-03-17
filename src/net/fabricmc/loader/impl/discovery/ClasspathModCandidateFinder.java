@@ -88,13 +88,13 @@ public class ClasspathModCandidateFinder implements ModCandidateFinder {
 
 			// Search for URLs which point to 'fabric.mod.json' entries, to be considered as mods.
 			try {
-				Enumeration<URL> mods = Launch.knotLoader.getClassLoader().getResources("fabric.mod.json");
+				Enumeration<URL> mods = Launch.knotLoader.getClassLoader().getResources("fml.mod.json");
 
 				while (mods.hasMoreElements()) {
 					URL url = mods.nextElement();
 
 					try {
-						Path path = LoaderUtil.normalizeExistingPath(UrlUtil.getCodeSource(url, "fabric.mod.json"));
+						Path path = LoaderUtil.normalizeExistingPath(UrlUtil.getCodeSource(url, "fml.mod.json"));
 						List<Path> paths = pathGroups.get(path);
 
 						if (paths == null) {

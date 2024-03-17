@@ -13,7 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerEntrypointMixin {
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lnet/minecraft/DedicatedServer;startServerThread()V", shift = At.Shift.BEFORE))
     private static void injectMain(CallbackInfo callbackInfo){
-        FishModLoader.invokeEntrypoints("main", ModInitializer.class, ModInitializer::onInitialize);
+        FishModLoader.invokeEntrypoints("main", ModInitializer.class, modInitializer -> {
+            modInitializer.createConfig().ifPresent(configRegistry -> {
+                FishModLoader.addConfigRegistry(configRegistry);
+                configRegistry.reloadConfig();
+            });
+            modInitializer.onInitialize();
+        });
         FishModLoader.invokeEntrypoints("server", DedicatedServerModInitializer.class, DedicatedServerModInitializer::onInitializeServer);
     }
 }

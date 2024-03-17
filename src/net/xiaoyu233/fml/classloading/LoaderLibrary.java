@@ -16,6 +16,7 @@
 
 package net.xiaoyu233.fml.classloading;
 
+import com.google.gson.Gson;
 import net.fabricmc.accesswidener.AccessWidener;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.impl.util.UrlConversionException;
@@ -45,6 +46,7 @@ public enum LoaderLibrary {
 	ASM_UTIL(CheckClassAdapter.class),
 	SAT4J_CORE(ContradictionException.class),
 	SAT4J_PB(SolverFactory.class),
+	GSON(Gson.class),
 	SERVER_LAUNCH("fabric-server-launch.properties", EnvType.SERVER), // installer generated jar to run setup loader's class path
 	SERVER_LAUNCHER("net/fabricmc/installer/ServerLauncher.class", EnvType.SERVER), // installer based launch-through method
 	JUNIT_API("org/junit/jupiter/api/Test.class", null),
@@ -54,8 +56,8 @@ public enum LoaderLibrary {
 	FABRIC_LOADER_JUNIT("net/fabricmc/loader/impl/junit/FabricLoaderLauncherSessionListener.class", null),
 
 	// Logging libraries are only loaded from the platform CL when running as a unit test.
-	LOG4J_API("org/apache/logging/log4j/LogManager.class", true),
-	LOG4J_CORE("META-INF/services/org.apache.logging.log4j.spi.Provider", true),
+	LOG4J_API("org/apache/logging/log4j/Logger.class", false),
+	LOG4J_CORE("META-INF/services/org.apache.logging.log4j.spi.Provider",false),
 	LOG4J_CONFIG("log4j2.xml", true),
 	LOG4J_PLUGIN_3("net/minecrell/terminalconsole/util/LoggerNamePatternSelector.class", true),
 	GUAVA("com/google/common/collect/ForwardingMap.class" ,false), // used by log4j plugins
