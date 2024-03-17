@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: net.xiaoyu233.fml.relaunch.client.Main
-
+Implementation-Version: 0.8.5
+Agent-Class: org.spongepowered.tools.agent.MixinAgent
