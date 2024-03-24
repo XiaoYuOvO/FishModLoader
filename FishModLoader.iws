@@ -26,59 +26,44 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Cheat the MCDevPlugin">
-      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersionImpl_v0_8.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersionImpl_v0_8_3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersionImpl_v0_8_4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/DevLaunchInjector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRendererRegistryEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEquipmentMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockFireMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRendererRegisterMixin.java" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="3.1.0">
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_es.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_ja_JP.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_vi_VN.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_zh_CN.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_zh_TW.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/InitClassMaker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModCandidate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/MixinConfigCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/fabric_x8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_error_x8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_info_x8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_warn_x8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/fabric_x128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/fabric_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/file_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/folder_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/jar_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/java_class_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/java_package_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/json_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/lesser_cross_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_error_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_info_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_warn_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/missing_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/package_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ui/icon/tick_x16.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/CompatibilityHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/CompatibilityHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/versions/MixinVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fishmodloader.accesswidener" beforeDir="false" afterPath="$PROJECT_DIR$/src/fishmodloader.accesswidener" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/api/ModInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/api/ModInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/api/entrypoint/PreLaunchEntrypoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/api/entrypoint/PreLaunchEntrypoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ArgumentModCandidateFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ArgumentModCandidateFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ClasspathModCandidateFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ClasspathModCandidateFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/AbstractMod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/IngotItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjectionExtension.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/asm/InterfaceInjector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/KnotClassDelegate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/KnotClassDelegate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LoaderLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/LoaderLibrary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/InjectionConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/ClassTracker.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/ContainerHandle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/MixinAuditTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/PlatformAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/mixin/service/TransformerWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migrate.tiny" beforeDir="false" afterPath="$PROJECT_DIR$/src/migrate.tiny" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricGuiEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricGuiEntry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchClassBlocker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchClassBlocker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/MinecraftTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ClientEntrypointMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ClientEntrypointMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ServerEntrypointMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ServerEntrypointMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimit2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimit2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimited.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/FpsUnlimited.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumConstructor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ModInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ReflectHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/ReflectHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/UIUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/LocalVariableDiscriminator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/modify/LocalVariableDiscriminator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/mixin/injection/struct/InjectionInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/service/MixinService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Annotations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/spongepowered/asm/util/Annotations.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -157,41 +142,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Client.executor": "Run",
-    "Application.ModRemapper.executor": "Run",
-    "Application.Server.executor": "Run",
-    "Downloaded.Files.Path": "H:\\IDEAProjects\\FishModLoader\\libs",
-    "Downloaded.Files.Path.Enabled": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "H:/IDEAProjects/FishModLoader/src/com/llamalad7/mixinextras/versions",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.1515625",
-    "project.structure.side.proportion": "0.15668203",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ModRemapper.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path&quot;: &quot;H:\\IDEAProjects\\FishModLoader\\libs&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/IDEAProjects/FishModLoader/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.1515625&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.15668203&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JAVA"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JAVA&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -203,11 +188,11 @@
       <recent name="net.xiaoyu233.fml.util" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\IDEAProjects\FishModLoader\src" />
       <recent name="H:\IDEAProjects\FishModLoader\src\com\llamalad7\mixinextras\versions" />
       <recent name="H:\IDEAProjects\FishModLoader\libs" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\classloading" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\api" />
-      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\util\version" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="H:\IDEAProjects\FishModLoader\src\com\llamalad7\mixinextras\versions" />
@@ -433,7 +418,13 @@
       <workItem from="1710573527723" duration="11590000" />
       <workItem from="1710659553521" duration="140000" />
       <workItem from="1710662158116" duration="819000" />
-      <workItem from="1710662986057" duration="11448000" />
+      <workItem from="1710662986057" duration="12709000" />
+      <workItem from="1710727643681" duration="1260000" />
+      <workItem from="1710855184346" duration="2457000" />
+      <workItem from="1710940188273" duration="2210000" />
+      <workItem from="1711101721643" duration="6437000" />
+      <workItem from="1711180831557" duration="3412000" />
+      <workItem from="1711263691180" duration="1028000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -673,7 +664,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710662931441</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="3.0.0 release!">
+      <option name="closed" value="true" />
+      <created>1710689872394</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1710689872394</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -703,8 +702,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix Crash" />
-    <MESSAGE value="Fix Crash again" />
     <MESSAGE value="Fix crash by using &quot;this&quot; to refer a field in super class. &#10;Fix cannot find source jar path." />
     <MESSAGE value="Change Version Number" />
     <MESSAGE value="Fix some problems" />
@@ -728,7 +725,9 @@
     <MESSAGE value="Update readme" />
     <MESSAGE value="3.0.0 preview" />
     <MESSAGE value="Cheat the MCDevPlugin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cheat the MCDevPlugin" />
+    <MESSAGE value="3.0.0 release!" />
+    <MESSAGE value="3.1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="3.1.0" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -818,6 +817,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="288" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java</url>
+          <line>439</line>
+          <properties class="net.fabricmc.loader.impl.discovery.ModDiscoverer.ModScanTask" method="computeJarStream">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="353" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>

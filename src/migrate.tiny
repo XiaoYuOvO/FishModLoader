@@ -3250,16 +3250,16 @@ c	net/minecraft/EnchantmentProtection	net/minecraft/EnchantmentProtection
 	m	(Lnet/minecraft/Entity;D)D	func_92092_a	func_92092_a
 	m	(Lnet/minecraft/Entity;I)I	getFireTimeForEntity	getFireTimeForEntity
 c	net/minecraft/EnchantmentQuickness	net/minecraft/EnchantmentQuickness
-c	net/minecraft/EnchantmentRarity	net/minecraft/EnumRarity
-	f	Lnet/minecraft/EnchantmentRarity;	a	common
-	f	Lnet/minecraft/EnchantmentRarity;	b	uncommon
-	f	Lnet/minecraft/EnchantmentRarity;	c	rare
-	f	Lnet/minecraft/EnchantmentRarity;	d	epic
+c	net/minecraft/yq	net/minecraft/EnumRarity
+	f	Lnet/minecraft/yq;	a	common
+	f	Lnet/minecraft/yq;	b	uncommon
+	f	Lnet/minecraft/yq;	c	rare
+	f	Lnet/minecraft/yq;	d	epic
 	f	I	e	rarityColor
 	f	Ljava/lang/String;	f	rarityName
-	f	[Lnet/minecraft/EnchantmentRarity;	g	$VALUES
-	m	(Ljava/lang/String;)Lnet/minecraft/EnchantmentRarity;	valueOf	valueOf
-	m	()[Lnet/minecraft/EnchantmentRarity;	values	values
+	f	[Lnet/minecraft/yq;	g	$VALUES
+	m	(Ljava/lang/String;)Lnet/minecraft/yq;	valueOf	valueOf
+	m	()[Lnet/minecraft/yq;	values	values
 c	net/minecraft/EnchantmentRegeneration	net/minecraft/EnchantmentRegeneration
 c	net/minecraft/EnchantmentSilkTouch	net/minecraft/EnchantmentUntouching
 	m	(Lnet/minecraft/Enchantment;)Z	canApplyTogether	canApplyTogether
@@ -5639,7 +5639,7 @@ c	net/minecraft/GroupDataZombie	net/minecraft/EntityZombieGroupData
 	f	Z	field_142046_b	field_142046_b
 	f	Lnet/minecraft/EntityZombie;	field_142047_c	field_142047_c
 	f	Z	field_142048_a	field_142048_a
-c	net/minecraft/GuiBeacon	net/minecraft/GuiBeacon
+c	net/minecraft/axa	net/minecraft/GuiBeacon
 	f	Lnet/minecraft/bjo;	t	beaconGuiTextures
 	f	Lnet/minecraft/TileEntityBeacon;	u	beacon
 	f	Lnet/minecraft/axc;	v	beaconConfirmButton
@@ -5680,7 +5680,7 @@ c	net/minecraft/GuiIngame	net/minecraft/GuiIngame
 	m	()I	c	getUpdateCounter
 	m	()V	d	renderBossHealth
 c	net/minecraft/GuiMITEDS	net/minecraft/GuiMITEDS
-c	net/minecraft/GuiMainMenu	net/minecraft/GuiMainMenu
+c	net/minecraft/blt	net/minecraft/GuiMainMenu
 	f	I	A	field_92024_r
 	f	I	B	field_92023_s
 	f	I	C	field_92022_t
@@ -5726,7 +5726,7 @@ c	net/minecraft/GuiMainMenu	net/minecraft/GuiMainMenu
 	m	()V	g	func_130020_g
 	m	()V	h	func_130022_h
 	m	()V	i	func_140005_i
-c	net/minecraft/GuiScreen	net/minecraft/GuiScreen
+c	net/minecraft/awe	net/minecraft/GuiScreen
 	f	Lnet/minecraft/aut;	a	selectedButton
 	f	I	b	eventButton
 	f	J	c	lastMouseEvent
@@ -5760,7 +5760,7 @@ c	net/minecraft/GuiScreen	net/minecraft/GuiScreen
 	m	()Z	o	isCtrlKeyDown
 	m	()Z	p	isShiftKeyDown
 c	net/minecraft/GuiSelectWorld	net/minecraft/GuiSelectWorld
-	f	Lnet/minecraft/GuiScreen;	a	parentScreen
+	f	Lnet/minecraft/awe;	a	parentScreen
 	f	Ljava/lang/String;	b	screenTitle
 	f	Ljava/text/DateFormat;	c	dateFormatter
 	f	Z	d	selected
@@ -6413,7 +6413,7 @@ c	net/minecraft/Item	net/minecraft/Item
 	m	()Z	canItemEditBlocks	canItemEditBlocks
 	m	(Lnet/minecraft/ItemStack;)Z	doesContainerItemLeaveCraftingGrid	doesContainerItemLeaveCraftingGrid
 	m	(Lnet/minecraft/ItemStack;)Z	e	hasEffect
-	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/EnchantmentRarity;	f	getRarity
+	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/yq;	f	getRarity
 	m	()Lnet/minecraft/Item;	getContainerItem	getContainerItem
 	m	()Z	getHasSubtypes	getHasSubtypes
 	m	()Lcom/google/common/collect/Multimap;	getItemAttributeModifiers	getItemAttributeModifiers
@@ -6502,7 +6502,7 @@ c	net/minecraft/ItemBow	net/minecraft/ItemBow
 c	net/minecraft/ItemBowl	net/minecraft/ItemBowl
 c	net/minecraft/ItemBrick	net/minecraft/ItemBrick
 c	net/minecraft/ItemBucket	net/minecraft/ItemBucket
-c	net/minecraft/ItemBucketMilk	net/minecraft/ItemBucketMilk
+c	net/minecraft/yi	net/minecraft/ItemBucketMilk
 	m	(Lnet/minecraft/ItemStack;)I	getMaxItemUseDuration	getMaxItemUseDuration
 c	net/minecraft/ItemCarrotStick	net/minecraft/ItemCarrotOnAStick
 	m	()Z	n_	isFull3D
@@ -6539,7 +6539,7 @@ c	net/minecraft/ItemEnchantedBook	net/minecraft/ItemEnchantedBook
 	m	(Lnet/minecraft/Enchantment;Ljava/util/List;)V	a	func_92113_a
 	m	(Lnet/minecraft/ItemStack;Lnet/minecraft/EnchantmentInstance;)V	addEnchantment	addEnchantment
 	m	(Lnet/minecraft/ItemStack;)Z	e	hasEffect
-	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/EnchantmentRarity;	f	getRarity
+	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/yq;	f	getRarity
 	m	(Ljava/util/Random;III)Lnet/minecraft/StructurePieceTreasure;	func_92112_a	func_92112_a
 	m	(Ljava/util/Random;)Lnet/minecraft/StructurePieceTreasure;	func_92114_b	func_92114_b
 	m	(Lnet/minecraft/EnchantmentInstance;)Lnet/minecraft/ItemStack;	getEnchantedItemStack	getEnchantedItemStack
@@ -6579,7 +6579,7 @@ c	net/minecraft/ItemGlassBottle	net/minecraft/ItemGlassBottle
 c	net/minecraft/ItemGoldenApple	net/minecraft/ItemAppleGold
 	m	(ILnet/minecraft/CreativeModeTab;Ljava/util/List;)V	a	getSubItems
 	m	(Lnet/minecraft/ItemStack;)Z	e	hasEffect
-	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/EnchantmentRarity;	f	getRarity
+	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/yq;	f	getRarity
 c	net/minecraft/ItemGravel	net/minecraft/ItemGravel
 c	net/minecraft/ItemHanging	net/minecraft/ItemHangingEntity
 	f	Ljava/lang/Class;	hangingEntityClass	hangingEntityClass
@@ -6645,7 +6645,7 @@ c	net/minecraft/ItemRecord	net/minecraft/ItemRecord
 	f	Ljava/lang/String;	recordName	recordName
 	f	Ljava/util/Map;	records	records
 	m	(Ljava/lang/String;)Lnet/minecraft/ItemRecord;	e	getRecord
-	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/EnchantmentRarity;	f	getRarity
+	m	(Lnet/minecraft/ItemStack;)Lnet/minecraft/yq;	f	getRarity
 	m	()Ljava/lang/String;	g	getRecordTitle
 c	net/minecraft/ItemRedstone	net/minecraft/ItemRedstone
 c	net/minecraft/ItemReed	net/minecraft/ItemReed
@@ -6726,7 +6726,7 @@ c	net/minecraft/ItemStack	net/minecraft/ItemStack
 	m	()Ljava/lang/String;	toString	toString
 	m	(Lnet/minecraft/World;Lnet/minecraft/Entity;IZ)V	updateAnimation	updateAnimation
 	m	()Z	v	hasEffect
-	m	()Lnet/minecraft/EnchantmentRarity;	w	getRarity
+	m	()Lnet/minecraft/yq;	w	getRarity
 	m	(Lnet/minecraft/NBTTagCompound;)Lnet/minecraft/NBTTagCompound;	writeToNBT	writeToNBT
 c	net/minecraft/ItemStep	net/minecraft/ItemSlab
 	f	Lnet/minecraft/BlockDoubleSlab;	doubleSlab	doubleSlab
@@ -7076,7 +7076,7 @@ c	net/minecraft/Minecraft	net/minecraft/Minecraft
 	f	Lnet/minecraft/beh;	k	effectRenderer
 	f	Lnet/minecraft/avi;	l	fontRenderer
 	f	Lnet/minecraft/avi;	m	standardGalacticFontRenderer
-	f	Lnet/minecraft/GuiScreen;	n	currentScreen
+	f	Lnet/minecraft/awe;	n	currentScreen
 	f	Lnet/minecraft/auo;	o	loadingScreen
 	f	Lnet/minecraft/EntityRenderer;	p	entityRenderer
 	f	Lnet/minecraft/awp;	q	guiAchievement
@@ -7113,7 +7113,7 @@ c	net/minecraft/Minecraft	net/minecraft/Minecraft
 	m	(II)V	a	resize
 	m	(Lnet/minecraft/bdm;)V	a	setServerData
 	m	(IIIIII)V	a	scaledTessellator
-	m	(Lnet/minecraft/GuiScreen;)V	a	displayGuiScreen
+	m	(Lnet/minecraft/awe;)V	a	displayGuiScreen
 	m	(Lnet/minecraft/bdd;)V	a	loadWorld
 	m	(Lnet/minecraft/bdd;Ljava/lang/String;)V	a	loadWorld
 	m	(Lnet/minecraft/Minecraft;)Ljava/lang/String;	a	getLaunchedVersion
@@ -7557,7 +7557,7 @@ c	net/minecraft/NetClientHandler	net/minecraft/NetClientHandler
 	f	Lnet/minecraft/bdd;	i	worldClient
 	f	Z	j	doneLoadingTerrain
 	f	Ljava/util/Map;	k	playerInfoMap
-	f	Lnet/minecraft/GuiScreen;	l	field_98183_l
+	f	Lnet/minecraft/awe;	l	field_98183_l
 	m	(I)Lnet/minecraft/Entity;	a	getEntityByID
 	m	(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;	a	sendSessionRequest
 	m	(Ljava/lang/String;)Ljava/lang/String;	a	urlEncode
@@ -12287,7 +12287,7 @@ c	net/minecraft/auu	net/minecraft/GuiNewChat
 c	net/minecraft/auv	net/minecraft/ScreenChatOptions
 	f	[Lnet/minecraft/aun;	a	allScreenChatOptions
 	f	[Lnet/minecraft/aun;	b	allMultiplayerOptions
-	f	Lnet/minecraft/GuiScreen;	c	theGuiScreen
+	f	Lnet/minecraft/awe;	c	theGuiScreen
 	f	Lnet/minecraft/aul;	d	theSettings
 	f	Ljava/lang/String;	e	theChatOptions
 	f	Ljava/lang/String;	p	field_82268_n
@@ -12320,7 +12320,7 @@ c	net/minecraft/auw	net/minecraft/GuiChat
 	m	()Z	f	doesGuiPauseGame
 	m	()V	y_	completePlayerName
 c	net/minecraft/aux	net/minecraft/GuiYesNo
-	f	Lnet/minecraft/GuiScreen;	a	parentScreen
+	f	Lnet/minecraft/awe;	a	parentScreen
 	f	Ljava/lang/String;	b	message1
 	f	Ljava/lang/String;	c	buttonText1
 	f	Ljava/lang/String;	d	buttonText2
@@ -12331,7 +12331,7 @@ c	net/minecraft/aux	net/minecraft/GuiYesNo
 	m	(Lnet/minecraft/aut;)V	a	actionPerformed
 c	net/minecraft/auy	net/minecraft/GuiControls
 	f	Ljava/lang/String;	a	screenTitle
-	f	Lnet/minecraft/GuiScreen;	b	parentScreen
+	f	Lnet/minecraft/awe;	b	parentScreen
 	f	Lnet/minecraft/aul;	c	options
 	f	I	d	buttonId
 	m	()V	A_	initGui
@@ -12383,7 +12383,7 @@ c	net/minecraft/avb	net/minecraft/GuiCreateWorld
 	f	Ljava/lang/String;	H	localizedNewWorldText
 	f	[Ljava/lang/String;	J	ILLEGAL_WORLD_NAMES
 	f	Ljava/lang/String;	a	generatorOptionsToUse
-	f	Lnet/minecraft/GuiScreen;	b	parentGuiScreen
+	f	Lnet/minecraft/awe;	b	parentGuiScreen
 	f	Lnet/minecraft/avf;	c	textboxWorldName
 	f	Lnet/minecraft/avf;	d	textboxSeed
 	f	Ljava/lang/String;	e	folderName
@@ -12427,7 +12427,7 @@ c	net/minecraft/avd	net/minecraft/GuiScreenDemo
 	m	()V	c	updateScreen
 	m	()V	e	drawDefaultBackground
 c	net/minecraft/ave	net/minecraft/GuiScreenServerList
-	f	Lnet/minecraft/GuiScreen;	a	guiScreen
+	f	Lnet/minecraft/awe;	a	guiScreen
 	f	Lnet/minecraft/bdm;	b	theServerData
 	f	Lnet/minecraft/avf;	c	serverTextField
 	m	()V	A_	initGui
@@ -12491,7 +12491,7 @@ c	net/minecraft/avf	net/minecraft/GuiTextField
 	m	()I	o	getWidth
 	m	()Z	q	getVisible
 c	net/minecraft/avg	net/minecraft/GuiScreenAddServer
-	f	Lnet/minecraft/GuiScreen;	a	parentGui
+	f	Lnet/minecraft/awe;	a	parentGui
 	f	Lnet/minecraft/avf;	b	serverAddress
 	f	Lnet/minecraft/avf;	c	serverName
 	f	Lnet/minecraft/bdm;	d	newServerData
@@ -12601,7 +12601,7 @@ c	net/minecraft/avn	net/minecraft/GuiMultiplayer
 	f	Ljava/util/List;	D	listofLanServers
 	f	I	a	threadsPending
 	f	Ljava/lang/Object;	b	lock
-	f	Lnet/minecraft/GuiScreen;	c	parentScreen
+	f	Lnet/minecraft/awe;	c	parentScreen
 	f	Lnet/minecraft/avo;	d	serverSlotContainer
 	f	Lnet/minecraft/bdn;	e	internetServerList
 	f	I	p	selectedServer
@@ -12660,7 +12660,7 @@ c	net/minecraft/avp	net/minecraft/ThreadPollServers
 c	net/minecraft/avq	net/minecraft/GuiButtonLanguage
 	m	(Lnet/minecraft/Minecraft;II)V	a	drawButton
 c	net/minecraft/avr	net/minecraft/GuiLanguage
-	f	Lnet/minecraft/GuiScreen;	a	parentGui
+	f	Lnet/minecraft/awe;	a	parentGui
 	f	Lnet/minecraft/avs;	b	languageList
 	f	Lnet/minecraft/aul;	c	theGameSettings
 	f	Lnet/minecraft/bkd;	d	field_135014_d
@@ -12693,7 +12693,7 @@ c	net/minecraft/avv	net/minecraft/MapItemRenderer
 c	net/minecraft/avw	net/minecraft/GuiOptions
 	f	Ljava/lang/String;	a	screenTitle
 	f	[Lnet/minecraft/aun;	b	relevantOptions
-	f	Lnet/minecraft/GuiScreen;	c	parentScreen
+	f	Lnet/minecraft/awe;	c	parentScreen
 	f	Lnet/minecraft/aul;	d	options
 	m	()V	A_	initGui
 	m	(IIF)V	a	drawScreen
@@ -12751,7 +12751,7 @@ c	net/minecraft/awb	net/minecraft/GuiFlatPresetsListSlot
 	m	()V	b	drawBackground
 	m	(II)V	e	func_82456_d
 c	net/minecraft/awd	net/minecraft/GuiRenameWorld
-	f	Lnet/minecraft/GuiScreen;	a	parentGuiScreen
+	f	Lnet/minecraft/awe;	a	parentGuiScreen
 	f	Lnet/minecraft/avf;	b	theGuiTextField
 	f	Ljava/lang/String;	c	worldName
 	m	()V	A_	initGui
@@ -12773,7 +12773,7 @@ c	net/minecraft/awf	net/minecraft/ScaledResolution
 	m	()D	d	getScaledHeight_double
 	m	()I	e	getScaleFactor
 c	net/minecraft/awj	net/minecraft/GuiShareToLan
-	f	Lnet/minecraft/GuiScreen;	a	parentScreen
+	f	Lnet/minecraft/awe;	a	parentScreen
 	f	Lnet/minecraft/aut;	b	buttonAllowCommandsToggle
 	f	Lnet/minecraft/aut;	c	buttonGameMode
 	f	Ljava/lang/String;	d	gameMode
@@ -12794,7 +12794,7 @@ c	net/minecraft/awl	net/minecraft/GuiSmallButton
 	f	Lnet/minecraft/aun;	o	enumOptions
 	m	()Lnet/minecraft/aun;	b	returnEnumOptions
 c	net/minecraft/awm	net/minecraft/GuiSnooper
-	f	Lnet/minecraft/GuiScreen;	a	snooperGuiScreen
+	f	Lnet/minecraft/awe;	a	snooperGuiScreen
 	f	Lnet/minecraft/aul;	b	snooperGameSettings
 	f	Ljava/util/List;	c	field_74098_c
 	f	Ljava/util/List;	d	field_74096_d
@@ -12817,7 +12817,7 @@ c	net/minecraft/awn	net/minecraft/GuiSnooperList
 	m	()I	c	getScrollBarX
 c	net/minecraft/awo	net/minecraft/GuiVideoSettings
 	f	Ljava/lang/String;	a	screenTitle
-	f	Lnet/minecraft/GuiScreen;	b	parentGuiScreen
+	f	Lnet/minecraft/awe;	b	parentGuiScreen
 	f	Lnet/minecraft/aul;	c	guiGameSettings
 	f	Z	d	is64bit
 	f	[Lnet/minecraft/aun;	e	videoOptions
@@ -12866,7 +12866,7 @@ c	net/minecraft/awq	net/minecraft/GuiAchievements
 	m	()Z	f	doesGuiPauseGame
 	m	()V	g	drawTitle
 c	net/minecraft/awr	net/minecraft/GuiStats
-	f	Lnet/minecraft/GuiScreen;	a	parentGui
+	f	Lnet/minecraft/awe;	a	parentGui
 	f	Ljava/lang/String;	b	statsTitle
 	f	Lnet/minecraft/bgw;	c	renderItem
 	f	Lnet/minecraft/awu;	d	slotGeneral
@@ -13016,13 +13016,13 @@ c	net/minecraft/awz	net/minecraft/GuiRepair
 	m	(Lnet/minecraft/Container;ILnet/minecraft/ItemStack;)V	sendSlotContents	sendSlotContents
 	m	(Lnet/minecraft/Container;Ljava/util/List;)V	updateCraftingInventory	sendContainerAndContentsToPlayer
 c	net/minecraft/axb	net/minecraft/GuiBeaconButtonCancel
-	f	Lnet/minecraft/GuiBeacon;	o	beaconGui
+	f	Lnet/minecraft/axa;	o	beaconGui
 	m	(II)V	b	func_82251_b
 c	net/minecraft/axc	net/minecraft/GuiBeaconButtonConfirm
-	f	Lnet/minecraft/GuiBeacon;	o	beaconGui
+	f	Lnet/minecraft/axa;	o	beaconGui
 	m	(II)V	b	func_82251_b
 c	net/minecraft/axd	net/minecraft/GuiBeaconButtonPower
-	f	Lnet/minecraft/GuiBeacon;	o	beaconGui
+	f	Lnet/minecraft/axa;	o	beaconGui
 	f	I	p	field_82261_l
 	f	I	q	field_82262_m
 	m	(II)V	b	func_82251_b
@@ -13305,14 +13305,14 @@ c	net/minecraft/ayd	net/minecraft/GuiScreenBackupRestoreTask
 	f	Lnet/minecraft/bag;	c	theBackup
 	m	()V	run	run
 c	net/minecraft/aye	net/minecraft/GuiScreenClientOutdated
-	f	Lnet/minecraft/GuiScreen;	a	previousScreen
+	f	Lnet/minecraft/awe;	a	previousScreen
 	m	()V	A_	initGui
 	m	(CI)V	a	keyTyped
 	m	(IIF)V	a	drawScreen
 	m	(Lnet/minecraft/aut;)V	a	actionPerformed
 c	net/minecraft/ayf	net/minecraft/GuiScreenConfigureWorld
 	f	Z	A	field_102020_y
-	f	Lnet/minecraft/GuiScreen;	a	field_96285_a
+	f	Lnet/minecraft/awe;	a	field_96285_a
 	f	Lnet/minecraft/bak;	b	field_96280_b
 	f	Lnet/minecraft/ayg;	c	field_96282_c
 	f	I	d	field_96277_d
@@ -13360,7 +13360,7 @@ c	net/minecraft/ayg	net/minecraft/SelectionListInvited
 	m	()I	b	func_96613_b
 	m	()V	c	func_96611_c
 c	net/minecraft/ayh	net/minecraft/GuiScreenCreateOnlineWorld
-	f	Lnet/minecraft/GuiScreen;	a	field_96260_a
+	f	Lnet/minecraft/awe;	a	field_96260_a
 	f	Lnet/minecraft/avf;	b	field_96257_c
 	f	Lnet/minecraft/avf;	c	field_96255_b
 	f	Ljava/lang/String;	d	field_98108_c
@@ -13379,7 +13379,7 @@ c	net/minecraft/ayh	net/minecraft/GuiScreenCreateOnlineWorld
 	m	(Lnet/minecraft/bat;)V	a	func_110355_a
 	m	(Lnet/minecraft/aut;)V	a	actionPerformed
 	m	(Lnet/minecraft/ayh;)Lnet/minecraft/Minecraft;	a	func_96248_a
-	m	(Lnet/minecraft/ayh;)Lnet/minecraft/GuiScreen;	b	func_96247_b
+	m	(Lnet/minecraft/ayh;)Lnet/minecraft/awe;	b	func_96247_b
 	m	()V	b	onGuiClosed
 	m	(Lnet/minecraft/ayh;)Lnet/minecraft/Minecraft;	c	func_96246_c
 	m	()V	c	updateScreen
@@ -13400,14 +13400,14 @@ c	net/minecraft/ayj	net/minecraft/GuiScreenDisconnectedOnline
 	f	Ljava/lang/String;	b	field_98111_b
 	f	[Ljava/lang/Object;	c	field_98112_c
 	f	Ljava/util/List;	d	field_98110_d
-	f	Lnet/minecraft/GuiScreen;	e	field_98114_n
+	f	Lnet/minecraft/awe;	e	field_98114_n
 	m	()V	A_	initGui
 	m	(CI)V	a	keyTyped
 	m	(IIF)V	a	drawScreen
 	m	(Lnet/minecraft/aut;)V	a	actionPerformed
 c	net/minecraft/ayk	net/minecraft/GuiScreenEditOnlineWorld
-	f	Lnet/minecraft/GuiScreen;	a	field_96204_a
-	f	Lnet/minecraft/GuiScreen;	b	field_96202_b
+	f	Lnet/minecraft/awe;	a	field_96204_a
+	f	Lnet/minecraft/awe;	b	field_96202_b
 	f	Lnet/minecraft/avf;	c	field_96203_c
 	f	Lnet/minecraft/avf;	d	field_96201_d
 	f	Lnet/minecraft/bak;	e	field_96205_n
@@ -13427,7 +13427,7 @@ c	net/minecraft/ayk	net/minecraft/GuiScreenEditOnlineWorld
 c	net/minecraft/ayn	net/minecraft/GuiScreenInvite
 	f	Lnet/minecraft/avf;	a	field_96227_a
 	f	Lnet/minecraft/bak;	b	field_96223_b
-	f	Lnet/minecraft/GuiScreen;	c	field_96224_c
+	f	Lnet/minecraft/awe;	c	field_96224_c
 	f	Lnet/minecraft/ayf;	d	field_96222_d
 	f	I	e	field_96228_n
 	f	I	p	field_96229_o
@@ -13443,7 +13443,7 @@ c	net/minecraft/ayn	net/minecraft/GuiScreenInvite
 	m	()V	b	onGuiClosed
 	m	()V	c	updateScreen
 c	net/minecraft/ayo	net/minecraft/GuiScreenConfirmation
-	f	Lnet/minecraft/GuiScreen;	a	field_140048_a
+	f	Lnet/minecraft/awe;	a	field_140048_a
 	f	Ljava/lang/String;	b	field_140046_b
 	f	Ljava/lang/String;	c	field_140047_c
 	f	I	d	field_140044_d
@@ -13463,7 +13463,7 @@ c	net/minecraft/ayp	net/minecraft/GuiScreenConfirmationType
 c	net/minecraft/ayq	net/minecraft/GuiScreenLongRunningTask
 	f	[Ljava/lang/String;	a	PROGRESS_TEXT
 	f	I	b	field_96213_b
-	f	Lnet/minecraft/GuiScreen;	c	previousScreen
+	f	Lnet/minecraft/awe;	c	previousScreen
 	f	Ljava/lang/Thread;	d	taskThread
 	f	Ljava/lang/String;	e	message
 	f	Z	p	taskFailed
@@ -13595,12 +13595,12 @@ c	net/minecraft/ayw	net/minecraft/SelectionListBase
 c	net/minecraft/ayx	net/minecraft/TaskOnlineConnect
 	f	Lnet/minecraft/NetClientHandler;	a	field_96586_a
 	f	Lnet/minecraft/bak;	c	field_96585_c
-	f	Lnet/minecraft/GuiScreen;	d	field_96584_d
+	f	Lnet/minecraft/awe;	d	field_96584_d
 	m	(I)V	a	func_111251_a
 	m	()V	a	updateScreen
 	m	(Ljava/lang/String;I)V	a	func_96582_a
 	m	(Lnet/minecraft/ayx;Lnet/minecraft/NetClientHandler;)Lnet/minecraft/NetClientHandler;	a	func_96583_a
-	m	(Lnet/minecraft/ayx;)Lnet/minecraft/GuiScreen;	a	func_98172_a
+	m	(Lnet/minecraft/ayx;)Lnet/minecraft/awe;	a	func_98172_a
 	m	(Lnet/minecraft/ayx;)Lnet/minecraft/NetClientHandler;	b	func_96580_a
 	m	()V	run	run
 c	net/minecraft/ayy	net/minecraft/ThreadOnlineConnect
@@ -13611,7 +13611,7 @@ c	net/minecraft/ayy	net/minecraft/ThreadOnlineConnect
 c	net/minecraft/ayz	net/minecraft/GuiScreenOnlineServers
 	f	I	A	field_104044_y
 	f	Lnet/minecraft/bjo;	a	field_130039_a
-	f	Lnet/minecraft/GuiScreen;	b	field_96188_a
+	f	Lnet/minecraft/awe;	b	field_96188_a
 	f	Lnet/minecraft/azb;	c	field_96186_b
 	f	I	d	field_96187_c
 	f	Ljava/lang/Object;	e	field_96185_d
@@ -13710,14 +13710,14 @@ c	net/minecraft/azd	net/minecraft/GuiScreenOnlineServersSubscreen
 	f	I	h	field_104081_h
 	f	I	i	field_104082_i
 	f	I	j	field_104080_j
-	m	(Lnet/minecraft/GuiScreen;Lnet/minecraft/avi;)V	a	func_104071_a
+	m	(Lnet/minecraft/awe;Lnet/minecraft/avi;)V	a	func_104071_a
 	m	()V	a	func_104068_a
 	m	(Lnet/minecraft/aut;)V	a	func_104069_a
 	m	()V	b	func_104070_b
 	m	()Ljava/lang/String;	c	func_104072_c
 	m	()Ljava/lang/String;	d	func_104067_d
 c	net/minecraft/aze	net/minecraft/GuiScreenPendingInvitation
-	f	Lnet/minecraft/GuiScreen;	a	field_130061_a
+	f	Lnet/minecraft/awe;	a	field_130061_a
 	f	Lnet/minecraft/azi;	b	field_130059_b
 	f	Ljava/util/List;	c	field_130060_c
 	f	I	d	field_130058_d
@@ -13802,7 +13802,7 @@ c	net/minecraft/azm	net/minecraft/McoServerListUpdateTaskComparator
 	m	(Lnet/minecraft/bak;Lnet/minecraft/bak;)I	a	func_140068_a
 	m	(Ljava/lang/Object;Ljava/lang/Object;)I	compare	compare
 c	net/minecraft/azn	net/minecraft/GuiScreenResetWorld
-	f	Lnet/minecraft/GuiScreen;	a	field_96152_a
+	f	Lnet/minecraft/awe;	a	field_96152_a
 	f	Lnet/minecraft/bak;	b	field_96150_b
 	f	Lnet/minecraft/avf;	c	field_96151_c
 	f	I	d	field_96149_d
@@ -13818,7 +13818,7 @@ c	net/minecraft/azn	net/minecraft/GuiScreenResetWorld
 	m	(Ljava/lang/Object;)V	a	func_110354_a
 	m	(Lnet/minecraft/bat;)V	a	func_110358_a
 	m	(Lnet/minecraft/aut;)V	a	actionPerformed
-	m	(Lnet/minecraft/azn;)Lnet/minecraft/GuiScreen;	a	func_96148_a
+	m	(Lnet/minecraft/azn;)Lnet/minecraft/awe;	a	func_96148_a
 	m	(Lnet/minecraft/azn;)Lnet/minecraft/Minecraft;	b	func_96147_b
 	m	()V	b	onGuiClosed
 	m	(Lnet/minecraft/azn;)Lnet/minecraft/Minecraft;	c	func_130025_c
@@ -13834,7 +13834,7 @@ c	net/minecraft/azo	net/minecraft/TaskResetWorld
 c	net/minecraft/azp	net/minecraft/ScreenWithCallback
 	m	(Ljava/lang/Object;)V	a	func_110354_a
 c	net/minecraft/azq	net/minecraft/GuiScreenSubscription
-	f	Lnet/minecraft/GuiScreen;	a	field_98067_a
+	f	Lnet/minecraft/awe;	a	field_98067_a
 	f	Lnet/minecraft/bak;	b	field_98065_b
 	f	I	c	field_98066_c
 	f	I	d	field_98064_d
@@ -14387,7 +14387,7 @@ c	net/minecraft/bcx	net/minecraft/GuiConfirmOpenLink
 c	net/minecraft/bcy	net/minecraft/GuiConnecting
 	f	Lnet/minecraft/NetClientHandler;	a	clientHandler
 	f	Z	b	cancelled
-	f	Lnet/minecraft/GuiScreen;	c	field_98098_c
+	f	Lnet/minecraft/awe;	c	field_98098_c
 	m	()V	A_	initGui
 	m	(CI)V	a	keyTyped
 	m	(IIF)V	a	drawScreen
@@ -14399,7 +14399,7 @@ c	net/minecraft/bcy	net/minecraft/GuiConnecting
 	m	(Lnet/minecraft/bcy;)Lnet/minecraft/Minecraft;	c	func_74254_c
 	m	()V	c	updateScreen
 	m	(Lnet/minecraft/bcy;)Lnet/minecraft/NetClientHandler;	d	getNetClientHandler
-	m	(Lnet/minecraft/bcy;)Lnet/minecraft/GuiScreen;	e	func_98097_e
+	m	(Lnet/minecraft/bcy;)Lnet/minecraft/awe;	e	func_98097_e
 	m	(Lnet/minecraft/bcy;)Lnet/minecraft/Minecraft;	f	func_74250_f
 	m	(Lnet/minecraft/bcy;)Lnet/minecraft/Minecraft;	g	func_74251_g
 	m	(Lnet/minecraft/bcy;)Lnet/minecraft/Minecraft;	h	func_98096_h
@@ -14413,7 +14413,7 @@ c	net/minecraft/bda	net/minecraft/GuiDisconnected
 	f	Ljava/lang/String;	b	errorDetail
 	f	[Ljava/lang/Object;	c	field_74247_c
 	f	Ljava/util/List;	d	field_74245_d
-	f	Lnet/minecraft/GuiScreen;	e	field_98095_n
+	f	Lnet/minecraft/awe;	e	field_98095_n
 	m	()V	A_	initGui
 	m	(CI)V	a	keyTyped
 	m	(IIF)V	a	drawScreen
@@ -16231,7 +16231,7 @@ c	net/minecraft/bjy	net/minecraft/SimpleResource
 	m	(Ljava/lang/Object;)Z	equals	equals
 	m	()I	hashCode	hashCode
 c	net/minecraft/bjz	net/minecraft/GuiScreenTemporaryResourcePackSelect
-	f	Lnet/minecraft/GuiScreen;	a	field_110347_a
+	f	Lnet/minecraft/awe;	a	field_110347_a
 	f	I	b	refreshTimer
 	f	Lnet/minecraft/bka;	c	field_110346_c
 	f	Lnet/minecraft/aul;	d	field_96146_n

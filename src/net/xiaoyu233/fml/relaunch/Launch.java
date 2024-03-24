@@ -4,7 +4,10 @@ import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.fabricmc.loader.impl.FormattedException;
 import net.fabricmc.loader.impl.discovery.ModResolutionException;
+import net.fabricmc.loader.impl.gui.FabricGuiEntry;
 import net.fabricmc.loader.impl.util.Arguments;
+import net.fabricmc.loader.impl.util.log.Log;
+import net.fabricmc.loader.impl.util.log.LogCategory;
 import net.fabricmc.tinyremapper.IMappingProvider;
 import net.fabricmc.tinyremapper.TinyUtils;
 import net.xiaoyu233.fml.FishModLoader;
@@ -16,10 +19,7 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.platform.MixinPlatformManager;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -34,9 +34,11 @@ public class Launch {
 
    //All these things are happened in AppClassLoader, REMEMBER THIS!
    public static void launch(KnotClassLoaderInterface knotInterface, String mainClass, String[] args, boolean server, Path gameJarPath) throws IOException, ClassNotFoundException, NoSuchMethodException, ModResolutionException {
+      setupUncaughtExceptionHandler();
       knotLoader = knotInterface;
       arguments = new Arguments();
       arguments.parse(args);
+      FishModLoader.setIsServer(server);
       seekGameDir(args);
       //Use parent to prevent preloading
       Path remappedGameJarPath;
@@ -76,6 +78,40 @@ public class Launch {
          FishModLoader.LOGGER.error("Cannot launch minecraft", e);
       }
 
+   }
+
+   protected static void handleFormattedException(FormattedException exc) {
+      Throwable actualExc = exc.getMessage() != null ? exc : exc.getCause();
+      Log.error(LogCategory.GENERAL, exc.getMainText(), actualExc);
+      FabricGuiEntry.displayError(exc.getDisplayedText(), actualExc, true);
+      throw new AssertionError("exited");
+   }
+
+   protected static void setupUncaughtExceptionHandler() {
+      Thread mainThread = Thread.currentThread();
+      Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+         try {
+            if (e instanceof FormattedException) {
+               handleFormattedException((FormattedException) e);
+            } else {
+               String mainText = String.format("Uncaught exception in thread \"%s\"", t.getName());
+               Log.error(LogCategory.GENERAL, mainText, e);
+               if (Thread.currentThread() == mainThread) {
+                  FabricGuiEntry.displayError(mainText, e, false);
+               }
+            }
+         } catch (Throwable e2) { // just in case
+            e.addSuppressed(e2);
+
+            try {
+               e.printStackTrace();
+            } catch (Throwable e3) {
+               PrintWriter pw = new PrintWriter(new FileOutputStream(FileDescriptor.err));
+               e.printStackTrace(pw);
+               pw.flush();
+            }
+         }
+      });
    }
 
    public static void onEnvironmentChanged(){

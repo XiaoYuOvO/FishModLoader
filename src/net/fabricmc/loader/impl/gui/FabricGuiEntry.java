@@ -113,7 +113,7 @@ public final class FabricGuiEntry {
 	public static void displayError(String mainText, Throwable exception, Consumer<FabricStatusTree> treeCustomiser, boolean exitAfter) {
 
 		if (!GraphicsEnvironment.isHeadless()) {
-			String title = "Fabric Loader " + FishModLoader.VERSION;
+			String title = "FishModLoader " + FishModLoader.VERSION;
 			FabricStatusTree tree = new FabricStatusTree(title, mainText);
 			FabricStatusTab crashTab = tree.addTab(Localization.format("gui.tab.crash"));
 

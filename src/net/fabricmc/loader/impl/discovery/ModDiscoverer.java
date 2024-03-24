@@ -438,6 +438,7 @@ public final class ModDiscoverer {
 		}
 
 		private ModCandidate computeJarStream() throws IOException, ParseMetadataException {
+			//TODO Add legacy mod support here
 			LoaderModMetadata metadata = null;
 			ZipEntry entry;
 

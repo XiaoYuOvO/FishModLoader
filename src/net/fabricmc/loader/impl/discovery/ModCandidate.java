@@ -33,7 +33,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-public final class ModCandidate implements DomainObject.Mod {
+public class ModCandidate implements DomainObject.Mod {
 	static final Comparator<ModCandidate> ID_VERSION_COMPARATOR = new Comparator<ModCandidate>() {
 		@Override
 		public int compare(ModCandidate a, ModCandidate b) {
@@ -54,7 +54,7 @@ public final class ModCandidate implements DomainObject.Mod {
 	private int minNestLevel;
 	private SoftReference<ByteBuffer> dataRef;
 
-	private ModCandidate(List<Path> paths, String localPath, long hash, LoaderModMetadata metadata, boolean requiresRemap, Collection<ModCandidate> nestedMods) {
+	protected ModCandidate(List<Path> paths, String localPath, long hash, LoaderModMetadata metadata, boolean requiresRemap, Collection<ModCandidate> nestedMods) {
 		this.originPaths = paths;
 		this.paths = paths;
 		this.localPath = localPath;
