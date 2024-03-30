@@ -1,5 +1,7 @@
 package com.llamalad7.mixinextras.utils;
 
+import net.xiaoyu233.fml.classloading.KnotClassDelegate;
+import net.xiaoyu233.fml.relaunch.Launch;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -28,18 +30,7 @@ public class ClassGenUtils {
                 defineClass.invoke(unsafe, name, bytes, 0, bytes.length, scope.lookupClass().getClassLoader(), scope.lookupClass().getProtectionDomain());
             };
         } catch (IllegalAccessException | NoSuchFieldException | NoSuchMethodException e1) {
-            try {
-                Method defineClass = MethodHandles.Lookup.class.getMethod("defineClass", byte[].class);
-                theDefiner = (name, bytes, scope) -> {
-                    //noinspection PrimitiveArrayArgumentToVarargsMethod
-                    defineClass.invoke(scope, bytes);
-                };
-            } catch (NoSuchMethodException e2) {
-                RuntimeException e = new RuntimeException("Could not resolve class definer! Please report to LlamaLad7.");
-                e.addSuppressed(e1);
-                e.addSuppressed(e2);
-                throw e;
-            }
+            theDefiner = (name, bytes, scope) -> ((KnotClassDelegate.ClassLoaderAccess) Launch.knotLoader.getClassLoader()).defineClassFwd(name, bytes, 0, bytes.length, scope.lookupClass().getProtectionDomain().getCodeSource());
         }
         DEFINER = theDefiner;
     }

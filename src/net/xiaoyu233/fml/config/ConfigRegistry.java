@@ -8,10 +8,10 @@ import java.io.File;
 public class ConfigRegistry {
     private final File pathToConfigFile;
     private final File configFile;
-    private final Config root;
+    private final ConfigRoot root;
     private Runnable reloadRun = () -> {};
 
-    public ConfigRegistry(Config root, File pathToConfigFile) {
+    public ConfigRegistry(ConfigRoot root, File pathToConfigFile) {
         this.root = root;
         this.configFile = pathToConfigFile;
         this.pathToConfigFile = new File(FishModLoader.CONFIG_DIR,pathToConfigFile.toString());
@@ -34,7 +34,7 @@ public class ConfigRegistry {
         return pathToConfigFile;
     }
 
-    public Config getRoot() {
+    public ConfigRoot getRoot() {
         return root;
     }
 

@@ -27,43 +27,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="3.1.0">
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_es.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_ja_JP.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_vi_VN.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_zh_CN.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/Messages_zh_TW.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRoot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/RangedConfigEntry.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/InitClassMaker.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModCandidate.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModInfo.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModParser.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/MixinConfigCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/fabric_x8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_error_x8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_info_x8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/decoration/level_warn_x8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/fabric_x128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/fabric_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/file_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/folder_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/jar_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/java_class_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/java_package_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/json_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/lesser_cross_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_error_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_info_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/level_warn_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/missing_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/package_x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ui/icon/tick_x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_recipe/ItemMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_recipe/RecipeHelperMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/migrate.tiny" beforeDir="false" afterPath="$PROJECT_DIR$/src/migrate.tiny" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModCandidate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/discovery/ModDiscoverer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricGuiEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/fabricmc/loader/impl/gui/FabricGuiEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ClassGenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ClassGenUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/NetClientHandlerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/NetClientHandlerMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -142,41 +132,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ModRemapper.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path&quot;: &quot;H:\\IDEAProjects\\FishModLoader\\libs&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;H:/IDEAProjects/FishModLoader/src&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.1515625&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.15668203&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Client (1.4.2).executor": "Run",
+    "Application.Client.executor": "Run",
+    "Application.ModRemapper.executor": "Run",
+    "Application.Server.executor": "Run",
+    "Downloaded.Files.Path": "H:\\IDEAProjects\\FishModLoader\\libs",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "H:/IDEAProjects/MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.1515625",
+    "project.structure.side.proportion": "0.15668203",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;JAVA&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JAVA"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -215,8 +206,10 @@
       <recent name="net.xiaoyu233.fml.util" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="Client (1.4.2)" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--username liuRT --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d8c754e649c42bd4e --width 854 --height 480" />
@@ -424,7 +417,11 @@
       <workItem from="1710940188273" duration="2210000" />
       <workItem from="1711101721643" duration="6437000" />
       <workItem from="1711180831557" duration="3412000" />
-      <workItem from="1711263691180" duration="1028000" />
+      <workItem from="1711263691180" duration="5155000" />
+      <workItem from="1711457647612" duration="931000" />
+      <workItem from="1711624425122" duration="2111000" />
+      <workItem from="1711709756870" duration="10633000" />
+      <workItem from="1711777473143" duration="20521000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -672,7 +669,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710689872394</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="3.1.0">
+      <option name="closed" value="true" />
+      <created>1711265383674</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1711265383674</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -737,7 +742,7 @@
         <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
           <line>1834</line>
-          <properties class="net.minecraft.bfe" method="a">
+          <properties class="net.minecraft.bfe">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="33" />
@@ -745,7 +750,7 @@
         <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
           <line>713</line>
-          <properties class="net.minecraft.bfe" method="b">
+          <properties class="net.minecraft.bfe">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="43" />
@@ -792,24 +797,6 @@
           <option name="timeStamp" value="274" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/versions/1.6.4-MITE/1.6.4-MITE_deobf.jar!/net/minecraft/Locale.class</url>
-          <line>85</line>
-          <properties class="net.minecraft.Locale" method="loadLocaleData">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="282" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java</url>
-          <line>17</line>
-          <properties class="net.xiaoyu233.fml.reload.transform.client.SimpleResourceManagerMixin" method="enhanceGetAllResources">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="286" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java</url>
           <line>20</line>
           <properties class="net.xiaoyu233.fml.reload.transform.client.DefaultResourcePackMixin" method="redirectFixLanguageLoad">
@@ -826,6 +813,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="353" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
+          <line>111</line>
+          <properties class="net.minecraft.ItemStack" method="loadItemStackFromNBT">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="373" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
@@ -879,19 +875,9 @@
           <option name="timeStamp" value="226" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://F:/MITE Plus R5/.minecraft/versions/1.6.4-MITE/1.6.4-MITE_deobf.jar!/net/minecraft/SimpleReloadableResourceManager.class</url>
-          <line>60</line>
-          <option name="timeStamp" value="283" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/DefaultResourcePackMixin.java</url>
           <line>21</line>
           <option name="timeStamp" value="287" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="296" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/classloading/ModsWalker.java</url>
@@ -915,14 +901,34 @@
           <option name="timeStamp" value="346" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="350" />
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="366" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/SimpleResourceManagerMixin.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="352" />
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="369" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="371" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="374" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="375" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="376" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />

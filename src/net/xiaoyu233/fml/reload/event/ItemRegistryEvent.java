@@ -12,18 +12,16 @@ public class ItemRegistryEvent {
         return item;
     }
 
-    public void registerAnvil(BlockAnvil block, String resourceLocation, int itemId){
+    public void registerAnvil(BlockAnvil block, String resourceLocation){
         block.setUnlocalizedName(resourceLocation);
         ((IBlock) block).setBlockTextureName(resourceLocation);
         Item item = new ItemAnvilBlock(block).setUnlocalizedName(resourceLocation);
-        Item.itemsList[itemId] = item;
         item.setMaxStackSize(block.getItemStackLimit());
     }
-    public void registerItemBlock(Block block, String resourceLocation, int itemId){
+    public void registerItemBlock(Block block, String resourceLocation){
         block.setUnlocalizedName(resourceLocation);
         ((IBlock) block).setBlockTextureName(resourceLocation);
         Item item = new ItemBlock(block).setUnlocalizedName(resourceLocation);
-        Item.itemsList[itemId] = item;
         item.setMaxStackSize(block.getItemStackLimit());
     }
 

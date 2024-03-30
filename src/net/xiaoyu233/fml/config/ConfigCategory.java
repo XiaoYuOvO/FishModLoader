@@ -77,7 +77,7 @@ public class ConfigCategory extends Config {
     }
 
     @Override
-    public JsonElement writeDefault() {
+    public JsonObject writeDefault() {
         JsonObject result = new JsonObject();
         for (Config config : child) {
             result.add(config.getName(),config.writeDefault());
@@ -89,7 +89,7 @@ public class ConfigCategory extends Config {
     }
 
     @Override
-    public JsonElement write() {
+    public JsonObject write() {
         JsonObject result = new JsonObject();
         for (Config config : child) {
             result.add(config.getName(),config.write());

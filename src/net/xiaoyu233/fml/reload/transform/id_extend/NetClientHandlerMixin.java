@@ -52,4 +52,25 @@ public class NetClientHandlerMixin {
         this.worldClient.setBlockAndMetadataAndInvalidate(x, y, z, block_id * 256 + id_extra, metadata);
     }
 
+    @ModifyConstant(method = "handleBlockFX", constant = @Constant(intValue = 0xFF))
+    private int invalidateBlockFXAndOP(int original){
+        //We now support 12bits!!!!
+        return 0b111111111111; // 4095
+    }
+
+    @ModifyConstant(method = "handleBlockFX", constant = @Constant(intValue = 8), slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/EnumBlockFX;destroy:Lnet/minecraft/EnumBlockFX;")))
+    private int moveBlockFXOriginalBlockReadPtr(int original){
+        return 12;
+    }
+
+    @ModifyConstant(method = "handleBlockFX", constant = @Constant(intValue = 12), slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/EnumBlockFX;destroy:Lnet/minecraft/EnumBlockFX;")))
+    private int moveBlockFXSuccessorBlockReadPtr(int original){
+        return 16;
+    }
+
+    @ModifyConstant(method = "handleBlockFX", constant = @Constant(intValue = 20), slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/EnumBlockFX;destroy:Lnet/minecraft/EnumBlockFX;")))
+    private int moveBlockFXSuccessorMetaReadPtr(int original){
+        return 28;
+    }
+
 }

@@ -2,7 +2,7 @@ package net.xiaoyu233.fml.util;
 
 public class IdUtil {
     private static int nextItemID = 4000;
-    private static int nextBlockID = 512;
+    private static int nextBlockID = 4095;
     private static int nextEnchantmentID = 96;
     private static int nextAchievementID = 136;
     private static int nextEntityID = 200;
@@ -17,7 +17,7 @@ public class IdUtil {
     }
 
     public static int getNextBlockID() {
-        return nextBlockID++;
+        return nextBlockID--;
     }
 
     public static int getNextAchievementID(){

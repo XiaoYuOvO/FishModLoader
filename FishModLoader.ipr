@@ -561,7 +561,7 @@
       <option name="myName" value="Project Default" />
       <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
         <Languages>
-          <language minSize="118" name="Java" />
+          <language minSize="154" name="Java" />
         </Languages>
       </inspection_tool>
       <inspection_tool class="UnstableApiUsage" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -843,7 +843,9 @@
         <root url="jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/" />
+      </SOURCES>
     </library>
     <library name="access-widener-2.1.0">
       <CLASSES>
