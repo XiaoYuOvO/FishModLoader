@@ -1,16 +1,19 @@
 package net.xiaoyu233.fml.reload.transform.id_extend;
 
+import net.minecraft.Item;
+import net.minecraft.ItemBlock;
 import net.minecraft.RenderSnowMan;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RenderSnowMan.class)
 public class SnowManRendererMixin {
-    @ModifyConstant(method = {
+    @Redirect(method = {
             "renderSnowmanPumpkin(Lnet/minecraft/EntitySnowman;F)V",
-    }, constant = @Constant(intValue = 256))
-    private static int injected(int value) {
-        return 1024;
+    }, at = @At(value = "FIELD", target = "Lnet/minecraft/Item;itemID:I"))
+    private int injected(Item item) {
+        if (item instanceof ItemBlock) return 0;
+        return item.itemID;
     }
 }

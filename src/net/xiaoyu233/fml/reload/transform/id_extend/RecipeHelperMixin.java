@@ -9,6 +9,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class RecipeHelperMixin {
     @ModifyConstant(method = "addRecipe", constant = @Constant(intValue = 256))
     private static int injected(int value) {
-        return 1024;
+        return 0;
     }
 }

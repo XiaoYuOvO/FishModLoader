@@ -9,6 +9,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class BlockFireMixin {
     @ModifyConstant(method = "<init>", constant = @Constant(intValue = 256))
     private int modifyChanceTableSize(int val){
-        return 1024;
+        return 4096;
     }
 }

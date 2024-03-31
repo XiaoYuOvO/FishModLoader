@@ -12,8 +12,8 @@ public class ChunkRegionLoaderMixin {
         return 1024;
     }
 
-    @ModifyConstant(method = "handleSectionChecksumFailure", constant = @Constant(intValue = 16))
-    private int injected(int value) {
-        return 1024;
-    }
+//    @ModifyExpressionValue(method = "handleSectionChecksumFailure", at = @At(value = "", opcode = Opcodes.IINC))
+//    private int injected(int value) {
+//        return 1024;
+//    }
 }

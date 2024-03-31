@@ -26,34 +26,26 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="3.1.0">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRoot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/RangedConfigEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/InitClassMaker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModCandidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/LegacyModParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/modfixer/MixinConfigCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_recipe/ItemMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_recipe/RecipeHelperMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.2.0">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/ContainerCreativeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/SlotCreativeInvMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ClassGenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/llamalad7/mixinextras/utils/ClassGenUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/ConfigRegistry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/config/Configs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BipedRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BipedRendererMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockFireMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockFireMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkRegionLoaderMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkRegionLoaderMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EntityItemMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EntityItemMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/NetClientHandlerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/NetClientHandlerMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/MinecraftMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/MinecraftMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PlayerRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PlayerRendererMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/RecipeHelperMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/RecipeHelperMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ReferenceFileWriterMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ReferenceFileWriterMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/SnowManRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/SnowManRendererMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/StatisticMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/StatisticMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WitchRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WitchRendererMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/IdUtil.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -149,13 +141,13 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "H:/IDEAProjects/MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar",
+    "last_opened_file_path": "H:/IDEAProjects/FishModLoader/libs/gson-2.2.2.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.1515625",
     "project.structure.side.proportion": "0.15668203",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -421,7 +413,8 @@
       <workItem from="1711457647612" duration="931000" />
       <workItem from="1711624425122" duration="2111000" />
       <workItem from="1711709756870" duration="10633000" />
-      <workItem from="1711777473143" duration="20521000" />
+      <workItem from="1711777473143" duration="28826000" />
+      <workItem from="1711865762093" duration="4345000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -677,7 +670,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711265383674</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Update to 3.2.0">
+      <option name="closed" value="true" />
+      <created>1711809335840</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1711809335840</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -707,7 +708,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix crash by using &quot;this&quot; to refer a field in super class. &#10;Fix cannot find source jar path." />
     <MESSAGE value="Change Version Number" />
     <MESSAGE value="Fix some problems" />
     <MESSAGE value="Fix crash when place a block on redstone torch" />
@@ -732,7 +732,8 @@
     <MESSAGE value="Cheat the MCDevPlugin" />
     <MESSAGE value="3.0.0 release!" />
     <MESSAGE value="3.1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="3.1.0" />
+    <MESSAGE value="Update to 3.2.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.2.0" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -815,13 +816,13 @@
           <option name="timeStamp" value="353" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
-          <line>111</line>
-          <properties class="net.minecraft.ItemStack" method="loadItemStackFromNBT">
+          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/NetServerHandler.class</url>
+          <line>580</line>
+          <properties class="net.minecraft.NetServerHandler" method="handleWindowClick">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="373" />
+          <option name="timeStamp" value="402" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
@@ -901,34 +902,19 @@
           <option name="timeStamp" value="346" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="366" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="369" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/save_version/WorldInfoMixin.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="371" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="374" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="375" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/ItemStack.java</url>
           <line>114</line>
           <option name="timeStamp" value="376" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="400" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="401" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />
