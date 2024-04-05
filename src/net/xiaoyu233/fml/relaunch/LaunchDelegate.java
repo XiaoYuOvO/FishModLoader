@@ -22,7 +22,7 @@ public class LaunchDelegate {
         List<Path> classPath = new ArrayList<>();
         List<String> missing = null;
         List<String> unsupported = null;
-        Path gameJarPath = UrlUtil.asPath(LaunchDelegate.class.getClassLoader().loadClass(mainClass).getProtectionDomain().getCodeSource().getLocation());
+        Path gameJarPath = UrlUtil.asPath(LaunchDelegate.class.getClassLoader().loadClass(mainClass).getProtectionDomain().getCodeSource().getLocation()).toAbsolutePath().normalize();
         for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
             if (cpEntry.equals("*") || cpEntry.endsWith(File.separator + "*")) {
                 if (unsupported == null) unsupported = new ArrayList<>();
@@ -38,7 +38,7 @@ public class LaunchDelegate {
                 continue;
             }
 
-            if (!gameJarPath.equals(path)) {
+            if (!gameJarPath.equals(path.toAbsolutePath().normalize())) {
                 classPath.add(LoaderUtil.normalizeExistingPath(path));
             }
         }

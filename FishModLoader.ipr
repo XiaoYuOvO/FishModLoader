@@ -491,9 +491,9 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="FishModLoader:jarServer">
-      <output-path>$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server</output-path>
-      <root id="archive" name="FishModLoader-v2.0.0.jar">
+    <artifact type="jar" build-on-make="true" name="FishModLoader:install">
+      <output-path>$PROJECT_DIR$/../FMLInstaller/src/net/xiaoyu233/fmlinstaller</output-path>
+      <root id="archive" name="FishModLoader.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />
@@ -501,16 +501,19 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/../tiny-remapper/build/libs/tiny-remapper-0.8.2+local.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-9.3.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-9.3.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-9.3.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.3.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.3.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.pb-2.3.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.core-2.3.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-9.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-9.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-tree-9.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.6.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="FishModLoader:install">
-      <output-path>$PROJECT_DIR$/../FMLInstaller/src/net/xiaoyu233/fmlinstaller</output-path>
-      <root id="archive" name="FishModLoader.jar">
+    <artifact type="jar" build-on-make="true" name="FishModLoader:server">
+      <output-path>$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server</output-path>
+      <root id="archive" name="FishModLoader-v3.2.2.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/jsr305-3.0.2.jar" path-in-jar="/" />

@@ -26,25 +26,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.2.0">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/ContainerCreativeMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/SlotCreativeInvMixin.java" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.2.1">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/SoundsRegisterEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/TileEntityRegisterEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_minecart/EntityMinecartChestTrans.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_minecart/EntityMinecartContainerMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EndermanMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/SoundsRegistryMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/TileEntityRegistryMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BipedRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BipedRendererMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockFireMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/BlockFireMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkRegionLoaderMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkRegionLoaderMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EntityItemMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/EntityItemMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemBlockMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemStackMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/MinecraftMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/MinecraftMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PlayerRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PlayerRendererMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/RecipeHelperMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/RecipeHelperMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ReferenceFileWriterMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ReferenceFileWriterMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/SnowManRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/SnowManRendererMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/StatisticMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/StatisticMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WitchRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/WitchRendererMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ServerEntrypointMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/entrypoint/ServerEntrypointMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
@@ -66,8 +59,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -127,9 +120,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Client (1.4.2).executor": "Run",
-    "Application.Client.executor": "Run",
+    "Application.Client.executor": "Debug",
     "Application.ModRemapper.executor": "Run",
-    "Application.Server.executor": "Run",
+    "Application.Server.executor": "Debug",
     "Downloaded.Files.Path": "H:\\IDEAProjects\\FishModLoader\\libs",
     "Downloaded.Files.Path.Enabled": "true",
     "Repository.Attach.Annotations": "false",
@@ -141,13 +134,13 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "H:/IDEAProjects/FishModLoader/libs/gson-2.2.2.jar",
+    "last_opened_file_path": "H:/IDEAProjects/MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.1515625",
     "project.structure.side.proportion": "0.15668203",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -191,14 +184,14 @@
       <recent name="net.xiaoyu233.fml.reload.event.recipe" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.xiaoyu233.fml.reload.transform.fix" />
       <recent name="net.xiaoyu233.fml.classloading" />
       <recent name="net.xiaoyu233.fml.metadata" />
       <recent name="net.xiaoyu233.fml.api" />
       <recent name="net.xiaoyu233.fml.mixin.service" />
-      <recent name="net.xiaoyu233.fml.util" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client (1.4.2)" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -289,7 +282,7 @@
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.server.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--nogui" />
-      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;H:\IDEAProjects\FishModLoader\libs\guava-28.0-jre.jar;H:\IDEAProjects\FishModLoader\libs\lwjgl-2.9.0.jar;H:\IDEAProjects\FishModLoader\libs\log4j-core-2.11.2.jar;H:\IDEAProjects\FishModLoader\libs\log4j-api-2.11.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v3.0.0\\fishmodloader-v3.0.0.jar;H:\[1.6.4] MITE_R196_PlusR5_HDS-Server\1.6.4-MITE-HDS-R196.jar&quot;" />
+      <option name="VM_PARAMETERS" value="-Xmx2048M -cp &quot;./guava-28.0.jar;./MITE-HDS-196.jar;./FishModLoader-v3.2.2.jar&quot;" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -414,7 +407,9 @@
       <workItem from="1711624425122" duration="2111000" />
       <workItem from="1711709756870" duration="10633000" />
       <workItem from="1711777473143" duration="28826000" />
-      <workItem from="1711865762093" duration="4345000" />
+      <workItem from="1711865762093" duration="6484000" />
+      <workItem from="1711978038531" duration="622000" />
+      <workItem from="1712293925254" duration="10622000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -678,7 +673,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711809335840</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Update to 3.2.1">
+      <option name="closed" value="true" />
+      <created>1711873137411</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1711873137411</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,7 +711,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Change Version Number" />
     <MESSAGE value="Fix some problems" />
     <MESSAGE value="Fix crash when place a block on redstone torch" />
     <MESSAGE value="Add fps unlimit" />
@@ -733,7 +735,8 @@
     <MESSAGE value="3.0.0 release!" />
     <MESSAGE value="3.1.0" />
     <MESSAGE value="Update to 3.2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.2.0" />
+    <MESSAGE value="Update to 3.2.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.2.1" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -816,13 +819,58 @@
           <option name="timeStamp" value="353" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/NetServerHandler.class</url>
-          <line>580</line>
-          <properties class="net.minecraft.NetServerHandler" method="handleWindowClick">
+          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <line>19</line>
+          <properties class="net.minecraft.EntityMinecartContainer" method="killMinecart">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="402" />
+          <option name="timeStamp" value="425" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <line>124</line>
+          <properties class="net.minecraft.EntityMinecartContainer" method="setDead">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="427" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <line>209</line>
+          <properties class="net.minecraft.EntityMinecartContainer" method="destroyInventory">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="428" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_minecart/EntityMinecartContainerMixin.java</url>
+          <line>17</line>
+          <properties class="net.xiaoyu233.fml.reload.transform.fix.fix_minecart.EntityMinecartContainerMixin" method="wrapContainerDropCondition">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="431" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/SlotCrafting.class</url>
+          <line>190</line>
+          <properties class="net.minecraft.SlotCrafting" method="onSlotClicked">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="432" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$PROJECT_DIR$/../MITE-ITEPlugin/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-ba34109dde/1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2/minecraft-merged-ba34109dde-1.6.4-MITE-loom.mappings.1_6_4_MITE.layered+hash.1180385101-v2-sources.jar!/net/minecraft/MITEContainerCrafting.java</url>
+          <line>83</line>
+          <properties class="net.minecraft.MITEContainerCrafting" method="onUpdate">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="435" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/libs/src/net/minecraft/bfe.java</url>
@@ -908,12 +956,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java</url>
-          <line>20</line>
+          <line>18</line>
           <option name="timeStamp" value="400" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/fix/fix_creative_inv/GuiCreativeMixin.java</url>
-          <line>27</line>
+          <line>25</line>
           <option name="timeStamp" value="401" />
         </line-breakpoint>
         <breakpoint type="java-exception">
@@ -935,6 +983,16 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.ClassCastException" package="java.lang" />
           <option name="timeStamp" value="343" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException" package="org.spongepowered.asm.mixin.injection.throwables" />
+          <option name="timeStamp" value="403" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang">
+            <option name="NOTIFY_CAUGHT" value="false" />
+          </properties>
+          <option name="timeStamp" value="406" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
