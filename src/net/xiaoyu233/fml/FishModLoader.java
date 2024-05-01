@@ -53,7 +53,6 @@ public class FishModLoader{
    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
    public static final File MOD_DIR = new File("mods");
    private static final Map<String, ModContainerImpl> modsMapForLoginCheck  = new HashMap<>();
-   private static final boolean allowsClientMods;
    private static final ArrayList<ModContainerImpl> mods = new ArrayList<>();
    private static final Map<String, ModContainerImpl> modsMap = new HashMap<>();
    private static boolean isServer = false;
@@ -71,12 +70,6 @@ public class FishModLoader{
       try {
          UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
       } catch (Exception ignored) {
-      }
-
-      if (isServer()) {
-         allowsClientMods = Configs.Server.ALLOW_CLIENT_MODS.get();
-      } else {
-         allowsClientMods = true;
       }
    }
    private static Path gameJarPath;
@@ -414,10 +407,6 @@ public class FishModLoader{
 
    public static void setIsServer(boolean isServer) {
       FishModLoader.isServer = isServer;
-   }
-
-   public static boolean isAllowsClientMods() {
-      return allowsClientMods;
    }
 
    public static List<ModCandidate.BuiltinMod> getBuiltinMods() {

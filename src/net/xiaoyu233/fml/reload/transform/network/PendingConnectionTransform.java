@@ -3,6 +3,7 @@ package net.xiaoyu233.fml.reload.transform.network;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.VersionParsingException;
+import net.fabricmc.loader.api.metadata.ModEnvironment;
 import net.fabricmc.loader.impl.ModContainerImpl;
 import net.fabricmc.loader.impl.metadata.LoaderModMetadata;
 import net.minecraft.INetworkManager;
@@ -11,6 +12,7 @@ import net.minecraft.NetLoginHandler;
 import net.minecraft.Packet2ClientProtocol;
 import net.minecraft.server.MinecraftServer;
 import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.config.Configs;
 import net.xiaoyu233.fml.network.FMLClientProtocol;
 import net.xiaoyu233.fml.util.RemoteModInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,30 +44,30 @@ public abstract class PendingConnectionTransform extends NetHandler {
                 String modid = modInfo.getModid();
                 boolean clientOnly = !modInfo.canBeUsedAt(EnvType.SERVER);
                 Version clientModVer = modInfo.getModVer();
-                if (!clientOnly|| !FishModLoader.isAllowsClientMods()) {
-                    ModContainerImpl serverMod = serverMods.get(modid);
-                    if (serverMod != null) {
-                        LoaderModMetadata serverModInfo = serverMod.getMetadata();
-                        if (serverModInfo.getVersion().compareTo(clientModVer) > 0) {
-                            problems.append("客户端模组版本过低:").append(modid).append(" 需要:").append(serverModInfo.getVersion()).append(" ,当前;").append(clientModVer).append("\n");
-                        } else if (serverModInfo.getVersion().compareTo(clientModVer) < 0) {
-                            problems.append("客户端模组版本过高:").append(modid).append(" 需要:").append(serverModInfo.getVersion()).append(" ,当前;").append(clientModVer).append("\n");
+                ModContainerImpl serverMod = serverMods.get(modid);
+                if (serverMod != null) {
+                    LoaderModMetadata serverModInfo = serverMod.getMetadata();
+                    if (serverModInfo.getVersion().compareTo(clientModVer) > 0) {
+                        problems.append("客户端模组版本过低:").append(modid).append(" 需要:").append(serverModInfo.getVersion()).append(" ,当前;").append(clientModVer).append("\n");
+                    } else if (serverModInfo.getVersion().compareTo(clientModVer) < 0) {
+                        problems.append("客户端模组版本过高:").append(modid).append(" 需要:").append(serverModInfo.getVersion()).append(" ,当前;").append(clientModVer).append("\n");
+                    }
+                    serverMods.remove(modid);
+                } else {
+                    if (clientOnly) {
+                        if (!Configs.Server.ALLOW_CLIENT_MODS.get()) {
+                            problems.append("服务端不允许添加客户端模组: ").append(modid).append("\n");
                         }
-                        serverMods.remove(modid);
                     } else {
                         problems.append("客户端模组过多: ").append(modid).append("\n");
-                        if (clientOnly){
-                            problems.append("服务端不允许添加客户端模组").append(modid).append("\n");
-                        }
-                    }
-                }else{
-                    if (modid.contains("MITECoordinate")){
-                        mcServer.getLogAgent().logInfo("Player " + this.clientUsername + "try to uses coordinate detector to join game!");
                     }
                 }
             }
             if (!serverMods.isEmpty()){
                 for (ModContainerImpl value : serverMods.values()) {
+                    if (value.getMetadata().getEnvironment() == ModEnvironment.CLIENT){
+                        continue;
+                    }
                     LoaderModMetadata modMetadata = value.getMetadata();
                     problems.append("客户端缺失模组:")
                             .append(modMetadata.getId())
