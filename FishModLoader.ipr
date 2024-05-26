@@ -550,6 +550,11 @@
       <inspection_tool class="GrazieCommit" enabled="true" level="TYPO" enabled_by_default="true" />
     </profile>
   </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="org.spongepowered.asm.mixin.Mixin" />
+    </list>
+  </component>
   <component name="FindBugsConfigurable">
     <option name="make" value="true" />
     <option name="effort" value="default" />

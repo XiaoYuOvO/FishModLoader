@@ -26,16 +26,51 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.2.2">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/JarMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/RenderFix.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ItemMapMixin.java" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.2.3">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumActionMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumArtMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumBlockBreakReasonMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumBlockFXMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumBlockOperationMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumChestTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumCommandMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumConsciousStateMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumCreatureAttributeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumCreatureTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumDirectionMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumDoorMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEnchantmentTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEntityFXMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEntityReachContextMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEntitySizeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEntityStateMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumFaceMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumFacingMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumGameTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumInsulinResistanceLevelMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumItemInUseActionMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumLevelBonusMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumMaterialHardnessMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumMobTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumMovingObjectTypeMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumOSMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumOptionsMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumParticleMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumQualityMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumRarityMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumSideMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumSignalMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumSkyBlockMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumSpecialSplashMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumStatusMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumToolMaterialMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumTournamentTypeMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/ChunkMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/ClientPlayerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/ClientPlayerMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumChatFormattingMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumChatFormattingMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEquipmentMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/enum_extend/EnumEquipmentMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +169,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "H:/MITE-HDS-FML/FishModLoader-v3.2.2.jar",
+    "last_opened_file_path": "H:/IDEAProjects/MITE-ITEPlugin",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -191,7 +226,7 @@
       <recent name="net.xiaoyu233.fml.mixin.service" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.Unnamed (1)">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="Client (1)" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
@@ -443,7 +478,10 @@
       <workItem from="1712293925254" duration="11236000" />
       <workItem from="1713074486633" duration="8609000" />
       <workItem from="1713776168351" duration="4568000" />
-      <workItem from="1714542284580" duration="16051000" />
+      <workItem from="1714542284580" duration="16936000" />
+      <workItem from="1715519013811" duration="611000" />
+      <workItem from="1715758310873" duration="759000" />
+      <workItem from="1716711389520" duration="5795000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -723,7 +761,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712306146986</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Update to 3.2.3">
+      <option name="closed" value="true" />
+      <created>1714586479142</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1714586479142</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -753,7 +799,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix crash when place a block on redstone torch" />
     <MESSAGE value="Add fps unlimit" />
     <MESSAGE value="Update API and Version" />
     <MESSAGE value="Fix client mod disabling" />
@@ -778,7 +823,8 @@
     <MESSAGE value="Update to 3.2.0" />
     <MESSAGE value="Update to 3.2.1" />
     <MESSAGE value="Update to 3.2.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.2.2" />
+    <MESSAGE value="Update to 3.2.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.2.3" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -990,13 +1036,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/network/PendingConnectionTransform.java</url>
-          <line>38</line>
+          <line>37</line>
           <option name="timeStamp" value="442" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/server/JarMain.java</url>
-          <line>40</line>
+          <line>32</line>
           <option name="timeStamp" value="443" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/chocohead/mm/EnumExtender.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="447" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />
