@@ -34,5 +34,6 @@
     <orderEntry type="library" name="commons-lang3-3.13.0" level="project" />
     <orderEntry type="library" name="ow2.sat4j.pb" level="project" />
     <orderEntry type="library" name="access-widener-2.1.0" level="project" />
+    <orderEntry type="library" name="gson-2.2.2" level="project" />
   </component>
 </module>

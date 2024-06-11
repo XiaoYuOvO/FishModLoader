@@ -58,10 +58,12 @@ public abstract class ItemBlockRecipeRegistryMixin {
                 list.remove(iRecipe);
                 switch (recipeModifier.getType()){
                     case SHAPED:
-                        addRecipe(recipeModifier.getOutput(),recipeModifier.isIncludeInLowestCraftingDifficultyDetermination(), recipeModifier.toObjArgs());
+                        ShapedRecipes shapedRecipes = addRecipe(recipeModifier.getOutput(), recipeModifier.isIncludeInLowestCraftingDifficultyDetermination(), recipeModifier.toObjArgs());
+                        recipeModifier.getCraftingDifficulty().ifPresent(shapedRecipes::setDifficulty);
                         break;
                     case SHAPELESS:
-                        addShapelessRecipe(recipeModifier.getOutput(),recipeModifier.isIncludeInLowestCraftingDifficultyDetermination(), recipeModifier.toObjArgs());
+                        ShapelessRecipes shapelessRecipes = addShapelessRecipe(recipeModifier.getOutput(), recipeModifier.isIncludeInLowestCraftingDifficultyDetermination(), recipeModifier.toObjArgs());
+                        recipeModifier.getCraftingDifficulty().ifPresent(shapelessRecipes::setDifficulty);
                         break;
                     case REMOVE:
                         break;

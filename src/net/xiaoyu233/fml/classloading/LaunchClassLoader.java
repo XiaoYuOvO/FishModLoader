@@ -3,17 +3,18 @@ package net.xiaoyu233.fml.classloading;
 import net.xiaoyu233.fml.asm.IClassNameTransformer;
 import net.xiaoyu233.fml.asm.IClassTransformer;
 import net.xiaoyu233.fml.config.Configs;
-import net.xiaoyu233.fml.util.LogWrapper;
+import net.xiaoyu233.fml.util.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
+import java.net.*;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.CodeSigner;
 import java.security.CodeSource;
+import java.security.cert.Certificate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.Attributes;
@@ -21,6 +22,8 @@ import java.util.jar.Attributes.Name;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import static net.xiaoyu233.fml.classloading.KnotClassDelegate.hasRegularCodeSource;
 
 public class LaunchClassLoader extends URLClassLoader {
    public static final int BUFFER_SIZE = 4096;
@@ -69,6 +72,21 @@ public class LaunchClassLoader extends URLClassLoader {
          }
       } catch (Exception var3) {
          LogWrapper.log(Level.ERROR, var3, "A critical problem occurred registering the ASM transformer class %s", transformerClassName);
+      }
+
+   }
+
+   private final Map<Path, KnotClassDelegate.Metadata> metadataCache = new ConcurrentHashMap<>();
+   public LaunchClassLoader(URL[] sources) {
+      super(sources, null);
+      this.sources = new ArrayList<>(Arrays.asList(sources));
+      this.addClassLoaderExclusion("java.");
+      this.addClassLoaderExclusion("sun.");
+      this.addClassLoaderExclusion("javax.");
+      if (DEBUG_SAVE) {
+         tempFolder = Configs.Debug.DumpClass.DUMP_PATH.get();
+         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
+         tempFolder.mkdirs();
       }
 
    }
@@ -154,7 +172,7 @@ public class LaunchClassLoader extends URLClassLoader {
          }
 
          final CodeSource codeSource = urlConnection == null ? null : new CodeSource(urlConnection.getURL(), signers);
-         final Class<?> clazz = defineClass(transformedName, transformedClass, 0, transformedClass.length, codeSource);
+         final Class<?> clazz = defineClass(transformedName, transformedClass, 0, transformedClass.length, getMetadata(transformedName).codeSource);
          cachedClasses.put(transformedName, clazz);
          return clazz;
       } catch (Throwable e) {
@@ -167,26 +185,60 @@ public class LaunchClassLoader extends URLClassLoader {
       }
    }
 
-   public LaunchClassLoader(URL[] sources) {
-      super(sources, null);
-      this.sources = new ArrayList<>(Arrays.asList(sources));
-      this.addClassLoaderExclusion("java.");
-      this.addClassLoaderExclusion("sun.");
-      this.addClassLoaderExclusion("org.lwjgl.");
-      this.addClassLoaderExclusion("org.apache.logging.");
-      this.addClassLoaderExclusion("net.minecraft.launchwrapper.");
-      this.addTransformerExclusion("javax.");
-      this.addTransformerExclusion("argo.");
-      this.addTransformerExclusion("org.objectweb.asm.");
-      this.addTransformerExclusion("com.google.common.");
-      this.addTransformerExclusion("org.bouncycastle.");
-      this.addTransformerExclusion("net.minecraft.launchwrapper.injector.");
-      if (DEBUG_SAVE) {
-         tempFolder = Configs.Debug.DumpClass.DUMP_PATH.get();
-         LogWrapper.info("DEBUG_SAVE Enabled, saving all classes to \"%s\"", tempFolder.getAbsolutePath().replace('\\', '/'));
-         tempFolder.mkdirs();
-      }
+   private KnotClassDelegate.Metadata getMetadata(String name) {
+      String fileName = LoaderUtil.getClassFileName(name);
+      URL url = this.getResource(fileName);
+      if (url == null || !hasRegularCodeSource(url)) return KnotClassDelegate.Metadata.EMPTY;
+      try {
+           return getMetadata(UrlUtil.getCodeSource(url, fileName));
+       } catch (UrlConversionException e) {
+           throw new RuntimeException(e);
+       }
+   }
 
+   private KnotClassDelegate.Metadata getMetadata(Path codeSource) {
+      return metadataCache.computeIfAbsent(codeSource, (Path path) -> {
+         Manifest manifest = null;
+         CodeSource cs = null;
+         Certificate[] certificates = null;
+
+         try {
+            if (Files.isDirectory(path)) {
+               manifest = ManifestUtil.readManifest(path);
+            } else {
+               URLConnection connection = new URL("jar:" + path.toUri() + "!/").openConnection();
+
+               if (connection instanceof JarURLConnection) {
+                  manifest = ((JarURLConnection) connection).getManifest();
+                  certificates = ((JarURLConnection) connection).getCertificates();
+               }
+
+               if (manifest == null) {
+                  try (FileSystemUtil.FileSystemDelegate jarFs = FileSystemUtil.getJarFileSystem(path, false)) {
+                     manifest = ManifestUtil.readManifest(jarFs.get().getRootDirectories().iterator().next());
+                  }
+               }
+
+               // TODO
+					/* JarEntry codeEntry = codeSourceJar.getJarEntry(filename);
+
+					if (codeEntry != null) {
+						cs = new CodeSource(codeSourceURL, codeEntry.getCodeSigners());
+					} */
+            }
+         } catch (IOException | FileSystemNotFoundException e) {
+         }
+
+         if (cs == null) {
+            try {
+               cs = new CodeSource(UrlUtil.asUrl(path), certificates);
+            } catch (MalformedURLException e) {
+               throw new RuntimeException(e);
+            }
+         }
+
+         return new KnotClassDelegate.Metadata(manifest, cs);
+      });
    }
 
    public String untransformName(String name) {

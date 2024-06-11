@@ -3,22 +3,22 @@ package net.xiaoyu233.fml.reload.event.recipe;
 import net.minecraft.Item;
 import net.minecraft.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@SuppressWarnings(value = {"OptionalUsedAsFieldOrParameterType", "unused"})
 public class ShapedRecipeModifier implements RecipeModifier {
     private final ItemStack targetItem;
     private final List<String> pattern;
     private final Map<Character, ItemStack> ingredients;
     private final boolean include_in_lowest_crafting_difficulty_determination;
+    private final Optional<Float> craftingDifficulty;
 
-    public ShapedRecipeModifier(ItemStack targetItem, List<String> pattern, Map<Character, ItemStack> ingredients, boolean includeInLowestCraftingDifficultyDetermination) {
+    public ShapedRecipeModifier(ItemStack targetItem, List<String> pattern, Map<Character, ItemStack> ingredients, boolean includeInLowestCraftingDifficultyDetermination, Optional<Float> craftingDifficulty) {
         this.targetItem = targetItem;
         this.pattern = pattern;
         this.ingredients = ingredients;
         include_in_lowest_crafting_difficulty_determination = includeInLowestCraftingDifficultyDetermination;
+        this.craftingDifficulty = craftingDifficulty;
     }
 
     public ItemStack getOutput() {
@@ -43,6 +43,11 @@ public class ShapedRecipeModifier implements RecipeModifier {
     }
 
     @Override
+    public Optional<Float> getCraftingDifficulty() {
+        return craftingDifficulty;
+    }
+
+    @Override
     public RecipeType getType() {
         return RecipeType.SHAPED;
     }
@@ -52,6 +57,8 @@ public class ShapedRecipeModifier implements RecipeModifier {
         private final List<String> pattern = new ArrayList<>();
         private final Map<Character, ItemStack> ingredients = new HashMap<>();
         private boolean includeInLowestCraftingDifficultyDetermination = false;
+
+        private Optional<Float> craftingDifficulty = Optional.empty();
 
         private Builder(ItemStack item) {
             this.item = item;
@@ -81,8 +88,13 @@ public class ShapedRecipeModifier implements RecipeModifier {
             return this;
         }
 
+        public Builder difficulty(float craftingDifficulty){
+            this.craftingDifficulty = Optional.of(craftingDifficulty);
+            return this;
+        }
+
         public ShapedRecipeModifier build(){
-            return new ShapedRecipeModifier(item, pattern, ingredients, includeInLowestCraftingDifficultyDetermination);
+            return new ShapedRecipeModifier(item, pattern, ingredients, includeInLowestCraftingDifficultyDetermination, craftingDifficulty);
         }
     }
 }

@@ -2,6 +2,8 @@ package net.xiaoyu233.fml.reload.event.recipe;
 
 import net.minecraft.ItemStack;
 
+import java.util.Optional;
+
 public class RemoveRecipeModifier implements RecipeModifier{
     @Override
     public ItemStack getOutput() {
@@ -21,5 +23,10 @@ public class RemoveRecipeModifier implements RecipeModifier{
     @Override
     public boolean isIncludeInLowestCraftingDifficultyDetermination() {
         return false;
+    }
+
+    @Override
+    public Optional<Float> getCraftingDifficulty() {
+        return Optional.empty();
     }
 }

@@ -1,6 +1,6 @@
 package net.xiaoyu233.fml.reload.event;
 
-import net.xiaoyu233.fml.util.IdUtil;
+import net.xiaoyu233.fml.reload.utils.IdUtil;
 
 public class PacketRegisterEvent {
     private final RegisterFunction registerer;

@@ -5,16 +5,20 @@ import net.minecraft.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@SuppressWarnings(value = {"OptionalUsedAsFieldOrParameterType", "unused"})
 public class ShapelessRecipeModifier implements RecipeModifier{
     private final ItemStack targetItem;
     private final List<ItemStack> ingredients;
     private final boolean includeInLowestCraftingDifficultyDetermination;
+    private final Optional<Float> craftingDifficulty;
 
-    public ShapelessRecipeModifier(ItemStack targetItem, List<ItemStack> ingredients, boolean includeInLowestCraftingDifficultyDetermination) {
+    public ShapelessRecipeModifier(ItemStack targetItem, List<ItemStack> ingredients, boolean includeInLowestCraftingDifficultyDetermination, Optional<Float> craftingDifficulty) {
         this.targetItem = targetItem;
         this.ingredients = ingredients;
         this.includeInLowestCraftingDifficultyDetermination = includeInLowestCraftingDifficultyDetermination;
+        this.craftingDifficulty = craftingDifficulty;
     }
 
     public ItemStack getOutput() {
@@ -36,6 +40,11 @@ public class ShapelessRecipeModifier implements RecipeModifier{
     }
 
     @Override
+    public Optional<Float> getCraftingDifficulty() {
+        return craftingDifficulty;
+    }
+
+    @Override
     public RecipeType getType() {
         return RecipeType.SHAPED;
     }
@@ -44,7 +53,7 @@ public class ShapelessRecipeModifier implements RecipeModifier{
         private final ItemStack item;
         private final List<ItemStack> ingredients = new ArrayList<>();
         private boolean includeInLowestCraftingDifficultyDetermination = false;
-
+        private Optional<Float> craftingDifficulty = Optional.empty();
         private Builder(ItemStack item) {
             this.item = item;
         }
@@ -68,8 +77,13 @@ public class ShapelessRecipeModifier implements RecipeModifier{
             return this;
         }
 
+        public ShapelessRecipeModifier.Builder difficulty(float craftingDifficulty){
+            this.craftingDifficulty = Optional.of(craftingDifficulty);
+            return this;
+        }
+
         public ShapelessRecipeModifier build(){
-            return new ShapelessRecipeModifier(item, ingredients, includeInLowestCraftingDifficultyDetermination);
+            return new ShapelessRecipeModifier(item, ingredients, includeInLowestCraftingDifficultyDetermination, craftingDifficulty);
         }
     }
 }

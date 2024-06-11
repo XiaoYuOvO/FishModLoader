@@ -22,7 +22,7 @@ public class LaunchDelegate {
         List<Path> classPath = new ArrayList<>();
         List<String> missing = null;
         List<String> unsupported = null;
-        Path gameJarPath = UrlUtil.asPath(LaunchDelegate.class.getClassLoader().loadClass(mainClass).getProtectionDomain().getCodeSource().getLocation()).toAbsolutePath().normalize();
+        Path gameJarPath = findMinecraftPath(mainClass);
         for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
             if (cpEntry.equals("*") || cpEntry.endsWith(File.separator + "*")) {
                 if (unsupported == null) unsupported = new ArrayList<>();
@@ -48,5 +48,15 @@ public class LaunchDelegate {
         LaunchClassBlocker.blockClass(modClassLoader);
         modClassLoader.setValidParentClassPath(new LibClassifier<>(McLibrary.class, server ? EnvType.SERVER : EnvType.CLIENT).getSystemLibraries());
         Launch.launch(modClassLoader, mainClass, args, server, gameJarPath);
+    }
+
+    private static Path findMinecraftPath(String mainClass){
+        String property = System.getProperty("minecraft.path");
+        if (property != null) return Path.of(property);
+        try {
+            return UrlUtil.asPath(LaunchDelegate.class.getClassLoader().loadClass(mainClass).getProtectionDomain().getCodeSource().getLocation()).toAbsolutePath().normalize();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Cannot find minecraft path due to missing main class file in classpath, nor env var of minecraft set");
+        }
     }
 }

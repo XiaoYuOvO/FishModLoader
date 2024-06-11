@@ -529,6 +529,8 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
+        <element id="file-copy" path="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server/MITE-HDS-196.jar" output-file-name="MITE-HDS.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server/guava-28.0.jar" />
       </root>
     </artifact>
   </component>
@@ -839,6 +841,23 @@
       <option name="url" value="https://maven.fabricmc.net/" />
     </remote-repository>
   </component>
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="root@154.44.26.3:22" type="ssh/sftp" uuid="4f212162-71b3-4c49-b8f4-0e6fe8da9c05">
+        <config>
+          <option name="projectRootOnTarget" value="/root/FishModLoader" />
+          <option name="serverName" value="root@154.44.26.3:22 password" />
+          <option name="useRsync" value="true" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="/usr/lib/java/" />
+            <option name="javaVersionString" value="17.0" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
   <component name="SuppressionsComponent">
     <option name="suppComments" value="[]" />
   </component>
@@ -874,7 +893,6 @@
     <library name="classes">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/libs/guava-28.0-jre.jar!/" />
-        <root url="jar://$PROJECT_DIR$/libs/gson-2.2.2.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="jar://$PROJECT_DIR$/libs/guava-28.0-jre-javadoc.jar!/" />
@@ -886,6 +904,13 @@
     <library name="commons-lang3-3.13.0">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/libs/commons-lang3-3.13.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="gson-2.2.2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/gson-2.2.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

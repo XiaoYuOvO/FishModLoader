@@ -67,7 +67,7 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 		return /* !"net.fabricmc.api.EnvType".equals(name) && !name.startsWith("net.fabricmc.loader.") && */ !name.startsWith("org.apache.logging.log4j");
 	}
 
-	private static boolean hasRegularCodeSource(URL url) {
+	static boolean hasRegularCodeSource(URL url) {
 		return url.getProtocol().equals("file") || url.getProtocol().equals("jar");
 	}
 
