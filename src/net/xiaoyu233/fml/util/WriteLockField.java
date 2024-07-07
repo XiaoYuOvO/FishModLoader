@@ -12,12 +12,19 @@ public class WriteLockField<T> {
         return new WriteLockField<>(initialValue);
     }
 
-    public void set(T t){
+    public static <T> WriteLockField<T> createLocked(T value){
+        WriteLockField<T> tWriteLockField = new WriteLockField<>(value);
+        tWriteLockField.locked = true;
+        return tWriteLockField;
+    }
+
+    public WriteLockField<T> set(T t){
         if (locked){
             throw new IllegalStateException("Tried to set a locked field");
         }
         value = t;
         locked = true;
+        return this;
     }
 
     public boolean isLocked() {

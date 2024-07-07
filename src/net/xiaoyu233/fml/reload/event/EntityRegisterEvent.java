@@ -11,19 +11,19 @@ public class EntityRegisterEvent {
         this.registererWithEgg = registererWithEgg;
     }
 
-    public void register(Class<? extends Entity> entityClass, String name, int id) {
-        this.registerer.register(entityClass, name, id);
+    public void register(Class<? extends Entity> entityClass, String namespace, String name, int id) {
+        this.registerer.register(entityClass, namespace, name, id);
     }
 
-    public void register(Class<? extends Entity> entityClass, String name, int id, int eggColorA, int eggColorB){
-        this.registererWithEgg.registerWithEgg(entityClass, name, id, eggColorA, eggColorB);
+    public void register(Class<? extends Entity> entityClass, String namespace, String name, int id, int eggColorA, int eggColorB){
+        this.registererWithEgg.registerWithEgg(entityClass, namespace, name, id, eggColorA, eggColorB);
     }
 
     public interface EntityRegisterer{
-        void register(Class<? extends Entity> entityClass, String name, int id);
+        void register(Class<? extends Entity> entityClass,String namespace, String name, int id);
     }
 
     public interface EntityRegistererWithEgg{
-        void registerWithEgg(Class<? extends Entity> entityClass, String name, int id, int eggColorA, int eggColorB);
+        void registerWithEgg(Class<? extends Entity> entityClass, String namespace, String name, int id, int eggColorA, int eggColorB);
     }
 }

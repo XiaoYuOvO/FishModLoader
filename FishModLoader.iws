@@ -26,19 +26,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.0">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/entity/IEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/id_extend/PotionMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.1">
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/EntityUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/INamespaced.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/INamespaced.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/recipe/RecipesArgs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/recipe/RecipesArgs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRegisterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRegisterEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeRegistryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/TileEntityRendererRegisterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/TileEntityRendererRegisterEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/TileEntityRendererMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/client/TileEntityRendererMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/ItemBlockRecipeRegistryMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/IdUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/IdUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRegistryMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRegistryMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/WriteLockField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/WriteLockField.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -492,7 +489,7 @@
       <workItem from="1718364486639" duration="312000" />
       <workItem from="1719202765525" duration="605000" />
       <workItem from="1719310875258" duration="5180000" />
-      <workItem from="1720334277438" duration="12544000" />
+      <workItem from="1720334277438" duration="17066000" />
     </task>
     <task id="LOCAL-00001" summary="idea">
       <created>1586023485118</created>
@@ -796,7 +793,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718106899928</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Update to 3.3.1">
+      <option name="closed" value="true" />
+      <created>1720357767017</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1720357767017</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -826,7 +831,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix client mod disabling" />
     <MESSAGE value="update ver" />
     <MESSAGE value="NEW API FINALLY COMPLETED!!!!&#10;WITH MIXIN SUPPORTED!!!" />
     <MESSAGE value="Update classloading and configs&#10;Add a event type&#10;Add some tools" />
@@ -851,7 +855,8 @@
     <MESSAGE value="Update to 3.2.3" />
     <MESSAGE value="Update to 3.2.4" />
     <MESSAGE value="Update to 3.3.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.3.0" />
+    <MESSAGE value="Update to 3.3.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.3.1" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

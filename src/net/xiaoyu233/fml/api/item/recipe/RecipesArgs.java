@@ -10,11 +10,10 @@ public class RecipesArgs {
     public final Object[] inputs;
     public final boolean include_in_lowest_crafting_difficulty_determination;
     private boolean extendsNBT;
-    private final Optional<Float> difficulty;
-    public RecipesArgs(ItemStack result, boolean include_in_lowest_crafting_difficulty_determination, Optional<Float> difficulty, Object... inputs){
+    private Optional<Float> difficulty = Optional.empty();
+    public RecipesArgs(ItemStack result, boolean include_in_lowest_crafting_difficulty_determination, Object... inputs){
         this.result = result;
         this.include_in_lowest_crafting_difficulty_determination = include_in_lowest_crafting_difficulty_determination;
-        this.difficulty = difficulty;
         this.inputs = inputs;
     }
 
@@ -24,6 +23,11 @@ public class RecipesArgs {
 
     public Optional<Float> getDifficulty() {
         return difficulty;
+    }
+
+    public RecipesArgs difficulty(float difficulty) {
+        this.difficulty = Optional.of(difficulty);
+        return this;
     }
 
     public RecipesArgs extendsNBT() {
