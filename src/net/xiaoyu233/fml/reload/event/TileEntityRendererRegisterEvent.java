@@ -1,18 +1,18 @@
 package net.xiaoyu233.fml.reload.event;
 
 import net.minecraft.TileEntity;
-import net.minecraft.TileEntityRenderer;
+import net.minecraft.TileEntitySpecialRenderer;
 
 import java.util.function.BiConsumer;
 
 public class TileEntityRendererRegisterEvent {
-    private final BiConsumer<Class<? extends TileEntity>, TileEntityRenderer> rendererRegisterer;
+    private final BiConsumer<Class<? extends TileEntity>, TileEntitySpecialRenderer> rendererRegisterer;
 
-    public TileEntityRendererRegisterEvent(BiConsumer<Class<? extends TileEntity>, TileEntityRenderer> rendererRegisterer) {
+    public TileEntityRendererRegisterEvent(BiConsumer<Class<? extends TileEntity>, TileEntitySpecialRenderer> rendererRegisterer) {
         this.rendererRegisterer = rendererRegisterer;
     }
 
-    public void register(Class<? extends TileEntity> tileEntity, TileEntityRenderer renderer){
+    public void register(Class<? extends TileEntity> tileEntity, TileEntitySpecialRenderer renderer){
         this.rendererRegisterer.accept(tileEntity, renderer);
     }
 }

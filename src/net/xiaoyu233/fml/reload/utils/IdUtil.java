@@ -17,7 +17,7 @@ public class IdUtil {
     private static final RangedIncrementNumber NEXT_POTION_ID = RangedIncrementNumber.create(24, Potion.potionTypes.length - 1);
     //17-63
     private static final RangedIncrementNumber NEXT_CURSE_ID = RangedIncrementNumber.create(17, Curse.cursesList.length - 1);
-    private static final RangedIncrementNumber NEXT_BIOME_ID = RangedIncrementNumber.create(26, BiomeGenBase.biomeList.length - 1);
+    private static final RangedIncrementNumber NEXT_BIOME_ID = RangedIncrementNumber.create(27, BiomeGenBase.biomeList.length - 1);
     private static final RangedIncrementNumber NEXT_SKILL_ID = RangedIncrementNumber.create(26, Skill.list.length - 1);
     private static int nextRenderType = 255;
 

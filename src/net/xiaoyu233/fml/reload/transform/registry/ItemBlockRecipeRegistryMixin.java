@@ -29,18 +29,17 @@ public abstract class ItemBlockRecipeRegistryMixin {
         RecipeRegistryEvent event = new RecipeRegistryEvent();
         MITEEvents.MITE_EVENT_BUS.post(event);
         RecipesMITE.addCraftingRecipes(crafters);
-        RecipesArgs recipesArgs;
-        for (RecipesArgs shapedRecipe : event.getShapedRecipes()) {
-            recipesArgs = shapedRecipe;
-            ShapedRecipes shapedRecipes = ((CraftingManagerInvoker) crafters).addRecipe(recipesArgs.result, recipesArgs.include_in_lowest_crafting_difficulty_determination, recipesArgs.inputs);
-            if (recipesArgs.isExtendsNBT()){
+        for (RecipesArgs args : event.getShapedRecipes()) {
+            ShapedRecipes shapedRecipes = ((CraftingManagerInvoker) crafters).addRecipe(args.result, args.include_in_lowest_crafting_difficulty_determination, args.inputs);
+            args.getDifficulty().ifPresent(shapedRecipes::setDifficulty);
+            if (args.isExtendsNBT()){
                 shapedRecipes.func_92100_c();
             }
         }
         for (RecipesArgs args : event.getShapelessRecipe()) {
-            recipesArgs = args;
-            ShapelessRecipes shapelessRecipes = ((CraftingManagerInvoker) crafters).addShapelessRecipe(recipesArgs.result, recipesArgs.include_in_lowest_crafting_difficulty_determination, recipesArgs.inputs);
-            if (recipesArgs.isExtendsNBT()){
+            ShapelessRecipes shapelessRecipes = ((CraftingManagerInvoker) crafters).addShapelessRecipe(args.result, args.include_in_lowest_crafting_difficulty_determination, args.inputs);
+            args.getDifficulty().ifPresent(shapelessRecipes::setDifficulty);
+            if (args.isExtendsNBT()){
                 shapelessRecipes.propagateTagCompound();
             }
         }

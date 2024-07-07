@@ -564,7 +564,7 @@
     <option name="excludeFilter" value="" />
   </component>
   <component name="HotSwapAgentPluginSettingsProvider">
-    <option name="agentPath" value="C:\Users\19662\AppData\Roaming\JetBrains\IntelliJIdea2023.1\plugins\hotswap-agent-intellij-plugin\lib\agent\hotswap-agent-1.4.1.jar" />
+    <option name="agentPath" value="C:\Users\19662\AppData\Roaming\JetBrains\IntelliJIdea2023.3\plugins\hotswap-agent-intellij-plugin\lib\agent\hotswap-agent-1.4.1.jar" />
   </component>
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">

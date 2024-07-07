@@ -5,6 +5,7 @@ import net.xiaoyu233.fml.api.item.recipe.RecipesArgs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RecipeRegistryEvent {
 
@@ -20,14 +21,26 @@ public class RecipeRegistryEvent {
         return shapelessRecipe;
     }
 
+    public RecipesArgs registerShapedRecipe(ItemStack out, boolean include_in_lowest_crafting_difficulty_determination, float difficulty, Object... input){
+        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, Optional.of(difficulty), input);
+        this.shapedRecipes.add(e);
+        return e;
+    }
+
+    public RecipesArgs registerShapelessRecipe(ItemStack out, boolean include_in_lowest_crafting_difficulty_determination, float difficulty, Object... input){
+        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, Optional.of(difficulty), input);
+        this.shapelessRecipe.add(e);
+        return e;
+    }
+
     public RecipesArgs registerShapedRecipe(ItemStack out, boolean include_in_lowest_crafting_difficulty_determination, Object... input){
-        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, input);
+        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, Optional.empty(), input);
         this.shapedRecipes.add(e);
         return e;
     }
 
     public RecipesArgs registerShapelessRecipe(ItemStack out, boolean include_in_lowest_crafting_difficulty_determination, Object... input){
-        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, input);
+        RecipesArgs e = new RecipesArgs(out, include_in_lowest_crafting_difficulty_determination, Optional.empty(), input);
         this.shapelessRecipe.add(e);
         return e;
     }
