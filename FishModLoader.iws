@@ -4,6 +4,11 @@
     <option name="GROUP_BY_SEVERITY" value="true" />
     <option name="ANALYZE_INJECTED_CODE" value="false" />
   </component>
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="FishModLoader:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -27,15 +32,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.1">
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/utils/EntityUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChangeLogCN.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/DedicatedServerMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/recipe/RecipesArgs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/api/item/recipe/RecipesArgs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRegisterEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/EntityRegisterEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/RecipeRegistryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRegistryMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/registry/EntityRegistryMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/util/EntityMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/WriteLockField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/WriteLockField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/BlockRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/BlockRegistryEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,12 +92,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/XiaoYuOvO/FishModLoader.git&quot;,
-    &quot;accountId&quot;: &quot;9e10ce60-4aa7-4eb3-9cfc-02dbb5572bc8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:ysesiq/FishModLoader.git",
+    "accountId": "8279572d-1ad8-49ec-ad2c-088e7c964eb1"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/org/objectweb/asm/Opcodes.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/org/objectweb/asm/tree/MethodNode.java" root0="FORCE_HIGHLIGHTING" />
@@ -126,47 +131,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Client (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Client (1.4.2).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ModRemapper.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Server (1).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Server.executor&quot;: &quot;Debug&quot;,
-    &quot;Downloaded.Files.Path&quot;: &quot;H:\\IDEAProjects\\FishModLoader\\libs&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;JAR Application.Unnamed (1).executor&quot;: &quot;Run&quot;,
-    &quot;JAR Application.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;H:/IDEAProjects/AliyunOSSUnzip&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.1515625&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.15668203&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.applicationServers&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Client (1).executor": "Run",
+    "Application.Client (1.4.2).executor": "Run",
+    "Application.Client.executor": "Run",
+    "Application.ModRemapper.executor": "Run",
+    "Application.Server (1).executor": "Run",
+    "Application.Server.executor": "Debug",
+    "Downloaded.Files.Path": "H:\\IDEAProjects\\FishModLoader\\libs",
+    "Downloaded.Files.Path.Enabled": "true",
+    "JAR Application.Unnamed (1).executor": "Run",
+    "JAR Application.Unnamed.executor": "Run",
+    "JAR 应用程序.Unnamed.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "F:/Projects/IDEA/Minecraft/FishModLoader/out/0",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "工件",
+    "project.structure.proportion": "0.1515625",
+    "project.structure.side.proportion": "0.26036867",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;C++&quot;,
-      &quot;JAVA&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "C++",
+      "JAVA"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -178,11 +184,11 @@
       <recent name="net.xiaoyu233.fml.util" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Projects\IDEA\Minecraft\FishModLoader\libs" />
       <recent name="H:\IDEAProjects\FishModLoader\src" />
       <recent name="H:\IDEAProjects\FishModLoader\src\com\llamalad7\mixinextras\versions" />
       <recent name="H:\IDEAProjects\FishModLoader\libs" />
       <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\classloading" />
-      <recent name="H:\IDEAProjects\FishModLoader\src\net\xiaoyu233\fml\api" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="H:\IDEAProjects\FishModLoader\src\com\llamalad7\mixinextras\versions" />
@@ -205,13 +211,13 @@
       <recent name="net.xiaoyu233.fml.mixin.service" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="JAR 应用程序.Unnamed">
     <configuration name="Client (1)" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.xiaoyu233.fml.relaunch.client.Main" />
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--username XiaoYu_23 --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d6a754e649c42bd4e --width 854 --height 480" />
       <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v3.0.0\\fishmodloader-v3.0.0.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
-      <option name="WORKING_DIRECTORY" value="F:/MITE Plus R5/.minecraft" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -223,7 +229,7 @@
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--username liuRT --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d8c754e649c42bd4e --width 854 --height 480" />
       <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v1.4.2\\fishmodloader-v1.4.2.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
-      <option name="WORKING_DIRECTORY" value="F:/MITE Plus R5/.minecraft" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -233,7 +239,7 @@
       <module name="FishModLoader" />
       <option name="PROGRAM_PARAMETERS" value="--username XiaoYu_233 --session eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --version &quot;HMCL 3.2.144&quot; --gameDir &quot;F:\\MITE Plus R5\\.minecraft&quot; --assetsDir &quot;F:\\MITE Plus R5\\.minecraft\\assets\\virtual\\legacy&quot; --accessToken eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwY2E4NjhiMTVmMjRiZmQ3MjJkYjYzODMwMWMwMGIxOCIsInlnZ3QiOiI0ZjAwNTNhYzVkNTI0ZWY4OWYwN2ZlMTc1Y2Y1MmQwZiIsInNwciI6ImE3OTI4ZDA3Zjg1ZDQ4OWQ4Yzc1NGU2NDljNDJiZDRlIiwiaXNzIjoiWWdnZHJhc2lsLUF1dGgiLCJleHAiOjE1ODE1MTkzNzAsImlhdCI6MTU4MTM0NjU3MH0.rDlxZFSlY90vdeuX3NBmVUPT0ieAsc0mfplPYhRAYFA --uuid a7928d07f85d489d8c754e649c42bd4e --width 854 --height 480" />
       <option name="VM_PARAMETERS" value="&quot;-Dminecraft.client.jar=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot; -Dlegacy.debugClassLoading=true -Dlegacy.debugClassLoadingSave=true -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:-UseAdaptiveSizePolicy -XX:-OmitStackTraceInFastThrow -Xmn128m -Xmx8192m -Dfml.ignoreInvalidMinecraftCertificates=true -Dfml.ignorePatchDiscrepancies=true -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Djava.library.path=F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE-natives&quot; -Dminecraft.launcher.brand=HMCL -Dminecraft.launcher.version=3.2.144 -cp &quot;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\4.5\\jopt-simple-4.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecjorbis\\20101023\\codecjorbis-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\codecwav\\20101023\\codecwav-20101023.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\libraryjavasound\\20101123\\libraryjavasound-20101123.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\librarylwjglopenal\\20100824\\librarylwjglopenal-20100824.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\paulscode\\soundsystem\\20120107\\soundsystem-20120107.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\argo\\argo\\2.25_fixed\\argo-2.25_fixed.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\bouncycastle\\bcprov-jdk15on\\1.47\\bcprov-jdk15on-1.47.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\guava\\guava\\28.0\\guava-28.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\apache\\commons\\commons-lang3\\3.1\\commons-lang3-3.1.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\commons-io\\commons-io\\2.4\\commons-io-2.4.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jinput\\jinput\\2.0.5\\jinput-2.0.5.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\java\\jutils\\jutils\\1.0.0\\jutils-1.0.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\com\\google\\code\\gson\\gson\\2.2.2\\gson-2.2.2.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl\\2.9.0\\lwjgl-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\org\\lwjgl\\lwjgl\\lwjgl_util\\2.9.0\\lwjgl_util-2.9.0.jar;F:\\MITE Plus R5\\.minecraft\\libraries\\net\\xiaoyu233\\fishmodloader\\fishmodloader\\v3.0.0\\fishmodloader-v3.0.0.jar;F:\\MITE Plus R5\\.minecraft\\versions\\1.6.4-MITE\\1.6.4-MITE.jar&quot;" />
-      <option name="WORKING_DIRECTORY" value="F:/MITE Plus R5/.minecraft" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -371,39 +377,22 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Client (1.4.2)" />
-      <item itemvalue="Application.Client" />
-      <item itemvalue="Application.Client (1)" />
-      <item itemvalue="Application.Server (1.4.2)" />
-      <item itemvalue="Application.Server" />
-      <item itemvalue="Application.Server (1)" />
-      <item itemvalue="Application.Server (Jar)" />
-      <item itemvalue="Application.Test" />
-      <item itemvalue="Application.MapConnector" />
-      <item itemvalue="Application.MappingConvertor" />
-      <item itemvalue="Application.MappingGenerator" />
-      <item itemvalue="Application.ModRemapper" />
-      <item itemvalue="JAR Application.Unnamed" />
-      <item itemvalue="JAR Application.Unnamed (1)" />
-      <item itemvalue="Java Scratch.Scratch" />
+      <item itemvalue="JAR 应用程序.Unnamed" />
+      <item itemvalue="JAR 应用程序.Unnamed (1)" />
+      <item itemvalue="Java 草稿.Scratch" />
+      <item itemvalue="应用程序.Client" />
+      <item itemvalue="应用程序.Client (1)" />
+      <item itemvalue="应用程序.Client (1.4.2)" />
+      <item itemvalue="应用程序.Server" />
+      <item itemvalue="应用程序.Server (1)" />
+      <item itemvalue="应用程序.Server (1.4.2)" />
+      <item itemvalue="应用程序.Server (Jar)" />
+      <item itemvalue="应用程序.Test" />
+      <item itemvalue="应用程序.MapConnector" />
+      <item itemvalue="应用程序.MappingConvertor" />
+      <item itemvalue="应用程序.MappingGenerator" />
+      <item itemvalue="应用程序.ModRemapper" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.ModRemapper" />
-        <item itemvalue="Java Scratch.Scratch" />
-        <item itemvalue="Application.MappingGenerator" />
-        <item itemvalue="Application.MappingConvertor" />
-        <item itemvalue="Application.MapConnector" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SliceToolwindowSettings">
     <option name="autoScroll" value="true" />
@@ -930,7 +919,7 @@
           <option name="timeStamp" value="353" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <url>jar://$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
           <line>19</line>
           <properties class="net.minecraft.EntityMinecartContainer" method="killMinecart">
             <option name="EMULATED" value="true" />
@@ -939,7 +928,7 @@
           <option name="timeStamp" value="425" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <url>jar://$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
           <line>124</line>
           <properties class="net.minecraft.EntityMinecartContainer" method="setDead">
             <option name="EMULATED" value="true" />
@@ -948,7 +937,7 @@
           <option name="timeStamp" value="427" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
+          <url>jar://$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/EntityMinecartContainer.class</url>
           <line>209</line>
           <properties class="net.minecraft.EntityMinecartContainer" method="destroyInventory">
             <option name="EMULATED" value="true" />
@@ -966,7 +955,7 @@
           <option name="timeStamp" value="431" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/SlotCrafting.class</url>
+          <url>jar://$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/net/minecraft/SlotCrafting.class</url>
           <line>190</line>
           <properties class="net.minecraft.SlotCrafting" method="onSlotClicked">
             <option name="EMULATED" value="true" />
@@ -1107,11 +1096,6 @@
           <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/LaunchDelegate.java</url>
           <line>46</line>
           <option name="timeStamp" value="472" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/xiaoyu233/fml/relaunch/Launch.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="473" />
         </line-breakpoint>
         <breakpoint type="java-exception">
           <properties class="java.lang.ClassFormatError" package="java.lang" />
