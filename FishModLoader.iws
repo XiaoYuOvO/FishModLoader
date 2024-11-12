@@ -6,7 +6,7 @@
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="FishModLoader:jar" />
+      <artifact name="FishModLoader:install" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -31,8 +31,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.3">
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="fix a bug">
+      <change afterPath="$PROJECT_DIR$/fishmodloader libs.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -145,13 +147,13 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Projects/IDEA/Minecraft/FishModLoader/libs",
+    "last_opened_file_path": "F:/Projects/IDEA/Minecraft/FishModLoader/libs/Fabric-ASM-v2.3.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "项目",
+    "project.structure.last.edited": "工件",
     "project.structure.proportion": "0.1515625",
     "project.structure.side.proportion": "0.26036867",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -790,7 +792,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731408421089</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="fix a bug">
+      <option name="closed" value="true" />
+      <created>1731409965183</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1731409965183</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -820,7 +830,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="NEW API FINALLY COMPLETED!!!!&#10;WITH MIXIN SUPPORTED!!!" />
     <MESSAGE value="Update classloading and configs&#10;Add a event type&#10;Add some tools" />
     <MESSAGE value="Add mod duplication detect&#10;Make players can join in server &#10;Fix slaying's translation&#10;Fixed some connection problems" />
     <MESSAGE value="Fix bossbar entity crash" />
@@ -845,7 +854,8 @@
     <MESSAGE value="Update to 3.3.0" />
     <MESSAGE value="Update to 3.3.1" />
     <MESSAGE value="Update to 3.3.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.3.3" />
+    <MESSAGE value="fix a bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix a bug" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
