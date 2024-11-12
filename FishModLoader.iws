@@ -31,16 +31,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.1">
-      <change afterPath="$PROJECT_DIR$/ChangeLogCN.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/transform/DedicatedServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FishModLoader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FishModLoader.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.ipr" afterDir="false" />
+    <list default="true" id="46b5f149-8df1-4fa7-8f8c-6cf5928e7b53" name="Default Changelist" comment="Update to 3.3.3">
       <change beforePath="$PROJECT_DIR$/FishModLoader.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FishModLoader.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/FishModLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/BlockRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/BlockRegistryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/reload/event/ItemRegistryEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/xiaoyu233/fml/util/EnumExtends.java" afterDir="false" />
     </list>
     <list id="40b664fe-9756-4d87-93a9-42981856d871" name="No Update" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -92,12 +84,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:ysesiq/FishModLoader.git",
-    "accountId": "8279572d-1ad8-49ec-ad2c-088e7c964eb1"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:ysesiq/FishModLoader.git&quot;,
+    &quot;accountId&quot;: &quot;8279572d-1ad8-49ec-ad2c-088e7c964eb1&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$PROJECT_DIR$/libs/asm-8.0-sources.jar!/org/objectweb/asm/Opcodes.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$PROJECT_DIR$/libs/asm-tree-8.0-sources.jar!/org/objectweb/asm/tree/MethodNode.java" root0="FORCE_HIGHLIGHTING" />
@@ -153,13 +145,13 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/Projects/IDEA/Minecraft/FishModLoader/out/0",
+    "last_opened_file_path": "F:/Projects/IDEA/Minecraft/FishModLoader/libs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "工件",
+    "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.1515625",
     "project.structure.side.proportion": "0.26036867",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -790,7 +782,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720357767017</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Update to 3.3.3">
+      <option name="closed" value="true" />
+      <created>1731408421089</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1731408421089</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -820,7 +820,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="update ver" />
     <MESSAGE value="NEW API FINALLY COMPLETED!!!!&#10;WITH MIXIN SUPPORTED!!!" />
     <MESSAGE value="Update classloading and configs&#10;Add a event type&#10;Add some tools" />
     <MESSAGE value="Add mod duplication detect&#10;Make players can join in server &#10;Fix slaying's translation&#10;Fixed some connection problems" />
@@ -845,7 +844,8 @@
     <MESSAGE value="Update to 3.2.4" />
     <MESSAGE value="Update to 3.3.0" />
     <MESSAGE value="Update to 3.3.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.3.1" />
+    <MESSAGE value="Update to 3.3.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to 3.3.3" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
