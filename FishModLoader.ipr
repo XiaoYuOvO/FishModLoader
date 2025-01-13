@@ -8,6 +8,10 @@
     <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
     <groovy codeStyle="LEGACY" />
   </component>
+  <component name="ASMSmaliIdeaPluginConfiguration">
+    <asm skipDebug="true" skipFrames="true" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
+  </component>
   <component name="AnalysisProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
@@ -472,7 +476,7 @@
   </component>
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="FishModLoader:jar">
-      <output-path>F:/MITE Plus R5/.minecraft/libraries/net/xiaoyu233/fishmodloader/fishmodloader/v3.0.0</output-path>
+      <output-path>$PROJECT_DIR$/out/0</output-path>
       <root id="archive" name="FishModLoader-v3.0.0.jar">
         <element id="module-output" name="FishModLoader" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0-jre.jar" path-in-jar="/" />
@@ -480,7 +484,6 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/../tiny-remapper/build/libs/tiny-remapper-0.8.2+local.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.pb-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.core-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-9.6.jar" path-in-jar="/" />
@@ -489,6 +492,8 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/tiny-remapper-0.8.6+local-fat.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/Fabric-ASM-v2.3.jar" path-in-jar="/" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoader:install">
@@ -500,7 +505,6 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/../tiny-remapper/build/libs/tiny-remapper-0.8.2+local.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.pb-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.core-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-9.6.jar" path-in-jar="/" />
@@ -509,6 +513,7 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/tiny-remapper-0.8.6+local-fat.jar" path-in-jar="/" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="FishModLoader:server">
@@ -520,7 +525,6 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/failureaccess-1.0.1.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-api-2.11.2.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/log4j-core-2.11.2.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/../tiny-remapper/build/libs/tiny-remapper-0.8.2+local.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.pb-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/org.ow2.sat4j.core-2.3.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-commons-9.6.jar" path-in-jar="/" />
@@ -529,8 +533,9 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-util-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/asm-analysis-9.6.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/libs/access-widener-2.1.0.jar" path-in-jar="/" />
-        <element id="file-copy" path="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server/MITE-HDS-196.jar" output-file-name="MITE-HDS.jar" />
-        <element id="file-copy" path="$PROJECT_DIR$/../../[1.6.4] MITE_R196_PlusR5_HDS-Server/guava-28.0.jar" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/tiny-remapper-0.8.6+local-fat.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/MITE-HDS.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/libs/guava-28.0.jar" path-in-jar="/" />
       </root>
     </artifact>
   </component>
@@ -867,7 +872,7 @@
   <component name="libraryTable">
     <library name="1.6.4-MITE">
       <CLASSES>
-        <root url="jar://F:/MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../../../MITE Plus R5/.minecraft/.fml/remappedJars/1.6.4-MITE.jar-v2.0.0_FML.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>

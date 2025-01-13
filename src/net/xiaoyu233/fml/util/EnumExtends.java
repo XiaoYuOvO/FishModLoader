@@ -9,10 +9,12 @@ public class EnumExtends {
 //    public static final EnumConstructor<EnumToolMaterial> TOOL_MATERIAL = new EnumConstructor<EnumToolMaterial>(EnumToolMaterial.class);
 //    public static final EnumConstructor<EnumArmorMaterial> ARMOR_MATERIAL = new EnumConstructor<EnumArmorMaterial>(EnumArmorMaterial.class);
     public static final EnumAdder PARTICLE = ClassTinkerers.enumBuilder("net.minecraft.EnumParticle");
+    public static final EnumAdder OPTIONS = ClassTinkerers.enumBuilder("net.minecraft.EnumOptions", String.class, boolean.class, boolean.class);
 
     public static void buildEnumExtending(){
         CHAT_FORMATTING.build();
         EQUIPMENT_MATERIAL.build();
         PARTICLE.build();
+        OPTIONS.build();
     }
 }

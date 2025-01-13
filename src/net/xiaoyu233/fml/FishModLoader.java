@@ -47,7 +47,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class FishModLoader{
-   public static final File CONFIG_DIR = new File("configs");
+   public static final File CONFIG_DIR = new File("config");
    public static final String VERSION = Constants.VERSION;
    private static final String MOD_ID = Constants.MOD_ID;
    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -417,7 +417,7 @@ public class FishModLoader{
                               .setName(MOD_ID)
                               .accesswidener("fishmodloader.accesswidener")
                               .build()),
-              new ModCandidate.BuiltinMod(Collections.singletonList(gameJarPath), new BuiltinModMetadata.Builder("mite", "1.6.4").setEnvironment(ModEnvironment.UNIVERSAL)
+              new ModCandidate.BuiltinMod(Collections.singletonList(gameJarPath), new BuiltinModMetadata.Builder("minecraft", "1.6.4-mite").setEnvironment(ModEnvironment.UNIVERSAL)
                       .setName("1.6.4-MITE")
                       .build()));
    }
