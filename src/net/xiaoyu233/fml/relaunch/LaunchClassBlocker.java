@@ -12,7 +12,7 @@ public class LaunchClassBlocker {
         classLoaderInterface.blockClassPrefix("com.google.gson");
         classLoaderInterface.blockClassPrefix("net.fabricmc.loader");
         classLoaderInterface.blockClassPrefix("net.fabricmc.api");
-        classLoaderInterface.blockClassPrefix("com.chocohead.mm.api");
+        classLoaderInterface.blockClassPrefix("com.chocohead.mm");
         classLoaderInterface.whitelistClassPrefix("net.xiaoyu233.fml.reload.util");
         classLoaderInterface.whitelistClassPrefix("net.xiaoyu233.fml.reload.event");
         classLoaderInterface.whitelistClassPrefix("net.xiaoyu233.fml.api");

@@ -3,6 +3,7 @@ package net.xiaoyu233.fml.reload.transform.network;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import net.fabricmc.loader.api.VersionParsingException;
+import net.minecraft.Minecraft;
 import net.minecraft.NetHandler;
 import net.minecraft.Packet;
 import net.minecraft.Packet2ClientProtocol;
@@ -52,7 +53,7 @@ public abstract class Packet2ClientProtocolTrans extends Packet implements FMLCl
 
     @Inject(method = "<init>(ILjava/lang/String;Ljava/lang/String;I)V",at = @At(value = "RETURN"))
     public void injectCtor(int par1, String par2Str, String par3Str, int par4, CallbackInfo callbackInfo){
-        this.username = par2Str + ":" + "1.6.4" + ":" + "R" + 196;
+        this.username = par2Str + ":" + "1.6.4" + ":" + "R" + Minecraft.MITE_release_number;
         this.modInfos = (JsonArray) FishModLoader.getModsJson();
         this.signatures = new ArrayList<>();
         this.signatures.add("FishModLoader");

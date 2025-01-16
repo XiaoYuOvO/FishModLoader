@@ -32,10 +32,11 @@ public enum ClassTinkerers {
 	INSTANCE;
 
 	private Predicate<URL> urlers = url -> false;
-	private Map<String, byte[]> clazzes = new HashMap<>();
+	private Map<String, byte[]> classGenerators = new HashMap<>();
 	private Map<String, Consumer<ClassNode>> replacers = new HashMap<>();
 	private Map<String, Set<Consumer<ClassNode>>> tinkerers = new HashMap<>();
 	private Set<EnumAdder> enumExtensions = new HashSet<>();
+	private boolean frozen = false;
 
 	/**
 	 * Adds the given {@link URL} to the mod {@link URLClassLoader}'s list used to search for mod classes and resources
@@ -50,6 +51,7 @@ public enum ClassTinkerers {
 	 * @since 1.6
 	 */
 	public static boolean addURL(URL url) {
+		INSTANCE.checkFrozen();
 		return INSTANCE.urlers.test(url);
 	}
 
@@ -65,11 +67,12 @@ public enum ClassTinkerers {
 	 * @throws IllegalArgumentException If contents is {@code null}
 	 */
 	public static boolean define(String name, byte[] contents) {
+		INSTANCE.checkFrozen();
 		name = '/' + name.replace('.', '/') + ".class";
-		if (INSTANCE.clazzes.containsKey(name)) return false;
+		if (INSTANCE.classGenerators.containsKey(name)) return false;
 
 		if (contents == null) throw new IllegalArgumentException("Tried to define null class named " + name);
-		INSTANCE.clazzes.put(name, contents);
+		INSTANCE.classGenerators.put(name, contents);
 
 		return true;
 	}
@@ -95,6 +98,7 @@ public enum ClassTinkerers {
 	 * @since 1.9
 	 */
 	public static void addReplacement(String target, Consumer<ClassNode> replacer) {
+		INSTANCE.checkFrozen();
 		if (replacer == null) throw new IllegalArgumentException("Tried to set null replacer for " + target);
 		String name = target.replace('.', '/');
 
@@ -103,7 +107,10 @@ public enum ClassTinkerers {
 			throw new IllegalStateException("Multiple attempts to replace " + name + ": " + existing + " and " + replacer);
 		}
 
-		INSTANCE.replacers.put(name, replacer);
+		INSTANCE.replacers.put(name, (node) -> {
+			System.out.println("[ClassTinkerer] Replacing class:" + target);
+            replacer.accept(node);
+        });
 	}
 
 	/**
@@ -124,8 +131,23 @@ public enum ClassTinkerers {
 	 * @throws IllegalArgumentException If transformer is {@code null}
 	 */
 	public static void addTransformation(String target, Consumer<ClassNode> transformer) {
+		INSTANCE.checkFrozen();
 		if (transformer == null) throw new IllegalArgumentException("Tried to add null transformer for " + target);
 		INSTANCE.tinkerers.computeIfAbsent(target.replace('.', '/'), k -> new HashSet<>()).add(transformer);
+	}
+
+	/**
+	 * Register the given {@link EnumAdder} as finished and ready to be used
+	 *
+	 * @param builder The finished EnumAdder to store
+	 */
+	static void addEnum(EnumAdder builder) {
+		INSTANCE.checkFrozen();
+		if (ArrayUtils.contains(builder.parameterTypes, null)) //Individual array entries could be swapped out naughtily, guard against it
+			throw new IllegalArgumentException("Builder for " + builder.type + " has an invalid parameter array: " + Arrays.toString(builder.parameterTypes));
+
+		//Only bother adding it if changes are actually made
+		if (!builder.getAdditions().isEmpty()) INSTANCE.enumExtensions.add(builder);
 	}
 
 	/**
@@ -218,17 +240,8 @@ public enum ClassTinkerers {
 		return new EnumAdder(type.replace('.', '/'), parameterTypes);
 	}
 
-	/**
-	 * Register the given {@link EnumAdder} as finished and ready to be used
-	 *
-	 * @param builder The finished EnumAdder to store
-	 */
-	static void addEnum(EnumAdder builder) {
-		if (ArrayUtils.contains(builder.parameterTypes, null)) //Individual array entries could be swapped out naughtily, guard against it
-			throw new IllegalArgumentException("Builder for " + builder.type + " has an invalid parameter array: " + Arrays.toString(builder.parameterTypes));
-
-		//Only bother adding it if changes are actually made
-		if (!builder.getAdditions().isEmpty()) INSTANCE.enumExtensions.add(builder);
+	private void checkFrozen(){
+		if (frozen) throw new IllegalStateException("ClassTinkerers is frozen and no more transformations can be added, make sure your tinkerers are added in the preinit phase");
 	}
 
 	/**
@@ -251,14 +264,14 @@ public enum ClassTinkerers {
 		throw new IllegalArgumentException("Unable to find " + name + " in " + type);
 	}
 
-	public void hookUp(Consumer<URL> liveURL, Map<String, byte[]> liveClassMap, Map<String, Consumer<ClassNode>> liveReplacers, Map<String, Set<Consumer<ClassNode>>> liveTinkerers, Set<EnumAdder> liveEnums) {
+	public void buildTinkerers(Consumer<URL> liveURL, Map<String, byte[]> liveGenerators, Map<String, Consumer<ClassNode>> liveReplacers, Map<String, Set<Consumer<ClassNode>>> liveTinkerers, Set<EnumAdder> liveEnums) {
 		urlers = url -> {
 			liveURL.accept(url);
 			return true;
 		};
 
-		liveClassMap.putAll(clazzes);
-		clazzes = liveClassMap;
+		liveGenerators.putAll(classGenerators);
+		classGenerators = liveGenerators;
 
 		liveReplacers.putAll(replacers);
 		replacers = liveReplacers;
@@ -268,5 +281,6 @@ public enum ClassTinkerers {
 
 		liveEnums.addAll(enumExtensions);
 		enumExtensions = liveEnums;
+		frozen = true;
 	}
 }

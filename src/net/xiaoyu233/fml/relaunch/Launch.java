@@ -1,5 +1,6 @@
 package net.xiaoyu233.fml.relaunch;
 
+import com.chocohead.mm.AsmTransformer;
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.fabricmc.loader.impl.FormattedException;
@@ -64,12 +65,14 @@ public class Launch {
          platform.init();
          FishModLoader.LOGGER.info("Starting Minecraft");
          platform.inject();
-         knotInterface.initializeTransformers();
+         AsmTransformer asmTransformer = new AsmTransformer();
+         knotInterface.initializeTransformers(asmTransformer);
          MixinExtrasBootstrap.init();
          onEnvironmentChanged();
          try {
             FishModLoader.invokeEntrypoints("preLaunch", PreLaunchEntrypoint.class, PreLaunchEntrypoint::onPreLaunch);
             EnumExtends.buildEnumExtending();
+            asmTransformer.buildAndInitializeTransformer(knotInterface::addUrl);
          } catch (RuntimeException e) {
             throw FormattedException.ofLocalized("exception.initializerFailure", e);
          }

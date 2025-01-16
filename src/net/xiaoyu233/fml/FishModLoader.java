@@ -57,7 +57,6 @@ public class FishModLoader{
    private static final Map<String, ModContainerImpl> modsMap = new HashMap<>();
    private static boolean isServer = false;
    //Cancel version check
-   private static final String onlineVersion = VERSION;
    private static final List<ConfigRegistry> ALL_REGISTRIES = new ArrayList<>();
    public static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Configs.CONFIG,Configs.CONFIG_FILE);
    private static final Map<String, LanguageAdapter> adapterMap = new HashMap<>();
@@ -347,16 +346,12 @@ public class FishModLoader{
       return modsMap.containsKey(modid);
    }
 
-   public static String getOnlineVersion() {
-      return onlineVersion;
-   }
-
    public static boolean isServer() {
       return isServer;
    }
 
    public static void registerModloaderMixin(ClassLoader classLoader){
-      Mixins.registerConfiguration((InjectionConfig.Builder.of(MOD_ID, MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.DEFAULT).plugin("com.chocohead.mm.Plugin").build().toConfig(classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment())));
+      Mixins.registerConfiguration((InjectionConfig.Builder.of(MOD_ID, MinecraftServerTrans.class.getPackage(), MixinEnvironment.Phase.DEFAULT).build().toConfig(classLoader, MixinService.getService(),MixinEnvironment.getCurrentEnvironment())));
    }
 
    public static MixinEnvironment.Side getSide(){

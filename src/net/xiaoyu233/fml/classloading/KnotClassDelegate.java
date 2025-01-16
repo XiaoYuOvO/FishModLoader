@@ -16,11 +16,13 @@
 
 package net.xiaoyu233.fml.classloading;
 
+import com.chocohead.mm.AsmTransformer;
 import com.google.common.collect.Sets;
-import net.xiaoyu233.fml.FishModLoader;
+import net.xiaoyu233.fml.classloading.dump.DumpClassExtension;
 import net.xiaoyu233.fml.mixin.service.MixinService;
 import net.xiaoyu233.fml.util.*;
 import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
+import org.spongepowered.asm.mixin.transformer.ext.Extensions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -56,6 +58,7 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 	private boolean transformInitialized = false;
 	private volatile Set<Path> codeSources = Collections.emptySet();
 	private volatile Set<Path> validParentCodeSources = Collections.emptySet();
+	private AsmTransformer asmTransformer;
 	KnotClassDelegate(T classLoader, ClassLoader parentClassLoader) {
 		this.classLoader = classLoader;
 		this.parentClassLoader = parentClassLoader;
@@ -95,10 +98,11 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 	}
 
 	@Override
-	public void initializeTransformers() {
+	public void initializeTransformers(AsmTransformer asmTransformer) {
 		if (transformInitialized) throw new IllegalStateException("Cannot initialize KnotClassDelegate twice!");
 
 		mixinTransformer = MixinService.getTransformer();
+		setAsmPlugin(asmTransformer);
 		if (mixinTransformer == null) {
 			try { // reflective instantiation for older mixin versions
 				@SuppressWarnings("unchecked")
@@ -113,6 +117,9 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 			}
 		}
 
+		if (mixinTransformer.getExtensions() instanceof Extensions extensions) {
+			extensions.add(new DumpClassExtension());
+		}
 		transformInitialized = true;
 	}
 
@@ -143,6 +150,11 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 		}
 
 		if (LOG_CLASS_LOAD_ERRORS) Log.info( "added code source %s", path);
+	}
+
+	@Override
+	public void addUrl(URL url) {
+		this.classLoader.addUrlFwd(url);
 	}
 
 	@Override
@@ -472,7 +484,7 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
         }
 
 		if (input != null) {
-			return FMLClassTransformer.transform(FishModLoader.isDevelopmentEnvironment(), name, input);
+			return FMLClassTransformer.transform(name, input, asmTransformer);
 		}
 
         return null;
@@ -518,10 +530,13 @@ public final class KnotClassDelegate<T extends ClassLoader & KnotClassDelegate.C
 		return this.codeSources;
 	}
 
-	public interface ClassLoaderAccess {
+    public void setAsmPlugin(AsmTransformer asmTransformer) {
+        this.asmTransformer = asmTransformer;
+    }
+
+    public interface ClassLoaderAccess {
 		void addUrlFwd(URL url);
 		URL findResourceFwd(String name);
-
 		Package getPackageFwd(String name);
 		Package definePackageFwd(String name, String specTitle, String specVersion, String specVendor, String implTitle, String implVersion, String implVendor, URL sealBase) throws IllegalArgumentException;
 

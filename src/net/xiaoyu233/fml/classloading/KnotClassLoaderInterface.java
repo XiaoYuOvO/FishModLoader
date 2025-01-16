@@ -16,7 +16,10 @@
 
 package net.xiaoyu233.fml.classloading;
 
+import com.chocohead.mm.AsmTransformer;
+
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Optional;
@@ -29,11 +32,12 @@ public interface KnotClassLoaderInterface {
 		return new KnotClassLoader().getDelegate();
 	}
 
-	void initializeTransformers();
+	void initializeTransformers(AsmTransformer asmTransformer);
 	Set<Path> getCodeSource();
 	ClassLoader getClassLoader();
 
 	void addCodeSource(Path path);
+	void addUrl(URL url);
 	void setAllowedPrefixes(Path codeSource, String... prefixes);
 	void setValidParentClassPath(Collection<Path> codeSources);
 
